@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
           id: id,
           email,
           image: image_url,
-          name: [first_name, last_name].filter(Boolean).join(' '),
+          name: `${first_name} ${last_name}`,
           plandId: "798b23bf-69e5-4372-ba02-6b90b7d90da1"
         }
       ]);
