@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
       const email = email_addresses?.[0]?.email_address || null;
       const cookiesStore = await cookies();
       const supabase = createClient(cookiesStore);
+
+      const pricingPlanId = await supabase.from('pricing_plans').select('id').eq('name', 'Basic').single();
       
       const { error } = await supabase.from('users').upsert([
         {
@@ -19,7 +21,7 @@ export async function POST(req: NextRequest) {
           email,
           image: image_url,
           name: [first_name, last_name].filter(Boolean).join(' '),
-          pland_id: "798b23bf-69e5-4372-ba02-6b90b7d90da1"
+          pland_id: pricingPlanId
         }
       ]);
 
