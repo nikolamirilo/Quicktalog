@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       const cookiesStore = await cookies();
       const supabase = createClient(cookiesStore);
 
-      const pricingPlanId = await supabase.from('pricing_plans').select('id').eq('name', 'Basic').single();
+      const {data} = await supabase.from('pricing_plans').select('id').eq('name', 'Basic').single();
       
       const { error } = await supabase.from('users').upsert([
         {
@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
           email,
           image: image_url,
           name: [first_name, last_name].filter(Boolean).join(' '),
-          pland_id: pricingPlanId
+          pland_id: data.id
         }
       ]);
 
