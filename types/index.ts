@@ -38,17 +38,16 @@ export interface ServiceCatalogue {
   id: string;
   name: string;
   created_by: string;
-  theme?: string;
+  theme: string;
   logo?: string;
-  layout?: string;
-  title?: string;
-  currency?: string;
+  title: string;
+  currency: string;
   contact?: {
     type: string;
     value: string;
   }[];
   subtitle?: string;
-  services?: {
+  services: {
     [key: string]: {
       layout: string;
       items: Service[];

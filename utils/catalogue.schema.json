@@ -1,75 +1,155 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Quicktalog Schema",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string",
-      "format": "uuid"
-    },
-    "name": {
-      "type": "string"
-    },
-    "created_by": {
-      "type": "string"
-    },
-    "theme": {
-      "type": "string",
-      "oneOf": [
-        {
-          "const": "theme-elegant",
-          "description": "A dark, refined theme with a subtle gradient background, light text, and cool blue accents. Ideal for upscale or modern venues seeking a sophisticated, minimal look. Uses serif headings and clean layouts for a premium feel."
+  "$ref": "#/definitions/ServiceCatalogue",
+  "definitions": {
+    "ServiceCatalogue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         },
-        {
-          "const": "theme-luxury",
-          "description": "A light, luxurious theme with gold and cream tones, dark elegant text, and premium accents. Designed for high-end restaurants, it features classic serif headings, gold highlights, and a soft, inviting background."
+        "name": {
+          "type": "string"
         },
-        {
-          "const": "theme-modern",
-          "description": "A bold, contemporary theme with deep blue backgrounds, white and pink accents, and modern sans-serif typography. Perfect for trendy or urban venues wanting a striking, energetic appearance."
+        "created_by": {
+          "type": "string"
         },
-        {
-          "const": "theme-organic",
-          "description": "A fresh, natural theme with light beige backgrounds, green and brown accents, and soft, rounded typography. Ideal for organic, vegan, or eco-friendly restaurants seeking a wholesome, earthy vibe."
+        "theme": {
+          "type": "string"
         },
-        {
-          "const": "theme-creative",
-          "description": "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look."
+        "logo": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "contact": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "subtitle": {
+          "type": "string"
+        },
+        "services": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "layout": {
+                "type": "string"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/Service"
+                }
+              }
+            },
+            "required": [
+              "layout",
+              "items"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "address": {
+          "type": "string"
+        },
+        "partners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Partner"
+          }
+        },
+        "legal": {
+          "$ref": "#/definitions/Legal"
+        },
+        "configuration": {
+          "$ref": "#/definitions/Configuration"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
         }
-      ]
+      },
+      "required": [
+        "id",
+        "name",
+        "created_by",
+        "theme",
+        "title",
+        "currency",
+        "services",
+        "created_at",
+        "updated_at"
+      ],
+      "additionalProperties": false
     },
-    "logo": {
-      "type": "string",
-      "format": "uri"
-    },
-    "layout": {
-      "type": "string",
-      "oneOf": [
-        {
-          "const": "variant_1",
-          "description": "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
+    "Service": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
         },
-        {
-          "const": "variant_2",
-          "description": "Horizontal card layout: Catalogue items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
+        "image": {
+          "type": "string"
         },
-        {
-          "const": "variant_3",
-          "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
+        "price": {
+          "type": "number"
         },
-        {
-          "const": "variant_4",
-          "description": "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
+        "description": {
+          "type": "string"
         }
-      ]
+      },
+      "required": [
+        "name",
+        "image",
+        "price",
+        "description"
+      ],
+      "additionalProperties": false
     },
-    "title": {
-      "type": "string"
+    "Partner": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "icon"
+      ],
+      "additionalProperties": false
     },
-    "currency": {
-      "type": "string"
-    },
-    "legal": {
+    "Legal": {
       "type": "object",
       "properties": {
         "name": {
@@ -83,103 +163,13 @@
         }
       },
       "required": [
-        "name"
-      ]
-    },
-    "contact": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "email",
-              "phone",
-              "instagram",
-              "tiktok",
-              "website",
-              "facebook",
-              "twitter"
-            ]
-          },
-          "value": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "type",
-          "value"
-        ]
-      }
-    },
-    "subtitle": {
-      "type": "string"
-    },
-    "services": {
-      "type": "object",
-      "patternProperties": {
-        "^.*$": {
-          "type": "object",
-          "properties": {
-            "layout": {
-              "type": "string",
-              "oneOf": [
-                {
-                  "const": "variant_1",
-                  "description": "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
-                },
-                {
-                  "const": "variant_2",
-                  "description": "Horizontal card layout: Catalogue items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
-                },
-                {
-                  "const": "variant_3",
-                  "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
-                },
-                {
-                  "const": "variant_4",
-                  "description": "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
-                }
-              ]
-            },
-            "items": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  "price": {
-                    "type": "number"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name",
-                  "image",
-                  "price",
-                  "description"
-                ]
-              }
-            }
-          },
-          "required": [
-            "layout",
-            "items"
-          ]
-        }
-      },
+        "name",
+        "terms_and_conditions",
+        "privacy_policy"
+      ],
       "additionalProperties": false
     },
-    "configuration": {
+    "Configuration": {
       "type": "object",
       "properties": {
         "emailButtonNavbar": {
@@ -198,7 +188,8 @@
           "required": [
             "label",
             "url"
-          ]
+          ],
+          "additionalProperties": false
         },
         "ctaFooter": {
           "type": "object",
@@ -213,7 +204,8 @@
           "required": [
             "label",
             "url"
-          ]
+          ],
+          "additionalProperties": false
         },
         "newsletter": {
           "type": "object",
@@ -228,34 +220,11 @@
           "required": [
             "enabled",
             "url"
-          ]
+          ],
+          "additionalProperties": false
         }
-      }
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
+      },
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "id",
-    "name",
-    "created_by",
-    "theme",
-    "logo",
-    "layout",
-    "title",
-    "currency",
-    "legal",
-    "contact",
-    "subtitle",
-    "services",
-    "created_at",
-    "updated_at"
-  ],
-  "additionalProperties": false
+  }
 }
