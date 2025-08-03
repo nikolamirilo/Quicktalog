@@ -7,6 +7,7 @@ import data from "../../showcase.json";
 import Navbar from "@/components/navigation/Navbar";
 import theme from "@material-tailwind/react/theme";
 import { useMainContext } from "@/context/MainContext";
+import Footer from "@/components/navigation/Footer";
 
 const page: React.FC = () => {
   const {theme} = useMainContext();
@@ -22,7 +23,7 @@ const page: React.FC = () => {
     }
 
     // Safely extract contact information
-    const getContactValue = (type: string) => {
+    /*const getContactValue = (type: string) => {
       if (!data.contact || !Array.isArray(data.contact)) return undefined;
       const contact = data.contact.find((c: any) => c.type === type);
       return contact?.value;
@@ -33,7 +34,7 @@ const page: React.FC = () => {
       facebook: getContactValue('facebook'),
       twitter: getContactValue('twitter'),
       website: getContactValue('website'),
-    };
+    };*/
 
     return (
       <>
@@ -62,13 +63,7 @@ const page: React.FC = () => {
                 type="playground"
               />
             )}
-            <CatalogueFooter 
-              type="custom"
-              customLegalName={data.legal?.name}
-              customEmail={getContactValue('email')}
-              customPhone={getContactValue('phone')}
-              customSocialLinks={socialLinks}
-            />
+            <Footer/>
           </main>
         </div>
       </>

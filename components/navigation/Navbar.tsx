@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { HiOutlineTrophy } from 'react-icons/hi2';
-import { useUser, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded } from "@clerk/nextjs";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import {
@@ -16,6 +16,7 @@ import {
   FiGrid
 } from "react-icons/fi";
 import Image from "next/image";
+import AuthLinks from "./AuthLinks";
 
 // TypeScript interfaces
 interface NavLinkProps {
@@ -33,7 +34,7 @@ interface MobileNavLinkProps {
 }
 
 // NavLink component for active state handling
-const NavLink = ({ href, children, icon: Icon, className = "" }: NavLinkProps) => {
+export const NavLink = ({ href, children, icon: Icon, className = "" }: NavLinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
   // All non-active buttons get yellow hover background and black text
@@ -55,7 +56,7 @@ const NavLink = ({ href, children, icon: Icon, className = "" }: NavLinkProps) =
 };
 
 // Mobile NavLink component
-const MobileNavLink = ({ href, children, icon: Icon, onClick }: MobileNavLinkProps) => {
+export const MobileNavLink = ({ href, children, icon: Icon, onClick }: MobileNavLinkProps) => {
   const pathname = usePathname();
   const isActive = pathname === href;
   
@@ -76,7 +77,6 @@ const MobileNavLink = ({ href, children, icon: Icon, onClick }: MobileNavLinkPro
 };
 
 const Navbar = () => {
-  const { isSignedIn, user } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
   
   return (
@@ -102,33 +102,9 @@ const Navbar = () => {
           Showcases
         </NavLink>
         
-        <div className="ml-3 flex items-center gap-2">
-          {isSignedIn ? (
-            <>
-              <NavLink href="/admin/dashboard" icon={FiGrid}>
-                Dashboard
-              </NavLink>
-              <div className="ml-2 flex items-center gap-1">
-                <UserButton/>
-              </div>
-            </>
-          ) : (
-            <>
-              <Link href="/auth">
-                <Button className="bg-white text-product-foreground border-2 border-product-primary hover:bg-product-primary hover:text-white hover:shadow-lg hover:scale-[1.03] hover:transform hover:-translate-y-[2px] transition-all duration-200 font-semibold text-sm px-3 py-2 h-9">
-                <FiUser className="w-4 h-4" />
-                Sign In
-                </Button>
-              </Link>
-              <Link href="/auth?mode=signup">
-                <Button className="bg-product-primary text-product-foreground hover:bg-primary-accent hover:shadow-lg hover:scale-[1.03] hover:transform hover:-translate-y-[2px] transition-all duration-200 font-semibold text-sm px-3 py-2 h-9">
-                  <FiUserPlus className="w-4 h-4" />
-                  Sign Up
-                </Button>
-              </Link>
-            </>
-          )}
-        </div>
+        <ClerkLoaded>
+          <AuthLinks />
+        </ClerkLoaded>
       </div>
       
       {/* Hamburger for mobile */}
@@ -186,65 +162,9 @@ const Navbar = () => {
             Showcases
           </MobileNavLink>
           
-          {isSignedIn ? (
-            <>
-              <div className="border-t border-gray-100 pt-3 sm:pt-4 mt-3 sm:mt-4">
-                <MobileNavLink
-                  href="/admin/dashboard"
-                  icon={FiGrid}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  Dashboard
-                </MobileNavLink>
-                <div 
-                  onClick={() => {
-                    // Find and click the UserButton
-                    const userButton = document.querySelector('.cl-userButtonBox') as HTMLElement;
-                    if (userButton) {
-                      userButton.click();
-                    }
-                  }}
-                  className="w-full flex items-center gap-3 p-2.5 sm:p-3 rounded-lg text-left transition-all duration-200 hover:bg-navbar-button-hover-bg hover:text-navbar-button-hover-text hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] border border-transparent hover:border-navbar-button-hover-border hover:font-bold cursor-pointer"
-                >
-                  <FiUser size={18} className="text-gray-600 sm:w-5 sm:h-5 flex-shrink-0" />
-                  <span className="text-product-foreground font-medium text-sm sm:text-base flex-1 text-left">
-                    {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : 'Account'}
-                  </span>
-                  <div className="flex-shrink-0 pointer-events-none">
-                    <UserButton 
-                      appearance={{
-                        elements: {
-                          userButtonBox: "w-8 h-8 sm:w-10 sm:h-10 cursor-pointer",
-                          userButtonPopoverCard: "mobile-menu-dropdown",
-                          userButtonPopoverCardRoot: "mobile-menu-dropdown-root"
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="border-t border-gray-100 pt-3 sm:pt-4 mt-3 sm:mt-4">
-                <Link href="/auth" onClick={() => setMobileOpen(false)}>
-                  <Button className="w-full bg-white text-product-foreground border-2 border-product-primary hover:bg-product-primary hover:text-white hover:shadow-lg hover:scale-[1.03] hover:transform hover:-translate-y-[2px] transition-all duration-200 font-semibold text-sm px-3 py-2 h-9 mb-2 sm:mb-3">
-                    <FiUser className="w-4 h-4" />
-                    Sign In
-                  </Button>
-                </Link>
-                <Link
-                  href="/auth?mode=signup"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  <Button className="w-full bg-product-primary text-product-foreground hover:bg-primary-accent hover:shadow-lg hover:scale-[1.03] hover:transform hover:-translate-y-[2px] transition-all duration-200 font-semibold text-sm px-3 py-2 h-9">
-                    <FiUserPlus className="w-4 h-4" />
-                    Sign Up
-                  </Button>
-                </Link>
-              </div>
-            </>
-          )}
+          <ClerkLoaded>
+            <AuthLinks isMobile onLinkClick={() => setMobileOpen(false)} />
+          </ClerkLoaded>
         </div>
       </div>
     </nav>
