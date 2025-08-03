@@ -10,14 +10,8 @@ import Footer from "@/components/navigation/Footer";
 import Navbar from "@/components/navigation/Navbar";
 import ProblemSection from "@/components/home/ProblemSection";
 import HowItWorks from "@/components/home/HowItWorks";
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from "next/headers";
 
 const HomePage: React.FC =  async () => {
-  const cookiesStore = await cookies();
-  const supabase = createClient(cookiesStore)
-    const {data} = await supabase.from('pricing_plans').select('id').eq('name', 'Basic').single();
-    console.log('Pricing Plan ID:', data.id);
   return (
     <div className="font-lora">
       <Navbar/>

@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
           email,
           image: image_url,
           name: [first_name, last_name].filter(Boolean).join(' '),
-          pland_id: data.id
+          plan_id: data.id
         }
       ]);
 
