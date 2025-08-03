@@ -11,7 +11,6 @@ export async function POST(req: NextRequest) {
   const { prompt } = await req.json();
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
-
   if (!prompt) {
     return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
   }

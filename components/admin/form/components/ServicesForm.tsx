@@ -9,19 +9,14 @@ import Step2Categories from "./Step2Categories";
 import Step3Services from "./Step3Services";
 import Step4Branding from "./Step4Branding";
 import SuccessModal from "./SuccessModal";
-
-import { ServicesItem, ContactInfo, ServicesFormData } from "@/types";
+import { ServicesItem, ContactInfo, ServicesFormData, UserData, ServicesFormBaseProps } from "@/types";
 import { saEvent } from "@/utils/analytics";
 import { useUser } from "@clerk/nextjs";
 import Step1General from "./Step1General";
 
-interface MenuFormBaseProps {
-  type: 'create' | 'edit';
-  initialData?: ServicesFormData;
-  onSuccess?: (restaurantUrl: string) => void;
-}
 
-function MenuForm({ type, initialData, onSuccess }: MenuFormBaseProps) {
+
+function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBaseProps) {
   const [formData, setFormData] = useState<ServicesFormData>(
     initialData || {
       name: "",
@@ -453,13 +448,12 @@ function MenuForm({ type, initialData, onSuccess }: MenuFormBaseProps) {
         return (
           <Step4Branding
             formData={formData}
+            userData={userData}
             handleInputChange={handleInputChangeWithValidation}
             handleAddContact={handleAddContact}
             handleRemoveContact={handleRemoveContact}
             handleContactChange={handleContactChange}
             setFormData={setFormData}
-            errors={errors}
-            touched={touched}
           />
         );
       default:
@@ -551,4 +545,4 @@ function MenuForm({ type, initialData, onSuccess }: MenuFormBaseProps) {
     </div>
   );
 }
-export default MenuForm;
+export default ServicesForm;

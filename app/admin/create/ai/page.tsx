@@ -1,8 +1,13 @@
 import React from 'react';
 import Navbar from '@/components/navigation/Navbar';
 import AiServicesForm from '@/components/admin/form/AiServicesForm';
+import { currentUser } from '@clerk/nextjs/server';
+import UpgradePlan from '@/components/common/UpgradePlan';
+import { getUserData } from '@/actions/users';
 
-export default function AiCreateServicesPage() {
+export default async function AiCreateServicesPage() {
+  const userData = await getUserData()
+  if(userData.plan_name !== 'Starter') {
   return (
     <>
       <Navbar />
@@ -13,4 +18,10 @@ export default function AiCreateServicesPage() {
       </div>
     </>
   );
+}
+else{
+  return(
+   <UpgradePlan/>
+  )
+}
 }

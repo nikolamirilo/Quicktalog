@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       const cookiesStore = await cookies();
       const supabase = createClient(cookiesStore);
 
-      const {data} = await supabase.from('pricing_plans').select('id').eq('name', 'Basic').single();
+      const {data} = await supabase.from('pricing_plans').select('id').eq('name', 'Starter').single();
       
       const { error } = await supabase.from('users').upsert([
         {

@@ -2,7 +2,7 @@ import { IPricing } from "@/types";
 
 export const tiers: IPricing[] = [
     {
-        name: 'Basic',
+        name: 'Starter',
         price: 0,
         features: [
             '1 digital catalogue',

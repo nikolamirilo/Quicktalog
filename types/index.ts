@@ -138,6 +138,10 @@ export interface ServicesFormData {
   services: ServicesCategory[];
   configuration?: Configuration;
 }
+export interface UserData extends SupabaseUser{
+  plan_name: string;
+  features: string[]
+}
 
 export const contactTypes = [
   { value: "phone", label: "Phone" },
@@ -165,6 +169,16 @@ export interface IBenefitBullet {
   title: string;
   description: string;
   icon: JSX.Element;
+}
+export interface ServicesFormBaseProps {
+  type: 'create' | 'edit';
+  initialData?: ServicesFormData;
+  onSuccess?: (restaurantUrl: string) => void;
+  userData: UserData
+}
+export interface EditServicesFormProps {
+  initialData: ServicesFormData;
+  onSuccess?: (restaurantUrl: string) => void;
 }
 
 export interface IPricing {

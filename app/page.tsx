@@ -11,15 +11,14 @@ import Navbar from "@/components/navigation/Navbar";
 import ProblemSection from "@/components/home/ProblemSection";
 import HowItWorks from "@/components/home/HowItWorks";
 
-const HomePage: React.FC =  async () => {
+const HomePage: React.FC = async () => {
   return (
     <div className="font-lora">
-      <Navbar/>
+      <Navbar />
       <Hero />
       <Container>
-        <Benefits />
-
-        <Section
+      <Benefits />
+      <Section
           id="problems"
           title="The Hidden Costs of Traditional Catalogs"
           description="See how outdated methods are costing your business money and opportunities."
@@ -44,7 +43,7 @@ const HomePage: React.FC =  async () => {
         </Section>
 
         <Stats />
-        
+
         <CTA />
       </Container>
 

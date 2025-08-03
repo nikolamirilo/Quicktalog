@@ -11,9 +11,6 @@ import {
   FiX,
   FiHome,
   FiMail,
-  FiUser,
-  FiUserPlus,
-  FiGrid
 } from "react-icons/fi";
 import Image from "next/image";
 import AuthLinks from "./AuthLinks";

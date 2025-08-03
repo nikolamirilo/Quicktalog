@@ -79,7 +79,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
                     FEATURES
                 </p>
                 <p className="text-product-foreground-accent mb-5 text-sm transition-colors duration-300 group-hover:text-product-foreground">
-                    Everything in basic, plus...
+                    Everything in Starter, plus...
                 </p>
                 
                 <ul className="space-y-4 mb-8">

@@ -1,12 +1,12 @@
 'use client';
 //@ts-ignore
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { FileText, Plus, Tag, Trash2, Lock } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ServicesFormData, ContactInfo } from '@/types';
+import { ServicesFormData, ContactInfo, UserData } from '@/types';
 import ImageDropzone from '@/components/common/ImageDropzone';
 import { Switch } from '@/components/ui/switch';
 import { contactTypes } from '@/types';
@@ -20,30 +20,28 @@ import {
 import { IoClose, IoDiamondOutline } from 'react-icons/io5';
 import { useUserAndPricing } from '@/hooks/useUserAndPricing';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { getUserData } from '@/actions/users';
 
 interface Step4BrandingProps {
   formData: ServicesFormData;
+  userData: UserData;
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }) => void;
   handleAddContact: () => void;
   handleRemoveContact: (index: number) => void;
   handleContactChange: (index: number, field: keyof ContactInfo, value: string) => void;
   setFormData: React.Dispatch<React.SetStateAction<ServicesFormData>>;
-  errors?: { [key: string]: string };
-  touched?: { [key: string]: boolean };
 }
 
 const Step4Branding: React.FC<Step4BrandingProps> = ({
   formData,
+  userData,
   handleInputChange,
   handleAddContact,
   handleRemoveContact,
   handleContactChange,
   setFormData,
-  touched,
-  errors
 }) => {
-  const { pricingPlan, loading } = useUserAndPricing();
-  const isFreePlan = pricingPlan?.name === "free";
+  const isFreePlan = userData?.plan_name === "Starter";
   
   const [logoPreview, setLogoPreview] = useState<string | null>(
     formData.logo || null
@@ -97,6 +95,7 @@ const handleToggle = (name: 'ctaFooter' | 'ctaNavbar' | 'emailButtonNavbar' | 'n
     }
   });
 };
+
   const handleLegalInfoChange = (field: 'name' | 'terms_and_conditions' | 'privacy_policy', value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -106,7 +105,6 @@ const handleToggle = (name: 'ctaFooter' | 'ctaNavbar' | 'emailButtonNavbar' | 'n
       }
     }));
   };
-
   return (
     <Card className="space-y-8 p-6 sm:p-8 bg-white/95 border border-product-border shadow-md rounded-2xl">
       <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3" style={{ fontFamily: 'var(--font-playfair-display), var(--font-inter), serif' }}>
@@ -114,7 +112,7 @@ const handleToggle = (name: 'ctaFooter' | 'ctaNavbar' | 'emailButtonNavbar' | 'n
         Define Branding
       </h2>
       
-      {!loading && isFreePlan && (
+      {isFreePlan && (
         <Alert className="border-amber-200 bg-amber-50">
           <Lock className="h-4 w-4 text-amber-600" />
           <AlertDescription className="text-amber-800">
@@ -203,9 +201,6 @@ const handleToggle = (name: 'ctaFooter' | 'ctaNavbar' | 'emailButtonNavbar' | 'n
                 disabled={isFreePlan}
               />
             </div>
-          )}
-          {touched?.logo && errors?.logo && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{errors.logo}</div>
           )}
         </div>
 
