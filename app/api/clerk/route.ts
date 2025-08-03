@@ -10,20 +10,27 @@ export async function POST(req: NextRequest) {
     if (event.type === 'user.created') {
       const { id, email_addresses, first_name, last_name, image_url } = event.data;
       const email = email_addresses?.[0]?.email_address || null;
-      const cookiesStore = await cookies()
+      const cookiesStore = await cookies();
       const supabase = createClient(cookiesStore);
-      await supabase.from('users').upsert([
+      
+      const { error } = await supabase.from('users').upsert([
         {
           id: id,
           email,
           image: image_url,
-          name: `${first_name} ${last_name}`,
+          name: [first_name, last_name].filter(Boolean).join(' '),
           plandId: "798b23bf-69e5-4372-ba02-6b90b7d90da1"
         }
       ]);
-    }
 
-    return new Response('Webhook received', { status: 200 });
+      if (error) {
+        console.error('Database error:', error);
+        return new Response('Database error', { status: 500 });
+      }
+      return new Response('Webhook received', { status: 200 });
+    } else {
+      return new Response('Event type not handled', { status: 200 });
+    }
   } catch (err) {
     console.error('Error verifying webhook:', err);
     return new Response('Error verifying webhook', { status: 400 });
