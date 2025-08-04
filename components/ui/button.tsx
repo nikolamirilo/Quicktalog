@@ -123,7 +123,7 @@ const buttonVariants = cva(
         `,
         nav: `
           text-product-foreground text-sm font-medium px-3 py-2 h-9 transition-all duration-200 relative overflow-hidden
-          hover:text-black hover:font-bold hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px]
+          hover:text-black hover:font-bold
           focus:ring-2 focus:ring-navbar-button-focus-ring focus:ring-offset-2
           border-0
           active:bg-product-hover-background active:text-navbar-button-active active:border-product-primary
