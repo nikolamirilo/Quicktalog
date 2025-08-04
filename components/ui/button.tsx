@@ -122,11 +122,14 @@ const buttonVariants = cva(
           focus:outline-none focus:ring-2 focus:ring-product-primary-accent focus:ring-opacity-50
         `,
         nav: `
-          text-product-foreground text-sm font-medium px-3 py-2 h-9 transition-all duration-200
-          hover:bg-yellow-200 hover:text-black hover:font-bold hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] hover:border-navbar-button-hover-border
+          text-product-foreground text-sm font-medium px-3 py-2 h-9 transition-all duration-200 relative overflow-hidden
+          hover:text-black hover:font-bold hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px]
           focus:ring-2 focus:ring-navbar-button-focus-ring focus:ring-offset-2
-          border border-transparent
+          border-0
           active:bg-product-hover-background active:text-navbar-button-active active:border-product-primary
+          after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-product-primary
+          after:content-[''] after:transition-transform after:duration-300 after:scale-x-0 after:origin-left
+          hover:after:scale-x-100
         `,
       },
       size: {
