@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useUser, UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,36 @@ interface AuthLinksProps {
 
 const AuthLinks: React.FC<AuthLinksProps> = ({ isMobile, onLinkClick }) => {
   const { isSignedIn, user } = useUser();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Don't render anything until the component is mounted on the client
+  if (!isMounted) {
+    if (isMobile) {
+      return (
+        <div className="border-t border-product-border pt-3 sm:pt-4 mt-3 sm:mt-4">
+          <div className="w-full h-10 bg-product-hover-background animate-pulse rounded mb-2"></div>
+          <div className="w-full h-10 bg-product-hover-background animate-pulse rounded"></div>
+        </div>
+      );
+    }
+    return (
+      <div className="ml-3 flex items-center gap-2">
+        <div className="w-20 h-9 bg-product-hover-background animate-pulse rounded"></div>
+        <div className="w-20 h-9 bg-product-hover-background animate-pulse rounded"></div>
+      </div>
+    );
+  }
 
   if (isMobile) {
     return (
       <>
         {isSignedIn ? (
           <>
-            <div className="border-t border-gray-100 pt-3 sm:pt-4 mt-3 sm:mt-4">
+            <div className="border-t border-product-border pt-3 sm:pt-4 mt-3 sm:mt-4">
               <MobileNavLink
                 href="/admin/dashboard"
                 icon={FiGrid}
@@ -36,7 +59,7 @@ const AuthLinks: React.FC<AuthLinksProps> = ({ isMobile, onLinkClick }) => {
                 }}
                 className="w-full flex items-center gap-3 p-2.5 sm:p-3 rounded-lg text-left transition-all duration-200 hover:bg-navbar-button-hover-bg hover:text-navbar-button-hover-text hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] border border-transparent hover:border-navbar-button-hover-border hover:font-bold cursor-pointer"
               >
-                <FiUser size={18} className="text-gray-600 sm:w-5 sm:h-5 flex-shrink-0" />
+                <FiUser size={18} className="text-product-foreground-accent sm:w-5 sm:h-5 flex-shrink-0" />
                 <span className="text-product-foreground font-medium text-sm sm:text-base flex-1 text-left">
                   {user?.firstName ? `${user.firstName} ${user.lastName || ''}` : 'Account'}
                 </span>
@@ -56,7 +79,7 @@ const AuthLinks: React.FC<AuthLinksProps> = ({ isMobile, onLinkClick }) => {
           </>
         ) : (
           <>
-            <div className="border-t border-gray-100 pt-3 sm:pt-4 mt-3 sm:mt-4">
+            <div className="border-t border-product-border pt-3 sm:pt-4 mt-3 sm:mt-4">
               <Link href="/auth" onClick={onLinkClick}>
                 <Button className="w-full bg-white text-product-foreground border-2 border-product-primary hover:bg-product-primary hover:text-white hover:shadow-lg hover:scale-[1.03] hover:transform hover:-translate-y-[2px] transition-all duration-200 font-semibold text-sm px-3 py-2 h-9 mb-2 sm:mb-3">
                   <FiUser className="w-4 h-4" />

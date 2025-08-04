@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { HiOutlineTrophy } from 'react-icons/hi2';
-import { ClerkLoaded } from "@clerk/nextjs";
+
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import {
@@ -99,9 +99,7 @@ const Navbar = () => {
           Showcases
         </NavLink>
         
-        <ClerkLoaded>
-          <AuthLinks />
-        </ClerkLoaded>
+        <AuthLinks />
       </div>
       
       {/* Hamburger for mobile */}
@@ -159,9 +157,7 @@ const Navbar = () => {
             Showcases
           </MobileNavLink>
           
-          <ClerkLoaded>
-            <AuthLinks isMobile onLinkClick={() => setMobileOpen(false)} />
-          </ClerkLoaded>
+          <AuthLinks isMobile onLinkClick={() => setMobileOpen(false)} />
         </div>
       </div>
     </nav>
