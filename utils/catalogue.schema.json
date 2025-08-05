@@ -51,23 +51,7 @@
         "services": {
           "type": "object",
           "additionalProperties": {
-            "type": "object",
-            "properties": {
-              "layout": {
-                "type": "string"
-              },
-              "items": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/definitions/Service"
-                }
-              }
-            },
-            "required": [
-              "layout",
-              "items"
-            ],
-            "additionalProperties": false
+            "$ref": "#/definitions/ServicesCategory"
           }
         },
         "address": {
@@ -84,12 +68,6 @@
         },
         "configuration": {
           "$ref": "#/definitions/Configuration"
-        },
-        "created_at": {
-          "type": "string"
-        },
-        "updated_at": {
-          "type": "string"
         }
       },
       "required": [
@@ -99,33 +77,54 @@
         "theme",
         "title",
         "currency",
-        "services",
-        "created_at",
-        "updated_at"
+        "services"
       ],
       "additionalProperties": false
     },
-    "Service": {
+    "ServicesCategory": {
       "type": "object",
       "properties": {
         "name": {
           "type": "string"
         },
-        "image": {
+        "layout": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServicesItem"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "layout",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "ServicesItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
           "type": "string"
         },
         "price": {
           "type": "number"
         },
-        "description": {
+        "image": {
           "type": "string"
         }
       },
       "required": [
         "name",
-        "image",
+        "description",
         "price",
-        "description"
+        "image"
       ],
       "additionalProperties": false
     },
@@ -178,6 +177,9 @@
         "ctaNavbar": {
           "type": "object",
           "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
             "label": {
               "type": "string"
             },
@@ -186,6 +188,7 @@
             }
           },
           "required": [
+            "enabled",
             "label",
             "url"
           ],
@@ -194,6 +197,9 @@
         "ctaFooter": {
           "type": "object",
           "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
             "label": {
               "type": "string"
             },
@@ -202,6 +208,7 @@
             }
           },
           "required": [
+            "enabled",
             "label",
             "url"
           ],

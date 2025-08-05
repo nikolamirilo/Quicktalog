@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build && node ./utils/generateSchema.js",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@clerk/nextjs": "^6.23.0",

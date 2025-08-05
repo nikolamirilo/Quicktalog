@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const cookiesStore = await cookies()
-    const supabase = createClient(cookiesStore)
-    const { id } = await params // Access id from params in App Router
+    const cookieStore = await cookies()
+    const supabase = createClient(cookieStore)
+    const { id } = await params
 
     const { data: supabaseUser, error: userError } = await supabase
       .from("users")
