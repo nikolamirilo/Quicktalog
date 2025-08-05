@@ -80,6 +80,7 @@
     "vaul": "^1.1.2"
   },
   "devDependencies": {
+    "@next/eslint-plugin-next": "^15.4.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.39.0",
