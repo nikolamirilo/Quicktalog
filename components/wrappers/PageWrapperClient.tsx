@@ -1,13 +1,9 @@
-import { MainContextProvider } from "@/context/MainContext";
+import { MainContextProvider } from "@/context/MainContext"
 
 export const PageWrapperClient = ({
-    children,
-  }: Readonly<{
-    children: React.ReactNode;
-  }>) => {
-    return (
-      <MainContextProvider>
-       {children}
-      </MainContextProvider>
-    );
-  };
+  children,
+}: Readonly<{
+  children: React.ReactNode
+}>) => {
+  return <MainContextProvider>{children}</MainContextProvider>
+}
