@@ -12,30 +12,21 @@ Enable small businesses to launch elegant, mobile-first service catalogues in mi
 
 ## 💎 Key Values
 
-- Simplicity of use  
-- Quick setup & maintenance  
-- Cross-industry support  
+- Simplicity of use
+- Quick setup & maintenance
+- Cross-industry support
 
 ---
 
 ## 🚀 Features
 
-- Instant digital catalogue creation  
-- Advanced customization (themes, layouts)  
-- OCR & AI-powered catalogue import  
-- Analytics dashboard  
-- Multi-location management  
-- Collaborative editing  
-- Tiered pricing plans  
-
----
-
-## 🏆 Competitive Advantages
-
-- Fast setup (<5 min average launch time)  
-- No tech/design skills required  
-- White-label friendly for freelancers  
-- Flexible for hospitality, beauty, fitness, wellness, and more  
+- Instant digital catalogue creation
+- Advanced customization (themes, layouts)
+- OCR & AI-powered catalogue import
+- Analytics dashboard
+- Multi-location management
+- Collaborative editing
+- Tiered pricing plans
 
 ---
 
@@ -45,8 +36,8 @@ Enable small businesses to launch elegant, mobile-first service catalogues in mi
 - **TypeScript** - programming language
 - **Tailwind CSS** - styling
 - **Supabase** - database
-- **UploadThing** - static files hosting  
-- **Clerk** - authentication and use**r management
+- **UploadThing** - static files hosting
+- **Clerk** - authentication and use\*\*r management
 - **Posthog** - analytics service
 - **Paddle** - payment and tax handling service
 
@@ -54,23 +45,23 @@ Enable small businesses to launch elegant, mobile-first service catalogues in mi
 
 ## 🖥️ Getting Started
 
-1. **Clone the repository**  
-2. **Install dependencies**  
-3. **Configure environment variables**  
-   - Copy `.env.example` to `.env` and fill in your Supabase, Clerk, and other keys  
-4. **Run the development server**  
-5. **Build for production**  
+1. **Clone the repository**
+2. **Install dependencies**
+3. **Configure environment variables**
+   - Copy `.env.example` to `.env` and fill in your Supabase, Clerk, and other keys
+4. **Run the development server**
+5. **Build for production**
 
 ---
 
 ## 📁 Project Structure
 
-- `app` - Next.js App Router pages  
-- `components` - UI and feature components  
-- `context` - React context providers  
-- `data` - Static data files  
-- `hooks` - Custom React hooks  
-- `lib` - Utility functions  
-- `public` - Static assets  
-- `types` - TypeScript types  
-- `utils` - Utility modules (e.g., uploadthing)  
+- `app` - Next.js App Router pages
+- `components` - UI and feature components
+- `context` - React context providers
+- `data` - Static data files
+- `hooks` - Custom React hooks
+- `lib` - Utility functions
+- `public` - Static assets
+- `types` - TypeScript types
+- `utils` - Utility modules (e.g., uploadthing)
