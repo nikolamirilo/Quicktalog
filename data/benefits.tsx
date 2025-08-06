@@ -1,70 +1,70 @@
-import { FiBarChart2, FiBriefcase, FiDollarSign, FiLock, FiPieChart, FiShield, FiTarget, FiTrendingUp, FiUser, FiZap, FiSmartphone, FiCode, FiEdit3, FiShare2, FiClock, FiCheck } from "react-icons/fi";
+import { FiBarChart2, FiCheck, FiClock, FiEdit3, FiPieChart, FiShare2, FiSmartphone, FiTrendingUp, FiZap } from "react-icons/fi";
 
-import { IBenefit } from "@/types"
+import { IBenefit } from "@/types";
 
 export const benefits: IBenefit[] = [
     {
-        title: "Create Professional Catalogs in Minutes",
-        description: "No design skills needed. Our intuitive platform lets anyone create beautiful, mobile-ready catalogs that impress customers and drive sales.",
+        title: "Go from Idea to Live in Minutes",
+        description: "You don't have time for complicated software. Our platform is designed for speed. Create a beautiful, professional catalog in less time than it takes to make a cup of coffee.",
         bullets: [
             {
-                title: "Universal Templates",
-                description: "Choose from flexible templates that work for any industry or service type.",
-                icon: <FiEdit3 size={26} />
+                title: "No Learning Curve",
+                description: "Our intuitive editor is so simple, you'll feel like a pro in minutes.",
+                icon: <FiCheck size={26} />
             },
             {
-                title: "Instant Setup",
-                description: "Create and publish your first catalogue in under 5 minutes.",
+                title: "Instant Updates",
+                description: "Change prices, add new services, or run a promotion in seconds. Your catalog is always up-to-date.",
                 icon: <FiClock size={26} />
             },
             {
-                title: "No Design/Tech Skills Needed",
-                description: "Our intuitive interface makes it easy for anyone to create a professional catalogue.",
-                icon: <FiCheck size={26} />
+                title: "AI-Powered Creation",
+                description: "Let our AI build your entire catalog for you. Just describe your business and watch the magic happen.",
+                icon: <FiZap size={26} />
             }
         ],
         imageSrc: "/images/mockup-1.png"
     },
     {
-        title: "Reach Customers 24/7, Anywhere",
-        description: "Your catalog works when you don't. Share via QR codes, links, or embed on your website. Never miss a potential customer again.",
+        title: "Look Professional, Build Trust",
+        description: "Your catalog is often the first impression a customer has of your business. Make it a great one with a beautiful, mobile-friendly design that builds trust and drives sales.",
         bullets: [
             {
-                title: "QR Code Generation",
-                description: "Generate QR codes for your entire catalog or individual items instantly. Perfect for table cards, business cards, and marketing materials.",
-                icon: <FiCode size={26} />
+                title: "Stunning Templates",
+                description: "Choose from a variety of professionally designed templates that look great on any device.",
+                icon: <FiEdit3 size={26} />
             },
             {
                 title: "Mobile-First Design",
-                description: "Optimized for smartphones, tablets, and desktops - looks great everywhere. Your customers get the best experience on any device.",
+                description: "Your catalog will look amazing on smartphones, tablets, and desktops, guaranteed.",
                 icon: <FiSmartphone size={26} />
             },
             {
                 title: "Easy Sharing",
-                description: "Share your catalog with a single link or QR code - no app downloads required. Your customers can access your services instantly.",
+                description: "Share your catalog with a simple link or QR code. No app downloads required.",
                 icon: <FiShare2 size={26} />
             }
         ],
         imageSrc: "/images/mockup-3.png"
     },
     {
-        title: "Track Performance & Grow Your Business",
-        description: "Get insights into customer behavior and optimize your offerings. See which items are most viewed and understand what drives sales.",
+        title: "Grow Your Business, Not Your Workload",
+        description: "Our platform is designed to help you grow your business, without adding to your to-do list. Track your performance, understand your customers, and make smarter decisions.",
         bullets: [
             {
                 title: "Real-Time Analytics",
-                description: "Track views, shares, and engagement with detailed analytics dashboard. Understand what your customers want and optimize accordingly.",
+                description: "See what's popular, what's not, and what your customers are looking for.",
                 icon: <FiBarChart2 size={26} />
             },
             {
-                title: "Customer Feedback",
-                description: "Collect reviews and ratings directly from your digital catalog. Build trust and improve your services based on real customer feedback.",
-                icon: <FiUser size={26} />
+                title: "Customer Insights",
+                description: "Understand your customers better and make data-driven decisions to grow your business.",
+                icon: <FiPieChart size={26} />
             },
             {
-                title: "Secure & Reliable",
-                description: "Enterprise-grade security keeps your data safe and your catalog always available. Your business information is protected and accessible 24/7.",
-                icon: <FiShield size={26} />
+                title: "Scale with Confidence",
+                description: "Our secure and reliable platform grows with you, so you can focus on what you do best.",
+                icon: <FiTrendingUp size={26} />
             }
         ],
         imageSrc: "/images/mockup-2.png"

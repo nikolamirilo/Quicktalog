@@ -1,10 +1,8 @@
-import React from 'react';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { FiArrowDown, FiPlay, FiCheck, FiZap, FiDollarSign, FiClock, FiSmartphone } from 'react-icons/fi';
-
-import { heroDetails } from '@/data/hero';
+import React from 'react';
+import { FiArrowDown, FiCheck, FiClock, FiDollarSign, FiPlay, FiSmartphone } from 'react-icons/fi';
 
 const Hero: React.FC = () => {
     return (
@@ -22,39 +20,39 @@ const Hero: React.FC = () => {
 
             <div className="text-center max-w-4xl mx-auto">
                 <h1 className="text-4xl md:text-6xl md:leading-tight font-bold text-product-foreground max-w-lg md:max-w-3xl mx-auto">
-                    {heroDetails.heading}
+                    Create a Stunning Digital Catalog in Minutes
                 </h1>
                 <p className="mt-4 text-product-foreground-accent text-lg md:text-xl max-w-2xl mx-auto">
-                    {heroDetails.subheading}
+                    No design skills? No problem. Turn your services, offers, or menus into a beautiful, shareable catalog that looks great on any device.
                 </p>
 
                 {/* Value propositions */}
                 <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-product-foreground-accent">
                     <div className="flex items-center gap-2">
-                        <FiDollarSign className="w-4 h-4 text-green-600" />
-                        <span className="font-medium">Save 90% on printing costs</span>
+                        <FiClock className="w-4 h-4 text-product-primary" />
+                        <span className="font-medium">Launch in under 5 minutes</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <FiSmartphone className="w-4 h-4 text-blue-600" />
-                        <span className="font-medium">Capture sales 24/7</span>
+                        <FiSmartphone className="w-4 h-4 text-product-primary" />
+                        <span className="font-medium">Perfect for any service business</span>
                     </div>
                     <div className="flex items-center gap-2">
-                        <FiClock className="w-4 h-4 text-orange-600" />
-                        <span className="font-medium">Update in minutes, not hours</span>
+                        <FiDollarSign className="w-4 h-4 text-product-primary" />
+                        <span className="font-medium">No designer or developer needed</span>
                     </div>
                 </div>
-                
+
                 {/* CTA buttons */}
                 <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <Link href="/auth?mode=signup">
                         <Button variant="cta" className="text-lg px-8 py-4 h-14">
-                            Get Started For Free
+                            Create Your Catalog Now
                         </Button>
                     </Link>
                     <Link href="/playground">
                         <Button variant="outline" className="text-lg px-8 py-4 h-14 border-2 border-product-primary">
                             <FiPlay className="w-5 h-5 mr-2" />
-                            See Demo
+                            Watch a Demo
                         </Button>
                     </Link>
                 </div>
@@ -67,11 +65,7 @@ const Hero: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                         <FiCheck className="w-4 h-4 text-product-primary" />
-                        <span>Free plan forever</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                        <FiCheck className="w-4 h-4 text-product-primary" />
-                        <span>Cancel anytime</span>
+                        <span>Start with our free plan</span>
                     </div>
                 </div>
 
@@ -83,7 +77,7 @@ const Hero: React.FC = () => {
                 </div>
 
                 <Image
-                    src={heroDetails.centerImageSrc}
+                    src="/images/hero-mockup.png"
                     width={384}
                     height={340}
                     quality={100}

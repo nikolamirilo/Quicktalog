@@ -1,7 +1,7 @@
 //@ts-nocheck
-import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -131,6 +131,11 @@ const buttonVariants = cva(
           after:content-[''] after:transition-transform after:duration-300 after:scale-x-0 after:origin-left
           hover:after:scale-x-100
         `,
+        solution: `
+          w-full group border border-product-primary bg-transparent text-product-primary font-lora font-semibold
+          hover:bg-product-primary hover:text-product-background hover:scale-105
+          transition-all duration-300 shadow-sm
+        `,
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -148,7 +153,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 

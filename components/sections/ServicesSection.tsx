@@ -1,10 +1,10 @@
 // @ts-nocheck
 "use client";
-import React, { useState, useMemo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useMemo, useState } from "react";
 import "swiper/css";
 import "swiper/css/pagination";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 import { useMainContext } from "@/context/MainContext";
 import CardsSwitcher from "../cards";
@@ -90,7 +90,7 @@ const ServicesSection = ({
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-4">
+    <main className="max-w-6xl mx-auto px-4 py-10">
       {sectionsData.map((item) => {
         // The 'layout' variable now comes directly from the context
         const currentLayout = type === "playground" ? layout : servicesData[item.code]?.layout;

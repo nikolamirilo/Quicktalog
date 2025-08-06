@@ -1,17 +1,16 @@
 // @ts-nocheck
 "use client"
 import Toggle from "@/components/common/Toggle";
-import ServicesSection from "@/components/sections/ServicesSection";
 import CatalogueFooter from "@/components/navigation/CatalogueFooter";
-import data from "../../showcase.json";
-import Navbar from "@/components/navigation/Navbar";
-import theme from "@material-tailwind/react/theme";
-import { useMainContext } from "@/context/MainContext";
 import Footer from "@/components/navigation/Footer";
+import Navbar from "@/components/navigation/Navbar";
+import ServicesSection from "@/components/sections/ServicesSection";
+import { useMainContext } from "@/context/MainContext";
+import data from "../../showcase.json";
 
 const page: React.FC = () => {
-  const {theme} = useMainContext();
-  
+  const { theme } = useMainContext();
+
   try {
     // Validate showcase data
     if (!data) {
@@ -63,14 +62,14 @@ const page: React.FC = () => {
                 type="playground"
               />
             )}
-            <Footer/>
+            <Footer />
           </main>
         </div>
       </>
     );
   } catch (error) {
     console.error("Playground page error:", error);
-    
+
     return (
       <>
         <Navbar />

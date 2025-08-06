@@ -1,5 +1,5 @@
 "use client"
-import { Record } from "@/types"
+import { Record } from "@/types";
 
 const CardType4 = ({ record, currency }: { record: Record; currency: string }) => {
   return (

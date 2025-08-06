@@ -1,7 +1,7 @@
 "use client";
 import { sendEmail } from "@/actions/email";
-import { useState } from "react";
 import { Button } from '@/components/ui/button';
+import { useState } from "react";
 
 const Contact = () => {
   const [name, setName] = useState("");
@@ -24,14 +24,14 @@ const Contact = () => {
       name,
       subject: "New message from Service Catalogue Contact Form",
     });
-    if(res == true){
-        setIsOpen(true);
-        setIsLoading(false);
-        setName("");
-        setMessage("");
-        setEmail("");
-    }else{
-        alert("Error occured")
+    if (res == true) {
+      setIsOpen(true);
+      setIsLoading(false);
+      setName("");
+      setMessage("");
+      setEmail("");
+    } else {
+      alert("Error occured")
     }
   }
 
@@ -269,17 +269,17 @@ const Contact = () => {
 
         {/* Contact Info */}
         <div className="mt-20">
-          <div className="bg-product-secondary rounded-3xl shadow-product-shadow p-8 md:p-12 overflow-hidden relative">
+          <div className="bg-product-background rounded-3xl shadow-md p-8 md:p-12 border border-product-border">
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-product-primary/10 rounded-full -translate-y-32 translate-x-32"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-product-primary/20 rounded-full translate-y-16 -translate-x-16"></div>
 
             <div className="relative z-10">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-white mb-4">
+                <h2 className="text-3xl font-bold text-product-foreground mb-4">
                   Ready to Connect?
                 </h2>
-                <p className="text-product-hover-background text-lg">
+                <p className="text-product-foreground-accent text-lg">
                   Reach out through any of these channels
                 </p>
               </div>
@@ -303,8 +303,8 @@ const Contact = () => {
                       </svg>
                     </div>
                   </div>
-                  <h3 className="font-bold text-white mb-2 text-xl">Email</h3>
-                  <p className="text-product-hover-background text-lg">hello@digital-menu.com</p>
+                  <h3 className="font-bold text-product-foreground mb-2 text-xl">Email</h3>
+                  <p className="text-product-primary text-lg">hello@digital-menu.com</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                   </div>
@@ -328,8 +328,8 @@ const Contact = () => {
                       </svg>
                     </div>
                   </div>
-                  <h3 className="font-bold text-white mb-2 text-xl">Phone</h3>
-                  <p className="text-product-hover-background text-lg">+1 (555) 123-4567</p>
+                  <h3 className="font-bold text-product-foreground mb-2 text-xl">Phone</h3>
+                  <p className="text-product-primary text-lg">+1 (555) 123-4567</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-100"></div>
                   </div>
@@ -359,8 +359,8 @@ const Contact = () => {
                       </svg>
                     </div>
                   </div>
-                  <h3 className="font-bold text-white mb-2 text-xl">Office</h3>
-                  <p className="text-product-hover-background text-lg">New York, NY</p>
+                  <h3 className="font-bold text-product-foreground mb-2 text-xl">Office</h3>
+                  <p className="text-product-primary text-lg">New York, NY</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-200"></div>
                   </div>

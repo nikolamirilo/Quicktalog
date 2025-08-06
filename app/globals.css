@@ -3,10 +3,12 @@
 @tailwind utilities;
 @layer theme, base, clerk, components, utilities;
 
-html, body {
+html,
+body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   @apply scroll-smooth;
 }
 
@@ -25,7 +27,15 @@ html, body {
   --product-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 
   --product-hover-scale: 1.02;
-  --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15); 
+  --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15);
+
+  /* Problem Section specific variables */
+  --problem-card-bg: #FEF2F2;
+  --problem-card-text: #DC2626;
+  --problem-card-border: #FEE2E2;
+  --problem-tag-bg: #FEF2F2;
+  --problem-tag-text: #B91C1C;
+  --problem-tag-border: #FEE2E2;
 
   /* Navbar button hover enhancements */
   --navbar-button-hover-bg: #f0f0f0;
@@ -50,7 +60,7 @@ html, body {
   @apply w-fit h-10 sm:h-12;
 }
 
-.home .benefit-section:last-of-type > div {
+.home .benefit-section:last-of-type>div {
   @apply mb-10;
 }
 
@@ -81,6 +91,7 @@ a {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -353,22 +364,27 @@ a:after {
   transform: scaleX(0);
   transition: transform 250ms ease-in-out;
 }
+
 a:hover:after {
   transform: scaleX(1);
 }
+
 a.selected:after {
   transform: scaleX(1);
 }
+
 @keyframes fade-in {
   from {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+
 .animate-fade-in {
   animation: fade-in 0.3s ease forwards;
 }
@@ -408,6 +424,7 @@ a.selected:after {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -425,8 +442,11 @@ a.selected:after {
 }
 
 /* Clerk Auth Widget Product Theme Overrides */
-.cl-internal-1fsg6zy, /* main container */
-.cl-card, .cl-signIn-root, .cl-signUp-root {
+.cl-internal-1fsg6zy,
+/* main container */
+.cl-card,
+.cl-signIn-root,
+.cl-signUp-root {
   background: var(--product-background) !important;
   border-radius: 1.25rem !important;
   border: 1px solid var(--product-border) !important;
@@ -456,11 +476,13 @@ a.selected:after {
 }
 
 /* Restore borders only for specific elements that need them */
-.cl-formFieldInput, .cl-formFieldInputWrapper {
+.cl-formFieldInput,
+.cl-formFieldInputWrapper {
   border-color: var(--product-border) !important;
 }
 
-.cl-formFieldInput:focus, .cl-formFieldInputWrapper:focus-within {
+.cl-formFieldInput:focus,
+.cl-formFieldInputWrapper:focus-within {
   border-color: var(--product-primary) !important;
 }
 
@@ -477,13 +499,22 @@ a.selected:after {
 }
 
 /* Remove borders from all other Clerk elements */
-.cl-headerTitle, .cl-headerSubtitle, .cl-internal-1b5y6t5, .cl-internal-1b5y6t6,
-.cl-formFieldLabel, .cl-footerActionLink, .cl-dividerText, .cl-formFieldErrorText {
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-internal-1b5y6t5,
+.cl-internal-1b5y6t6,
+.cl-formFieldLabel,
+.cl-footerActionLink,
+.cl-dividerText,
+.cl-formFieldErrorText {
   border: none !important;
 }
 
 /* Typography - Headers */
-.cl-headerTitle, .cl-headerSubtitle, .cl-internal-1b5y6t5, .cl-internal-1b5y6t6 {
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-internal-1b5y6t5,
+.cl-internal-1b5y6t6 {
   color: var(--product-foreground) !important;
   font-family: var(--font-family-heading, 'Lora', serif) !important;
   font-weight: 700 !important;
@@ -497,10 +528,12 @@ a.selected:after {
 }
 
 /* Form fields - matching contact page exactly */
-.cl-formFieldInput, .cl-formFieldInputWrapper {
+.cl-formFieldInput,
+.cl-formFieldInputWrapper {
   background: var(--product-background) !important;
   border: 2px solid var(--product-border) !important;
-  border-radius: 0.75rem !important; /* rounded-xl = 12px = 0.75rem */
+  border-radius: 0.75rem !important;
+  /* rounded-xl = 12px = 0.75rem */
   color: var(--product-foreground) !important;
   font-family: var(--font-family-body, 'Inter', sans-serif) !important;
   font-weight: 400 !important;
@@ -510,7 +543,8 @@ a.selected:after {
   transition: all 0.3s ease !important;
 }
 
-.cl-formFieldInput:focus, .cl-formFieldInputWrapper:focus-within {
+.cl-formFieldInput:focus,
+.cl-formFieldInputWrapper:focus-within {
   border-color: var(--product-primary) !important;
   background: var(--product-hover-background) !important;
   box-shadow: var(--product-hover-shadow) !important;
@@ -568,7 +602,8 @@ a.selected:after {
 .cl-socialButtonsBlockButton {
   background: var(--product-background) !important;
   border: 2px solid var(--product-border) !important;
-  border-radius: 0.75rem !important; /* Match input fields */
+  border-radius: 0.75rem !important;
+  /* Match input fields */
   color: var(--product-foreground) !important;
   font-family: var(--font-family-body, 'Inter', sans-serif) !important;
   font-weight: 600 !important;
@@ -656,7 +691,7 @@ a.selected:after {
   opacity: 0.7 !important;
   cursor: not-allowed !important;
 }
-    
+
 /* UserButton dropdown positioning - Mobile menu only */
 .mobile-menu .cl-userButtonPopoverCardRoot {
   position: relative !important;
@@ -719,11 +754,11 @@ a.selected:after {
 }
 
 /* Target Clerk's portal container and force positioning */
-body > div[class*="cl-userButtonPopoverCard"],
-body > div[class*="cl-userButtonPopoverCardRoot"],
-body > div[class*="cl-userButtonPopover"],
-body > div[class*="cl-userButtonPopoverCardRoot"] > div,
-body > div[class*="cl-userButtonPopoverCard"] > div {
+body>div[class*="cl-userButtonPopoverCard"],
+body>div[class*="cl-userButtonPopoverCardRoot"],
+body>div[class*="cl-userButtonPopover"],
+body>div[class*="cl-userButtonPopoverCardRoot"]>div,
+body>div[class*="cl-userButtonPopoverCard"]>div {
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
@@ -735,9 +770,9 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
 }
 
 /* Force all Clerk dropdowns in mobile context to be positioned correctly */
-.mobile-menu ~ div[class*="cl-userButtonPopoverCard"],
-.mobile-menu ~ div[class*="cl-userButtonPopoverCardRoot"],
-.mobile-menu ~ div[class*="cl-userButtonPopover"] {
+.mobile-menu~div[class*="cl-userButtonPopoverCard"],
+.mobile-menu~div[class*="cl-userButtonPopoverCardRoot"],
+.mobile-menu~div[class*="cl-userButtonPopover"] {
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
@@ -750,6 +785,7 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
 
 /* Mobile menu UserButton dropdown positioning - ensure it stays below the button */
 @media (max-width: 768px) {
+
   .mobile-menu .cl-userButtonPopoverCardRoot .cl-userButtonPopoverCard,
   .mobile-menu .cl-userButtonPopoverCard,
   .mobile-menu [class*="cl-userButtonPopoverCard"] {
@@ -762,11 +798,11 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
     margin-top: 0.5rem !important;
     z-index: 1001 !important;
   }
-  
+
   /* Target any portal-rendered dropdowns */
-  body > div[class*="cl-userButtonPopoverCard"],
-  body > div[class*="cl-userButtonPopoverCardRoot"],
-  body > div[class*="cl-userButtonPopover"] {
+  body>div[class*="cl-userButtonPopoverCard"],
+  body>div[class*="cl-userButtonPopoverCardRoot"],
+  body>div[class*="cl-userButtonPopover"] {
     position: absolute !important;
     top: 100% !important;
     left: 0 !important;
@@ -777,16 +813,18 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
     z-index: 1001 !important;
   }
 }
-    
+
 /* Custom ultra-thin scrollbar for dashboard tab bar only */
 .dashboard-tabbar-scroll::-webkit-scrollbar {
   height: 3px;
 }
+
 .dashboard-tabbar-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
+
 .dashboard-tabbar-scroll::-webkit-scrollbar-thumb {
-  background: var(--product-primary); /* product-primary */
+  background: var(--product-primary);
+  /* product-primary */
   border-radius: 2px;
 }
-    

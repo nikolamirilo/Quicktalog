@@ -1,9 +1,8 @@
 "use client"
-import { motion, Variants } from 'framer-motion';
-import { ctaDetails } from "@/data/cta"
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { FiArrowRight, FiCheck, FiShield, FiClock, FiUsers, FiZap } from "react-icons/fi";
+import { motion, Variants } from 'framer-motion';
+import Link from "next/link";
+import { FiArrowRight, FiCheck, FiUsers, FiZap } from "react-icons/fi";
 
 const containerVariants: Variants = {
     offscreen: {
@@ -48,25 +47,25 @@ const CTA: React.FC = () => {
                         <div className="rounded-3xl absolute bottom-0 left-0 right-0 top-0 bg-[radial-gradient(circle_600px_at_50%_500px,#1C1C02,transparent)]"></div>
                     </div>
 
-                    <motion.div 
+                    <motion.div
                         className="h-full flex flex-col items-center justify-center text-white text-center px-5"
                         variants={containerVariants}
                         initial="offscreen"
                         whileInView="onscreen"
                         viewport={{ once: true }}
                     >
-                        <motion.h2 
+                        <motion.h2
                             className="text-2xl sm:text-3xl md:text-5xl md:leading-tight font-semibold mb-4 max-w-3xl"
                             variants={childVariants}
                         >
-                            {ctaDetails.heading}
+                            Ready to Impress Your Customers?
                         </motion.h2>
 
-                        <motion.p 
+                        <motion.p
                             className="mx-auto max-w-2xl md:px-5 text-lg mb-8"
                             variants={childVariants}
                         >
-                            {ctaDetails.subheading}
+                            Create a beautiful, professional digital catalog today and see the difference it makes. No credit card required.
                         </motion.p>
 
                         {/* Risk reversal indicators */}
@@ -74,47 +73,45 @@ const CTA: React.FC = () => {
                             className="flex flex-wrap justify-center gap-4 mb-8 max-w-4xl"
                             variants={childVariants}
                         >
-                            {ctaDetails.riskReversal.map((item, index) => (
-                                <div key={index} className="flex items-center gap-2 text-sm text-gray-300 min-w-[180px] justify-center">
-                                    <FiCheck className="w-4 h-4 text-green-500 flex-shrink-0" />
-                                    <span>{item}</span>
-                                </div>
-                            ))}
+                            <div className="flex items-center gap-2 text-sm text-gray-300 min-w-[180px] justify-center">
+                                <FiCheck className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <span>Free plan available</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm text-gray-300 min-w-[180px] justify-center">
+                                <FiCheck className="w-4 h-4 text-green-500 flex-shrink-0" />
+                                <span>Cancel anytime</span>
+                            </div>
                         </motion.div>
 
                         {/* Trust indicators */}
-                        <motion.div 
+                        <motion.div
                             className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-gray-300 mb-6"
                             variants={childVariants}
                         >
                             <div className="flex items-center gap-2">
                                 <FiZap className="w-4 h-4 text-product-primary" />
-                                <span>Setup in under 5 minutes</span>
+                                <span>Launch in under 5 minutes</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <FiUsers className="w-4 h-4 text-product-primary" />
-                                <span>1000+ businesses trust us</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <FiShield className="w-4 h-4 text-product-primary" />
-                                <span>Enterprise-grade security</span>
+                                <span>Trusted by 1,000+ businesses</span>
                             </div>
                         </motion.div>
 
                         {/* Strong CTA button */}
-                        <motion.div 
+                        <motion.div
                             className="flex flex-col sm:flex-row items-center gap-4"
                             variants={childVariants}
                         >
                             <Link href="/auth?mode=signup">
                                 <Button variant="cta" className="text-lg px-8 py-4 h-14">
-                                    Get Started For Free
+                                    Start Your Free Catalog
                                     <FiArrowRight className="w-5 h-5 ml-2" />
                                 </Button>
                             </Link>
                             <Link href="/playground">
                                 <Button variant="outline" className="text-lg px-8 py-4 h-14 border-2 border-white text-white hover:bg-white hover:text-black">
-                                    See Demo
+                                    See a Demo
                                 </Button>
                             </Link>
                         </motion.div>

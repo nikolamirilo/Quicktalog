@@ -1,4 +1,4 @@
-import { Record } from "@/types"
+import { Record } from "@/types";
 
 const CardType3 = ({ record, currency }: { record: Record; currency: string }) => {
   return (
