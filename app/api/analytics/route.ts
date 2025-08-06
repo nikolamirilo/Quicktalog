@@ -9,11 +9,11 @@ export async function GET(request: NextRequest) {
     const startDate = new Date(new Date().setDate(new Date().getDate() - 2))
     const endDate = new Date(new Date().setDate(new Date().getDate() + 1))
     const res = await fetch(
-      `${process.env.POSTHOG_HOST}/api/projects/${process.env.POSTHOG_PROJECT_ID!}/query/`,
+      `${process.env.NEXT_PUBLIC_POSTHOG_HOST}/api/projects/${process.env.POSTHOG_PROJECT_ID!}/query/`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.POSTHOG_KEY!}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY!}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

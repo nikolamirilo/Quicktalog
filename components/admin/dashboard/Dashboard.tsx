@@ -15,7 +15,6 @@ import {
   FiCalendar,
   FiCopy,
   FiEdit,
-  FiEye,
   FiMoreVertical,
   FiPlus,
   FiSettings,
@@ -24,14 +23,14 @@ import {
 } from "react-icons/fi"
 import { LuSquareMenu } from "react-icons/lu"
 import { RiSparkling2Line } from "react-icons/ri"
-import { TbBrandGoogleAnalytics } from "react-icons/tb"
+import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
 import Billing from "./Billing"
 import InformModal from "./InformModal"
 
 const TABS = [
-  { value: "overview", label: "Overview", icon: <FiEye className="mr-2" size={20} /> },
+  { value: "dashboard", label: "Dashboard", icon: <TbFileAnalytics className="mr-2" size={20} /> },
   { value: "billing", label: "Billing", icon: <FiCalendar className="mr-2" size={20} /> },
-  { value: "reports", label: "Reports", icon: <FiBarChart2 className="mr-2" size={20} /> },
+  { value: "usage", label: "Usage", icon: <FiBarChart2 className="mr-2" size={20} /> },
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
   { value: "users", label: "Users", icon: <FiUsers className="mr-2" size={20} /> },
 ]
@@ -40,7 +39,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [menuToDelete, setMenuToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState("overview")
+  const [activeTab, setActiveTab] = useState("dashboard")
 
   // Aggregate analytics
   const totalPageViews = analytics?.reduce((sum, a) => sum + (a.pageview_count || 0), 0)
@@ -136,7 +135,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
         <section className="flex-1 min-w-0 bg-white/95 border border-product-border shadow-md rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 relative z-10 text-xs sm:text-sm md:text-base lg:text-lg">
           {/* Mobile tab bar */}
           {MobileTabBar}
-          {activeTab === "overview" && (
+          {activeTab === "dashboard" && (
             <>
               {user && (
                 <section className="mb-8 sm:mb-12 bg-product-background/80 rounded-3xl shadow-product-shadow border border-product-border flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 md:gap-8 items-center relative overflow-hidden animate-fade-in p-4 sm:p-6 md:p-8 lg:p-10 text-sm sm:text-base md:text-lg lg:text-xl">
@@ -171,12 +170,13 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
                   </div>
                 </section>
               )}
-              {/* Usage Overview */}
+              {/* Dashboard */}
               <section className="mb-8 sm:mb-12 animate-fade-in">
                 <h2
                   className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
                   style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
-                  <FiEye className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Usage Overview
+                  <TbFileAnalytics className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" />{" "}
+                  Dashboard
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                   <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
@@ -305,15 +305,11 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
                         {restaurant.name}
                       </div>
                       <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
-                        Theme: {restaurant.theme}
-                      </div>
-                      <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
-                        Layout: {restaurant.layout}
-                      </div>
-                      <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
                         Created: {new Date(restaurant.created_at).toLocaleString()}
                       </div>
-
+                      <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
+                        Updated: {new Date(restaurant.updated_at).toLocaleString()}
+                      </div>
                       {/* Buttons */}
                       <div className="flex flex-col gap-2 sm:gap-3 mt-auto pt-2 sm:pt-3 md:pt-4">
                         <Link href={`/service-catalogues/${restaurant.name}`} className="w-full">
