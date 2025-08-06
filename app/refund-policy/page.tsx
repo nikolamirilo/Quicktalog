@@ -2,7 +2,14 @@
 
 import Footer from "@/components/navigation/Footer";
 import Navbar from "@/components/navigation/Navbar";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Refund Policy",
+  description:
+    "Read about Quicktalog's 30-day money-back guarantee, eligibility, and how to request a refund for your purchase or subscription.",
+};
 
 export default function RefundPolicyPage() {
   return (

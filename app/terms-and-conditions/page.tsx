@@ -2,7 +2,14 @@
 
 import Footer from "@/components/navigation/Footer";
 import Navbar from "@/components/navigation/Navbar";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions",
+  description:
+    "Review the Terms & Conditions for using Quicktalog, including user obligations, payment, refunds, and legal compliance.",
+};
 
 export default function TermsAndConditionsPage() {
     return (
