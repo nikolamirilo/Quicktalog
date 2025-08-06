@@ -1,25 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import Groq from 'groq-sdk';
-import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
-import { ServicesFormData } from '@/types';
-import { currentUser } from '@clerk/nextjs/server';
-import schema from '@/utils/catalogue.schema.json';
-import { fetchImageFromUnsplash } from '@/helpers/server';
+import { getUserData } from "@/actions/users"
+import { fetchImageFromUnsplash } from "@/helpers/server"
+import { ServicesFormData } from "@/types"
+import schema from "@/utils/catalogue.schema.json"
+import { createClient } from "@/utils/supabase/server"
+import { currentUser } from "@clerk/nextjs/server"
+import Groq from "groq-sdk"
+import { cookies } from "next/headers"
+import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const { prompt } = await req.json();
-  const cookieStore = await cookies();
-  const supabase = createClient(cookieStore);
-
+  const { prompt } = await req.json()
+  const cookieStore = await cookies()
+  const supabase = createClient(cookieStore)
+  const userData = await getUserData()
   if (!prompt) {
-    return NextResponse.json({ error: 'Prompt is required' }, { status: 400 });
+    return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
   }
 
   try {
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY!,
-    });
+    })
 
     const generationPrompt = `
       You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
@@ -42,99 +43,102 @@ export async function POST(req: NextRequest) {
       9. Depending on the prompt use either dark or light theme. 
       10. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
       10. For all images add placeholder "https://static1.squarespace.com/static/5898e29c725e25e7132d5a5a/58aa11bc9656ca13c4524c68/58aa11e99656ca13c45253e2/1487540713345/600x400-Image-Placeholder.jpg?format=original"
-    `;
+      11. Ensure the JSON is valid and well-formed    
+      12. For legal and configuration leave placeholder values
+      `
 
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
-          role: 'user',
+          role: "user",
           content: generationPrompt,
         },
       ],
-      model: 'gemma2-9b-it',
+      model: "gemma2-9b-it",
       temperature: 0.7,
       max_tokens: 8000,
       top_p: 1,
       stream: false,
-    });
+    })
 
-    const text = chatCompletion.choices[0]?.message?.content || '';
-    
-    let generatedData: ServicesFormData;
+    const text = chatCompletion.choices[0]?.message?.content || ""
+
+    let generatedData: ServicesFormData
     try {
       // Clean up the response to extract JSON
       let cleanedText = text
-        .replace(/```json/g, '')
-        .replace(/```/g, '')
-        .trim();
-      
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim()
+
       // Find the JSON object in the response
-      const jsonStart = cleanedText.indexOf('{');
-      const jsonEnd = cleanedText.lastIndexOf('}');
-      
+      const jsonStart = cleanedText.indexOf("{")
+      const jsonEnd = cleanedText.lastIndexOf("}")
+
       if (jsonStart === -1 || jsonEnd === -1) {
-        throw new Error('No JSON object found in response');
+        throw new Error("No JSON object found in response")
       }
-      
-      cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1);
-      
-      generatedData = JSON.parse(cleanedText);
+
+      cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1)
+
+      generatedData = JSON.parse(cleanedText)
 
       for (const category of generatedData.services) {
         for (const item of category.items) {
-            item.image = await fetchImageFromUnsplash(item.name);
-          
+          item.image = await fetchImageFromUnsplash(item.name)
         }
-    } 
-      
+      }
+
       // Validate that services is an array
       if (!Array.isArray(generatedData.services)) {
-        console.error('Services is not an array:', generatedData.services);
-        return NextResponse.json({ error: 'Invalid services structure generated' }, { status: 500 });
+        console.error("Services is not an array:", generatedData.services)
+        return NextResponse.json({ error: "Invalid services structure generated" }, { status: 500 })
       }
-      
     } catch (e) {
-      console.error('Failed to parse generated JSON:', text);
-      return NextResponse.json({ error: 'Failed to parse AI response' }, { status: 500 });
+      console.error("Failed to parse generated JSON:", text)
+      return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 })
     }
 
-    const user = await currentUser();
+    const user = await currentUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'User not authenticated' }, { status: 401 });
+      return NextResponse.json({ error: "User not authenticated" }, { status: 401 })
     }
 
     // Generate unique restaurant slug
-    const baseSlug = generatedData.name.toLowerCase().replace(/\s+/g, '-');
-    let restaurantSlug = baseSlug;
-    let counter = 1;
-    
+    const baseSlug = generatedData.name.toLowerCase().replace(/\s+/g, "-")
+    let restaurantSlug = baseSlug
+    let counter = 1
+
     // Check if slug already exists and make it unique
     while (true) {
       const { data: existingServiceCatalogue } = await supabase
-        .from('service_catalogues')
-        .select('name')
-        .eq('name', restaurantSlug)
-        .single();
-      
-      if (!existingServiceCatalogue) break;
-      
-      restaurantSlug = `${baseSlug}-${counter}`;
-      counter++;
+        .from("service_catalogues")
+        .select("name")
+        .eq("name", restaurantSlug)
+        .single()
+
+      if (!existingServiceCatalogue) break
+
+      restaurantSlug = `${baseSlug}-${counter}`
+      counter++
     }
 
     // Transform services array to object structure expected by database
-    const transformedServices = generatedData.services.reduce((acc, category) => {
-      const categorySlug = category.name.toLowerCase().replace(/\s+/g, '-');
-      acc[categorySlug] = {
-        layout: category.layout,
-        items: category.items,
-      };
-      return acc;
-    }, {} as Record<string, { layout: string; items: any[] }>);
+    const transformedServices = generatedData.services.reduce(
+      (acc, category) => {
+        const categorySlug = category.name.toLowerCase().replace(/\s+/g, "-")
+        acc[categorySlug] = {
+          layout: category.layout,
+          items: category.items,
+        }
+        return acc
+      },
+      {} as Record<string, { layout: string; items: any[] }>
+    )
 
     const { data, error } = await supabase
-      .from('service_catalogues')
+      .from("service_catalogues")
       .insert([
         {
           name: restaurantSlug,
@@ -144,37 +148,44 @@ export async function POST(req: NextRequest) {
           layout: generatedData.layout,
           title: generatedData.title,
           currency: generatedData.currency,
-          legal_name: generatedData.legal_name,
+          legal: generatedData.legal,
+          configuration: generatedData.configuration,
           contact: generatedData.contact,
           subtitle: generatedData.subtitle,
           services: transformedServices,
         },
       ])
-      .select();
+      .select()
 
     if (error) {
-      console.error('Error inserting data into Supabase:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("Error inserting data into Supabase:", error)
+      return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ restaurantUrl: `/service-catalogues/${restaurantSlug}` });
+    return NextResponse.json({ restaurantUrl: `/service-catalogues/${restaurantSlug}` })
   } catch (error) {
-    console.error('Error generating services:', error);
-    
+    console.error("Error generating services:", error)
+
     // Handle specific Groq API errors
     if (error instanceof Error) {
-      if (error.message.includes('rate limit')) {
-        return NextResponse.json({ 
-          error: 'Rate limit exceeded. Please try again in a moment.' 
-        }, { status: 429 });
+      if (error.message.includes("rate limit")) {
+        return NextResponse.json(
+          {
+            error: "Rate limit exceeded. Please try again in a moment.",
+          },
+          { status: 429 }
+        )
       }
-      if (error.message.includes('401')) {
-        return NextResponse.json({ 
-          error: 'Invalid API key configuration.' 
-        }, { status: 500 });
+      if (error.message.includes("401")) {
+        return NextResponse.json(
+          {
+            error: "Invalid API key configuration.",
+          },
+          { status: 500 }
+        )
       }
     }
-    
-    return NextResponse.json({ error: 'Failed to generate services' }, { status: 500 });
+
+    return NextResponse.json({ error: "Failed to generate services" }, { status: 500 })
   }
 }

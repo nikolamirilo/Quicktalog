@@ -94,7 +94,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Form */}
-        <div className="bg-product-background rounded-3xl shadow-product-shadow p-8 md:p-12 border border-product-border">
+        <div className="bg-product-background rounded-3xl shadow-md p-8 md:p-12 border border-product-border">
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Name Field */}
@@ -112,7 +112,7 @@ const Contact = () => {
                     onChange={(e) => setName(e.target.value)}
                     type="text"
                     placeholder="John Doe"
-                    className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow"
+                    className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow"
                     required
                   />
                   <div className="absolute inset-y-0 right-4 flex items-center">
@@ -148,7 +148,7 @@ const Contact = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="john@example.com"
-                    className={`w-full px-4 py-4 bg-product-background border-2 rounded-xl text-product-foreground placeholder-product-foreground-accent focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow ${email && !isValidEmail(email) ? 'border-red-500' : 'border-product-border'}`}
+                    className={`w-full px-4 py-4 bg-product-background border-2 rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow ${email && !isValidEmail(email) ? 'border-red-500' : 'border-product-border'}`}
                     required
                   />
                   <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
@@ -190,7 +190,7 @@ const Contact = () => {
                   onChange={(e) => setMessage(e.target.value)}
                   rows={6}
                   placeholder="Tell us about your project..."
-                  className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow resize-none"
+                  className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow resize-none"
                   required
                 />
                 <div className="absolute top-4 right-4">

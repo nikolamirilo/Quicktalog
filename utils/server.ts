@@ -11,13 +11,13 @@ export async function revalidateTagCustom(tag: string) {
 }
 
 export async function deleteServiceCatalogue(id: string): Promise<boolean> {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   const { error } = await supabase.from('service_catalogues').delete().eq('id', id);
   return !error;
 }
 
 export async function duplicateServiceCatalogue(id: string) {
-  const supabase = createClient(cookies());
+  const supabase = createClient(await cookies());
   // Fetch the original record
   const { data, error } = await supabase.from('service_catalogues').select('*').eq('id', id).single();
   if (error || !data) return null;

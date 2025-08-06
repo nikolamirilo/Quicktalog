@@ -29,7 +29,7 @@ const Header: React.FC = () => {
                         </span>
                     </Link>
 
-                    {/* Desktop Menu */}
+                    {/* Desktop Catalogue */}
                     <ul className="hidden md:flex space-x-6">
                         {menuItems.map(item => (
                             <li key={item.text}>
@@ -47,7 +47,7 @@ const Header: React.FC = () => {
                         </li>
                     </ul>
 
-                    {/* Mobile Menu Button */}
+                    {/* Mobile Catalogue Button */}
                     <div className="md:hidden flex items-center">
                         <button
                             onClick={toggleMenu}
@@ -67,7 +67,7 @@ const Header: React.FC = () => {
                 </nav>
             </Container>
 
-            {/* Mobile Menu with Transition */}
+            {/* Mobile Catalogue with Transition */}
             <Transition
                 show={isOpen}
                 enter="transition ease-out duration-200 transform"

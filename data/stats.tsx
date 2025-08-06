@@ -1,22 +1,23 @@
 import { BsBarChartFill, BsFillStarFill } from "react-icons/bs";
 import { PiGlobeFill } from "react-icons/pi";
+import { FiClock, FiUsers, FiZap, FiSmartphone } from "react-icons/fi";
 
 import { IStats } from "@/types";
 
 export const stats: IStats[] = [
     {
-        title: "10K+",
-        icon: <BsBarChartFill size={34} className="text-blue-500" />,
-        description: "Catalogues created by businesses worldwide."
+        title: "5 Minutes",
+        icon: <FiClock size={34} className="text-product-primary" />,
+        description: "Average time to create your first digital catalog."
     },
     {
-        title: "99%",
-        icon: <BsFillStarFill size={34} className="text-yellow-500" />,
-        description: "Customer satisfaction rate with our digital catalogue platform."
+        title: "Any Industry",
+        icon: <FiUsers size={34} className="text-product-primary" />,
+        description: "Perfect for any business that needs to showcase products or services."
     },
     {
-        title: "50K+ ",
-        icon: <PiGlobeFill size={34} className="text-green-600" />,
-        description: "Products and services managed through Quicktalog."
+        title: "OCR Import",
+        icon: <FiZap size={34} className="text-product-primary" />,
+        description: "Convert existing paper catalogs instantly with AI technology."
     }
 ];

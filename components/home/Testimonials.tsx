@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { testimonials } from '@/data/testimonials';
+import { FiTrendingUp, FiClock, FiUsers } from 'react-icons/fi';
 
 const Testimonials: React.FC = () => {
     return (
@@ -21,8 +22,24 @@ const Testimonials: React.FC = () => {
                         <div className="ml-4">
                             <h3 className="text-lg font-semibold text-product-secondary">{testimonial.name}</h3>
                             <p className="text-sm text-product-foreground-accent">{testimonial.role}</p>
+                            {testimonial.industry && (
+                                <div className="flex items-center gap-1 mt-1">
+                                    <span className="text-xs bg-product-primary/10 text-product-primary px-2 py-1 rounded-full">
+                                        {testimonial.industry}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
+                    
+                    {/* Metric badge */}
+                    {testimonial.metric && (
+                        <div className="mb-3 flex items-center gap-2">
+                            <FiTrendingUp className="w-4 h-4 text-product-primary" />
+                            <span className="text-sm font-semibold text-product-primary">{testimonial.metric}</span>
+                        </div>
+                    )}
+                    
                     <p className="text-product-foreground-accent text-center lg:text-left">&quot;{testimonial.message}&quot;</p>
                 </div>
             ))}

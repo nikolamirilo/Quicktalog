@@ -1,46 +1,47 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { 
-  CreditCard, 
-  Calendar, 
-  DollarSign, 
-  Star, 
-  CheckCircle, 
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Calendar,
+  CheckCircle,
   Clock,
+  CreditCard,
+  DollarSign,
   Shield,
-  Zap
-} from "lucide-react";
+  Star,
+  Zap,
+} from "lucide-react"
 
 export default function Billing({ pricingPlan }: { pricingPlan: any }) {
-  const formatPrice = (price: number, currency: string = 'USD') => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
+  const formatPrice = (price: number, currency: string = "USD") => {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
       currency: currency,
-    }).format(price);
-  };
+    }).format(price)
+  }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+  }
 
   const getPlanIcon = (planName: string) => {
-    const name = planName?.toLowerCase();
-    if (name?.includes('pro') || name?.includes('premium')) return <Star className="w-5 h-5" />;
-    if (name?.includes('enterprise')) return <Shield className="w-5 h-5" />;
-    return <Zap className="w-5 h-5" />;
-  };
+    const name = planName?.toLowerCase()
+    if (name?.includes("pro") || name?.includes("premium")) return <Star className="w-5 h-5" />
+    if (name?.includes("enterprise")) return <Shield className="w-5 h-5" />
+    return <Zap className="w-5 h-5" />
+  }
 
   const getPlanColor = (planName: string) => {
-    const name = planName?.toLowerCase();
-    if (name?.includes('pro') || name?.includes('premium')) return 'bg-gradient-to-r from-purple-500 to-pink-500';
-    if (name?.includes('enterprise')) return 'bg-gradient-to-r from-blue-600 to-indigo-600';
-    return 'bg-gradient-to-r from-indigo-700 to-indigo-100';
-  };
+    const name = planName?.toLowerCase()
+    if (name?.includes("pro") || name?.includes("premium"))
+      return "bg-gradient-to-r from-purple-500 to-pink-500"
+    if (name?.includes("enterprise")) return "bg-gradient-to-r from-blue-600 to-indigo-600"
+    return "bg-gradient-to-r from-indigo-700 to-indigo-100"
+  }
 
   if (!pricingPlan) {
     return (
@@ -54,13 +55,11 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
             <p className="text-gray-500 text-center mb-6">
               You haven't selected a billing plan yet. Choose a plan to get started.
             </p>
-            <Button className="bg-product-primary">
-              View Available Plans
-            </Button>
+            <Button className="bg-product-primary">View Available Plans</Button>
           </CardContent>
         </Card>
       </div>
-    );
+    )
   }
 
   return (
@@ -71,24 +70,15 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
       <Card>
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              variant="outline" 
-              className="flex items-center"
-            >
+            <Button variant="outline" className="flex items-center">
               <CreditCard size={20} />
               <span>Update Payment Method</span>
             </Button>
-            <Button 
-              variant="outline"
-              className="flex items-center"
-            >
+            <Button variant="outline" className="flex items-center">
               <Calendar size={20} />
               <span>View Billing History</span>
             </Button>
-            <Button 
-              variant="default"
-              className="bg-product-primary text-product-foreground"
-            >
+            <Button variant="default" className="bg-product-primary text-product-foreground">
               Upgrade Plan
             </Button>
           </div>
@@ -100,21 +90,18 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
             <div className="flex items-center space-x-3">
               {getPlanIcon(pricingPlan.name)}
               <div>
-                <CardTitle className="text-2xl font-bold text-white">
-                  {pricingPlan.name}
-                </CardTitle>
+                <CardTitle className="text-2xl font-bold text-white">{pricingPlan.name}</CardTitle>
                 <p className="text-white/90 mt-1">{pricingPlan.description}</p>
               </div>
             </div>
-            <Badge 
+            <Badge
               variant={pricingPlan.is_active ? "default" : "secondary"}
-              className={`${pricingPlan.is_active ? 'bg-green-500' : 'bg-gray-500'} text-white text-sm`}
-            >
-              {pricingPlan.is_active ? 'Active' : 'Inactive'}
+              className={`${pricingPlan.is_active ? "bg-green-500" : "bg-gray-500"} text-white text-sm`}>
+              {pricingPlan.is_active ? "Active" : "Inactive"}
             </Badge>
           </div>
         </div>
-        
+
         <CardContent className="p-6">
           <div className="grid md:grid-cols-2 gap-6">
             {/* Pricing Info */}
@@ -128,7 +115,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
                   </p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-3">
                 <Calendar className="w-5 h-5 text-blue-600" />
                 <div>
@@ -139,7 +126,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
                 </div>
               </div>
             </div>
-            
+
             {/* Dates */}
             <div className="space-y-4">
               {pricingPlan.created_at && (
@@ -153,7 +140,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
                   </div>
                 </div>
               )}
-              
+
               {pricingPlan.updated_at && (
                 <div className="flex items-center space-x-3">
                   <CheckCircle className="w-5 h-5 text-green-600" />
@@ -181,31 +168,36 @@ export default function Billing({ pricingPlan }: { pricingPlan: any }) {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              {Array.isArray(pricingPlan.features)
-                ? pricingPlan.features.map((feature, i) => (
-                    <div key={i} className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-900 dark:text-white">{String(feature)}</span>
-                    </div>
-                  ))
-                : typeof pricingPlan.features === 'object' && pricingPlan.features !== null
-                ? Object.values(pricingPlan.features).map((feature, i) => (
-                    <div key={i} className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-900 dark:text-white">{String(feature)}</span>
-                    </div>
-                  ))
-                : (
-                    <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-gray-900 dark:text-white">{String(pricingPlan.features)}</span>
-                    </div>
-                  )}
+              {Array.isArray(pricingPlan.features) ? (
+                pricingPlan.features.map((feature, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-900 dark:text-white">{String(feature)}</span>
+                  </div>
+                ))
+              ) : typeof pricingPlan.features === "object" && pricingPlan.features !== null ? (
+                Object.values(pricingPlan.features).map((feature, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-gray-900 dark:text-white">{String(feature)}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <span className="text-gray-900 dark:text-white">
+                    {String(pricingPlan.features)}
+                  </span>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>
       )}
-
     </div>
-  );
+  )
 }

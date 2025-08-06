@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -66,30 +66,30 @@ const buttonVariants = cva(
           shadow
         `,
         store: `
-          flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 rounded-full w-full sm:w-fit
+          flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
           text-white bg-product-foreground
         `,
         'store-light': `
-          flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 rounded-full w-full sm:w-fit
+          flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
           text-product-foreground bg-white
         `,
         cta: `
-          w-full py-3 px-4 rounded-full font-semibold transition-all duration-300 transform overflow-hidden group/btn
+          w-full py-3 px-4 font-semibold transition-all duration-300 transform overflow-hidden group/btn
           bg-product-primary hover:bg-product-primary-accent text-product-foreground shadow-lg hover:shadow-xl
           hover:scale-[1.03] hover:-translate-y-[2px]
         `,
         'cta-secondary': `
-          w-full py-3 px-4 rounded-full font-semibold transition-all duration-300 transform overflow-hidden group/btn
+          w-full py-3 px-4 font-semibold transition-all duration-300 transform overflow-hidden group/btn
           bg-hero-product-background hover:bg-product-primary text-product-foreground shadow-md hover:shadow-lg
         `,
         header: `
-          text-black bg-product-primary hover:bg-product-primary-accent px-8 py-3 rounded-full transition-colors
+          text-black bg-product-primary hover:bg-product-primary-accent px-8 py-3 transition-colors
         `,
         'header-mobile': `
-          text-black bg-product-primary hover:bg-product-primary-accent px-5 py-2 rounded-full block w-fit
+          text-black bg-product-primary hover:bg-product-primary-accent px-5 py-2 block w-fit
         `,
         contact: `
-          group relative bg-product-primary hover:bg-primary-accent text-product-foreground px-12 py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-product-hover-scale hover:shadow-product-hover-shadow disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]`,
+          group relative bg-product-primary hover:bg-primary-accent text-product-foreground px-12 py-4 font-semibold transition-all duration-300 transform hover:scale-product-hover-scale hover:shadow-product-hover-shadow disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]`,
         'section-header': `
           w-full group relative flex items-center justify-between 
           px-6 py-5 text-xl sm:text-2xl md:text-3xl font-semibold
@@ -101,7 +101,7 @@ const buttonVariants = cva(
           !px-6 !py-5 !rounded-2xl !h-auto !min-h-0
         `,
         tab: `
-          flex items-center px-4 py-2 rounded-lg transition-all text-sm sm:text-base md:text-lg
+          flex items-center px-4 py-2 transition-all text-sm sm:text-base md:text-lg
           font-medium border border-transparent hover:bg-navbar-button-hover-bg hover:text-navbar-button-hover-text hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] hover:border-navbar-button-hover-border
         `,
         'tab-active': `
@@ -115,24 +115,27 @@ const buttonVariants = cva(
           [[data-side=left][data-collapsible=offcanvas]_&]:-right-2 [[data-side=right][data-collapsible=offcanvas]_&]:-left-2
         `,
         modal: `
-          text-white bg-primaryColor font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center
+          text-white bg-primaryColor font-medium text-sm inline-flex items-center px-5 py-2.5 text-center
         `,
         'file-action': `
-          px-8 py-3 rounded-lg font-bold text-lg transition-all duration-300 ease-in-out
+          px-8 py-3 font-bold text-lg transition-all duration-300 ease-in-out
           focus:outline-none focus:ring-2 focus:ring-product-primary-accent focus:ring-opacity-50
         `,
         nav: `
-          text-product-foreground text-sm font-medium px-3 py-2 h-9 transition-all duration-200
-          hover:bg-yellow-200 hover:text-black hover:font-bold hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] hover:border-navbar-button-hover-border
+          text-product-foreground text-sm font-medium px-3 py-2 h-9 transition-all duration-200 relative overflow-hidden
+          hover:text-black hover:font-bold
           focus:ring-2 focus:ring-navbar-button-focus-ring focus:ring-offset-2
-          border border-transparent
+          border-0
           active:bg-product-hover-background active:text-navbar-button-active active:border-product-primary
+          after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-product-primary
+          after:content-[''] after:transition-transform after:duration-300 after:scale-x-0 after:origin-left
+          hover:after:scale-x-100
         `,
       },
       size: {
         default: "h-9 px-4 py-2",
-        sm: "h-8 rounded-md px-3 text-xs",
-        lg: "h-10 rounded-md px-8",
+        sm: "h-8 px-3 text-xs",
+        lg: "h-10 px-8",
         icon: "h-9 w-9",
       },
     },

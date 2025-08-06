@@ -1,9 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+const { createGenerator } = require('ts-json-schema-generator');
 
-// Constants from your app
+const config = {
+  path: path.resolve(__dirname, './types/index.ts'),
+  tsconfig: path.resolve(__dirname, '../tsconfig.json'), 
+  type: 'ServiceCatalogue', 
+  jsDoc: 'extended',
+};
+
+const schema = createGenerator(config).createSchema(config.type);
 const { layouts, themes } = require('../constants/client.js');
-
 
 const layoutData = layouts.map(l => ({
   const: l.key,
@@ -15,80 +22,24 @@ const themeData = themes.map(t => ({
   description: t.description
 }));
 
-// JSON Schema definition
-const schema = {
-  $schema: "http://json-schema.org/draft-07/schema#",
-  title: "Quicktalog Schema",
-  type: "object",
-  properties: {
-    id: { type: "string", format: "uuid" },
-    name: { type: "string" },
-    created_by: { type: "string" },
-    theme: {
-      type: "string",
-      oneOf: themeData
-    },
-    logo: { type: "string", format: "uri" },
-    layout: {
-      type: "string",
-      oneOf: layoutData
-    },
-    title: { type: "string" },
-    currency: { type: "string" },
-    legal_name: { type: "string" },
-    contact: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          type: { type: "string", enum: ["email", "phone"] },
-          value: { type: "string" }
-        },
-        required: ["type", "value"]
-      }
-    },
-    subtitle: { type: "string" },
-    services: {
-      type: "object",
-      patternProperties: {
-        "^.*$": {
-          type: "object",
-          properties: {
-            layout: {
-              type: "string",
-              oneOf: layoutData
-            },
-            items: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  name: { type: "string" },
-                  image: { type: "string", format: "uri" },
-                  price: { type: "number" },
-                  description: { type: "string" }
-                },
-                required: ["name", "image", "price", "description"]
-              }
-            }
-          },
-          required: ["layout", "items"]
-        }
-      },
-      additionalProperties: false
-    },
-    created_at: { type: "string", format: "date-time" },
-    updated_at: { type: "string", format: "date-time" }
-  },
-  required: [
-    "id", "name", "created_by", "theme", "logo", "layout", "title",
-    "currency", "legal_name", "contact", "subtitle", "services",
-    "created_at", "updated_at"
-  ],
-  additionalProperties: false
-};
+if (schema.properties) {
+  if (schema.properties.theme) {
+    schema.properties.theme.oneOf = themeData;
+    delete schema.properties.theme.type; 
+  }
+  if (schema.properties.layout) {
+    schema.properties.layout.oneOf = layoutData;
+    delete schema.properties.layout.type;
+  }
+  if (schema.properties.services && schema.properties.services.patternProperties) {
+    const serviceCategory = schema.properties.services.patternProperties['^.*$'];
+    if (serviceCategory && serviceCategory.properties && serviceCategory.properties.layout) {
+      serviceCategory.properties.layout.oneOf = layoutData;
+      delete serviceCategory.properties.layout.type;
+    }
+  }
+}
 
-// Write schema to file
 const outputPath = path.join(__dirname, 'catalogue.schema.json');
 fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2));
 

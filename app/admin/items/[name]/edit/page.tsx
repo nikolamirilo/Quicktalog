@@ -6,8 +6,8 @@ import {
   ServicesItem,
   ContactInfo,
 } from "@/types";
-import EditServicesForm from "@/components/admin/form/EditServicesForm";
 import Navbar from "@/components/navigation/Navbar";
+import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher";
 
 export default async function EditServicesPage({
   params,
@@ -56,7 +56,8 @@ export default async function EditServicesPage({
     layout: data.layout || "",
     title: data.title || "",
     currency: data.currency || "",
-    legal_name: data.legal_name || "",
+    legal: data.legal || undefined,
+    configuration: data.configuration || undefined,
     contact,
     subtitle: data.subtitle || "",
     services,
@@ -66,7 +67,7 @@ export default async function EditServicesPage({
     <>
       <Navbar />
       <div className="container mx-auto p-4 py-32">
-        <EditServicesForm initialData={initialData} />
+        <ServicesFormSwitcher type="edit" initialData={initialData} />
       </div>
     </>
   );

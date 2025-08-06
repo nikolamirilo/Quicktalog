@@ -7,10 +7,35 @@
   "logo": "https://st.depositphotos.com/2317793/3133/v/450/depositphotos_31331839-stock-illustration-restaurant-menu-square.jpg",
   "layout": "variant_1",
   "currency": "EUR",
-  "legal_name": "Plato d.o.o",
-  "contact": {
-    "phone": "+3816042723",
-    "email": "plato.restoran@gmail.com"
+  "legal": {
+    "name": "Plato d.o.o",
+    "terms_and_conditions": "https://plato-restoran.com/terms",
+    "privacy_policy": "https://plato-restoran.com/privacy"
+  },
+  "contact": [
+    {
+      "type": "phone",
+      "value": "+3816042723"
+    },
+    {
+      "type": "email",
+      "value": "plato.restoran@gmail.com"
+    }
+  ],
+  "configuration": {
+    "emailButtonNavbar": true,
+    "ctaNavbar": {
+      "label": "Book Table",
+      "url": "https://plato-restoran.com/book"
+    },
+    "ctaFooter": {
+      "label": "Contact Us",
+      "url": "https://plato-restoran.com/contact"
+    },
+    "newsletter": {
+      "enabled": true,
+      "url": "https://plato-restoran.com/subscribe"
+    }
   },
   "services": {
     "breakfast": {

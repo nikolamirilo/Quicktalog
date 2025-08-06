@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+.eslintcache
 
 # testing
 /coverage
@@ -42,3 +43,4 @@ next-env.d.ts
 
 # clerk configuration (can include secrets)
 /.clerk/
+.env*.local

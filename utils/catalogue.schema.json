@@ -1,189 +1,237 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Quicktalog Schema",
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string",
-      "format": "uuid"
-    },
-    "name": {
-      "type": "string"
-    },
-    "created_by": {
-      "type": "string"
-    },
-    "theme": {
-      "type": "string",
-      "oneOf": [
-        {
-          "const": "theme-elegant",
-          "description": "A dark, refined theme with a subtle gradient background, light text, and cool blue accents. Ideal for upscale or modern venues seeking a sophisticated, minimal look. Uses serif headings and clean layouts for a premium feel."
+  "$ref": "#/definitions/ServiceCatalogue",
+  "definitions": {
+    "ServiceCatalogue": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
         },
-        {
-          "const": "theme-luxury",
-          "description": "A light, luxurious theme with gold and cream tones, dark elegant text, and premium accents. Designed for high-end restaurants, it features classic serif headings, gold highlights, and a soft, inviting background."
+        "name": {
+          "type": "string"
         },
-        {
-          "const": "theme-modern",
-          "description": "A bold, contemporary theme with deep blue backgrounds, white and pink accents, and modern sans-serif typography. Perfect for trendy or urban venues wanting a striking, energetic appearance."
+        "created_by": {
+          "type": "string"
         },
-        {
-          "const": "theme-organic",
-          "description": "A fresh, natural theme with light beige backgrounds, green and brown accents, and soft, rounded typography. Ideal for organic, vegan, or eco-friendly restaurants seeking a wholesome, earthy vibe."
+        "theme": {
+          "type": "string"
         },
-        {
-          "const": "theme-creative",
-          "description": "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look."
-        }
-      ]
-    },
-    "logo": {
-      "type": "string",
-      "format": "uri"
-    },
-    "layout": {
-      "type": "string",
-      "oneOf": [
-        {
-          "const": "variant_1",
-          "description": "Grid layout: Menu items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
+        "logo": {
+          "type": "string"
         },
-        {
-          "const": "variant_2",
-          "description": "Horizontal card layout: Menu items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
+        "title": {
+          "type": "string"
         },
-        {
-          "const": "variant_3",
-          "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
+        "currency": {
+          "type": "string"
         },
-        {
-          "const": "variant_4",
-          "description": "Carousel layout: Menu items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
-        }
-      ]
-    },
-    "title": {
-      "type": "string"
-    },
-    "currency": {
-      "type": "string"
-    },
-    "legal_name": {
-      "type": "string"
-    },
-    "contact": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "enum": [
-              "email",
-              "phone"
-            ]
-          },
-          "value": {
-            "type": "string"
+        "contact": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "type",
+              "value"
+            ],
+            "additionalProperties": false
           }
         },
-        "required": [
-          "type",
-          "value"
-        ]
-      }
+        "subtitle": {
+          "type": "string"
+        },
+        "services": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ServicesCategory"
+          }
+        },
+        "address": {
+          "type": "string"
+        },
+        "partners": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Partner"
+          }
+        },
+        "legal": {
+          "$ref": "#/definitions/Legal"
+        },
+        "configuration": {
+          "$ref": "#/definitions/Configuration"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "created_by",
+        "theme",
+        "title",
+        "currency",
+        "services"
+      ],
+      "additionalProperties": false
     },
-    "subtitle": {
-      "type": "string"
-    },
-    "services": {
+    "ServicesCategory": {
       "type": "object",
-      "patternProperties": {
-        "^.*$": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "layout": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ServicesItem"
+          }
+        }
+      },
+      "required": [
+        "name",
+        "layout",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "ServicesItem": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "image": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "description",
+        "price",
+        "image"
+      ],
+      "additionalProperties": false
+    },
+    "Partner": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "icon": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "url",
+        "icon"
+      ],
+      "additionalProperties": false
+    },
+    "Legal": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "terms_and_conditions": {
+          "type": "string"
+        },
+        "privacy_policy": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "terms_and_conditions",
+        "privacy_policy"
+      ],
+      "additionalProperties": false
+    },
+    "Configuration": {
+      "type": "object",
+      "properties": {
+        "emailButtonNavbar": {
+          "type": "boolean"
+        },
+        "ctaNavbar": {
           "type": "object",
           "properties": {
-            "layout": {
-              "type": "string",
-              "oneOf": [
-                {
-                  "const": "variant_1",
-                  "description": "Grid layout: Menu items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
-                },
-                {
-                  "const": "variant_2",
-                  "description": "Horizontal card layout: Menu items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
-                },
-                {
-                  "const": "variant_3",
-                  "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
-                },
-                {
-                  "const": "variant_4",
-                  "description": "Carousel layout: Menu items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
-                }
-              ]
+            "enabled": {
+              "type": "boolean"
             },
-            "items": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  },
-                  "image": {
-                    "type": "string",
-                    "format": "uri"
-                  },
-                  "price": {
-                    "type": "number"
-                  },
-                  "description": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "name",
-                  "image",
-                  "price",
-                  "description"
-                ]
-              }
+            "label": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
             }
           },
           "required": [
-            "layout",
-            "items"
-          ]
+            "enabled",
+            "label",
+            "url"
+          ],
+          "additionalProperties": false
+        },
+        "ctaFooter": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "label": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "enabled",
+            "label",
+            "url"
+          ],
+          "additionalProperties": false
+        },
+        "newsletter": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "url": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "enabled",
+            "url"
+          ],
+          "additionalProperties": false
         }
       },
       "additionalProperties": false
-    },
-    "created_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "updated_at": {
-      "type": "string",
-      "format": "date-time"
     }
-  },
-  "required": [
-    "id",
-    "name",
-    "created_by",
-    "theme",
-    "logo",
-    "layout",
-    "title",
-    "currency",
-    "legal_name",
-    "contact",
-    "subtitle",
-    "services",
-    "created_at",
-    "updated_at"
-  ],
-  "additionalProperties": false
+  }
 }

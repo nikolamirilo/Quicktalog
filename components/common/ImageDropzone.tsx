@@ -7,6 +7,7 @@ interface ImageDropzoneProps {
   maxDim?: number;
   maxSizeMB?: number;
   className?: string;
+  disabled?: boolean;
 }
 
 const ImageDropzone: React.FC<ImageDropzoneProps> = ({
@@ -15,19 +16,22 @@ const ImageDropzone: React.FC<ImageDropzoneProps> = ({
   maxDim = 512,
   maxSizeMB = 1,
   className = "",
+  disabled = false,
 }) => {
   return (
     <UploadDropzone
       endpoint="imageUploader"
       config={{ mode: "auto" }}
       className={className}
+      disabled={disabled}
       appearance={{
         button: "hidden",
-        label: "text-gray-600",
+        label: disabled ? "text-gray-400" : "text-gray-600",
         allowedContent: "",
-        container: `h-48 w-full`,
+        container: `h-48 w-full ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`,
       }}
       onBeforeUploadBegin={async (files) => {
+        if (disabled) return [];
         const file = files[0];
         if (!file.type.startsWith("image/")) return [];
         // Read image

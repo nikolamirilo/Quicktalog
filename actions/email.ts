@@ -9,8 +9,8 @@ sendEmail(contactData:ContactData) {
     const {message, email, name, subject} = contactData
     try{
        const res = await resend.emails.send({
-            from: 'Quicktalog<digital-catalogue@reactify-solutions.com>',
-            to: "reactify.developer@gmail.com",
+            from: 'Quicktalog<office@quicktalog.app>',
+            to: "quicktalog@outlook.com",
             subject: subject,
             reply_to: email,
             react: InformationEmail({

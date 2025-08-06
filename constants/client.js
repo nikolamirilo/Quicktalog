@@ -42,14 +42,14 @@ export const layouts = [
     label: "Layout 1",
     image: "/layouts/layout_1.jpg",
     description:
-      "Grid layout: Menu items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
+      "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
   },
   {
     key: "variant_2",
     label: "Layout 2",
     image: "/layouts/layout_2.jpg",
     description:
-      "Horizontal card layout: Menu items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
+      "Horizontal card layout: Catalogue items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
   },
   {
     key: "variant_3",
@@ -63,7 +63,7 @@ export const layouts = [
     label: "Layout 4",
     image: "/layouts/layout_4.jpg",
     description:
-      "Carousel layout: Menu items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
+      "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
   },
 ];
 

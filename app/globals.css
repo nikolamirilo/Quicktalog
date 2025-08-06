@@ -74,6 +74,23 @@ a {
   position: relative;
   text-decoration: none;
 }
+
+/* FAQ Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
 .theme-luxury {
   --background: #FFF8E7;
   --foreground: #1a1a1a;
@@ -100,6 +117,10 @@ a {
   --section-border: #d9d9d9;
   --section-icon: #d3af37;
   --section-hover: #f2f2f2;
+
+  /* Header and Footer specific colors for better distinction */
+  --header-bg: #f8f4e0;
+  --footer-bg: #f0e3b2;
 
   /* Modern Section Header Variables */
   --section-header-bg: #ffffff;
@@ -147,6 +168,10 @@ a {
   --section-icon: #f8f8f1;
   --section-hover: #343545;
 
+  /* Header and Footer specific colors for better distinction */
+  --header-bg: #343545;
+  --footer-bg: #2a2b39;
+
   /* Modern Section Header Variables */
   --section-header-bg: #2a2b39;
   --section-header-text: #f8f8f1;
@@ -192,6 +217,10 @@ a {
   --section-border: #e3e0c9;
   --section-icon: #5c7453;
   --section-hover: #ece8c5;
+
+  /* Header and Footer specific colors for better distinction */
+  --header-bg: #d4d0b8;
+  --footer-bg: #e8e4c8;
 
   /* Modern Section Header Variables */
   --section-header-bg: #f9f7e7;
@@ -240,6 +269,10 @@ a {
   --section-icon: #b3b3b3;
   --section-hover: #333333;
 
+  /* Header and Footer specific colors for better distinction */
+  --header-bg: #333333;
+  --footer-bg: #262626;
+
   /* Modern Section Header Variables */
   --section-header-bg: #262626;
   --section-header-text: #fafafa;
@@ -283,8 +316,12 @@ a {
   --section-bg: #23233a;
   --section-heading: #ffffff;
   --section-border: #404040;
-  --section-icon: #e64676;
-  --section-hover: #2d2d45;
+  --section-icon: #f3f3f3;
+  --section-hover: #2d2d55;
+
+  /* Header and Footer specific colors for better distinction */
+  --header-bg: #2d2d55;
+  --footer-bg: #23233a;
 
   /* Modern Section Header Variables */
   --section-header-bg: #23233a;
