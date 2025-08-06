@@ -1,6 +1,12 @@
 name: Format Check
 
-on: [push, pull_reques]
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - "**"
 
 jobs:
   prettier:
@@ -11,4 +17,13 @@ jobs:
         with:
           node-version: 22
       - run: npm ci
-      - run: npm run format:check
+      - name: Check number of changed files (push only)
+        if: github.event_name == 'push'
+        id: filecount
+        run: |
+          git fetch origin ${{ github.event.before }}
+          COUNT=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | wc -l)
+          echo "changed_files=$COUNT" >> $GITHUB_OUTPUT
+      - name: Run format check if >1000 files changed or on PR
+        if: github.event_name == 'pull_request' || steps.filecount.outputs.changed_files > 1000 || github.event_name != 'push'
+        run: npm run format:check

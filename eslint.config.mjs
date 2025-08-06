@@ -3,7 +3,7 @@ import js from "@eslint/js"
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
-  recommendedConfig: js.configs.recommended, // Add recommendedConfig to resolve the error
+  recommendedConfig: js.configs.recommended,
 })
 
 const eslintConfig = [
@@ -14,13 +14,15 @@ const eslintConfig = [
       node: true,
     },
     extends: ["next", "eslint:recommended"],
+    plugins: ["import"],
     rules: {
-      // Add or override rules here if needed
       "no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: false }],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+      "import/order": ["warn", { "newlines-between": "always" }],
     },
     settings: {
       next: {
-        rootDir: process.cwd(), // Ensures Next.js root directory is correctly set
+        rootDir: process.cwd(),
       },
     },
   }),
