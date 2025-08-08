@@ -106,14 +106,12 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
           <div className="flex flex-row gap-3 items-center justify-center">
             <FaCheckCircle size={32} className="text-green-500" />
             <DialogTitle
-              className="text-2xl sm:text-3xl font-bold text-product-foreground"
-              style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+              className="text-2xl sm:text-3xl font-bold text-product-foreground font-heading">
               🎉 Congratulations!
             </DialogTitle>
           </div>
           <DialogDescription
-            className="text-center text-product-foreground-accent text-lg"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-center text-product-foreground-accent text-lg font-body">
             {type == "ai"
               ? "Your AI-generated Service Catalogue is now live and ready to share with your customers."
               : "Your Service Catalogue is now live and ready to share with your customers."}
@@ -123,19 +121,17 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         {/* QR Code Section */}
         <div className="flex flex-col items-center gap-4 w-full p-6 bg-product-background/50 rounded-2xl border border-product-border">
           <h4
-            className="flex flex-row gap-2 items-center text-lg font-semibold text-product-foreground"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="flex flex-row gap-2 items-center text-lg font-semibold text-product-foreground font-body">
             <IoShareSocialOutline size={28} className="text-product-primary" />
             Share instantly
           </h4>
           <p
-            className="text-product-foreground-accent text-center"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground-accent text-center font-body">
             Use the QR code below for quick access
           </p>
           <div
             id="success-modal-qr"
-            className="p-4 bg-white rounded-xl shadow-product-shadow border border-product-border">
+            className="p-4 bg-product-background rounded-xl shadow-product-shadow border border-product-border">
             <QRCodeSVG value={fullURL} size={180} bgColor="#fff" fgColor="#000" />
           </div>
           <div className="flex flex-row mt-2 w-full justify-center">
@@ -150,14 +146,12 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         {/* Embeddable Iframe Section */}
         <div className="text-product-foreground w-full space-y-4">
           <h4
-            className="flex flex-row gap-2 items-center text-lg font-semibold text-product-foreground"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="flex flex-row gap-2 items-center text-lg font-semibold text-product-foreground font-body">
             <ImEmbed2 size={28} className="text-product-primary" />
             Embed Anywhere
           </h4>
           <p
-            className="text-product-foreground-accent"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground-accent font-body">
             Copy the code to add to your website
           </p>
           <div

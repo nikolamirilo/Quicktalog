@@ -180,6 +180,7 @@ export interface EditServicesFormProps {
 export interface IPricing {
   name: string
   price: number | string
+  description: string
   features: string[]
 }
 

@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss"
-const withMT = require("@material-tailwind/react/utils/withMT")
 import { withUt } from "uploadthing/tw"
+const withMT = require("@material-tailwind/react/utils/withMT")
 
 export default withUt(
   withMT({
@@ -83,6 +83,17 @@ export default withUt(
         fontFamily: {
           lora: ["var(--font-lora-regular)"],
           "lora-semibold": ["var(--font-lora-semibold)"],
+          // Custom typography classes that map to CSS variables
+          heading: ["var(--font-family-heading)"],
+          body: ["var(--font-family-body)"],
+        },
+        fontWeight: {
+          heading: "var(--font-weight-heading)",
+          body: "var(--font-weight-body)",
+        },
+        letterSpacing: {
+          heading: "var(--letter-spacing-heading)",
+          body: "var(--letter-spacing-body)",
         },
         borderRadius: {
           lg: "var(--radius)",

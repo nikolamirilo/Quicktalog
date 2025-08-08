@@ -1,8 +1,8 @@
 "use client"
 
 //@ts-nocheck
-import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -19,7 +19,7 @@ const Switch = React.forwardRef<
     ref={ref}>
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block h-5 w-5 rounded-full bg-white shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
+        "pointer-events-none block h-5 w-5 rounded-full bg-product-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
       )}
     />
   </SwitchPrimitives.Root>

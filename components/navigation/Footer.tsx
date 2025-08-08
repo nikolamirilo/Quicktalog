@@ -1,10 +1,10 @@
-import Link from "next/link"
-import Image from "next/image"
-import React from "react"
-import { FiMail, FiPhone, FiExternalLink } from "react-icons/fi"
-import { siteDetails } from "@/data/siteDetails"
 import { footerDetails } from "@/data/footer"
+import { siteDetails } from "@/data/siteDetails"
 import { getPlatformIconByName } from "@/utils/client"
+import Image from "next/image"
+import Link from "next/link"
+import React from "react"
+import { FiExternalLink, FiMail, FiPhone } from "react-icons/fi"
 
 const Footer: React.FC = () => {
   return (
@@ -89,7 +89,7 @@ const Footer: React.FC = () => {
                           href={footerDetails.socials[platformName]}
                           key={platformName}
                           aria-label={platformName}
-                          className="p-2 rounded-lg bg-white/50 hover:bg-product-primary/10 transition-colors duration-200 group">
+                          className="p-2 rounded-lg bg-product-background/50 hover:bg-product-primary/10 transition-colors duration-200 group">
                           <div className="text-product-foreground-accent group-hover:text-product-primary transition-colors duration-200">
                             {getPlatformIconByName(platformName)}
                           </div>

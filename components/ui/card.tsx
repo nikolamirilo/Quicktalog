@@ -11,7 +11,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({ className, type, ...
   const baseClasses =
     "text-product-foreground backdrop-blur-sm rounded-2xl shadow-product-shadow border border-product-border"
   const defaultBackground = "bg-gradient-to-br from-product-background to-hero-product-background"
-  const formBackground = "bg-white"
+  const formBackground = "bg-product-background"
 
   return (
     <div
@@ -63,4 +63,4 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 )
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }

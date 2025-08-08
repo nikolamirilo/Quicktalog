@@ -496,19 +496,17 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-white/95 border border-product-border shadow-md rounded-3xl">
+    <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
       <Card
         className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
         type="form">
         <CardHeader className="p-6 sm:p-8">
           <CardTitle
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground"
-            style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
             {type === "edit" ? "Edit Your Service Catalogue" : "Create Your Service Catalogue"}
           </CardTitle>
           <CardDescription
-            className="text-center text-product-foreground-accent text-base sm:text-lg mt-2"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
             Step {currentStep} of 4:{" "}
             {currentStep === 1
               ? "General Information"
@@ -549,15 +547,13 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             {renderStep()}
             {currentStep === 2 && step2Error && (
               <div
-                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg"
-                style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
                 {step2Error}
               </div>
             )}
             {currentStep === 3 && step3Error && (
               <div
-                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg"
-                style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
                 {step3Error}
               </div>
             )}

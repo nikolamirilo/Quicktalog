@@ -1,7 +1,7 @@
 //@ts-nocheck
-import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
@@ -57,7 +57,7 @@ const buttonVariants = cva(
           hover:underline
         `,
         "primary-inverted": `
-          bg-white 
+          bg-product-background 
           text-product-primary 
           border-2 border-product-primary 
           hover:bg-product-hover-background 
@@ -71,7 +71,7 @@ const buttonVariants = cva(
         `,
         "store-light": `
           flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
-          text-product-foreground bg-white
+          text-product-foreground bg-product-background
         `,
         cta: `
           w-full py-3 px-4 font-semibold transition-all duration-300 transform overflow-hidden group/btn
@@ -130,6 +130,11 @@ const buttonVariants = cva(
           after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[3px] after:bg-product-primary
           after:content-[''] after:transition-transform after:duration-300 after:scale-x-0 after:origin-left
           hover:after:scale-x-100
+        `,
+        solution: `
+          w-full group border border-product-primary bg-transparent text-product-primary font-lora font-semibold
+          hover:bg-product-primary hover:text-product-background hover:scale-105
+          transition-all duration-300 shadow-sm
         `,
       },
       size: {

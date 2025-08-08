@@ -1,9 +1,9 @@
 "use client"
-import React, { useState, useEffect } from "react"
-import Link from "next/link"
-import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { FiMail, FiPhone, FiShield, FiZap, FiExternalLink, FiPlus } from "react-icons/fi"
+import Image from "next/image"
+import Link from "next/link"
+import React, { useEffect, useState } from "react"
+import { FiExternalLink, FiMail, FiPhone, FiPlus } from "react-icons/fi"
 
 interface CatalogueHeaderProps {
   type?: "default" | "custom"
@@ -53,68 +53,79 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
 
   return (
     <header
-      className="border-b shadow-sm z-50"
+      className="border-b shadow-lg z-50"
+      role="banner"
+      aria-label={`${type === "default" ? "Quicktalog" : "Company"} header navigation`}
       style={{
         fontFamily: "var(--font-family-body, inherit)",
         fontWeight: "var(--font-weight-body, 400)",
         letterSpacing: "var(--letter-spacing-body, 0)",
         backgroundColor: "var(--header-bg, var(--card-bg))",
-        color: "var(--card-text)",
+        color: "var(--foreground)",
         borderBottom: "1px solid var(--card-border)",
       }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
+        <div className="flex items-center justify-between py-2 sm:py-3">
           {/* Left side - Logo */}
-          <div className="flex items-center space-x-3 sm:space-x-4">
+          <div className="flex items-center">
             <Link
               href="/"
-              className="flex items-center space-x-2 group transition-all duration-200 hover:scale-105">
-              {type === "default" ? (
-                // Default - Our logo (much bigger and wider)
-                <Image
-                  src={logoPath}
-                  alt="Quicktalog"
-                  width={80}
-                  height={48}
-                  className="w-20 h-12 sm:w-24 sm:h-14"
-                />
-              ) : (
-                // Custom - Their logo (same size as default)
-                <Image
-                  src={logoPath}
-                  alt="Company Logo"
-                  width={80}
-                  height={48}
-                  className="w-20 h-12 sm:w-24 sm:h-14"
-                />
-              )}
+              className="flex items-center space-x-2 group transition-transform duration-200 hover:scale-105"
+              aria-label={`Go to ${type === "default" ? "Quicktalog" : "company"} homepage`}>
+              <Image
+                src={logoPath}
+                alt={`${type === "default" ? "Quicktalog" : "Company"} logo`}
+                width={type === "default" ? 120 : 100}
+                height={40}
+                className="w-auto h-[7vh] rounded-full object-cover"
+              />
             </Link>
           </div>
 
           {/* Right side - Contact CTA */}
-          <div className="flex items-center space-x-2 sm:space-x-4">
+          <nav
+            className="flex items-center space-x-2 sm:space-x-4"
+            role="navigation"
+            aria-label="Contact and actions">
             {/* Contact Icons */}
-            <div className="flex items-center space-x-3">
+            <div
+              className="hidden sm:flex items-center space-x-2"
+              role="group"
+              aria-label="Contact options">
               <a
                 href={`mailto:${type === "default" ? "hello@quicktalog.com" : customEmail}`}
-                className="p-2 rounded-lg hover:bg-primary/10 transition-all duration-200 group"
-                aria-label="Email"
+                className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
+                aria-label={`Send email to ${type === "default" ? "hello@quicktalog.com" : customEmail}`}
                 style={{
-                  color: "var(--card-description)",
-                  border: "1px solid var(--card-border)",
+                  fontFamily: "var(--font-family-heading, inherit)",
+                  fontWeight: "var(--font-weight-heading, 600)",
+                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
+                  backgroundColor: "var(--card-bg)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--primary)",
                 }}>
-                <FiMail className="w-4 h-4 group-hover:text-primary group-hover:scale-110 transition-all duration-200" />
+                <FiMail
+                  className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
+                  aria-hidden="true"
+                />
               </a>
-              {type === "custom" && (
+              {type === "custom" && customPhone && (
                 <a
                   href={`tel:${customPhone}`}
-                  className="p-2 rounded-lg hover:bg-primary/10 transition-all duration-200 group"
-                  aria-label="Phone"
+                  className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
+                  aria-label={`Call ${customPhone}`}
                   style={{
-                    color: "var(--card-description)",
-                    border: "1px solid var(--card-border)",
+                    fontFamily: "var(--font-family-heading, inherit)",
+                    fontWeight: "var(--font-weight-heading, 600)",
+                    letterSpacing: "var(--letter-spacing-heading, -0.02em)",
+                    backgroundColor: "var(--card-bg)",
+                    color: "var(--foreground)",
+                    borderColor: "var(--primary)",
                   }}>
-                  <FiPhone className="w-4 h-4 group-hover:text-primary group-hover:scale-110 transition-all duration-200" />
+                  <FiPhone
+                    className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
+                    aria-hidden="true"
+                  />
                 </a>
               )}
             </div>
@@ -123,31 +134,34 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
             <Button
               asChild
               variant="secondary"
-              size="sm"
-              className="text-sm font-medium transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary"
+              size="default"
+              className="font-semibold text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary"
               style={{
                 fontFamily: "var(--font-family-heading, inherit)",
                 fontWeight: "var(--font-weight-heading, 600)",
                 letterSpacing: "var(--letter-spacing-heading, -0.02em)",
                 backgroundColor: "var(--card-bg)",
-                color: "var(--card-text)",
-                border: "1px solid var(--primary)",
+                color: "var(--foreground)",
+                borderColor: "var(--primary)",
               }}>
               <Link
                 href={type === "default" ? "/auth?mode=signup" : customCtaLink}
                 aria-label={type === "default" ? "Create your own digital catalog" : customCtaText}>
                 {type === "default" ? (
                   <>
-                    <FiPlus className="w-4 h-4 mr-1" />
+                    <FiPlus className="w-4 h-4 mr-2" aria-hidden="true" />
                     <span className="hidden sm:inline">Create Your Catalog</span>
                     <span className="sm:hidden">Get Started</span>
                   </>
                 ) : (
-                  <span>Placeholder</span>
+                  <>
+                    <FiExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
+                    <span>{customCtaText}</span>
+                  </>
                 )}
               </Link>
             </Button>
-          </div>
+          </nav>
         </div>
       </div>
     </header>

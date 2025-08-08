@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { ContactInfo, contactTypes, ServicesFormData, UserData } from "@/types"
@@ -117,10 +117,9 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   }
 
   return (
-    <Card className="space-y-8 p-6 sm:p-8 bg-white/95 border border-product-border shadow-md rounded-2xl">
+    <Card className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-md rounded-2xl">
       <h2
-        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3"
-        style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <IoDiamondOutline className="text-product-primary" size={28} />
         Define Branding
       </h2>
@@ -140,8 +139,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3">
           <Label
             htmlFor="legal-name"
-            className="text-product-foreground font-medium"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground font-medium font-body">
             Legal Name
           </Label>
           <Input
@@ -156,8 +154,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
           {/* Terms & Conditions */}
           <Label
             htmlFor="terms-and-conditions"
-            className="text-product-foreground font-medium"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground font-medium font-body">
             Terms & Conditions Link
           </Label>
           <Input
@@ -171,8 +168,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
           />
           <Label
             htmlFor="privacy-policy"
-            className="text-product-foreground font-medium"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground font-medium font-body">
             Privacy Policy Link
           </Label>
           <Input
@@ -190,8 +186,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3">
           <Label
             htmlFor="logo"
-            className="text-product-foreground font-medium"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground font-medium font-body">
             Logo<span className="text-red-500 ml-1">*</span>
           </Label>
           {logoPreview ? (
@@ -235,8 +230,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label
-              className="text-product-foreground font-medium"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium font-body">
               CTA in Footer
             </Label>
             <Switch
@@ -269,8 +263,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <Label
-              className="text-product-foreground font-medium"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium font-body">
               CTA in Navbar
             </Label>
             <Switch
@@ -303,8 +296,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3 md:col-span-2">
           <div className="flex items-center justify-between">
             <Label
-              className="text-product-foreground font-medium"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium font-body">
               Newsletter
             </Label>
             <Switch
@@ -341,8 +333,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         <div className="space-y-3 md:col-span-2">
           <div className="flex items-center justify-between">
             <Label
-              className="text-product-foreground font-medium"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium font-body">
               Email button in Navbar
             </Label>
             <Switch
@@ -356,8 +347,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         {/* Contact Information - Full Width */}
         <div className="space-y-6 col-span-full">
           <h3
-            className="text-xl font-bold text-product-foreground flex items-center gap-3"
-            style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+            className="text-xl font-bold text-product-foreground flex items-center gap-3 font-heading">
             <Tag className="h-6 w-6 text-product-primary" /> Contact Information
           </h3>
           {formData.contact?.map((contact, index) => (

@@ -117,7 +117,7 @@ export default async function page({ params }: { params: tParams }) {
   }
 
   return (
-    <>
+    <div className="product font-lora min-h-screen">
       <Navbar />
       <div className="py-16 flex w-full gap-10 justify-center items-center flex-col relative">
         <h1 className="text-3xl lg:text-4xl text-white font-bold">
@@ -148,6 +148,6 @@ export default async function page({ params }: { params: tParams }) {
           <Analytics data={chartData} rawEvents={rawEvents} />
         )}
       </div>
-    </>
+    </div>
   )
 }

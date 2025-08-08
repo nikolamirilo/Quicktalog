@@ -26,11 +26,10 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
 }) => {
   return (
     <Card
-      className="space-y-8 p-6 sm:p-8 bg-white/95 border border-product-border shadow-product-shadow rounded-2xl"
+      className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
       type="form">
-      <h2
-        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3"
-        style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+              <h2
+          className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <TbCategory className="text-product-primary" size={32} />
         Add Categories
       </h2>
@@ -48,8 +47,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
           type="form">
           <div className="flex justify-between items-center mb-6">
             <h3
-              className="text-xl font-bold text-product-foreground"
-              style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+              className="text-xl font-bold text-product-foreground font-heading">
               Category {categoryIndex + 1}
             </h3>
             <Button
@@ -64,8 +62,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
           <div className="space-y-3">
             <Label
               htmlFor={`category-name-${categoryIndex}`}
-              className="text-product-foreground font-medium"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium font-body">
               Category Name
             </Label>
             <Input
@@ -82,8 +79,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
           <div className="space-y-4">
             <Label
               htmlFor={`category-layout-${categoryIndex}`}
-              className="text-product-foreground font-medium text-lg"
-              style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+              className="text-product-foreground font-medium text-lg font-body">
               Layout: {layouts.find((l) => l.key === category.layout)?.label || "Not Selected"}
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -102,8 +98,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
                     className="w-full h-fit object-cover object-top rounded-lg"
                   />
                   <p
-                    className="text-center text-sm mt-2 font-medium text-product-foreground"
-                    style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                    className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
                     {layoutOption.label}
                   </p>
                 </div>

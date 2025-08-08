@@ -1,10 +1,10 @@
 "use client"
 import clsx from "clsx"
-import { BsFillCheckCircleFill } from "react-icons/bs"
 import { useState } from "react"
+import { BsFillCheckCircleFill } from "react-icons/bs"
 
-import { IPricing } from "@/types"
 import { Button } from "@/components/ui/button"
+import { IPricing } from "@/types"
 
 interface Props {
   tier: IPricing
@@ -18,103 +18,78 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
   return (
     <div
       className={clsx(
-        "group relative w-full max-w-sm mx-auto bg-white text-product-foreground rounded-xl border border-gray-200 lg:max-w-full transition-all duration-300 ease-out",
+        "group relative w-full max-w-sm mx-auto bg-product-background text-product-foreground rounded-2xl border border-product-border lg:max-w-full transition-all duration-300 ease-out h-full flex flex-col",
         {
-          "shadow-xl": highlight,
-          "shadow-lg hover:shadow-xl hover:scale-101 hover:-translate-y-0.5": !highlight,
-          "shadow-2xl scale-102 -translate-y-1": highlight && isHovered,
-          "shadow-xl scale-101 -translate-y-0.5": !highlight && isHovered,
+          "shadow-[var(--product-shadow)] hover:shadow-[var(--product-hover-shadow)]": !highlight,
+          "shadow-[var(--product-hover-shadow)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.18)]":
+            highlight,
+          "hover:scale-[1.02] hover:-translate-y-1": true,
         }
       )}
+      style={{ boxShadow: highlight ? "var(--product-hover-shadow)" : "var(--product-shadow)" }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}>
-      {/* Header Section */}
-      <div className="p-6 border-b border-gray-200 rounded-t-xl">
+      {/* Header Section - Clean and spacious */}
+      <div className="p-8 flex-shrink-0">
         <h3
-          className={clsx("text-2xl font-semibold mb-4 transition-colors duration-300", {
-            "text-product-primary": highlight && isHovered,
-          })}>
+          className={clsx(
+            "text-xl font-bold mb-3 text-product-primary transition-colors duration-300 font-lora",
+            { "text-product-primary-accent": highlight && isHovered }
+          )}>
           {name}
         </h3>
-
-        <p
-          className={clsx("text-3xl md:text-5xl font-bold mb-6 transition-all duration-300", {
-            "text-product-secondary": highlight,
-            "text-product-primary": highlight && isHovered,
-          })}>
-          <span
-            className={clsx("inline-block transition-transform duration-300", {
-              "scale-105": isHovered,
-            })}>
-            {typeof price === "number" ? `$${price}` : price}
-          </span>
-          {typeof price === "number" && (
-            <span className="text-lg font-normal text-gray-600 ml-1 transition-colors duration-300 group-hover:text-product-foreground-accent">
-              /mo
-            </span>
-          )}
+        <p className="text-product-foreground-accent mb-4 text-sm leading-relaxed font-lora">
+          {tier.description}
         </p>
+
+        <div className="mb-6">
+          <span
+            className={clsx(
+              "text-4xl font-bold text-product-foreground transition-all duration-300 font-lora",
+              { "scale-105": isHovered }
+            )}>
+            ${price}
+          </span>
+          <span className="text-sm font-normal text-product-foreground-accent ml-2 font-lora">
+            /month
+          </span>
+        </div>
 
         <Button
           variant={highlight ? "cta" : "cta-secondary"}
-          className="transition-transform duration-200 group-hover/btn:translate-x-0.5">
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            Get Started
-            <svg
-              className="w-4 h-4 transition-transform duration-200 group-hover/btn:translate-x-0.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </span>
+          className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]">
+          Get Started
         </Button>
       </div>
 
-      {/* Features Section */}
-      <div className="p-6">
-        <p className="font-bold mb-2 text-sm uppercase tracking-wider text-product-foreground transition-colors duration-300 group-hover:text-product-primary">
+      {/* Features Section - Clean list with proper spacing */}
+      <div className="px-8 pb-8 flex-grow">
+        <p className="font-bold mb-2 text-sm uppercase tracking-wider text-product-foreground transition-colors duration-300 group-hover:text-product-primary font-lora">
           FEATURES
         </p>
-        <p className="text-product-foreground-accent mb-5 text-sm transition-colors duration-300 group-hover:text-product-foreground">
-          Everything in Starter, plus...
-        </p>
 
-        <ul className="space-y-4 mb-8">
+        <ul className="space-y-3">
           {features.map((feature, index) => (
-            <li
-              key={index}
-              className="flex items-center transition-all duration-300 hover:translate-x-2">
-              <BsFillCheckCircleFill
-                className={clsx("h-5 w-5 mr-3 transition-all duration-300", {
-                  "text-home-secondary": !isHovered,
-                  "text-product-primary scale-110": isHovered,
-                })}
-              />
-              <span
-                className={clsx("text-product-foreground-accent transition-all duration-300", {
-                  "text-product-foreground font-medium": isHovered,
-                })}>
+            <li key={index} className="flex items-start transition-all duration-300">
+              <div className="flex-shrink-0 w-5 h-5 bg-product-primary/10 rounded-full flex items-center justify-center mr-3 mt-0.5">
+                <BsFillCheckCircleFill className="w-3 h-3 text-product-primary" />
+              </div>
+              <span className="text-sm text-product-foreground-accent leading-relaxed font-lora">
                 {feature}
               </span>
             </li>
           ))}
         </ul>
-
-        {/* Popular badge for highlighted plan */}
-        {highlight && (
-          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-            <div className="bg-gradient-to-r from-product-primary to-product-secondary text-white px-4 py-1 rounded-full text-xs font-semibold shadow-lg transition-all duration-300 group-hover:scale-105">
-              Most Popular
-            </div>
-          </div>
-        )}
       </div>
+
+      {/* Popular badge for highlighted plan */}
+      {highlight && (
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+          <div className="bg-product-primary text-product-background px-4 py-1 shadown-md rounded-full text-xs font-semibold shadow-lg transition-all duration-300 group-hover:scale-105">
+            Most Popular
+          </div>
+        </div>
+      )}
     </div>
   )
 }
