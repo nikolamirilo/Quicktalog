@@ -1,6 +1,6 @@
-import React from 'react';
-import Navbar from '@/components/navigation/Navbar';
-import ServicesFormSwitcher from '@/components/admin/form/ServicesFormSwitcher';
+import React from "react"
+import Navbar from "@/components/navigation/Navbar"
+import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher"
 
 export default function CreateServicesPage() {
   return (
@@ -12,6 +12,5 @@ export default function CreateServicesPage() {
         </div>
       </div>
     </>
-  );
+  )
 }
- 

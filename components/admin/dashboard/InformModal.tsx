@@ -7,17 +7,17 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog"
 
 interface InformModalProps {
-  isOpen: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-  title: string;
-  message: string;
-  confirmText?: string;
-  cancelText?: string;
-  loading?: boolean;
+  isOpen: boolean
+  onConfirm: () => void
+  onCancel: () => void
+  title: string
+  message: string
+  confirmText?: string
+  cancelText?: string
+  loading?: boolean
 }
 
 export default function InformModal({
@@ -26,13 +26,17 @@ export default function InformModal({
   onCancel,
   title,
   message,
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  confirmText = "Confirm",
+  cancelText = "Cancel",
   loading = false,
 }: InformModalProps) {
   return (
-    <AlertDialog open={isOpen} onOpenChange={open => { if (!open) onCancel(); }}>
-      <AlertDialogContent className='text-gray-900'>
+    <AlertDialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onCancel()
+      }}>
+      <AlertDialogContent className="text-gray-900">
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{message}</AlertDialogDescription>
@@ -40,10 +44,10 @@ export default function InformModal({
         <AlertDialogFooter>
           <AlertDialogCancel disabled={loading}>{cancelText}</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm} disabled={loading}>
-            {loading ? 'Processing...' : confirmText}
+            {loading ? "Processing..." : confirmText}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
-  );
-} 
+  )
+}

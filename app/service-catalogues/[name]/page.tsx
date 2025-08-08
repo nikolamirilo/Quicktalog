@@ -1,30 +1,27 @@
 //@ts-nocheck
-import React from "react";
-import ServicesSection from "@/components/sections/ServicesSection";
-import CatalogueHeader from "@/components/navigation/CatalogueHeader";
-import CatalogueFooter from "@/components/navigation/CatalogueFooter";
-import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import React from "react"
+import ServicesSection from "@/components/sections/ServicesSection"
+import CatalogueHeader from "@/components/navigation/CatalogueHeader"
+import CatalogueFooter from "@/components/navigation/CatalogueFooter"
+import { cookies } from "next/headers"
+import { createClient } from "@/utils/supabase/server"
 
 const page = async ({ params }: { params: Promise<{ name: string }> }) => {
   try {
-    const { name } = await params;
-    
+    const { name } = await params
+
     if (!name) {
-      throw new Error("Service catalogue name is required");
+      throw new Error("Service catalogue name is required")
     }
 
-    const cookieStore = await cookies();
-    const supabase = createClient(cookieStore);
-    
-    const { data, error } = await supabase
-      .from("service_catalogues")
-      .select()
-      .eq("name", name);
+    const cookieStore = await cookies()
+    const supabase = createClient(cookieStore)
+
+    const { data, error } = await supabase.from("service_catalogues").select().eq("name", name)
 
     if (error) {
-      console.error("Database error:", error);
-      throw new Error(`Failed to fetch service catalogue: ${error.message}`);
+      console.error("Database error:", error)
+      throw new Error(`Failed to fetch service catalogue: ${error.message}`)
     }
 
     if (!data || data.length === 0) {
@@ -41,33 +38,34 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
           </div>
           <CatalogueFooter type="custom" />
         </main>
-      );
+      )
     }
 
-    const item = data[0];
-    
+    const item = data[0]
+
     // Validate required fields
     if (!item.title || !item.services) {
-      console.error("Invalid service catalogue data:", item);
-      throw new Error("Service catalogue data is incomplete");
+      console.error("Invalid service catalogue data:", item)
+      throw new Error("Service catalogue data is incomplete")
     }
 
     // Safely extract contact information
     const getContactValue = (type: string) => {
-      if (!item.contact || !Array.isArray(item.contact)) return undefined;
-      const contact = item.contact.find((c: any) => c.type === type);
-      return contact?.value;
-    };
+      if (!item.contact || !Array.isArray(item.contact)) return undefined
+      const contact = item.contact.find((c: any) => c.type === type)
+      return contact?.value
+    }
 
     const socialLinks = {
-      instagram: getContactValue('instagram'),
-      facebook: getContactValue('facebook'),
-      twitter: getContactValue('twitter'),
-      website: getContactValue('website'),
-    };
+      instagram: getContactValue("instagram"),
+      facebook: getContactValue("facebook"),
+      twitter: getContactValue("twitter"),
+      website: getContactValue("website"),
+    }
 
     return (
-      <main className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen`}>
+      <main
+        className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen`}>
         <CatalogueHeader />
         <div className="pt-40 pb-24 text-center flex flex-col justify-center items-center gap-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-lora font-semibold text-heading drop-shadow-sm">
@@ -78,24 +76,20 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
           </p>
         </div>
         {item && (
-          <ServicesSection
-            servicesData={item.services}
-            currency={item.currency}
-            type="item"
-          />
+          <ServicesSection servicesData={item.services} currency={item.currency} type="item" />
         )}
-        <CatalogueFooter 
-          type="custom" 
+        <CatalogueFooter
+          type="custom"
           customLegalName={item.legal?.name}
-          customEmail={getContactValue('email')}
-          customPhone={getContactValue('phone')}
+          customEmail={getContactValue("email")}
+          customPhone={getContactValue("phone")}
           customSocialLinks={socialLinks}
         />
       </main>
-    );
+    )
   } catch (error) {
-    console.error("Service catalogue page error:", error);
-    
+    console.error("Service catalogue page error:", error)
+
     return (
       <main className="theme-elegant bg-background text-foreground min-h-screen">
         <CatalogueHeader />
@@ -105,7 +99,9 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
               Error Loading Service Catalogue
             </h1>
             <p className="text-red-700 mb-4">
-              {error instanceof Error ? error.message : "An unexpected error occurred while loading the service catalogue."}
+              {error instanceof Error
+                ? error.message
+                : "An unexpected error occurred while loading the service catalogue."}
             </p>
             <div className="text-sm text-red-600">
               <p>Please check:</p>
@@ -119,9 +115,8 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
         </div>
         <CatalogueFooter type="custom" />
       </main>
-    );
+    )
   }
-};
+}
 
-export default page;
-
+export default page

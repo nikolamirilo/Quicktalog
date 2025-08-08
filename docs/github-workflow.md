@@ -9,19 +9,19 @@ This document describes the recommended Git workflow for projects with two main 
 
 ## Environments
 
-| Environment | URL                       | Branch  |
-|-------------|---------------------------|---------|
-| Production  | https://www.quicktalog.app | main  |
-| Test        | https://test.quicktalog.app | test    |
+| Environment | URL                         | Branch |
+| ----------- | --------------------------- | ------ |
+| Production  | https://www.quicktalog.app  | main   |
+| Test        | https://test.quicktalog.app | test   |
 
 ---
 
 ## Branch Purposes
 
-| Branch   | Role                                 |
-|----------|--------------------------------------|
-| `test`   | Development and testing environment   |
-| `main` | Production-ready stable releases      |
+| Branch | Role                                |
+| ------ | ----------------------------------- |
+| `test` | Development and testing environment |
+| `main` | Production-ready stable releases    |
 
 ---
 
@@ -43,7 +43,6 @@ git push origin test
 ```
 
 ---
-
 
 ### 2. Merge `test` into `main` (Release to Production)
 
@@ -91,10 +90,10 @@ git pull origin test
 
 ## Summary of Commands
 
-| Task                        | Commands                                                      |
-|-----------------------------|---------------------------------------------------------------|
-| Switch to test branch       | `git checkout test`                                           |
-| Commit and push to test     | `git add .`<br>`git commit -m "message"`<br>`git push origin test` |
-| Merge test into main      | `git checkout main`<br>`git pull origin main`<br>`git merge test`<br>`git push origin main` |
-| Tag a release on main     | `git tag -a vX.Y.Z -m "Release vX.Y.Z"`<br>`git push origin vX.Y.Z` |
-| Switch back to test         | `git checkout test`<br>`git pull origin test`                 |
+| Task                    | Commands                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| Switch to test branch   | `git checkout test`                                                                         |
+| Commit and push to test | `git add .`<br>`git commit -m "message"`<br>`git push origin test`                          |
+| Merge test into main    | `git checkout main`<br>`git pull origin main`<br>`git merge test`<br>`git push origin main` |
+| Tag a release on main   | `git tag -a vX.Y.Z -m "Release vX.Y.Z"`<br>`git push origin vX.Y.Z`                         |
+| Switch back to test     | `git checkout test`<br>`git pull origin test`                                               |

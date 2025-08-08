@@ -1,26 +1,30 @@
-"use client";
-import React from 'react'
-import LineChart from '../../charts/LineChart'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../ui/card";
+"use client"
+import React from "react"
+import LineChart from "../../charts/LineChart"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../ui/card"
 // import { Badge } from "../../ui/badge";
 // import { Separator } from "../../ui/separator";
-import { FiTrendingUp, FiUsers, FiCalendar, FiBarChart} from 'react-icons/fi';
+import { FiTrendingUp, FiUsers, FiCalendar, FiBarChart } from "react-icons/fi"
 // import { FiGlobe, FiMonitor, FiChrome } from 'react-icons/fi';
 
 interface AnalyticsProps {
-  data: { date: string; count: number }[];
-  rawEvents: any[];
+  data: { date: string; count: number }[]
+  rawEvents: any[]
 }
 
 const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
   // Total page views
-  const totalPageViews = rawEvents.length;
+  const totalPageViews = rawEvents.length
   // Unique visitors
-  const uniqueVisitors = new Set(rawEvents.map(e => e.properties?.distinct_id || e.distinct_id)).size;
+  const uniqueVisitors = new Set(rawEvents.map((e) => e.properties?.distinct_id || e.distinct_id))
+    .size
   // Most popular day
-  const mostPopularDay = data.reduce((max, d) => Number(d.count) > Number(max.count) ? d : max, { date: '', count: 0 });
+  const mostPopularDay = data.reduce((max, d) => (Number(d.count) > Number(max.count) ? d : max), {
+    date: "",
+    count: 0,
+  })
   // Average page views per day
-  const avgPageViews = data.length > 0 ? (totalPageViews / data.length).toFixed(2) : '0';
+  const avgPageViews = data.length > 0 ? (totalPageViews / data.length).toFixed(2) : "0"
   // Top browsers
   // const browserCounts = rawEvents.reduce((acc, e) => {
   //   const browser = e.properties?.$browser;
@@ -46,13 +50,13 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
   // const topDevices = Object.entries(deviceCounts).map(([device, count]) => [device, Number(count)]).sort((a, b) => Number(b[1]) - Number(a[1]));
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'short', 
-      month: 'short', 
-      day: 'numeric' 
-    });
-  };
+    const date = new Date(dateString)
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    })
+  }
 
   return (
     <div className="px-2 max-w-[1200px] mx-auto space-y-8">
@@ -73,8 +77,12 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-product-foreground-accent text-sm font-medium">Total Page Views</p>
-                <p className="text-3xl font-bold text-product-foreground mt-1">{totalPageViews.toLocaleString()}</p>
+                <p className="text-product-foreground-accent text-sm font-medium">
+                  Total Page Views
+                </p>
+                <p className="text-3xl font-bold text-product-foreground mt-1">
+                  {totalPageViews.toLocaleString()}
+                </p>
               </div>
               <div className="w-12 h-12 bg-product-primary/10 rounded-full flex items-center justify-center">
                 <FiTrendingUp className="w-6 h-6 text-product-icon" />
@@ -87,8 +95,12 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-product-foreground-accent text-sm font-medium">Unique Visitors</p>
-                <p className="text-3xl font-bold text-product-foreground mt-1">{uniqueVisitors.toLocaleString()}</p>
+                <p className="text-product-foreground-accent text-sm font-medium">
+                  Unique Visitors
+                </p>
+                <p className="text-3xl font-bold text-product-foreground mt-1">
+                  {uniqueVisitors.toLocaleString()}
+                </p>
               </div>
               <div className="w-12 h-12 bg-product-secondary/10 rounded-full flex items-center justify-center">
                 <FiUsers className="w-6 h-6 text-product-icon" />
@@ -101,9 +113,11 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-product-foreground-accent text-sm font-medium">Most Popular Day</p>
+                <p className="text-product-foreground-accent text-sm font-medium">
+                  Most Popular Day
+                </p>
                 <p className="text-lg font-bold text-product-foreground mt-1">
-                  {mostPopularDay && mostPopularDay.date ? formatDate(mostPopularDay.date) : '-'}
+                  {mostPopularDay && mostPopularDay.date ? formatDate(mostPopularDay.date) : "-"}
                 </p>
                 {mostPopularDay && mostPopularDay.count > 0 && (
                   <p className="text-xs text-product-foreground-accent mt-1">
@@ -136,7 +150,9 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
       {/* Chart Section */}
       <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow">
         <CardHeader>
-          <CardTitle className="text-xl font-bold text-product-foreground">Traffic Overview</CardTitle>
+          <CardTitle className="text-xl font-bold text-product-foreground">
+            Traffic Overview
+          </CardTitle>
           <CardDescription className="text-product-foreground-accent">
             Daily page views over time
           </CardDescription>
@@ -208,7 +224,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
         </Card>
       </div> */}
     </div>
-  );
+  )
 }
 
-export default Analytics;
+export default Analytics

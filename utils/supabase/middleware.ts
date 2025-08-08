@@ -1,6 +1,5 @@
-
-import { createServerClient, type CookieOptions } from "@supabase/ssr";
-import { type NextRequest, NextResponse } from "next/server";
+import { createServerClient, type CookieOptions } from "@supabase/ssr"
+import { type NextRequest, NextResponse } from "next/server"
 
 export const createClient = (request: NextRequest) => {
   // Create an unmodified response
@@ -8,7 +7,7 @@ export const createClient = (request: NextRequest) => {
     request: {
       headers: request.headers,
     },
-  });
+  })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -28,9 +27,8 @@ export const createClient = (request: NextRequest) => {
           )
         },
       },
-    },
-  );
+    }
+  )
 
   return supabaseResponse
-};
-
+}

@@ -7,17 +7,16 @@ This guide explains how to pull environment variables from your Vercel project i
 ## Prerequisites
 
 - **Vercel CLI installed**
-  
+
   ```bash
   npm install -g vercel
   ```
 
 - **Logged in to Vercel**
-  
+
   ```bash
   vercel login
   ```
-
 
 ---
 
@@ -38,23 +37,30 @@ Follow the prompts to select or specify your Vercel project.
 Use the following command to pull all environment variables from your Vercel project:
 
 ### Simple
+
 ```bash
 vercel env pull .env
 ```
+
 ### Advanced (environment specific)
+
 #### Development
+
 ```bash
 vercel env pull .env.local --environment=development
 ```
+
 #### Test
+
 ```bash
 vercel env pull .env.test --environment=preview
 ```
+
 #### Production
+
 ```bash
 vercel env pull .env.production --environment=production
 ```
-
 
 This will download your project's environment variables and store them in a local `.env` file.
 
@@ -68,6 +74,7 @@ This will download your project's environment variables and store them in a loca
   ```bash
   vercel env pull .env.production --environment=production
   ```
+
 - **Do not commit your `.env` file to version control unless it’s safe to share.**
 
 ---

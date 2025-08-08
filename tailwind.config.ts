@@ -1,6 +1,6 @@
-import type { Config } from "tailwindcss";
-const withMT = require("@material-tailwind/react/utils/withMT");
-import { withUt } from "uploadthing/tw";
+import type { Config } from "tailwindcss"
+const withMT = require("@material-tailwind/react/utils/withMT")
+import { withUt } from "uploadthing/tw"
 
 export default withUt(
   withMT({
@@ -24,7 +24,7 @@ export default withUt(
           "product-hover-background": "var(--product-hover-background)",
           "product-icon": "var(--product-icon)",
           "product-shadow": "var(--product-shadow)",
-          "button-text":"var(--button-text)",
+          "button-text": "var(--button-text)",
           "product-hover-scale": "var(--product-hover-scale)",
           "product-hover-shadow": "var(--product-hover-shadow)",
 
@@ -93,4 +93,4 @@ export default withUt(
     },
     plugins: [require("tailwindcss-animate")],
   })
-) satisfies Config;
+) satisfies Config

@@ -3,7 +3,8 @@
 @tailwind utilities;
 @layer theme, base, clerk, components, utilities;
 
-html, body {
+html,
+body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -25,7 +26,7 @@ html, body {
   --product-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
 
   --product-hover-scale: 1.02;
-  --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15); 
+  --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15);
 
   /* Navbar button hover enhancements */
   --navbar-button-hover-bg: #f0f0f0;
@@ -44,7 +45,6 @@ html, body {
   color: var(--product-foreground);
   background: var(--product-background);
 }
-
 
 .home #logos svg {
   @apply w-fit h-10 sm:h-12;
@@ -67,7 +67,6 @@ html, body {
   background: var(--product-primary);
   border-radius: 1rem;
 }
-
 
 /* styles.css or your existing CSS file */
 a {
@@ -92,7 +91,7 @@ a {
 }
 
 .theme-luxury {
-  --background: #FFF8E7;
+  --background: #fff8e7;
   --foreground: #1a1a1a;
   --heading: #1a1a1a;
   --text: #080808;
@@ -249,7 +248,7 @@ a {
   --text: #b3b3b3;
   --button: #6699cc;
   --button-text: #1a1a1a;
-  --price: #00BCD4;
+  --price: #00bcd4;
 
   --primary: #6699cc;
   --secondary: #2c2c2c;
@@ -342,10 +341,9 @@ a {
   --letter-spacing-body: 0;
 }
 
-
 a:after {
   display: block;
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   bottom: -3px;
@@ -401,7 +399,6 @@ a.selected:after {
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
   }
-
 }
 
 @layer base {
@@ -413,14 +410,19 @@ a.selected:after {
   }
 }
 
-
 @keyframes matrix {
   0% {
-    background-position: 0% 100%, 50% 100%, 100% 100%
+    background-position:
+      0% 100%,
+      50% 100%,
+      100% 100%;
   }
 
   100% {
-    background-position: 0% 0%, 50% 0%, 100% 0%
+    background-position:
+      0% 0%,
+      50% 0%,
+      100% 0%;
   }
 }
 
@@ -430,7 +432,7 @@ a.selected:after {
   background: var(--product-background) !important;
   border-radius: 1.25rem !important;
   border: 1px solid var(--product-border) !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   outline: none !important;
   box-shadow: none !important;
 }
@@ -456,11 +458,13 @@ a.selected:after {
 }
 
 /* Restore borders only for specific elements that need them */
-.cl-formFieldInput, .cl-formFieldInputWrapper {
+.cl-formFieldInput,
+.cl-formFieldInputWrapper {
   border-color: var(--product-border) !important;
 }
 
-.cl-formFieldInput:focus, .cl-formFieldInputWrapper:focus-within {
+.cl-formFieldInput:focus,
+.cl-formFieldInputWrapper:focus-within {
   border-color: var(--product-primary) !important;
 }
 
@@ -477,15 +481,24 @@ a.selected:after {
 }
 
 /* Remove borders from all other Clerk elements */
-.cl-headerTitle, .cl-headerSubtitle, .cl-internal-1b5y6t5, .cl-internal-1b5y6t6,
-.cl-formFieldLabel, .cl-footerActionLink, .cl-dividerText, .cl-formFieldErrorText {
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-internal-1b5y6t5,
+.cl-internal-1b5y6t6,
+.cl-formFieldLabel,
+.cl-footerActionLink,
+.cl-dividerText,
+.cl-formFieldErrorText {
   border: none !important;
 }
 
 /* Typography - Headers */
-.cl-headerTitle, .cl-headerSubtitle, .cl-internal-1b5y6t5, .cl-internal-1b5y6t6 {
+.cl-headerTitle,
+.cl-headerSubtitle,
+.cl-internal-1b5y6t5,
+.cl-internal-1b5y6t6 {
   color: var(--product-foreground) !important;
-  font-family: var(--font-family-heading, 'Lora', serif) !important;
+  font-family: var(--font-family-heading, "Lora", serif) !important;
   font-weight: 700 !important;
   letter-spacing: var(--letter-spacing-heading, -0.02em) !important;
 }
@@ -497,12 +510,13 @@ a.selected:after {
 }
 
 /* Form fields - matching contact page exactly */
-.cl-formFieldInput, .cl-formFieldInputWrapper {
+.cl-formFieldInput,
+.cl-formFieldInputWrapper {
   background: var(--product-background) !important;
   border: 2px solid var(--product-border) !important;
   border-radius: 0.75rem !important; /* rounded-xl = 12px = 0.75rem */
   color: var(--product-foreground) !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   font-weight: 400 !important;
   letter-spacing: var(--letter-spacing-body, 0) !important;
   box-shadow: var(--product-shadow) !important;
@@ -510,7 +524,8 @@ a.selected:after {
   transition: all 0.3s ease !important;
 }
 
-.cl-formFieldInput:focus, .cl-formFieldInputWrapper:focus-within {
+.cl-formFieldInput:focus,
+.cl-formFieldInputWrapper:focus-within {
   border-color: var(--product-primary) !important;
   background: var(--product-hover-background) !important;
   box-shadow: var(--product-hover-shadow) !important;
@@ -524,7 +539,7 @@ a.selected:after {
 /* Labels */
 .cl-formFieldLabel {
   color: var(--product-foreground) !important;
-  font-family: var(--font-family-heading, 'Lora', serif) !important;
+  font-family: var(--font-family-heading, "Lora", serif) !important;
   font-weight: 600 !important;
   letter-spacing: var(--letter-spacing-heading, -0.02em) !important;
 }
@@ -534,7 +549,7 @@ a.selected:after {
   background: var(--product-primary) !important;
   color: var(--product-foreground) !important;
   border-radius: 0.5rem !important;
-  font-family: var(--font-family-heading, 'Lora', serif) !important;
+  font-family: var(--font-family-heading, "Lora", serif) !important;
   font-weight: 600 !important;
   letter-spacing: var(--letter-spacing-heading, -0.02em) !important;
   border: none !important;
@@ -552,7 +567,7 @@ a.selected:after {
   color: var(--product-foreground) !important;
   border: 1px solid var(--product-primary) !important;
   border-radius: 0.5rem !important;
-  font-family: var(--font-family-heading, 'Lora', serif) !important;
+  font-family: var(--font-family-heading, "Lora", serif) !important;
   font-weight: 600 !important;
   letter-spacing: var(--letter-spacing-heading, -0.02em) !important;
   box-shadow: none !important;
@@ -570,7 +585,7 @@ a.selected:after {
   border: 2px solid var(--product-border) !important;
   border-radius: 0.75rem !important; /* Match input fields */
   color: var(--product-foreground) !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   font-weight: 600 !important;
   font-size: 0.875rem !important;
   padding: 0.75rem 1rem !important;
@@ -616,7 +631,7 @@ a.selected:after {
 /* Links */
 .cl-footerActionLink {
   color: var(--product-primary) !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   font-weight: 500 !important;
   text-decoration: none !important;
 }
@@ -640,14 +655,14 @@ a.selected:after {
 
 .cl-dividerText {
   color: var(--product-foreground-accent) !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   font-weight: 400 !important;
 }
 
 /* Error messages */
 .cl-formFieldErrorText {
   color: #ef4444 !important;
-  font-family: var(--font-family-body, 'Inter', sans-serif) !important;
+  font-family: var(--font-family-body, "Inter", sans-serif) !important;
   font-weight: 400 !important;
 }
 
@@ -656,7 +671,7 @@ a.selected:after {
   opacity: 0.7 !important;
   cursor: not-allowed !important;
 }
-    
+
 /* UserButton dropdown positioning - Mobile menu only */
 .mobile-menu .cl-userButtonPopoverCardRoot {
   position: relative !important;
@@ -762,7 +777,7 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
     margin-top: 0.5rem !important;
     z-index: 1001 !important;
   }
-  
+
   /* Target any portal-rendered dropdowns */
   body > div[class*="cl-userButtonPopoverCard"],
   body > div[class*="cl-userButtonPopoverCardRoot"],
@@ -777,7 +792,7 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
     z-index: 1001 !important;
   }
 }
-    
+
 /* Custom ultra-thin scrollbar for dashboard tab bar only */
 .dashboard-tabbar-scroll::-webkit-scrollbar {
   height: 3px;
@@ -789,4 +804,7 @@ body > div[class*="cl-userButtonPopoverCard"] > div {
   background: var(--product-primary); /* product-primary */
   border-radius: 2px;
 }
-    
+
+.donut-chart-wrapper .apexcharts-series[seriesName="Used"]:hover path {
+  fill: #ff8f00 !important;
+}

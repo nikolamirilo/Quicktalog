@@ -1,45 +1,43 @@
-"use client";
-import { sendEmail } from "@/actions/email";
-import { useState } from "react";
-import { Button } from '@/components/ui/button';
+"use client"
+import { sendEmail } from "@/actions/email"
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
 
 const Contact = () => {
-  const [name, setName] = useState("");
-  const [message, setMessage] = useState("");
-  const [email, setEmail] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("")
+  const [message, setMessage] = useState("")
+  const [email, setEmail] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   // Email validation regex (simple version)
-  const isValidEmail = (email: string) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 
   async function handleSubmit(e) {
-    e.preventDefault();
-    setIsLoading(true);
+    e.preventDefault()
+    setIsLoading(true)
 
     const res = await sendEmail({
       message,
       email,
       name,
       subject: "New message from Service Catalogue Contact Form",
-    });
-    if(res == true){
-        setIsOpen(true);
-        setIsLoading(false);
-        setName("");
-        setMessage("");
-        setEmail("");
-    }else{
-        alert("Error occured")
+    })
+    if (res == true) {
+      setIsOpen(true)
+      setIsLoading(false)
+      setName("")
+      setMessage("")
+      setEmail("")
+    } else {
+      alert("Error occured")
     }
   }
 
   return (
     <section
       id="contact"
-      className="min-h-screen font-lora bg-product-background pt-32 md:pt-40 pb-32"
-    >
+      className="min-h-screen font-lora bg-product-background pt-32 md:pt-40 pb-32">
       {/* Success Modal */}
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
@@ -50,8 +48,7 @@ const Contact = () => {
                   className="w-8 h-8 text-product-foreground"
                   fill="none"
                   stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
+                  viewBox="0 0 24 24">
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -60,17 +57,12 @@ const Contact = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-product-foreground mb-2">
-                Message Sent!
-              </h3>
+              <h3 className="text-xl font-semibold text-product-foreground mb-2">Message Sent!</h3>
               <p className="text-product-foreground-accent mb-6">
-                Thank you for reaching out! We have received your message and
-                will respond to you via email shortly.
+                Thank you for reaching out! We have received your message and will respond to you
+                via email shortly.
               </p>
-              <Button
-                onClick={() => setIsOpen(false)}
-                variant="contact"
-              >
+              <Button onClick={() => setIsOpen(false)} variant="contact">
                 Close
               </Button>
             </div>
@@ -82,14 +74,11 @@ const Contact = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold text-product-foreground mb-4">
-            Get In{" "}
-            <span className="text-product-primary">
-              Touch
-            </span>
+            Get In <span className="text-product-primary">Touch</span>
           </h1>
           <p className="text-xl text-product-foreground-accent max-w-2xl mx-auto">
-            Ready to start your next project? We'd love to hear from you. Send
-            us a message and we'll respond as soon as possible.
+            Ready to start your next project? We'd love to hear from you. Send us a message and
+            we'll respond as soon as possible.
           </p>
         </div>
 
@@ -101,8 +90,7 @@ const Contact = () => {
               <div className="space-y-2">
                 <label
                   htmlFor="name"
-                  className="block text-sm font-semibold text-product-foreground mb-2"
-                >
+                  className="block text-sm font-semibold text-product-foreground mb-2">
                   Your Name
                 </label>
                 <div className="relative">
@@ -120,8 +108,7 @@ const Contact = () => {
                       className="w-5 h-5 text-product-icon"
                       fill="none"
                       stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                      viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -137,8 +124,7 @@ const Contact = () => {
               <div className="space-y-2">
                 <label
                   htmlFor="email"
-                  className="block text-sm font-semibold text-product-foreground mb-2"
-                >
+                  className="block text-sm font-semibold text-product-foreground mb-2">
                   Your Email
                 </label>
                 <div className="relative">
@@ -148,7 +134,7 @@ const Contact = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="john@example.com"
-                    className={`w-full px-4 py-4 bg-product-background border-2 rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow ${email && !isValidEmail(email) ? 'border-red-500' : 'border-product-border'}`}
+                    className={`w-full px-4 py-4 bg-product-background border-2 rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow ${email && !isValidEmail(email) ? "border-red-500" : "border-product-border"}`}
                     required
                   />
                   <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 flex items-center">
@@ -156,8 +142,7 @@ const Contact = () => {
                       className="w-5 h-5 text-product-icon"
                       fill="none"
                       stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                      viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -167,9 +152,11 @@ const Contact = () => {
                     </svg>
                   </div>
                 </div>
-                <div style={{ minHeight: '1.25rem' }}>
+                <div style={{ minHeight: "1.25rem" }}>
                   {email && !isValidEmail(email) && (
-                    <p className="text-xs text-red-500 mt-1 ml-1">Please enter a valid email address</p>
+                    <p className="text-xs text-red-500 mt-1 ml-1">
+                      Please enter a valid email address
+                    </p>
                   )}
                 </div>
               </div>
@@ -179,8 +166,7 @@ const Contact = () => {
             <div className="space-y-2">
               <label
                 htmlFor="message"
-                className="block text-sm font-semibold text-product-foreground mb-2"
-              >
+                className="block text-sm font-semibold text-product-foreground mb-2">
                 Your Message
               </label>
               <div className="relative">
@@ -198,8 +184,7 @@ const Contact = () => {
                     className="w-5 h-5 text-product-icon"
                     fill="none"
                     stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
+                    viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -215,44 +200,42 @@ const Contact = () => {
             <div className="flex justify-center pt-4">
               <Button
                 type="submit"
-                disabled={isLoading || !name.trim() || !email.trim() || !message.trim() || !isValidEmail(email)}
-                variant="contact"
-              >
+                disabled={
+                  isLoading ||
+                  !name.trim() ||
+                  !email.trim() ||
+                  !message.trim() ||
+                  !isValidEmail(email)
+                }
+                variant="contact">
                 {isLoading ? (
                   <div className="flex items-center justify-center">
                     <svg
                       className="animate-spin -ml-1 mr-3 h-5 w-5 text-product-foreground"
                       fill="none"
-                      viewBox="0 0 24 24"
-                    >
+                      viewBox="0 0 24 24">
                       <circle
                         className="opacity-25"
                         cx="12"
                         cy="12"
                         r="10"
                         stroke="currentColor"
-                        strokeWidth="4"
-                      ></circle>
+                        strokeWidth="4"></circle>
                       <path
                         className="opacity-75"
                         fill="currentColor"
-                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                      ></path>
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
                     Sending...
                   </div>
                 ) : (
-                  <div
-                    className="flex items-center justify-center"
-                    onClick={handleSubmit}
-                  >
+                  <div className="flex items-center justify-center" onClick={handleSubmit}>
                     Send Message
                     <svg
                       className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200"
                       fill="none"
                       stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                      viewBox="0 0 24 24">
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
@@ -276,9 +259,7 @@ const Contact = () => {
 
             <div className="relative z-10">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-white mb-4">
-                  Ready to Connect?
-                </h2>
+                <h2 className="text-3xl font-bold text-white mb-4">Ready to Connect?</h2>
                 <p className="text-product-hover-background text-lg">
                   Reach out through any of these channels
                 </p>
@@ -292,8 +273,7 @@ const Contact = () => {
                         className="w-8 h-8 text-product-foreground"
                         fill="none"
                         stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                        viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -317,8 +297,7 @@ const Contact = () => {
                         className="w-8 h-8 text-product-foreground"
                         fill="none"
                         stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                        viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -342,8 +321,7 @@ const Contact = () => {
                         className="w-8 h-8 text-product-foreground"
                         fill="none"
                         stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
+                        viewBox="0 0 24 24">
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
@@ -371,7 +349,7 @@ const Contact = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact

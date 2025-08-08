@@ -56,7 +56,7 @@ const buttonVariants = cva(
           underline-offset-4 
           hover:underline
         `,
-        'primary-inverted': `
+        "primary-inverted": `
           bg-white 
           text-product-primary 
           border-2 border-product-primary 
@@ -69,7 +69,7 @@ const buttonVariants = cva(
           flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
           text-white bg-product-foreground
         `,
-        'store-light': `
+        "store-light": `
           flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
           text-product-foreground bg-white
         `,
@@ -78,19 +78,19 @@ const buttonVariants = cva(
           bg-product-primary hover:bg-product-primary-accent text-product-foreground shadow-lg hover:shadow-xl
           hover:scale-[1.03] hover:-translate-y-[2px]
         `,
-        'cta-secondary': `
+        "cta-secondary": `
           w-full py-3 px-4 font-semibold transition-all duration-300 transform overflow-hidden group/btn
           bg-hero-product-background hover:bg-product-primary text-product-foreground shadow-md hover:shadow-lg
         `,
         header: `
           text-black bg-product-primary hover:bg-product-primary-accent px-8 py-3 transition-colors
         `,
-        'header-mobile': `
+        "header-mobile": `
           text-black bg-product-primary hover:bg-product-primary-accent px-5 py-2 block w-fit
         `,
         contact: `
           group relative bg-product-primary hover:bg-primary-accent text-product-foreground px-12 py-4 font-semibold transition-all duration-300 transform hover:scale-product-hover-scale hover:shadow-product-hover-shadow disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]`,
-        'section-header': `
+        "section-header": `
           w-full group relative flex items-center justify-between 
           px-6 py-5 text-xl sm:text-2xl md:text-3xl font-semibold
           bg-section-header-bg text-section-header-text border-2 border-section-header-border 
@@ -104,10 +104,10 @@ const buttonVariants = cva(
           flex items-center px-4 py-2 transition-all text-sm sm:text-base md:text-lg
           font-medium border border-transparent hover:bg-navbar-button-hover-bg hover:text-navbar-button-hover-text hover:shadow-md hover:scale-[1.03] hover:transform hover:-translate-y-[2px] hover:border-navbar-button-hover-border
         `,
-        'tab-active': `
+        "tab-active": `
           !bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform
         `,
-        'sidebar-rail': `
+        "sidebar-rail": `
           absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex
           [[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize
           [[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize
@@ -117,7 +117,7 @@ const buttonVariants = cva(
         modal: `
           text-white bg-primaryColor font-medium text-sm inline-flex items-center px-5 py-2.5 text-center
         `,
-        'file-action': `
+        "file-action": `
           px-8 py-3 font-bold text-lg transition-all duration-300 ease-in-out
           focus:outline-none focus:ring-2 focus:ring-product-primary-accent focus:ring-opacity-50
         `,
@@ -156,11 +156,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />
     )
   }
 )

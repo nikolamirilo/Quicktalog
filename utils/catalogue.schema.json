@@ -38,10 +38,7 @@
                 "type": "string"
               }
             },
-            "required": [
-              "type",
-              "value"
-            ],
+            "required": ["type", "value"],
             "additionalProperties": false
           }
         },
@@ -70,15 +67,7 @@
           "$ref": "#/definitions/Configuration"
         }
       },
-      "required": [
-        "id",
-        "name",
-        "created_by",
-        "theme",
-        "title",
-        "currency",
-        "services"
-      ],
+      "required": ["id", "name", "created_by", "theme", "title", "currency", "services"],
       "additionalProperties": false
     },
     "ServicesCategory": {
@@ -97,11 +86,7 @@
           }
         }
       },
-      "required": [
-        "name",
-        "layout",
-        "items"
-      ],
+      "required": ["name", "layout", "items"],
       "additionalProperties": false
     },
     "ServicesItem": {
@@ -120,12 +105,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name",
-        "description",
-        "price",
-        "image"
-      ],
+      "required": ["name", "description", "price", "image"],
       "additionalProperties": false
     },
     "Partner": {
@@ -141,11 +121,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name",
-        "url",
-        "icon"
-      ],
+      "required": ["name", "url", "icon"],
       "additionalProperties": false
     },
     "Legal": {
@@ -161,11 +137,7 @@
           "type": "string"
         }
       },
-      "required": [
-        "name",
-        "terms_and_conditions",
-        "privacy_policy"
-      ],
+      "required": ["name", "terms_and_conditions", "privacy_policy"],
       "additionalProperties": false
     },
     "Configuration": {
@@ -187,11 +159,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "enabled",
-            "label",
-            "url"
-          ],
+          "required": ["enabled", "label", "url"],
           "additionalProperties": false
         },
         "ctaFooter": {
@@ -207,11 +175,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "enabled",
-            "label",
-            "url"
-          ],
+          "required": ["enabled", "label", "url"],
           "additionalProperties": false
         },
         "newsletter": {
@@ -224,10 +188,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "enabled",
-            "url"
-          ],
+          "required": ["enabled", "url"],
           "additionalProperties": false
         }
       },

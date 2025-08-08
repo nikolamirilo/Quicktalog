@@ -1,5 +1,5 @@
-import { FiChevronDown } from "react-icons/fi";
-import { Button } from '../ui/button';
+import { FiChevronDown } from "react-icons/fi"
+import { Button } from "../ui/button"
 
 const SectionHeader = ({
   title,
@@ -7,10 +7,10 @@ const SectionHeader = ({
   isExpanded,
   onToggle,
 }: {
-  title: string;
-  code: string;
-  isExpanded: boolean;
-  onToggle: (code: string) => void;
+  title: string
+  code: string
+  isExpanded: boolean
+  onToggle: (code: string) => void
 }) => {
   return (
     <Button
@@ -20,23 +20,21 @@ const SectionHeader = ({
       type="button"
       variant="section-header"
       style={{
-        background: 'var(--section-header-gradient)',
-        fontFamily: 'var(--font-family-heading)',
-        fontWeight: 'var(--font-weight-heading)',
-        letterSpacing: 'var(--letter-spacing-heading)',
-      }}
-    >
+        background: "var(--section-header-gradient)",
+        fontFamily: "var(--font-family-heading)",
+        fontWeight: "var(--font-weight-heading)",
+        letterSpacing: "var(--letter-spacing-heading)",
+      }}>
       {/* Gradient overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-section-header-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-      
+
       <span className="relative inline-block z-10">
         <span className="relative">
           {title}
           {/* Animated underline */}
           <span
             className="absolute left-0 -bottom-1 h-[3px] w-0 bg-section-header-accent 
-              transition-all duration-500 ease-out group-hover:w-full rounded-full"
-          ></span>
+              transition-all duration-500 ease-out group-hover:w-full rounded-full"></span>
         </span>
       </span>
 
@@ -54,7 +52,7 @@ const SectionHeader = ({
       {/* Subtle glow effect */}
       <div className="absolute inset-0 rounded-2xl bg-section-header-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
     </Button>
-  );
-};
+  )
+}
 
-export default SectionHeader;
+export default SectionHeader

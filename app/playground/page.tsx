@@ -1,25 +1,25 @@
 // @ts-nocheck
 "use client"
-import Toggle from "@/components/common/Toggle";
-import ServicesSection from "@/components/sections/ServicesSection";
-import CatalogueFooter from "@/components/navigation/CatalogueFooter";
-import data from "../../showcase.json";
-import Navbar from "@/components/navigation/Navbar";
-import theme from "@material-tailwind/react/theme";
-import { useMainContext } from "@/context/MainContext";
-import Footer from "@/components/navigation/Footer";
+import Toggle from "@/components/common/Toggle"
+import ServicesSection from "@/components/sections/ServicesSection"
+import CatalogueFooter from "@/components/navigation/CatalogueFooter"
+import data from "../../showcase.json"
+import Navbar from "@/components/navigation/Navbar"
+import theme from "@material-tailwind/react/theme"
+import { useMainContext } from "@/context/MainContext"
+import Footer from "@/components/navigation/Footer"
 
 const page: React.FC = () => {
-  const {theme} = useMainContext();
-  
+  const { theme } = useMainContext()
+
   try {
     // Validate showcase data
     if (!data) {
-      throw new Error("Showcase data is not available");
+      throw new Error("Showcase data is not available")
     }
 
-    if (!data.services || typeof data.services !== 'object') {
-      throw new Error("Invalid services data structure");
+    if (!data.services || typeof data.services !== "object") {
+      throw new Error("Invalid services data structure")
     }
 
     // Safely extract contact information
@@ -47,8 +47,9 @@ const page: React.FC = () => {
               </h1>
               <div className="w-60 h-[3px] bg-foreground mb-6 rounded-full"></div>
               <p className="text-lg sm:text-xl text-heading max-w-2xl font-lora leading-relaxed mb-6">
-                Customize the look and feel by switching between different layouts and visual themes.
-                Whether you prefer bold and modern or soft and elegant, explore how our Service Catalogue adapts to match your brand's unique vibe.
+                Customize the look and feel by switching between different layouts and visual
+                themes. Whether you prefer bold and modern or soft and elegant, explore how our
+                Service Catalogue adapts to match your brand's unique vibe.
               </p>
             </section>
 
@@ -63,14 +64,14 @@ const page: React.FC = () => {
                 type="playground"
               />
             )}
-            <Footer/>
+            <Footer />
           </main>
         </div>
       </>
-    );
+    )
   } catch (error) {
-    console.error("Playground page error:", error);
-    
+    console.error("Playground page error:", error)
+
     return (
       <>
         <Navbar />
@@ -78,11 +79,11 @@ const page: React.FC = () => {
           <main>
             <section className="w-full bg-background pt-36 px-4 text-center flex flex-col items-center">
               <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl">
-                <h1 className="text-2xl font-bold text-red-800 mb-4">
-                  Playground Error
-                </h1>
+                <h1 className="text-2xl font-bold text-red-800 mb-4">Playground Error</h1>
                 <p className="text-red-700 mb-4">
-                  {error instanceof Error ? error.message : "An unexpected error occurred while loading the playground."}
+                  {error instanceof Error
+                    ? error.message
+                    : "An unexpected error occurred while loading the playground."}
                 </p>
                 <div className="text-sm text-red-600">
                   <p>Please check:</p>
@@ -98,8 +99,8 @@ const page: React.FC = () => {
           </main>
         </div>
       </>
-    );
+    )
   }
-};
+}
 
-export default page;
+export default page
