@@ -1,13 +1,13 @@
+import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher";
+import Navbar from "@/components/navigation/Navbar";
+import {
+    ContactInfo,
+    ServicesCategory,
+    ServicesFormData,
+    ServicesItem,
+} from "@/types";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import {
-  ServicesFormData,
-  ServicesCategory,
-  ServicesItem,
-  ContactInfo,
-} from "@/types";
-import Navbar from "@/components/navigation/Navbar";
-import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher";
 
 export default async function EditServicesPage({
   params,
@@ -64,11 +64,11 @@ export default async function EditServicesPage({
   };
 
   return (
-    <>
+    <div className="product font-lora min-h-screen">
       <Navbar />
       <div className="container mx-auto p-4 py-32">
         <ServicesFormSwitcher type="edit" initialData={initialData} />
       </div>
-    </>
+    </div>
   );
 }

@@ -109,7 +109,7 @@ a {
   --text: #080808;
   --button: #d3af37;
   --button-text: #1a1a1a;
-  --price: #d3af37;
+  --price: #8b6914;
 
   --primary: #d3af37;
   --secondary: #856d3d;
@@ -120,7 +120,7 @@ a {
   --card-bg: #ffffff;
   --card-text: #333333;
   --card-heading: #1a1a1a;
-  --card-description: #666666;
+  --card-description: #333333;
   --card-border: #d9d9d9;
 
   --section-bg: #e6e6e6;
@@ -129,9 +129,13 @@ a {
   --section-icon: #d3af37;
   --section-hover: #f2f2f2;
 
-  /* Header and Footer specific colors for better distinction */
-  --header-bg: #f8f4e0;
-  --footer-bg: #f0e3b2;
+  /* Simplified Header and Footer colors using theme's best colors */
+  --header-bg: #ffffff;
+  --footer-bg: #e6e6e6;
+  --header-text: #1a1a1a;
+  --footer-text: #1a1a1a;
+  --header-border: #d9d9d9;
+  --footer-border: #d9d9d9;
 
   /* Modern Section Header Variables */
   --section-header-bg: #ffffff;
@@ -153,13 +157,13 @@ a {
 }
 
 .theme-creative {
-  --background: #1d1e28;
+  --background: #15161e;
   --foreground: #f8f8f1;
   --heading: #f8f8f1;
   --text: #aab7d4;
   --button: #ff6b6b;
   --button-text: #f8f8f1;
-  --price: #ff6b6b;
+  --price: #ff8fa3;
 
   --primary: #ff6b6b;
   --secondary: #6b8bff;
@@ -170,7 +174,7 @@ a {
   --card-bg: #3a3b55;
   --card-text: #f8f8f1;
   --card-heading: #ffffff;
-  --card-description: #aab7d4;
+  --card-description: #e8edf5;
   --card-border: #3c3d4f;
 
   --section-bg: #2a2b39;
@@ -179,9 +183,13 @@ a {
   --section-icon: #f8f8f1;
   --section-hover: #343545;
 
-  /* Header and Footer specific colors for better distinction */
-  --header-bg: #343545;
+  /* Simplified Header and Footer colors using theme's best colors */
+  --header-bg: #3a3b55;
   --footer-bg: #2a2b39;
+  --header-text: #f8f8f1;
+  --footer-text: #f8f8f1;
+  --header-border: #3c3d4f;
+  --footer-border: #3c3d4f;
 
   /* Modern Section Header Variables */
   --section-header-bg: #2a2b39;
@@ -203,45 +211,49 @@ a {
 }
 
 .theme-organic {
-  --background: #f5f2de;
+  --background: #f5f3ea;
   --foreground: #354834;
   --heading: #354834;
-  --text: #5c7453;
+  --text: #2d3a2a;
   --button: #5c7453;
   --button-text: #f5f2de;
-  --price: #cba463;
+  --price: #5d4a28;
 
   --primary: #5c7453;
   --secondary: #cba463;
-  --accent: #c5d68f;
+  --accent: #aabd6d;
   --primary-foreground: #f5f2de;
   --secondary-foreground: #354834;
 
-  --card-bg: #ece8c5;
+  --card-bg: #f0efe9;
   --card-text: #354834;
   --card-heading: #486345;
-  --card-description: #a58e6f;
+  --card-description: #6b4f3a;
   --card-border: #e3e0c9;
 
-  --section-bg: #f9f7e7;
+  --section-bg: #f1eedb;
   --section-heading: #354834;
-  --section-border: #e3e0c9;
+  --section-border: #d3d0ba;
   --section-icon: #5c7453;
   --section-hover: #ece8c5;
 
-  /* Header and Footer specific colors for better distinction */
-  --header-bg: #d4d0b8;
-  --footer-bg: #e8e4c8;
+  /* Updated Header and Footer for more contrast */
+  --header-bg: #ebe9d9;
+  --footer-bg: #ffffff;
+  --header-text: #354834;
+  --footer-text: #354834;
+  --header-border: #5c7453;
+  --footer-border: #a6b28f;
 
   /* Modern Section Header Variables */
-  --section-header-bg: #f9f7e7;
+  --section-header-bg: #f1eedb;
   --section-header-text: #354834;
   --section-header-border: #5c7453;
   --section-header-shadow: 0 4px 20px rgba(92, 116, 83, 0.15);
   --section-header-hover-bg: #ece8c5;
   --section-header-hover-shadow: 0 8px 30px rgba(92, 116, 83, 0.25);
   --section-header-accent: #5c7453;
-  --section-header-gradient: linear-gradient(135deg, #f9f7e7 0%, #ece8c5 100%);
+  --section-header-gradient: linear-gradient(135deg, #f4f3ec 0%, #efebc5 100%);
 
   /* Typography Variables */
   --font-family-heading: var(--font-nunito);
@@ -252,8 +264,10 @@ a {
   --letter-spacing-body: 0.01em;
 }
 
+
+
 .theme-elegant {
-  --background: #1a1a1a;
+  --background: #121212;
   background-image: linear-gradient(to bottom, #1a1a1a, #0f0f0f);
   --foreground: #fafafa;
   --heading: #fafafa;
@@ -280,12 +294,16 @@ a {
   --section-icon: #b3b3b3;
   --section-hover: #333333;
 
-  /* Header and Footer specific colors for better distinction */
-  --header-bg: #333333;
-  --footer-bg: #262626;
+  /* Enhanced Header and Footer colors for better sophistication */
+  --header-bg: #2a2a2a;
+  --footer-bg: #1f1f1f;
+  --header-text: #ffffff;
+  --footer-text: #fafafa;
+  --header-border: #404040;
+  --footer-border: #404040;
 
   /* Modern Section Header Variables */
-  --section-header-bg: #262626;
+  --section-header-bg: #1b1c26;
   --section-header-text: #fafafa;
   --section-header-border: #6699cc;
   --section-header-shadow: 0 4px 20px rgba(102, 153, 204, 0.2);
@@ -310,7 +328,7 @@ a {
   --text: #f3f3f3;
   --button: #8b6cb3;
   --button-text: #1a1a1a;
-  --price: #e64676;
+  --price: #ff8fa3;
 
   --primary: #8b6cb3;
   --secondary: #33334d;
@@ -321,7 +339,7 @@ a {
   --card-bg: #2d2d55;
   --card-text: #f2f2f2;
   --card-heading: #ffffff;
-  --card-description: #b3b3b3;
+  --card-description: #d1d1d1;
   --card-border: #404040;
 
   --section-bg: #23233a;
@@ -330,9 +348,13 @@ a {
   --section-icon: #f3f3f3;
   --section-hover: #2d2d55;
 
-  /* Header and Footer specific colors for better distinction */
-  --header-bg: #2d2d55;
-  --footer-bg: #23233a;
+  /* Enhanced Header and Footer colors for better professionalism */
+  --header-bg: #252542;
+  --footer-bg: #1e1e35;
+  --header-text: #ffffff;
+  --footer-text: #f3f3f3;
+  --header-border: #3a3a5a;
+  --footer-border: #3a3a5a;
 
   /* Modern Section Header Variables */
   --section-header-bg: #23233a;
@@ -828,3 +850,6 @@ body>div[class*="cl-userButtonPopoverCard"]>div {
   /* product-primary */
   border-radius: 2px;
 }
+
+
+

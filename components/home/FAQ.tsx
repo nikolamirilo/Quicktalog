@@ -1,9 +1,9 @@
 "use client"
-import React, { useState } from 'react';
-import { motion, Variants } from 'framer-motion';
-import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
-import { FiChevronDown, FiPlus, FiMinus } from 'react-icons/fi';
 import { faqs } from '@/data/faq';
+import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/react';
+import { motion, Variants } from 'framer-motion';
+import React, { useState } from 'react';
+import { FiMinus, FiPlus } from 'react-icons/fi';
 
 const containerVariants: Variants = {
     offscreen: {
@@ -68,7 +68,7 @@ const FAQ: React.FC = () => {
             whileInView="onscreen"
             viewport={{ once: true }}
         >
-            <div className="space-y-4">
+            <div className="space-y-4 x-4">
                 {displayedFaqs.map((faq, index) => (
                     <motion.div
                         key={`${index}-${showAll}`}
@@ -79,7 +79,7 @@ const FAQ: React.FC = () => {
                             delay: index * 0.1 + (showAll && index >= 5 ? 0.3 : 0)
                         }}
                     >
-                        <Disclosure as="div" className="bg-white rounded-xl border border-product-border shadow-product-shadow">
+                        <Disclosure as="div" className="bg-product-background rounded-xl border border-product-border w-full shadow-product-shadow">
                             {({ open }) => (
                                 <>
                                     <DisclosureButton 

@@ -1,7 +1,7 @@
 //@ts-nocheck
-import * as React from "react"
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: 'form' | string;
@@ -13,7 +13,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       "text-product-foreground backdrop-blur-sm rounded-2xl shadow-product-shadow border border-product-border";
     const defaultBackground =
       "bg-gradient-to-br from-product-background to-hero-product-background";
-    const formBackground = "bg-white";
+    const formBackground = "bg-product-background";
 
     return (
       <div
@@ -88,4 +88,5 @@ const CardFooter = React.forwardRef<
 ))
 CardFooter.displayName = "CardFooter"
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent }
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle };
+

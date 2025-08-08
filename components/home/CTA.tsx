@@ -110,7 +110,7 @@ const CTA: React.FC = () => {
                                 </Button>
                             </Link>
                             <Link href="/playground">
-                                <Button variant="outline" className="text-lg px-8 py-4 h-14 border-2 border-white text-white hover:bg-white hover:text-black">
+                                <Button variant="outline" className="text-lg px-8 py-4 h-14 border-2 border-white text-white hover:bg-product-background hover:text-black">
                                     See a Demo
                                 </Button>
                             </Link>

@@ -1,10 +1,8 @@
 "use client";
 
-import * as React from "react";
-import { useState } from "react";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -12,9 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { FileText } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { currencies, themes } from "@/constants/client";
+import { FileText } from "lucide-react";
+import * as React from "react";
 
 interface Step1GeneralProps {
   formData: {
@@ -42,14 +41,14 @@ const Step1General: React.FC<Step1GeneralProps> = ({
   touched = {},
 }) => {
   return (
-    <Card className="space-y-8 p-6 sm:p-8 bg-white/95 border border-product-border shadow-md rounded-2xl" type="form">
-      <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3" style={{ fontFamily: 'var(--font-playfair-display), var(--font-inter), serif' }}>
+    <Card className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-md rounded-2xl" type="form">
+      <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <FileText className="text-product-primary" size={28}/>
         General Information
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-3">
-          <Label htmlFor="name" className="text-product-foreground font-medium" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+          <Label htmlFor="name" className="text-product-foreground font-medium font-body">
             Name<span className="text-red-500 ml-1">*</span>
           </Label>
           <Input
@@ -63,11 +62,11 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             required
           />
           {touched?.name && errors?.name && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{errors.name}</div>
+            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">{errors.name}</div>
           )}
         </div>
         <div className="space-y-3">
-          <Label htmlFor="title" className="text-product-foreground font-medium" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+          <Label htmlFor="title" className="text-product-foreground font-medium font-body">
             Title (e.g., Five guys)<span className="text-red-500 ml-1">*</span>
           </Label>
           <Input
@@ -80,11 +79,11 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             className="border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
           />
           {touched?.title && errors?.title && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{errors.title}</div>
+            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">{errors.title}</div>
           )}
         </div>
         <div className="space-y-3">
-          <Label htmlFor="subtitle" className="text-product-foreground font-medium" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+          <Label htmlFor="subtitle" className="text-product-foreground font-medium font-body">
             Subtitle
           </Label>
           <Textarea
@@ -97,7 +96,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           />
         </div>
         <div className="space-y-3">
-          <Label htmlFor="currency" className="text-product-foreground font-medium" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+          <Label htmlFor="currency" className="text-product-foreground font-medium font-body">
             Currency (e.g., USD, EUR)<span className="text-red-500 ml-1">*</span>
           </Label>
           <Select
@@ -120,12 +119,12 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             </SelectContent>
           </Select>
           {touched?.currency && errors?.currency && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{errors.currency}</div>
+            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">{errors.currency}</div>
           )}
         </div>
         {/* Theme Selection */}
         <div className="space-y-4 col-span-full">
-          <Label htmlFor="theme" className="text-product-foreground font-medium text-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>
+          <Label htmlFor="theme" className="text-product-foreground font-medium text-lg font-body">
             Theme<span className="text-red-500 ml-1">*</span>
           </Label>
           <div className="grid grid-cols-2 gap-4">
@@ -148,12 +147,12 @@ const Step1General: React.FC<Step1GeneralProps> = ({
                   alt={themeOption.label}
                   className="w-full h-24 object-cover rounded-lg"
                 />
-                <p className="text-center text-sm mt-2 font-medium text-product-foreground" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{themeOption.label}</p>
+                <p className="text-center text-sm mt-2 font-medium text-product-foreground font-body">{themeOption.label}</p>
               </div>
             ))}
           </div>
           {touched?.theme && errors?.theme && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg" style={{ fontFamily: 'var(--font-inter), sans-serif' }}>{errors.theme}</div>
+            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">{errors.theme}</div>
           )}
         </div>
       </div>

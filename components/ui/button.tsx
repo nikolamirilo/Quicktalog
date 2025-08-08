@@ -57,7 +57,7 @@ const buttonVariants = cva(
           hover:underline
         `,
         'primary-inverted': `
-          bg-white 
+          bg-product-background 
           text-product-primary 
           border-2 border-product-primary 
           hover:bg-product-hover-background 
@@ -71,7 +71,7 @@ const buttonVariants = cva(
         `,
         'store-light': `
           flex items-center justify-center min-w-[205px] mt-3 px-6 h-14 w-full sm:w-fit
-          text-product-foreground bg-white
+          text-product-foreground bg-product-background
         `,
         cta: `
           w-full py-3 px-4 font-semibold transition-all duration-300 transform overflow-hidden group/btn

@@ -38,19 +38,17 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
 }) => {
   return (
     <Card
-      className="space-y-8 p-6 sm:p-8 bg-white/95 border border-product-border shadow-product-shadow rounded-2xl"
+      className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
       type="form">
       <h2
-        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3"
-        style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <MdOutlineLocalOffer className="text-product-primary" size={32} />
         Add Services
       </h2>
       {formData.services.length === 0 ? (
         <div className="text-center p-8 bg-product-background/50 rounded-xl border border-product-border">
           <p
-            className="text-product-foreground-accent text-lg"
-            style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+            className="text-product-foreground-accent text-lg font-body">
             Please add categories in Step 2 first.
           </p>
         </div>
@@ -62,8 +60,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
             type="form">
             <div className="flex justify-between items-center">
               <h3
-                className="text-xl font-bold text-product-foreground"
-                style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+                className="text-xl font-bold text-product-foreground font-heading">
                 Category: {category.name || "Unnamed Category"}
               </h3>
               <Button
@@ -77,11 +74,10 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
             {category.items.map((item, itemIndex) => (
               <Card
                 key={itemIndex}
-                className="p-6 space-y-6 border border-product-border shadow-product-shadow bg-white rounded-xl">
+                className="p-6 space-y-6 border border-product-border shadow-product-shadow bg-product-background rounded-xl">
                 <div className="flex justify-between items-center">
                   <h5
-                    className="text-lg font-bold text-product-foreground"
-                    style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                    className="text-lg font-bold text-product-foreground font-body">
                     Item {itemIndex + 1}
                   </h5>
                   <Button
@@ -97,8 +93,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                   <div className="space-y-3">
                     <Label
                       htmlFor={`item-name-${categoryIndex}-${itemIndex}`}
-                      className="text-product-foreground font-medium"
-                      style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                      className="text-product-foreground font-medium font-body">
                       Item Name
                     </Label>
                     <Input
@@ -116,8 +111,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                   <div className="space-y-3">
                     <Label
                       htmlFor={`item-price-${categoryIndex}-${itemIndex}`}
-                      className="text-product-foreground font-medium"
-                      style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                      className="text-product-foreground font-medium font-body">
                       Price
                     </Label>
                     <Input
@@ -142,8 +136,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                   <div className="space-y-3 col-span-full">
                     <Label
                       htmlFor={`item-description-${categoryIndex}-${itemIndex}`}
-                      className="text-product-foreground font-medium"
-                      style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                      className="text-product-foreground font-medium font-body">
                       Description
                     </Label>
                     <Textarea
@@ -161,8 +154,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                   <div className="space-y-3 col-span-full">
                     <Label
                       htmlFor={`item-image-${categoryIndex}-${itemIndex}`}
-                      className="text-product-foreground font-medium"
-                      style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                      className="text-product-foreground font-medium font-body">
                       Image
                     </Label>
                     {imagePreviews[`${categoryIndex}-${itemIndex}`] || item.image ? (

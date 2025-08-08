@@ -103,7 +103,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
   // Mobile tab bar
   const MobileTabBar = (
     <nav
-      className="dashboard-tabbar-scroll md:hidden flex flex-row gap-2 overflow-x-auto py-2 px-1 bg-white/95 mb-4"
+      className="dashboard-tabbar-scroll md:hidden flex flex-row gap-2 overflow-x-auto py-2 px-1 bg-product-background/95 mb-4"
       style={{ WebkitOverflowScrolling: "touch" }}>
       {TABS.map((tab) => (
         <Button
@@ -114,8 +114,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
             activeTab === tab.value
               ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
               : ""
-          } flex items-center justify-start`}
-          style={{ fontFamily: "var(--font-inter), sans-serif" }}
+          } flex items-center justify-start font-body`}
           aria-current={activeTab === tab.value ? "page" : undefined}>
           <span className="flex items-center justify-center">{tab.icon}</span>
           {tab.label}
@@ -128,11 +127,11 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
     <div className="w-full min-h-screen px-2 sm:px-4 md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
         {/* Sidebar Tabs (hidden on mobile) */}
-        <aside className="hidden md:block w-56 flex-shrink-0 bg-white/90 border border-product-border shadow-md rounded-2xl sticky top-24 self-start">
+        <aside className="hidden md:block w-56 flex-shrink-0 bg-product-background/90 border border-product-border shadow-md rounded-2xl sticky top-24 self-start">
           {SidebarContent}
         </aside>
         {/* Main Content Section */}
-        <section className="flex-1 min-w-0 bg-white/95 border border-product-border shadow-md rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 relative z-10 text-xs sm:text-sm md:text-base lg:text-lg">
+        <section className="flex-1 min-w-0 bg-product-background/95 border border-product-border shadow-md rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 relative z-10 text-xs sm:text-sm md:text-base lg:text-lg">
           {/* Mobile tab bar */}
           {MobileTabBar}
           {activeTab === "dashboard" && (
@@ -154,16 +153,12 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
                     </div>
                     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
                       <div
-                        className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-product-foreground mb-1"
-                        style={{
-                          fontFamily: "var(--font-playfair-display), var(--font-inter), serif",
-                        }}>
+                        className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-product-foreground mb-1 font-heading">
                         Welcome back, {`${user.firstName} ${user.lastName}` || "User"}!{" "}
                         <span className="align-middle">👋</span>
                       </div>
                       <div
-                        className="text-product-foreground-accent flex items-center gap-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl break-words"
-                        style={{ fontFamily: "var(--font-inter), sans-serif" }}>
+                        className="text-product-foreground-accent flex items-center gap-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl break-words font-body">
                         {user.email}
                       </div>
                     </div>
@@ -173,8 +168,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
               {/* Dashboard */}
               <section className="mb-8 sm:mb-12 animate-fade-in">
                 <h2
-                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
-                  style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3 font-heading">
                   <TbFileAnalytics className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" />{" "}
                   Dashboard
                 </h2>
@@ -216,8 +210,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
               {/* Service Catalogues */}
               <section className="mb-8 sm:mb-12 animate-fade-in">
                 <h2
-                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
-                  style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+                  className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3 font-heading">
                   <LuSquareMenu className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Your
                   Service Catalogues
                 </h2>
@@ -298,10 +291,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
 
                       {/* Card content */}
                       <div
-                        className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-product-foreground pr-8 sm:pr-10 md:pr-12 break-words"
-                        style={{
-                          fontFamily: "var(--font-playfair-display), var(--font-inter), serif",
-                        }}>
+                        className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-product-foreground pr-8 sm:pr-10 md:pr-12 break-words font-heading">
                         {restaurant.name}
                       </div>
                       <div className="text-product-foreground-accent text-xs sm:text-sm break-words">

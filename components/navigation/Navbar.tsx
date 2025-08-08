@@ -1,18 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import React, { useState } from "react";
 import { HiOutlineTrophy } from 'react-icons/hi2';
 
-import { GiHamburgerMenu } from "react-icons/gi";
+import Image from "next/image";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import {
-  FiX,
-  FiHome,
-  FiMail,
+    FiHome,
+    FiMail,
+    FiX,
 } from "react-icons/fi";
-import Image from "next/image";
+import { GiHamburgerMenu } from "react-icons/gi";
 import AuthLinks from "./AuthLinks";
 
 // TypeScript interfaces
@@ -123,7 +123,7 @@ const Navbar = () => {
       
       {/* Mobile menu */}
       <div
-        className={`mobile-menu fixed flex flex-col top-0 right-0 h-screen w-80 bg-white  z-50 transform transition-transform duration-300 ease-in-out ${
+        className={`mobile-menu fixed flex flex-col top-0 right-0 h-screen w-80 bg-product-background  z-50 transform transition-transform duration-300 ease-in-out ${
           mobileOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ willChange: "transform" }}

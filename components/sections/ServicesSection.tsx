@@ -67,8 +67,8 @@ const ServicesSection = ({
   if (!servicesData) {
     console.warn("ServicesSection: No servicesData, rendering null");
     return (
-      <main className="max-w-6xl mx-auto px-4 py-4">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+      <main className="max-w-6xl mx-auto px-4 py-4" role="main" aria-label="Services content">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center" role="alert" aria-live="polite">
           <h2 className="text-lg font-semibold text-yellow-800 mb-2">No Services Available</h2>
           <p className="text-yellow-700">No service data has been loaded yet.</p>
         </div>
@@ -80,8 +80,8 @@ const ServicesSection = ({
 
   if (sectionsData.length === 0) {
     return (
-      <main className="max-w-6xl mx-auto px-4 py-4">
-        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center">
+      <main className="max-w-6xl mx-auto px-4 py-4" role="main" aria-label="Services content">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center" role="alert" aria-live="polite">
           <h2 className="text-lg font-semibold text-yellow-800 mb-2">No Service Categories</h2>
           <p className="text-yellow-700">No service categories were found in the data.</p>
         </div>
@@ -90,7 +90,7 @@ const ServicesSection = ({
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10">
+    <main className="max-w-6xl mx-auto px-4 py-10" role="main" aria-label="Services and items">
       {sectionsData.map((item) => {
         // The 'layout' variable now comes directly from the context
         const currentLayout = type === "playground" ? layout : servicesData[item.code]?.layout;
@@ -101,14 +101,14 @@ const ServicesSection = ({
         if (!servicesData[item.code] || !Array.isArray(servicesData[item.code].items)) {
           console.error(`ServicesSection: Invalid data for section ${item.code}:`, servicesData[item.code]);
           return (
-            <section key={item.code} className="mb-5" id={item.code}>
+            <section key={item.code} className="mb-5" id={item.code} aria-labelledby={`section-header-${item.code}`}>
               <SectionHeader
                 title={item.title}
                 code={item.code}
                 isExpanded={!!expandedSections[item.code]}
                 onToggle={handleToggleSection}
               />
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4">
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4 mt-4" role="alert" aria-live="polite">
                 <p className="text-red-700 text-sm">Invalid data for this section</p>
               </div>
             </section>
@@ -116,7 +116,7 @@ const ServicesSection = ({
         }
 
         return (
-          <section key={item.code} className="mb-5" id={item.code}>
+          <section key={item.code} className="mb-5" id={item.code} aria-labelledby={`section-header-${item.code}`}>
             <SectionHeader
               title={item.title}
               code={item.code}
@@ -135,17 +135,24 @@ const ServicesSection = ({
                   exit="hidden"
                   transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                   className="overflow-hidden"
+                  role="region"
+                  aria-label={`${item.title} items`}
+                  aria-live="polite"
                 >
                   {currentLayout === "variant_4" ? (
                     <Swiper
                       spaceBetween={12}
                       slidesPerView={"auto"}
                       className="mt-4 px-0 sm:px-2"
+                      role="region"
+                      aria-label={`${item.title} carousel`}
                     >
                       {servicesData[item.code].items.map((record: any, i: number) => (
                         <SwiperSlide
                           key={i}
                           className="!w-[160px] sm:!w-[220px] md:!w-[260px] lg:!w-[320px] flex-shrink-0 flex flex-col !h-auto"
+                          role="group"
+                          aria-label={`Item ${i + 1} of ${servicesData[item.code].items.length}`}
                         >
                           <CardsSwitcher
                             variant={currentLayout}
@@ -157,7 +164,7 @@ const ServicesSection = ({
                       ))}
                     </Swiper>
                   ) : (
-                    <div className={getGridStyle(currentLayout)}>
+                    <div className={getGridStyle(currentLayout)} role="grid" aria-label={`${item.title} items grid`}>
                       {servicesData[item.code].items.map((record: any, i: number) => (
                         <CardsSwitcher
                           key={i}
