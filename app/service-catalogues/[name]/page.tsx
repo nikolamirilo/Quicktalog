@@ -68,7 +68,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     };
 
     return (
-      <div className={ "theme-creative bg-background text-foreground min-h-screen flex flex-col"} role="application" aria-label={`${item.title} Service Catalogue`}>
+      <div className={ `${item.theme} bg-background text-foreground min-h-screen flex flex-col`} role="application" aria-label={`${item.title} Service Catalogue`}>
         <CatalogueHeader type="custom" />
         <main className="flex-1 flex flex-col min-h-0" role="main" aria-label="Service catalogue content">
           {/* Hero Section */}
