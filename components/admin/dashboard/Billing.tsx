@@ -68,11 +68,10 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
 
   const getPlanColor = (planName: string) => {
     const name = planName?.toLowerCase()
-    if (name?.includes("pro") || name?.includes("premium"))
-      return "bg-gradient-to-r from-purple-500 to-pink-500"
-    if (name?.includes("enterprise")) return "bg-gradient-to-r from-blue-600 to-indigo-600"
-    if (name?.includes("starter")) return "bg-gradient-to-r from-green-500 to-emerald-500"
-    return "bg-gradient-to-r from-indigo-500 to-blue-500"
+    if (name?.includes("pro") || name?.includes("premium")) return "bg-product-primary"
+    if (name?.includes("enterprise")) return "bg-product-secondary"
+    if (name?.includes("starter")) return "bg-product-primary-accent"
+    return "bg-product-primary"
   }
 
   const getFeatureIcon = (key: string) => {
@@ -125,16 +124,20 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
   if (!pricingPlan) {
     return (
       <div className="max-w-4xl mx-auto p-6">
-        <Card className="border-dashed border-2 border-gray-200 dark:border-gray-700">
+        <Card
+          className="border-product-border border-2 border-dashed"
+          style={{ boxShadow: "var(--product-shadow)" }}>
           <CardContent className="flex flex-col items-center justify-center py-12">
-            <CreditCard className="w-16 h-16 text-gray-400 mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+            <CreditCard className="w-16 h-16 text-product-foreground-accent mb-4" />
+            <h3 className="text-xl font-semibold text-product-foreground mb-2">
               No Billing Plan Found
             </h3>
-            <p className="text-gray-500 text-center mb-6">
+            <p className="text-product-foreground-accent text-center mb-6">
               You haven't selected a billing plan yet. Choose a plan to get started.
             </p>
-            <Button className="bg-product-primary">View Available Plans</Button>
+            <Button className="bg-product-primary text-product-foreground hover:bg-product-primary-accent">
+              View Available Plans
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -146,24 +149,28 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
       <h2
         className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
         style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
-        <FiCalendar className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Billing Overview
+        <FiCalendar className="text-product-icon w-6 h-6 sm:w-8 sm:h-8" /> Billing Overview
       </h2>
 
       {/* Action Buttons */}
-      <Card>
+      <Card style={{ boxShadow: "var(--product-shadow)" }}>
         <CardContent className="p-6">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 border-product-border text-product-foreground hover:bg-product-hover-background">
               <CreditCard className="w-4 h-4" />
               Update Payment Method
             </Button>
-            <Button variant="outline" className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 border-product-border text-product-foreground hover:bg-product-hover-background">
               <Calendar className="w-4 h-4" />
               View Billing History
             </Button>
             <Button
               variant="default"
-              className="bg-product-primary text-product-foreground flex items-center gap-2">
+              className="bg-product-primary text-product-foreground hover:bg-product-primary-accent flex items-center gap-2">
               <Star className="w-4 h-4" />
               Upgrade Plan
             </Button>
@@ -172,40 +179,44 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
       </Card>
 
       {/* Main Plan Card */}
-      <Card className="overflow-hidden shadow-xl border-0">
-        <div className={`${getPlanColor(pricingPlan.name)} p-6 text-white`}>
+      <Card
+        className="overflow-hidden border-product-border"
+        style={{ boxShadow: "var(--product-shadow)" }}>
+        <div className={`${getPlanColor(pricingPlan.name)} p-6 text-product-foreground`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               {getPlanIcon(pricingPlan.name)}
               <div>
-                <CardTitle className="text-2xl font-bold text-white">{pricingPlan.name}</CardTitle>
-                <p className="text-white/90 mt-1">{pricingPlan.description}</p>
+                <CardTitle className="text-2xl font-bold text-product-foreground">
+                  {pricingPlan.name}
+                </CardTitle>
+                <p className="text-product-foreground-accent mt-1">{pricingPlan.description}</p>
               </div>
             </div>
             <Badge
               variant={pricingPlan.is_active ? "default" : "secondary"}
               className={`${
                 pricingPlan.is_active
-                  ? "bg-green-500 hover:bg-green-600"
-                  : "bg-gray-500 hover:bg-gray-600"
-              } text-white text-sm border-0`}>
+                  ? "bg-product-primary hover:bg-product-primary-accent"
+                  : "bg-product-foreground-accent hover:bg-product-foreground"
+              } text-product-foreground border-0 text-sm`}>
               {pricingPlan.is_active ? "Active" : "Inactive"}
             </Badge>
           </div>
         </div>
 
-        <CardContent className="p-6">
+        <CardContent className="p-6 bg-product-background">
           <div className="grid md:grid-cols-2 gap-6">
             {/* Pricing Info */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <DollarSign className="w-5 h-5 text-green-600" />
+                <DollarSign className="w-5 h-5 text-product-icon" />
                 <div>
-                  <p className="text-sm text-gray-500">Price</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                  <p className="text-sm text-product-foreground-accent">Price</p>
+                  <p className="text-2xl font-bold text-product-foreground">
                     {formatPrice(pricingPlan.price, pricingPlan.currency)}
                     {pricingPlan.price > 0 && (
-                      <span className="text-base font-normal text-gray-500 ml-1">
+                      <span className="text-base font-normal text-product-foreground-accent ml-1">
                         /{pricingPlan.billing_cycle}
                       </span>
                     )}
@@ -214,10 +225,10 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
               </div>
 
               <div className="flex items-center space-x-3">
-                <Calendar className="w-5 h-5 text-blue-600" />
+                <Calendar className="w-5 h-5 text-product-icon" />
                 <div>
-                  <p className="text-sm text-gray-500">Billing Cycle</p>
-                  <p className="font-semibold text-gray-900 dark:text-white capitalize">
+                  <p className="text-sm text-product-foreground-accent">Billing Cycle</p>
+                  <p className="font-semibold text-product-foreground capitalize">
                     {pricingPlan.billing_cycle}
                   </p>
                 </div>
@@ -227,20 +238,20 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
             {/* Dates */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <Clock className="w-5 h-5 text-purple-600" />
+                <Clock className="w-5 h-5 text-product-icon" />
                 <div>
-                  <p className="text-sm text-gray-500">Started</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">
+                  <p className="text-sm text-product-foreground-accent">Started</p>
+                  <p className="font-semibold text-product-foreground">
                     {formatDate(pricingPlan.created_at)}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+                <CheckCircle className="w-5 h-5 text-product-icon" />
                 <div>
-                  <p className="text-sm text-gray-500">Last Updated</p>
-                  <p className="font-semibold text-gray-900 dark:text-white">
+                  <p className="text-sm text-product-foreground-accent">Last Updated</p>
+                  <p className="font-semibold text-product-foreground">
                     {formatDate(pricingPlan.updated_at)}
                   </p>
                 </div>
@@ -251,10 +262,10 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
       </Card>
 
       {/* Features Card */}
-      <Card>
+      <Card style={{ boxShadow: "var(--product-shadow)" }}>
         <CardHeader className="pb-4">
-          <CardTitle className="text-xl font-bold flex items-center gap-2">
-            <Star className="w-5 h-5 text-yellow-500" />
+          <CardTitle className="text-xl font-bold flex items-center gap-2 text-product-foreground">
+            <Star className="w-5 h-5 text-product-icon" />
             Plan Features
           </CardTitle>
         </CardHeader>
@@ -269,24 +280,20 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                   key={key}
                   className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     included
-                      ? "bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800"
-                      : "bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+                      ? "bg-product-hover-background border border-product-border"
+                      : "bg-product-background border border-product-border"
                   }`}>
                   {included ? (
-                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-product-primary flex-shrink-0" />
                   ) : (
-                    <X className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                    <X className="w-5 h-5 text-product-foreground-accent flex-shrink-0" />
                   )}
-                  <IconComponent className="w-4 h-4 text-gray-600 dark:text-gray-400 flex-shrink-0" />
+                  <IconComponent className="w-4 h-4 text-product-icon flex-shrink-0" />
                   <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">
-                      {formatFeatureKey(key)}
-                    </p>
+                    <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
                     <p
                       className={`text-sm ${
-                        included
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-gray-500 dark:text-gray-400"
+                        included ? "text-product-primary" : "text-product-foreground-accent"
                       }`}>
                       {formatFeatureValue(key, value)}
                     </p>

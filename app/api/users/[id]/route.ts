@@ -1,3 +1,4 @@
+import { tiers } from "@/constants/pricing"
 import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
@@ -23,16 +24,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    const { data: pricingPlan, error: planError } = await supabase
-      .from("pricing_plans")
-      .select("*")
-      .eq("id", supabaseUser.plan_id)
-      .single()
-
-    if (planError) {
-      console.error("Database Error: Failed to fetch pricing plan from Supabase.", planError)
-      return NextResponse.json({ error: "Failed to retrieve pricing plan" }, { status: 500 })
-    }
+    const pricingPlan = tiers.find((tier) => tier.id === supabaseUser.plan_id)
     if (!pricingPlan) {
       console.warn(`Pricing plan not found for ID: ${supabaseUser.plan_id}.`)
       const userData = { ...supabaseUser, plan_name: null, plan_features: null }

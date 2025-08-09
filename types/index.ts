@@ -103,18 +103,6 @@ export interface SupabaseUser {
   image: string | null
   plan_id: string | null
 }
-export interface PricingPlan {
-  id: string
-  name: string
-  description: string
-  price: number
-  currency: string
-  billing_cycle: string
-  is_active: boolean
-  created_at: string
-  updated_at: string
-  features: string[] | null
-}
 
 export interface ContactInfo {
   type: string
@@ -177,11 +165,25 @@ export interface EditServicesFormProps {
   onSuccess?: (restaurantUrl: string) => void
 }
 
-export interface IPricing {
+export interface PricingPlan {
+  id: number
   name: string
-  price: number | string
+  priceId: {
+    month: string
+    year: string
+  }
   description: string
-  features: string[]
+  features: {
+    support: string
+    catalogues: number
+    newsletter: boolean
+    customization: string
+    ocr_ai_import: number
+    traffic_limit: number
+    custom_features: boolean
+    analytics: string
+    ai_catalogue_generation: number
+  }
 }
 
 export interface IFAQ {

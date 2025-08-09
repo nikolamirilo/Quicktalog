@@ -1,9 +1,12 @@
-import { cookies } from "next/headers"
+import Dashboard from "@/components/admin/dashboard/Dashboard"
+import Navbar from "@/components/navigation/Navbar"
+import { Button } from "@/components/ui/button"
+import { tiers } from "@/constants/pricing"
+import type { Analytics, PricingPlan, ServiceCatalogue, SupabaseUser } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
-import Navbar from "@/components/navigation/Navbar"
-import Dashboard from "@/components/admin/dashboard/Dashboard"
-import type { SupabaseUser, PricingPlan, ServiceCatalogue, Analytics } from "@/types"
+import { cookies } from "next/headers"
+import Link from "next/link"
 
 export default async function page() {
   const cookieStore = await cookies()
@@ -17,53 +20,62 @@ export default async function page() {
   let pricingPlan: PricingPlan | null = null
 
   if (clerkUser && clerkUser.id) {
-    const { data: restaurantData } = await supabase
+    const { data: restaurantData, error: restaurantError } = await supabase
       .from("service_catalogues")
       .select("*")
       .eq("created_by", clerkUser.id)
-    restaurants = restaurantData || []
+    restaurants = restaurantError ? [] : restaurantData || []
 
     // Fetch analytics for all restaurants owned by the user
-    const { data: analyticsData } = await supabase
+    const { data: analyticsData, error: analyticsError } = await supabase
       .from("analytics")
       .select("date, hour, current_url, pageview_count, unique_visitors")
       .eq("user_id", clerkUser.id)
-    analytics = analyticsData || []
+    analytics = analyticsError ? [] : analyticsData || []
 
     console.log(clerkUser.id)
-    const { data: supabaseUserData } = await supabase
+    const { data: supabaseUserData, error: userError } = await supabase
       .from("users")
       .select("*")
       .eq("id", clerkUser.id)
       .single()
-    supabaseUser = supabaseUserData || {}
+    supabaseUser = userError ? null : supabaseUserData || null
 
-    const { data: pricingPlanData } = await supabase
-      .from("pricing_plans")
-      .select("*")
-      .eq("id", supabaseUser?.plan_id)
-      .single()
-    pricingPlan = pricingPlanData || {}
-    console.log(pricingPlan)
+    pricingPlan = supabaseUser?.plan_id
+      ? tiers.find((tier) => tier.id === supabaseUserData.plan_id)
+      : null
+
+    const userData = {
+      id: clerkUser.id,
+      imageUrl: clerkUser.imageUrl || "",
+      firstName: clerkUser.firstName || "",
+      lastName: clerkUser.lastName || "",
+      email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
+    }
+
+    return (
+      <div className="product font-lora min-h-screen">
+        <Navbar />
+        <Dashboard
+          restaurants={restaurants}
+          user={userData}
+          analytics={analytics}
+          pricingPlan={pricingPlan}
+        />
+      </div>
+    )
   }
 
-  const userData = {
-    id: clerkUser.id,
-    imageUrl: clerkUser.imageUrl,
-    firstName: clerkUser.firstName,
-    lastName: clerkUser.lastName,
-    email: clerkUser.emailAddresses?.[0]?.emailAddress,
-  }
-
+  // Fallback with error message
   return (
     <div className="product font-lora min-h-screen">
       <Navbar />
-      <Dashboard
-        restaurants={restaurants}
-        user={userData}
-        analytics={analytics}
-        pricingPlan={pricingPlan}
-      />
+      <div className="text-center text-black text-2xl h-screen flex flex-col gap-5 items-center justify-center">
+        <p>Something went wrong. Please try again later.</p>
+        <Button size="lg">
+          <Link href="/">Go to Home</Link>
+        </Button>
+      </div>
     </div>
   )
 }

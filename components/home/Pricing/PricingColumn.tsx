@@ -4,16 +4,30 @@ import { useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 import { Button } from "@/components/ui/button"
-import { IPricing } from "@/types"
+import { PricingPlan } from "@/types"
 
 interface Props {
-  tier: IPricing
+  tier: PricingPlan
   highlight?: boolean
 }
 
 const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
-  const { name, price, features } = tier
+  const { name, priceId, features } = tier
   const [isHovered, setIsHovered] = useState(false)
+
+  const getFeatureList = (features: PricingPlan["features"]) => {
+    return [
+      features.support,
+      `${features.catalogues} catalogues`,
+      features.newsletter ? "Newsletter" : null,
+      `${features.customization} customization`,
+      `${features.ocr_ai_import} OCR AI imports`,
+      `${features.traffic_limit.toLocaleString()} traffic limit`,
+      features.custom_features ? "Custom features" : null,
+      `${features.analytics} analytics`,
+      `${features.ai_catalogue_generation} AI catalogue generations`,
+    ].filter(Boolean)
+  }
 
   return (
     <div
@@ -48,7 +62,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
               "text-4xl font-bold text-product-foreground transition-all duration-300 font-lora",
               { "scale-105": isHovered }
             )}>
-            ${price}
+            $12
           </span>
           <span className="text-sm font-normal text-product-foreground-accent ml-2 font-lora">
             /month
@@ -69,7 +83,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
         </p>
 
         <ul className="space-y-3">
-          {features.map((feature, index) => (
+          {getFeatureList(features).map((feature, index) => (
             <li key={index} className="flex items-start transition-all duration-300">
               <div className="flex-shrink-0 w-5 h-5 bg-product-primary/10 rounded-full flex items-center justify-center mr-3 mt-0.5">
                 <BsFillCheckCircleFill className="w-3 h-3 text-product-primary" />
