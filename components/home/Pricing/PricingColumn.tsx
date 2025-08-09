@@ -1,10 +1,12 @@
 "use client"
 import clsx from "clsx"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 import { Button } from "@/components/ui/button"
+import { usePaddlePrices } from "@/hooks/usePaddelPrices"
 import { PricingPlan } from "@/types"
+import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 
 interface Props {
   tier: PricingPlan
@@ -14,6 +16,23 @@ interface Props {
 const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
   const { name, priceId, features } = tier
   const [isHovered, setIsHovered] = useState(false)
+  // const [frequency, setFrequency] = useState<IBillingFrequency>(BillingFrequency[0])
+  const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
+
+  const { prices, loading } = usePaddlePrices(paddle, "US")
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN && process.env.NEXT_PUBLIC_PADDLE_ENV) {
+      initializePaddle({
+        token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+        environment: process.env.NEXT_PUBLIC_PADDLE_ENV as Environments,
+      }).then((paddle) => {
+        if (paddle) {
+          setPaddle(paddle)
+        }
+      })
+    }
+  }, [])
 
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
@@ -28,6 +47,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
       `${features.ai_catalogue_generation} AI catalogue generations`,
     ].filter(Boolean)
   }
+  console.log(prices)
 
   return (
     <div
@@ -62,7 +82,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
               "text-4xl font-bold text-product-foreground transition-all duration-300 font-lora",
               { "scale-105": isHovered }
             )}>
-            $12
+            {prices[priceId.month] || "20$"}
           </span>
           <span className="text-sm font-normal text-product-foreground-accent ml-2 font-lora">
             /month

@@ -16,6 +16,8 @@
     "@google/generative-ai": "^0.24.1",
     "@headlessui/react": "^2.2.4",
     "@material-tailwind/react": "^2.1.10",
+    "@paddle/paddle-js": "^1.4.2",
+    "@paddle/paddle-node-sdk": "^3.2.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -97,6 +99,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
+    "supabase": "^2.33.9",
     "tailwindcss": "^3.4.1",
     "ts-json-schema-generator": "^2.4.0",
     "typescript": "5.8.3"
