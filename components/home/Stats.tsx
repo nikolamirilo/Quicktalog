@@ -1,6 +1,6 @@
 "use client"
+import { stats } from "@/constants/stats"
 import { motion, Variants } from "framer-motion"
-import { stats } from "@/data/stats"
 
 const containerVariants: Variants = {
   offscreen: {

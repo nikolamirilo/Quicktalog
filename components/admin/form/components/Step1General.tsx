@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { currencies, themes } from "@/constants/client"
+import { currencies, themes } from "@/constants/form"
 import { FileText } from "lucide-react"
 import * as React from "react"
 

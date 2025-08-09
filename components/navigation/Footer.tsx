@@ -1,5 +1,5 @@
-import { footerDetails } from "@/data/footer"
-import { siteDetails } from "@/data/siteDetails"
+import { footerDetails } from "@/constants/footer"
+import { siteDetails } from "@/constants/siteDetails"
 import { getPlatformIconByName } from "@/utils/client"
 import Image from "next/image"
 import Link from "next/link"

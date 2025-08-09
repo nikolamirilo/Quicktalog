@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { layouts } from "@/constants/client"
+import { layouts } from "@/constants/form"
 import { ServicesCategory } from "@/types"
 import { Plus, Trash2 } from "lucide-react"
 import * as React from "react"
@@ -28,8 +28,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
     <Card
       className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
       type="form">
-              <h2
-          className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
+      <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <TbCategory className="text-product-primary" size={32} />
         Add Categories
       </h2>
@@ -46,8 +45,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
           className="space-y-6 p-6 sm:p-8 bg-product-background/50 border border-product-border shadow-product-shadow rounded-xl"
           type="form">
           <div className="flex justify-between items-center mb-6">
-            <h3
-              className="text-xl font-bold text-product-foreground font-heading">
+            <h3 className="text-xl font-bold text-product-foreground font-heading">
               Category {categoryIndex + 1}
             </h3>
             <Button
@@ -97,8 +95,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
                     alt={layoutOption.label}
                     className="w-full h-fit object-cover object-top rounded-lg"
                   />
-                  <p
-                    className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
+                  <p className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
                     {layoutOption.label}
                   </p>
                 </div>

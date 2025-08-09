@@ -1,8 +1,5 @@
-import React from "react"
-import clsx from "clsx"
-
-import { ctaDetails } from "@/data/cta"
 import { Button } from "@/components/ui/button"
+import { ctaDetails } from "@/constants/cta"
 
 const AppStoreButton = ({ dark }: { dark?: boolean }) => {
   return (

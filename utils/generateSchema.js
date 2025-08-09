@@ -10,7 +10,7 @@ const config = {
 }
 
 const schema = createGenerator(config).createSchema(config.type)
-const { layouts, themes } = require("../constants/client.js")
+const { layouts, themes } = require("../constants/form.js")
 
 const layoutData = layouts.map((l) => ({
   const: l.key,

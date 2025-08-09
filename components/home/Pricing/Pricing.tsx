@@ -1,7 +1,7 @@
 "use client"
+import { tiers } from "@/constants/pricing"
 import { motion, Variants } from "framer-motion"
 import PricingColumn from "./PricingColumn"
-import { tiers } from "@/data/pricing"
 
 const containerVariants: Variants = {
   offscreen: {

@@ -1,8 +1,7 @@
 "use client"
+import { layouts, themes } from "@/constants/form"
 import { useMainContext } from "@/context/MainContext"
-import React from "react"
 import { Button } from "../ui/button"
-import { layouts, themes } from "@/constants/client"
 
 const Toggle = () => {
   const context = useMainContext()

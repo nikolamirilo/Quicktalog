@@ -93,7 +93,13 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
   const formatFeatureKey = (key: string) => {
     return key
       .split("_")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word) => {
+        const upperWord = word.toUpperCase()
+        if (upperWord === "AI" || upperWord === "OCR") {
+          return upperWord
+        }
+        return word.charAt(0).toUpperCase() + word.slice(1)
+      })
       .join(" ")
   }
 

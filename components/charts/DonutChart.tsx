@@ -69,6 +69,18 @@ export default function DonutChart({
         horizontalAlign: "center",
       },
       labels: labels.length > 0 ? labels : ["-"],
+      states: {
+        hover: {
+          filter: {
+            type: "none",
+          },
+        },
+        active: {
+          filter: {
+            type: "none",
+          },
+        },
+      },
       plotOptions: {
         pie: {
           donut: {
@@ -86,21 +98,6 @@ export default function DonutChart({
                 },
               },
             },
-          },
-        },
-      },
-      states: {
-        hover: {
-          filter: {
-            type: "lighten",
-            value: 0.04,
-          },
-        },
-        active: {
-          allowMultipleDataPointsSelection: false,
-          filter: {
-            type: "darken",
-            value: 0.35,
           },
         },
       },

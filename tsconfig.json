@@ -28,7 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "utils/client.tsx",
-    "constants/client.js"
+    "constants/form.js"
   ],
   "exclude": ["node_modules"]
 }

@@ -1,7 +1,7 @@
-import React from "react"
+import { testimonials } from "@/constants/testimonials"
 import Image from "next/image"
-import { testimonials } from "@/data/testimonials"
-import { FiTrendingUp, FiClock, FiUsers } from "react-icons/fi"
+import React from "react"
+import { FiTrendingUp } from "react-icons/fi"
 
 const Testimonials: React.FC = () => {
   return (
