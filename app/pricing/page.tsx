@@ -1,18 +1,26 @@
 import Pricing from "@/components/home/Pricing/Pricing"
+import Section from "@/components/home/Section"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
-import React from "react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Pricing",
+  description:
+    "Choose right pricing plan for your business. Explore our flexible pricing plans designed to fit your needs.",
+}
 
 const page = () => {
   return (
     <>
       <Navbar />
-      <div className="div w-11/12 max-w-[1000px] mx-auto h-screen flex flex-col items-center justify-center pt-12">
-        <h1 className="text-3xl font-bold mb-4">Pricing</h1>
-        <p className="text-lg text-gray-600 mb-8">
-          Explore our flexible pricing plans designed to fit your needs.
-        </p>
-        <Pricing />
+      <div className="mx-auto h-fit flex flex-col items-center justify-center py-24 max-w-[1400px]">
+        <Section
+          id="pricing"
+          title="Simple, Transparent Pricing"
+          description="Choose the plan that's right for you. No hidden fees, no surprises. Start for free and upgrade as you grow.">
+          <Pricing />
+        </Section>
       </div>
       <Footer />
     </>

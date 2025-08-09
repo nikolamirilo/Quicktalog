@@ -1,38 +1,19 @@
 "use client"
 import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 import { Button } from "@/components/ui/button"
-import { usePaddlePrices } from "@/hooks/usePaddelPrices"
 import { PricingPlan } from "@/types"
-import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 
-interface Props {
+interface PricingColumnProps {
   tier: PricingPlan
   highlight?: boolean
+  price: string
 }
 
-const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
-  const { name, priceId, features } = tier
+const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price }) => {
   const [isHovered, setIsHovered] = useState(false)
-  // const [frequency, setFrequency] = useState<IBillingFrequency>(BillingFrequency[0])
-  const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
-
-  const { prices, loading } = usePaddlePrices(paddle, "US")
-
-  useEffect(() => {
-    if (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN && process.env.NEXT_PUBLIC_PADDLE_ENV) {
-      initializePaddle({
-        token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
-        environment: process.env.NEXT_PUBLIC_PADDLE_ENV as Environments,
-      }).then((paddle) => {
-        if (paddle) {
-          setPaddle(paddle)
-        }
-      })
-    }
-  }, [])
 
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
@@ -47,8 +28,11 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
       `${features.ai_catalogue_generation} AI catalogue generations`,
     ].filter(Boolean)
   }
-  console.log(prices)
-
+  function formatPrice(price) {
+    if (!price.includes(".")) return price
+    return price.split(".")[0]
+  }
+  const displayPrice = price ? formatPrice(price) : "N/A"
   return (
     <div
       className={clsx(
@@ -70,7 +54,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
             "text-xl font-bold mb-3 text-product-primary transition-colors duration-300 font-lora",
             { "text-product-primary-accent": highlight && isHovered }
           )}>
-          {name}
+          {tier.name}
         </h3>
         <p className="text-product-foreground-accent mb-4 text-sm leading-relaxed font-lora">
           {tier.description}
@@ -82,7 +66,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
               "text-4xl font-bold text-product-foreground transition-all duration-300 font-lora",
               { "scale-105": isHovered }
             )}>
-            {prices[priceId.month] || "20$"}
+            {displayPrice}
           </span>
           <span className="text-sm font-normal text-product-foreground-accent ml-2 font-lora">
             /month
@@ -103,7 +87,7 @@ const PricingColumn: React.FC<Props> = ({ tier, highlight }: Props) => {
         </p>
 
         <ul className="space-y-3">
-          {getFeatureList(features).map((feature, index) => (
+          {getFeatureList(tier.features).map((feature, index) => (
             <li key={index} className="flex items-start transition-all duration-300">
               <div className="flex-shrink-0 w-5 h-5 bg-product-primary/10 rounded-full flex items-center justify-center mr-3 mt-0.5">
                 <BsFillCheckCircleFill className="w-3 h-3 text-product-primary" />
