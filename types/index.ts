@@ -1,3 +1,4 @@
+import { layouts, themes } from "@/constants/form"
 import { JSX } from "react"
 
 export type Record = {
@@ -29,15 +30,17 @@ export type Layout = Theme
 
 export interface ServicesCategory {
   name: string
-  layout: string
+  layout: LayoutVariant
   items: ServicesItem[]
 }
 
+export type ThemeVariant = (typeof themes)[number]["key"]
+export type LayoutVariant = (typeof layouts)[number]["key"]
 export interface ServiceCatalogue {
   id: string
   name: string
   created_by: string
-  theme: string
+  theme: ThemeVariant
   logo?: string
   title: string
   currency: string

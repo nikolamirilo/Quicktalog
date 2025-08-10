@@ -9,12 +9,12 @@ import { revalidateData } from "@/utils/server"
 import Link from "next/link"
 import React, { useState } from "react"
 import {
-    RiGamepadLine,
-    RiHeartPulseLine,
-    RiLightbulbLine,
-    RiScissorsLine,
-    RiSparkling2Line,
-    RiStore2Line,
+  RiGamepadLine,
+  RiHeartPulseLine,
+  RiLightbulbLine,
+  RiScissorsLine,
+  RiSparkling2Line,
+  RiStore2Line,
 } from "react-icons/ri"
 
 export default function AiServicesForm() {
@@ -111,12 +111,10 @@ export default function AiServicesForm() {
         className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
         type="form">
         <CardHeader className="p-6 sm:p-8">
-          <CardTitle
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
-            AI Business Showcase Generator
+          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
+            AI Business Catalogue Generator
           </CardTitle>
-          <CardDescription
-            className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
+          <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
             Create stunning digital showcases for your services in minutes. Perfect for restaurants,
             salons, gyms, and more.
           </CardDescription>
@@ -153,12 +151,12 @@ export default function AiServicesForm() {
               {isSubmitting ? (
                 <div className="flex items-center gap-2 animate-pulse">
                   <RiSparkling2Line size={20} className="animate-spin" />
-                  Creating Your Showcase...
+                  Creating Your Catalogue...
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
                   <RiSparkling2Line size={20} />
-                  Generate Showcase
+                  Generate Catalogue
                 </div>
               )}
             </Button>

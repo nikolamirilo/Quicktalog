@@ -2,7 +2,7 @@ import Dashboard from "@/components/admin/dashboard/Dashboard"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
 import { tiers } from "@/constants/pricing"
-import type { Analytics, PricingPlan, ServiceCatalogue, SupabaseUser } from "@/types"
+import type { Analytics, ServiceCatalogue, SupabaseUser } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import { cookies } from "next/headers"
@@ -17,7 +17,7 @@ export default async function page() {
   let restaurants: ServiceCatalogue[] = []
   let analytics: Analytics[] = []
   let supabaseUser: SupabaseUser | null = null
-  let pricingPlan: PricingPlan | null = null
+  let pricingPlan = null
 
   if (clerkUser && clerkUser.id) {
     const { data: restaurantData, error: restaurantError } = await supabase
@@ -33,7 +33,6 @@ export default async function page() {
       .eq("user_id", clerkUser.id)
     analytics = analyticsError ? [] : analyticsData || []
 
-    console.log(clerkUser.id)
     const { data: supabaseUserData, error: userError } = await supabase
       .from("users")
       .select("*")
@@ -41,10 +40,39 @@ export default async function page() {
       .single()
     supabaseUser = userError ? null : supabaseUserData || null
 
-    pricingPlan = supabaseUser?.plan_id
-      ? tiers.find((tier) => tier.id === supabaseUserData.plan_id)
-      : null
+    function createPricingPlan(planId?: string) {
+      if (!planId) {
+        return {
+          name: "Free",
+          description: "Free plan with basic features",
+          priceId: null,
+          billingPeriod: null,
+        }
+      }
 
+      const matchedTier = tiers.find((tier) => Object.values(tier.priceId).includes(planId))
+
+      if (!matchedTier) {
+        return {
+          name: "Free",
+          description: "Free plan with basic features",
+          priceId: null,
+          billingPeriod: null,
+        }
+      }
+
+      const billingPeriod = Object.entries(matchedTier.priceId).find(
+        ([_, id]) => id === planId
+      )?.[0] as "month" | "year"
+
+      return {
+        ...matchedTier,
+        priceId: planId, // flatten to just string
+        billingPeriod,
+      }
+    }
+    pricingPlan = createPricingPlan(supabaseUserData?.plan_id)
+    console.log(pricingPlan)
     const userData = {
       id: clerkUser.id,
       imageUrl: clerkUser.imageUrl || "",

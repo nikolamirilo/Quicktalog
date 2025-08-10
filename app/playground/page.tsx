@@ -14,7 +14,7 @@ const page: React.FC = () => {
   try {
     // Validate showcase data
     if (!data) {
-      throw new Error("Showcase data is not available")
+      throw new Error("Catalogue data is not available")
     }
 
     if (!data.services || typeof data.services !== "object") {
@@ -87,7 +87,7 @@ const page: React.FC = () => {
                 <div className="text-sm text-red-600">
                   <p>Please check:</p>
                   <ul className="list-disc list-inside mt-2">
-                    <li>Showcase data file is valid</li>
+                    <li>Catalogue data file is valid</li>
                     <li>Services data structure is correct</li>
                     <li>Try refreshing the page</li>
                   </ul>

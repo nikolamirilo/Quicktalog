@@ -15,7 +15,7 @@
           "type": "string"
         },
         "theme": {
-          "type": "string"
+          "$ref": "#/definitions/ThemeVariant"
         },
         "logo": {
           "type": "string"
@@ -81,6 +81,16 @@
       ],
       "additionalProperties": false
     },
+    "ThemeVariant": {
+      "type": "string",
+      "enum": [
+        "theme-elegant",
+        "theme-luxury",
+        "theme-modern",
+        "theme-organic",
+        "theme-creative"
+      ]
+    },
     "ServicesCategory": {
       "type": "object",
       "properties": {
@@ -88,7 +98,7 @@
           "type": "string"
         },
         "layout": {
-          "type": "string"
+          "$ref": "#/definitions/LayoutVariant"
         },
         "items": {
           "type": "array",
@@ -103,6 +113,15 @@
         "items"
       ],
       "additionalProperties": false
+    },
+    "LayoutVariant": {
+      "type": "string",
+      "enum": [
+        "variant_1",
+        "variant_2",
+        "variant_3",
+        "variant_4"
+      ]
     },
     "ServicesItem": {
       "type": "object",

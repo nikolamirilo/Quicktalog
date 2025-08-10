@@ -4,6 +4,7 @@ import { useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 import { Button } from "@/components/ui/button"
+import { formatPrice } from "@/helpers/client"
 import { PricingPlan } from "@/types"
 
 interface PricingColumnProps {
@@ -27,10 +28,6 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price })
       `${features.analytics} analytics`,
       `${features.ai_catalogue_generation} AI catalogue generations`,
     ].filter(Boolean)
-  }
-  function formatPrice(price) {
-    if (!price.includes(".")) return price
-    return price.split(".")[0]
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
   return (

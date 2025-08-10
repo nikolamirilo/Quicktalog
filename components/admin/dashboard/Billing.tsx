@@ -1,6 +1,9 @@
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { formatPrice } from "@/helpers/client"
+import { usePaddlePrices } from "@/hooks/usePaddelPrices"
+import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 import {
   BarChart3,
   Calendar,
@@ -17,39 +20,35 @@ import {
   X,
   Zap,
 } from "lucide-react"
+import { useEffect, useState } from "react"
 import { FiCalendar } from "react-icons/fi"
 
-interface PricingPlan {
-  id: string
-  name: string
-  description: string
-  price: number
-  billing_cycle: string
-  features: {
-    support?: string
-    catalogues?: number
-    newsletter?: boolean
-    customization?: string
-    ocr_ai_import?: string | null
-    traffic_limit?: number
-    custom_features?: boolean
-    advanced_analytics?: boolean
-    ai_catalogue_generation?: string | null
-    [key: string]: any
-  }
-  is_active: boolean
-  created_at: string
-  updated_at: string
-  currency?: string
+interface BillingProps {
+  pricingPlan: any
+  subscriptionStartDate?: string
+  subscriptionUpdatedDate?: string
 }
 
-export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
-  const formatPrice = (price: number, currency: string = "USD") => {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: currency,
-    }).format(price)
-  }
+export default function Billing({
+  pricingPlan,
+  subscriptionStartDate,
+  subscriptionUpdatedDate,
+}: BillingProps) {
+  const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
+  const { prices, loading } = usePaddlePrices(paddle, "US")
+
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN && process.env.NEXT_PUBLIC_PADDLE_ENV) {
+      initializePaddle({
+        token: process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+        environment: process.env.NEXT_PUBLIC_PADDLE_ENV as Environments,
+      }).then((paddle) => {
+        if (paddle) {
+          setPaddle(paddle)
+        }
+      })
+    }
+  }, [])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -61,14 +60,16 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
 
   const getPlanIcon = (planName: string) => {
     const name = planName?.toLowerCase()
-    if (name?.includes("pro") || name?.includes("premium")) return <Star className="w-5 h-5" />
+    if (name?.includes("pro") || name?.includes("premium") || name?.includes("growth"))
+      return <Star className="w-5 h-5" />
     if (name?.includes("enterprise")) return <Shield className="w-5 h-5" />
     return <Zap className="w-5 h-5" />
   }
 
   const getPlanColor = (planName: string) => {
     const name = planName?.toLowerCase()
-    if (name?.includes("pro") || name?.includes("premium")) return "bg-product-primary"
+    if (name?.includes("pro") || name?.includes("premium") || name?.includes("growth"))
+      return "bg-product-primary"
     if (name?.includes("enterprise")) return "bg-product-secondary"
     if (name?.includes("starter")) return "bg-product-primary-accent"
     return "bg-product-primary"
@@ -83,7 +84,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
       ocr_ai_import: Sparkles,
       traffic_limit: Eye,
       custom_features: Star,
-      advanced_analytics: BarChart3,
+      analytics: BarChart3,
       ai_catalogue_generation: Sparkles,
     }
     return iconMap[key] || CheckCircle
@@ -103,23 +104,31 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
   }
 
   const formatFeatureValue = (key: string, value: any) => {
-    if (value === null) return "Not included"
+    if (value === null || value === 0) return "Not included"
     if (typeof value === "boolean") return value ? "Included" : "Not included"
     if (typeof value === "number") {
       if (key === "traffic_limit") return `${value.toLocaleString()} visits/month`
       if (key === "catalogues") return `${value} catalogue${value !== 1 ? "s" : ""}`
+      if (key === "ocr_ai_import") return `${value} OCR AI import${value !== 1 ? "s" : ""}`
+      if (key === "ai_catalogue_generation")
+        return `${value} AI generation${value !== 1 ? "s" : ""}`
       return value.toString()
     }
     return String(value)
   }
 
   const isFeatureIncluded = (value: any) => {
-    if (value === null || value === false) return false
+    if (value === null || value === false || value === 0) return false
     if (typeof value === "boolean") return value
     if (typeof value === "number") return value > 0
     if (typeof value === "string") return value.toLowerCase() !== "not included"
     return true
   }
+
+  // Get current price from Paddle
+  const currentPrice = pricingPlan.priceId ? prices[pricingPlan.priceId] : "0"
+
+  const defaultDate = new Date().toISOString()
 
   if (!pricingPlan) {
     return (
@@ -140,6 +149,18 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
             </Button>
           </CardContent>
         </Card>
+      </div>
+    )
+  }
+
+  if (loading) {
+    return (
+      <div className="max-w-5xl space-y-6">
+        <div className="animate-pulse">
+          <div className="h-8 bg-product-hover-background rounded mb-6"></div>
+          <div className="h-32 bg-product-hover-background rounded mb-6"></div>
+          <div className="h-64 bg-product-hover-background rounded"></div>
+        </div>
       </div>
     )
   }
@@ -193,14 +214,8 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                 <p className="text-product-foreground-accent mt-1">{pricingPlan.description}</p>
               </div>
             </div>
-            <Badge
-              variant={pricingPlan.is_active ? "default" : "secondary"}
-              className={`${
-                pricingPlan.is_active
-                  ? "bg-product-primary hover:bg-product-primary-accent"
-                  : "bg-product-foreground-accent hover:bg-product-foreground"
-              } text-product-foreground border-0 text-sm`}>
-              {pricingPlan.is_active ? "Active" : "Inactive"}
+            <Badge variant="default" className="bg-product-background">
+              Active
             </Badge>
           </div>
         </div>
@@ -214,10 +229,10 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                 <div>
                   <p className="text-sm text-product-foreground-accent">Price</p>
                   <p className="text-2xl font-bold text-product-foreground">
-                    {formatPrice(pricingPlan.price, pricingPlan.currency)}
-                    {pricingPlan.price > 0 && (
+                    {formatPrice(currentPrice)}
+                    {currentPrice && parseFloat(currentPrice) > 0 && (
                       <span className="text-base font-normal text-product-foreground-accent ml-1">
-                        /{pricingPlan.billing_cycle}
+                        /{pricingPlan.billingPeriod}
                       </span>
                     )}
                   </p>
@@ -229,7 +244,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                 <div>
                   <p className="text-sm text-product-foreground-accent">Billing Cycle</p>
                   <p className="font-semibold text-product-foreground capitalize">
-                    {pricingPlan.billing_cycle}
+                    {pricingPlan.billingPeriod}ly
                   </p>
                 </div>
               </div>
@@ -242,7 +257,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                 <div>
                   <p className="text-sm text-product-foreground-accent">Started</p>
                   <p className="font-semibold text-product-foreground">
-                    {formatDate(pricingPlan.created_at)}
+                    {formatDate(subscriptionStartDate || defaultDate)}
                   </p>
                 </div>
               </div>
@@ -252,7 +267,7 @@ export default function Billing({ pricingPlan }: { pricingPlan: PricingPlan }) {
                 <div>
                   <p className="text-sm text-product-foreground-accent">Last Updated</p>
                   <p className="font-semibold text-product-foreground">
-                    {formatDate(pricingPlan.updated_at)}
+                    {formatDate(subscriptionUpdatedDate || defaultDate)}
                   </p>
                 </div>
               </div>
