@@ -15,7 +15,28 @@
           "type": "string"
         },
         "theme": {
-          "$ref": "#/definitions/ThemeVariant"
+          "oneOf": [
+            {
+              "const": "theme-elegant",
+              "description": "A dark, refined theme with a subtle gradient background, light text, and cool blue accents. Ideal for upscale or modern venues seeking a sophisticated, minimal look. Uses serif headings and clean layouts for a premium feel."
+            },
+            {
+              "const": "theme-luxury",
+              "description": "A light, luxurious theme with gold and cream tones, dark elegant text, and premium accents. Designed for high-end restaurants, it features classic serif headings, gold highlights, and a soft, inviting background."
+            },
+            {
+              "const": "theme-modern",
+              "description": "A bold, contemporary theme with deep blue backgrounds, white and pink accents, and modern sans-serif typography. Perfect for trendy or urban venues wanting a striking, energetic appearance."
+            },
+            {
+              "const": "theme-organic",
+              "description": "A fresh, natural theme with light beige backgrounds, green and brown accents, and soft, rounded typography. Ideal for organic, vegan, or eco-friendly restaurants seeking a wholesome, earthy vibe."
+            },
+            {
+              "const": "theme-creative",
+              "description": "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look."
+            }
+          ]
         },
         "logo": {
           "type": "string"
@@ -82,13 +103,27 @@
       "additionalProperties": false
     },
     "ThemeVariant": {
-      "type": "string",
-      "enum": [
-        "theme-elegant",
-        "theme-luxury",
-        "theme-modern",
-        "theme-organic",
-        "theme-creative"
+      "oneOf": [
+        {
+          "const": "theme-elegant",
+          "description": "A dark, refined theme with a subtle gradient background, light text, and cool blue accents. Ideal for upscale or modern venues seeking a sophisticated, minimal look. Uses serif headings and clean layouts for a premium feel."
+        },
+        {
+          "const": "theme-luxury",
+          "description": "A light, luxurious theme with gold and cream tones, dark elegant text, and premium accents. Designed for high-end restaurants, it features classic serif headings, gold highlights, and a soft, inviting background."
+        },
+        {
+          "const": "theme-modern",
+          "description": "A bold, contemporary theme with deep blue backgrounds, white and pink accents, and modern sans-serif typography. Perfect for trendy or urban venues wanting a striking, energetic appearance."
+        },
+        {
+          "const": "theme-organic",
+          "description": "A fresh, natural theme with light beige backgrounds, green and brown accents, and soft, rounded typography. Ideal for organic, vegan, or eco-friendly restaurants seeking a wholesome, earthy vibe."
+        },
+        {
+          "const": "theme-creative",
+          "description": "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look."
+        }
       ]
     },
     "ServicesCategory": {
@@ -98,7 +133,24 @@
           "type": "string"
         },
         "layout": {
-          "$ref": "#/definitions/LayoutVariant"
+          "oneOf": [
+            {
+              "const": "variant_1",
+              "description": "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
+            },
+            {
+              "const": "variant_2",
+              "description": "Horizontal card layout: Catalogue items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
+            },
+            {
+              "const": "variant_3",
+              "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
+            },
+            {
+              "const": "variant_4",
+              "description": "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
+            }
+          ]
         },
         "items": {
           "type": "array",
@@ -115,12 +167,23 @@
       "additionalProperties": false
     },
     "LayoutVariant": {
-      "type": "string",
-      "enum": [
-        "variant_1",
-        "variant_2",
-        "variant_3",
-        "variant_4"
+      "oneOf": [
+        {
+          "const": "variant_1",
+          "description": "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus."
+        },
+        {
+          "const": "variant_2",
+          "description": "Horizontal card layout: Catalogue items are arranged in flexible horizontal cards, wrapping as needed. Ideal for showcasing items with wide images or for a modern, card-based look."
+        },
+        {
+          "const": "variant_3",
+          "description": "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image."
+        },
+        {
+          "const": "variant_4",
+          "description": "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus."
+        }
       ]
     },
     "ServicesItem": {

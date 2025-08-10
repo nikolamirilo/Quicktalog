@@ -22,24 +22,40 @@ const themeData = themes.map((t) => ({
   description: t.description,
 }))
 
-if (schema.properties) {
-  if (schema.properties.theme) {
-    schema.properties.theme.oneOf = themeData
-    delete schema.properties.theme.type
+// Inject oneOf with descriptions into definitions
+if (schema.definitions) {
+  if (schema.definitions.ThemeVariant) {
+    schema.definitions.ThemeVariant.oneOf = themeData
+    delete schema.definitions.ThemeVariant.enum
+    delete schema.definitions.ThemeVariant.type
   }
-  if (schema.properties.layout) {
-    schema.properties.layout.oneOf = layoutData
-    delete schema.properties.layout.type
-  }
-  if (schema.properties.services && schema.properties.services.patternProperties) {
-    const serviceCategory = schema.properties.services.patternProperties["^.*$"]
-    if (serviceCategory && serviceCategory.properties && serviceCategory.properties.layout) {
-      serviceCategory.properties.layout.oneOf = layoutData
-      delete serviceCategory.properties.layout.type
-    }
+  if (schema.definitions.LayoutVariant) {
+    schema.definitions.LayoutVariant.oneOf = layoutData
+    delete schema.definitions.LayoutVariant.enum
+    delete schema.definitions.LayoutVariant.type
   }
 }
 
+// Inject oneOf with descriptions into referenced properties
+if (schema.definitions && schema.definitions.ServiceCatalogue) {
+  const props = schema.definitions.ServiceCatalogue.properties
+  if (props.theme) {
+    props.theme.oneOf = themeData
+    delete props.theme.$ref
+    delete props.theme.type
+  }
+}
+
+if (schema.definitions && schema.definitions.ServicesCategory) {
+  const props = schema.definitions.ServicesCategory.properties
+  if (props.layout) {
+    props.layout.oneOf = layoutData
+    delete props.layout.$ref
+    delete props.layout.type
+  }
+}
+
+// Write the updated schema
 const outputPath = path.join(__dirname, "catalogue.schema.json")
 fs.writeFileSync(outputPath, JSON.stringify(schema, null, 2))
 
