@@ -1,6 +1,7 @@
 import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher"
 import Navbar from "@/components/navigation/Navbar"
 
+export const dynamic = "force-dynamic"
 export default function CreateServicesPage() {
   return (
     <div className="product font-lora min-h-screen">

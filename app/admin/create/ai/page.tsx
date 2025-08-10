@@ -3,6 +3,7 @@ import AiServicesForm from "@/components/admin/form/AiServicesForm"
 import UpgradePlan from "@/components/common/UpgradePlan"
 import Navbar from "@/components/navigation/Navbar"
 
+export const dynamic = "force-dynamic"
 export default async function AiCreateServicesPage() {
   const userData = await getUserData()
   if (userData && userData.plan_name !== "Starter") {
