@@ -1,6 +1,7 @@
 "use client"
 import { sendEmail } from "@/actions/email"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 import { useState } from "react"
 
 const Contact = () => {
@@ -57,10 +58,9 @@ const Contact = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-product-foreground mb-2">Message Sent!</h3>
+              <h3 className="text-xl font-semibold text-product-foreground mb-2">Thanks—your message is on its way!</h3>
               <p className="text-product-foreground-accent mb-6">
-                Thank you for reaching out! We have received your message and will respond to you
-                via email shortly.
+                We’ve received your message and will reply via email within 1 business day.
               </p>
               <Button onClick={() => setIsOpen(false)} variant="contact">
                 Close
@@ -73,12 +73,9 @@ const Contact = () => {
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-product-foreground mb-4">
-            Get In <span className="text-product-primary">Touch</span>
-          </h1>
+          <h1 className="text-5xl font-bold text-product-foreground mb-4">Contact Quicktalog</h1>
           <p className="text-xl text-product-foreground-accent max-w-2xl mx-auto">
-            Ready to start your next project? We'd love to hear from you. Send us a message and
-            we'll respond as soon as possible.
+            Have questions about our digital catalog builder? Our sales and support teams are here to help and typically respond within 1 business day.
           </p>
         </div>
 
@@ -91,7 +88,7 @@ const Contact = () => {
                 <label
                   htmlFor="name"
                   className="block text-sm font-semibold text-product-foreground mb-2">
-                  Your Name
+                  Full name
                 </label>
                 <div className="relative">
                   <input
@@ -99,7 +96,7 @@ const Contact = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="Jane Doe"
                     className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow"
                     required
                   />
@@ -125,7 +122,7 @@ const Contact = () => {
                 <label
                   htmlFor="email"
                   className="block text-sm font-semibold text-product-foreground mb-2">
-                  Your Email
+                  Work email
                 </label>
                 <div className="relative">
                   <input
@@ -133,7 +130,7 @@ const Contact = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
-                    placeholder="john@example.com"
+                    placeholder="name@company.com"
                     className={`w-full px-4 py-4 bg-product-background border-2 rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow ${email && !isValidEmail(email) ? "border-red-500" : "border-product-border"}`}
                     required
                   />
@@ -155,7 +152,7 @@ const Contact = () => {
                 <div style={{ minHeight: "1.25rem" }}>
                   {email && !isValidEmail(email) && (
                     <p className="text-xs text-red-500 mt-1 ml-1">
-                      Please enter a valid email address
+                      Enter a valid work email (for example, name@company.com).
                     </p>
                   )}
                 </div>
@@ -166,8 +163,8 @@ const Contact = () => {
             <div className="space-y-2">
               <label
                 htmlFor="message"
-                className="block text-sm font-semibold text-product-foreground mb-2">
-                Your Message
+                  className="block text-sm font-semibold text-product-foreground mb-2">
+                  How can we help?
               </label>
               <div className="relative">
                 <textarea
@@ -175,7 +172,7 @@ const Contact = () => {
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   rows={6}
-                  placeholder="Tell us about your project..."
+                  placeholder="Tell us about your business, goals, or any questions you have."
                   className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow resize-none"
                   required
                 />
@@ -226,11 +223,11 @@ const Contact = () => {
                         fill="currentColor"
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Sending...
+                    Sending…
                   </div>
                 ) : (
                   <div className="flex items-center justify-center" onClick={handleSubmit}>
-                    Send Message
+                    Send message
                     <svg
                       className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200"
                       fill="none"
@@ -247,6 +244,13 @@ const Contact = () => {
                 )}
               </Button>
             </div>
+            <p className="text-xs text-product-foreground-accent text-center mt-3">
+              By submitting, you agree to our {" "}
+              <Link href="/privacy-policy" className="underline">
+                Privacy Policy
+              </Link>
+              .
+            </p>
           </div>
         </div>
 
@@ -259,12 +263,8 @@ const Contact = () => {
 
             <div className="relative z-10">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-product-foreground mb-4">
-                  Ready to Connect?
-                </h2>
-                <p className="text-product-foreground-accent text-lg">
-                  Reach out through any of these channels
-                </p>
+                <h2 className="text-3xl font-bold text-product-foreground mb-4">Other ways to reach us</h2>
+                <p className="text-product-foreground-accent text-lg">Choose the channel that works best for you.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -286,7 +286,8 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Email</h3>
-                  <p className="text-product-primary text-lg">hello@digital-menu.com</p>
+                  <p className="text-product-foreground-accent text-lg">quicktalog@outlook.com</p>
+                  <p className="text-product-foreground-accent text-sm mt-1">We typically respond within 1 business day.</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                   </div>
@@ -310,7 +311,8 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Phone</h3>
-                  <p className="text-product-primary text-lg">+1 (555) 123-4567</p>
+                  <p className="text-product-foreground-accent text-lg">+1 (555) 123-4567</p>
+                  <p className="text-product-foreground-accent text-sm mt-1">Mon–Fri, 9:00am–5:00pm ET</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-100"></div>
                   </div>
@@ -340,7 +342,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Office</h3>
-                  <p className="text-product-primary text-lg">New York, NY</p>
+                  <p className="text-product-foreground-accent text-lg">New York, NY — Remote‑first team</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-200"></div>
                   </div>

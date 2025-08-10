@@ -56,12 +56,11 @@ const CTA: React.FC = () => {
             <motion.h2
               className="text-2xl sm:text-3xl md:text-5xl md:leading-tight font-semibold mb-4 max-w-3xl"
               variants={childVariants}>
-              Ready to Impress Your Customers?
+              Create Your Digital Catalog Today
             </motion.h2>
 
             <motion.p className="mx-auto max-w-2xl md:px-5 text-lg mb-8" variants={childVariants}>
-              Create a beautiful, professional digital catalog today and see the difference it
-              makes. No credit card required.
+              Launch a mobile‑friendly, interactive catalog in minutes. Start free—no credit card required.
             </motion.p>
 
             {/* Risk reversal indicators */}
@@ -98,7 +97,7 @@ const CTA: React.FC = () => {
               variants={childVariants}>
               <Link href="/auth?mode=signup">
                 <Button variant="cta" className="text-lg px-8 py-4 h-14">
-                  Start Your Free Catalog
+                  Create Your Catalog Now
                   <FiArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
@@ -106,7 +105,7 @@ const CTA: React.FC = () => {
                 <Button
                   variant="outline"
                   className="text-lg px-8 py-4 h-14 border-2 border-white text-white hover:bg-product-background hover:text-black">
-                  See a Demo
+                  Try the Playground
                 </Button>
               </Link>
             </motion.div>

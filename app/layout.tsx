@@ -55,9 +55,9 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Quicktalog App",
+  title: "Digital Catalog Builder — Create Online Catalogs Fast | Quicktalog",
   description:
-    "Qicktalog is Sass application that allows you to create and manage your own catalog of services and digitlize your business.",
+    "Create interactive, mobile-friendly digital catalogs in minutes. No-code builder, AI generation, QR sharing, and analytics. Start free.",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

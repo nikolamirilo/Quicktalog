@@ -132,7 +132,7 @@ const HowItWorks: React.FC = () => {
       step: "1",
       title: "Tell Us About Your Business",
       description:
-        "First, let's get to know you. Add your business name, choose a theme that matches your brand, and set your currency. This is the foundation of your beautiful new catalog.",
+        "Add your details, pick a theme, and set currency and contact info—the foundation of your new online catalog.",
       icon: <FiUpload className="w-8 h-8" />,
       image: "/images/card1-business.svg",
       features: [
@@ -145,7 +145,7 @@ const HowItWorks: React.FC = () => {
       step: "2",
       title: "Organize Your Offerings",
       description:
-        "Create categories to group your services or products. This makes it easy for your customers to find exactly what they're looking for.",
+        "Create categories and choose layouts so customers find what they need fast.",
       icon: <TbCategory className="w-8 h-8" />,
       image: "/images/step2.svg", // Placeholder image
       features: [
@@ -156,9 +156,9 @@ const HowItWorks: React.FC = () => {
     },
     {
       step: "3",
-      title: "Add Your Services",
+      title: "Add Items and Prices",
       description:
-        "Now for the fun part! Add your services, products, or menu items. Include photos, descriptions, and prices to make them irresistible.",
+        "Add services, menu items, or products with images, descriptions, and pricing.",
       icon: <MdOutlineLocalOffer className="w-8 h-8" />,
       image: "/images/card3.svg", // Placeholder image
       features: ["Add high-quality images", "Write compelling descriptions", "Set your prices"],
@@ -167,16 +167,16 @@ const HowItWorks: React.FC = () => {
       step: "4",
       title: "Brand and Launch",
       description:
-        "Add the finishing touches to make your catalog uniquely yours. Add your logo, customize your colors, and hit 'launch' to share it with the world.",
+        "Customize branding and colors, then publish with one click.",
       icon: <IoDiamondOutline className="w-8 h-8" />,
       image: "/images/card4.svg", // Placeholder image
       features: ["Upload your logo", "Customize your brand colors", "Add your contact information"],
     },
     {
       step: "5",
-      title: "Share with the World",
+      title: "Share Everywhere",
       description:
-        "Your beautiful new catalog is ready! Share it with a link or QR code, and watch the customers roll in. Update it anytime, anywhere.",
+        "Share your online catalog via link or QR code and update it in real time.",
       icon: <FiShare2 className="w-8 h-8" />,
       image: "/images/card5.svg", // Placeholder image
       features: [
@@ -187,9 +187,9 @@ const HowItWorks: React.FC = () => {
     },
     {
       step: "AI",
-      title: "Or... Let AI Do the Work",
+      title: "Or Let AI Do It For You",
       description:
-        "Feeling lazy? Just describe your business and our AI will create a beautiful, professional catalog for you in seconds. It's like magic!",
+        "Describe your business and get an AI‑generated catalog in seconds—ready to edit.",
       icon: <FiZap className="w-8 h-8" />,
       image: "/images/ai.svg", // Placeholder image
       features: [

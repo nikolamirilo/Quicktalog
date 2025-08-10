@@ -20,23 +20,22 @@ const Hero: React.FC = () => {
           Create a Stunning Digital Catalog in Minutes
         </h1>
         <p className="mt-4 text-product-foreground-accent text-lg md:text-xl max-w-2xl mx-auto">
-          No design skills? No problem. Turn your services, offers, or menus into a beautiful,
-          shareable catalog that looks great on any device.
+          Turn your services, menus, or products into an interactive, mobile-friendly online catalog. No code or design skills required.
         </p>
 
         {/* Value propositions */}
         <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-product-foreground-accent">
           <div className="flex items-center gap-2">
             <FiClock className="w-4 h-4 text-product-primary" />
-            <span className="font-medium">Launch in under 5 minutes</span>
+            <span className="font-medium">Go live in under 5 minutes</span>
           </div>
           <div className="flex items-center gap-2">
             <FiSmartphone className="w-4 h-4 text-product-primary" />
-            <span className="font-medium">Perfect for any service business</span>
+            <span className="font-medium">Works on any device</span>
           </div>
           <div className="flex items-center gap-2">
             <FiDollarSign className="w-4 h-4 text-product-primary" />
-            <span className="font-medium">No designer or developer needed</span>
+            <span className="font-medium">No code or design skills needed</span>
           </div>
         </div>
 
@@ -52,7 +51,7 @@ const Hero: React.FC = () => {
               variant="outline"
               className="text-lg px-8 py-4 h-14 border-2 border-product-primary">
               <FiPlay className="w-5 h-5 mr-2" />
-              Watch a Demo
+              Try the Playground
             </Button>
           </Link>
         </div>

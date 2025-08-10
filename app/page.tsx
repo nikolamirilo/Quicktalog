@@ -7,7 +7,6 @@ import HowItWorks from "@/components/home/HowItWorks"
 import Pricing from "@/components/home/Pricing/Pricing"
 import ProblemSection from "@/components/home/ProblemSection"
 import Section from "@/components/home/Section"
-import Stats from "@/components/home/Stats"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 
@@ -21,21 +20,21 @@ const HomePage: React.FC = async () => {
         <Section
           id="problems"
           title="Stop Losing Customers to Outdated Catalogs"
-          description="You're losing time and money with outdated, printed catalogs. Here's how a digital-first approach can help you grow your business.">
+          description="Replace printed catalogs with an interactive, mobile‑friendly online catalog you can update in real time.">
           <ProblemSection />
         </Section>
-        <Stats />
+        {/* <Stats /> */}
         <Section
           id="how-it-works"
           title="Go Live in Minutes"
-          description="Create a stunning digital catalog in just a few simple steps. No design or technical skills required.">
+          description="Create a digital catalog in a few simple steps—or let AI generate it for you. No design or code required.">
           <HowItWorks />
         </Section>
 
         <Section
           id="pricing"
           title="Simple, Transparent Pricing"
-          description="Choose the plan that's right for you. No hidden fees, no surprises. Start for free and upgrade as you grow.">
+          description="Start free and upgrade as you grow. No hidden fees. AI generation, OCR import, and analytics on higher tiers.">
           <Pricing />
         </Section>
 
@@ -45,7 +44,7 @@ const HomePage: React.FC = async () => {
       <Section
         id="faq"
         title="Got Questions? We've Got Answers"
-        description="Here are some of the most common questions we get from customers. If you don't see your question here, just ask!">
+        description="Learn how digital catalogs differ from websites, how updates work, and how AI/OCR help you launch faster.">
         <FAQ />
       </Section>
 

@@ -256,9 +256,9 @@ const ProblemSection: React.FC = () => {
       metric: "No Code",
       metricLabel: "No design skills required",
       problem:
-        "You want a beautiful, professional-looking catalog, but you're not a designer. Hiring one is expensive, and DIY tools are clunky and time-consuming.",
+        "DIY tools are clunky and hiring designers is costly. Updates take weeks and break your flow.",
       solution:
-        "Create a stunning, mobile-first catalog in minutes with our easy-to-use templates. No design or coding skills needed. Your business will look professional and polished.",
+        "Use a no-code catalog builder to create a polished, interactive catalog fast—no designer or developer needed.",
       ctaText: "Explore Templates",
       impactMetric: "Designer-quality results",
       icon: <FiSmartphone />,
@@ -267,9 +267,9 @@ const ProblemSection: React.FC = () => {
       metric: "< 5 Mins",
       metricLabel: "to update your catalog",
       problem:
-        "Your menu or service list changes frequently, but updating it is a nightmare. You have to call your designer, wait for them to make the changes, and then pay them for their time.",
+        "Prices change, items sell out, promos come and go—printed catalogs can’t keep up.",
       solution:
-        "Update your catalog in real-time, anytime, from any device. Add new services, change prices, and mark items as sold out with a single click. No more waiting, no more extra costs.",
+        "Make real-time updates from any device. Your online catalog syncs instantly everywhere.",
       ctaText: "See How It Works",
       impactMetric: "Instant updates, zero cost",
       icon: <FiClock />,
@@ -279,9 +279,9 @@ const ProblemSection: React.FC = () => {
       metric: "Zero",
       metricLabel: "printing costs, ever",
       problem:
-        "You spend a fortune on printing and reprinting menus and catalogs. Every time you make a change, you have to throw away the old ones and print new ones. It's wasteful and expensive.",
+        "Reprinting wastes money and time—and customers still see out-of-date info.",
       solution:
-        "Go green and save money with a digital-first catalog. Share your catalog via a link or QR code, and never worry about printing costs again. Plus, you'll be doing your part for the environment.",
+        "Share a digital catalog via link or QR code and eliminate print costs for good.",
       ctaText: "Calculate Your Savings",
       impactMetric: "Eco-friendly and cost-effective",
       icon: <FiDollarSign />,
