@@ -170,7 +170,7 @@ export default function Billing({
       <h2
         className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
         style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
-        <FiCalendar className="text-product-icon w-6 h-6 sm:w-8 sm:h-8" /> Billing Overview
+        <FiCalendar className="text-product-icon font-lora w-6 h-6 sm:w-8 sm:h-8" /> Billing Overview
       </h2>
 
       {/* Action Buttons */}

@@ -11,9 +11,10 @@ interface PricingColumnProps {
   tier: PricingPlan
   highlight?: boolean
   price: string
+  billingCycle: "monthly" | "yearly"
 }
 
-const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price }) => {
+const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const getFeatureList = (features: PricingPlan["features"]) => {
@@ -30,14 +31,14 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price })
     ].filter(Boolean)
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
+  const cycleLabel = billingCycle === "yearly" ? "/year" : "/month"
   return (
     <div
       className={clsx(
         "group relative w-full max-w-sm mx-auto bg-product-background text-product-foreground rounded-2xl border border-product-border lg:max-w-full transition-all duration-300 ease-out h-full flex flex-col",
         {
           "shadow-[var(--product-shadow)] hover:shadow-[var(--product-hover-shadow)]": !highlight,
-          "shadow-[var(--product-hover-shadow)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.18)]":
-            highlight,
+          "shadow-[var(--product-hover-shadow)] hover:shadow-[0_16px_50px_rgba(0,0,0,0.18)]": highlight,
           "hover:scale-[1.02] hover:-translate-y-1": true,
         }
       )}
@@ -66,7 +67,7 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price })
             {displayPrice}
           </span>
           <span className="text-sm font-normal text-product-foreground-accent ml-2 font-lora">
-            /month
+            {cycleLabel}
           </span>
         </div>
 

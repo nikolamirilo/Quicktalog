@@ -42,6 +42,7 @@ body {
   --navbar-button-focus-ring: 0 0 0 3px rgba(211, 175, 55, 0.2);
   --navbar-button-hover-scale: 1.05;
   --navbar-button-active: #000;
+  --error-color: #ff0000;
 
   @apply text-lg;
   color: var(--product-foreground);

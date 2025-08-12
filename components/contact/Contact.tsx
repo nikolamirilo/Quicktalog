@@ -58,7 +58,7 @@ const Contact = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-product-foreground mb-2">Thanks—your message is on its way!</h3>
+              <h3 className="text-xl font-semibold text-product-foreground mb-2">Thanks-your message is on its way!</h3>
               <p className="text-product-foreground-accent mb-6">
                 We’ve received your message and will reply via email within 1 business day.
               </p>
@@ -286,7 +286,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Email</h3>
-                  <p className="text-product-foreground-accent text-lg">quicktalog@outlook.com</p>
+                  <a href="mailto:quicktalog@outlook.com" aria-label="Send an email to quicktalog@outlook.com" className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">quicktalog@outlook.com</a>
                   <p className="text-product-foreground-accent text-sm mt-1">We typically respond within 1 business day.</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
@@ -311,7 +311,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Phone</h3>
-                  <p className="text-product-foreground-accent text-lg">+1 (555) 123-4567</p>
+                  <a href="tel:+15551234567" aria-label="Call +1 (555) 123-4567" className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">+1 (555) 123-4567</a>
                   <p className="text-product-foreground-accent text-sm mt-1">Mon–Fri, 9:00am–5:00pm ET</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-100"></div>
@@ -342,7 +342,7 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Office</h3>
-                  <p className="text-product-foreground-accent text-lg">New York, NY — Remote‑first team</p>
+                  <p className="text-product-foreground-accent text-lg">New York, NY - Remote‑first team</p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-200"></div>
                   </div>

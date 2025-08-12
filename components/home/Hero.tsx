@@ -77,8 +77,8 @@ const Hero: React.FC = () => {
 
         <Image
           src="/images/hero-mockup.png"
-          width={384}
-          height={340}
+          width={384 * 1.2}
+          height={340 * 1.2}
           quality={100}
           sizes="(max-width: 768px) 100vw, 384px"
           priority={true}

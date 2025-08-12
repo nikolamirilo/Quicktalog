@@ -60,7 +60,7 @@ const CTA: React.FC = () => {
             </motion.h2>
 
             <motion.p className="mx-auto max-w-2xl md:px-5 text-lg mb-8" variants={childVariants}>
-              Launch a mobile‑friendly, interactive catalog in minutes. Start free—no credit card required.
+              Launch a mobile-friendly, interactive catalog in minutes. Start free-no credit card required.
             </motion.p>
 
             {/* Risk reversal indicators */}

@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
     <footer className="bg-hero-product-background text-product-foreground py-16 border-t border-product-border">
       <div className="max-w-7xl w-full mx-auto px-6">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4  gap-10 mb-12">
           {/* Brand section */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3 group">

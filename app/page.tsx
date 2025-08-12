@@ -1,3 +1,4 @@
+import AIShortcut from "@/components/home/AIShortcut"
 import Benefits from "@/components/home/Benefits/Benefits"
 import Container from "@/components/home/Container"
 import CTA from "@/components/home/CTA"
@@ -20,16 +21,24 @@ const HomePage: React.FC = async () => {
         <Section
           id="problems"
           title="Stop Losing Customers to Outdated Catalogs"
-          description="Replace printed catalogs with an interactive, mobile‑friendly online catalog you can update in real time.">
+          description="Replace printed catalogs with an interactive, mobile-friendly online catalog you can update in real time.">
           <ProblemSection />
         </Section>
         {/* <Stats /> */}
         <Section
           id="how-it-works"
           title="Go Live in Minutes"
-          description="Create a digital catalog in a few simple steps—or let AI generate it for you. No design or code required.">
+          description="Create a digital catalog in a few simple steps-or let AI generate it for you. No design or code required.">
           <HowItWorks />
         </Section>
+
+        <div className="lg:mt-0">
+          <div className="text-center mb-6 lg:mb-12">
+            <h3 className="text-2xl lg:text-3xl font-bold font-lora text-product-foreground">Let AI do the work</h3>
+            <p className="text-sm lg:text-base text-product-foreground-accent mt-1">Describe your business and generate a ready-to-edit catalog in seconds.</p>
+          </div>
+          <AIShortcut />
+        </div>
 
         <Section
           id="pricing"

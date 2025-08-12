@@ -51,6 +51,7 @@ export default withUt(
           heading: "var(--heading)",
           text: "var(--text)",
           price: "var(--price)",
+          error: "var(--error-color)",
           "card-bg": "var(--card-bg)",
           "card-text": "var(--card-text)",
           "card-heading": "var(--card-heading)",

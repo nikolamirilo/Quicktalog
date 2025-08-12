@@ -55,7 +55,7 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: "Digital Catalog Builder — Create Online Catalogs Fast | Quicktalog",
+  title: "Digital Catalog Builder - Create Online Catalogs Fast | Quicktalog",
   description:
     "Create interactive, mobile-friendly digital catalogs in minutes. No-code builder, AI generation, QR sharing, and analytics. Start free.",
 }

@@ -163,13 +163,13 @@ const ServicesSection = ({
                     <Swiper
                       spaceBetween={12}
                       slidesPerView={"auto"}
-                      className="mt-4 px-0 sm:px-2"
+                      className="mt-4 px-0 sm:px-2 py-2"
                       role="region"
                       aria-label={`${item.title} carousel`}>
                       {servicesData[item.code].items.map((record: any, i: number) => (
                         <SwiperSlide
                           key={i}
-                          className="!w-[160px] sm:!w-[220px] md:!w-[260px] lg:!w-[320px] flex-shrink-0 flex flex-col !h-auto"
+                          className="!w-[160px] sm:!w-[220px] md:!w-[260px] lg:!w-[320px] py-2 flex-shrink-0 flex flex-col !h-auto"
                           role="group"
                           aria-label={`Item ${i + 1} of ${servicesData[item.code].items.length}`}>
                           <CardsSwitcher
