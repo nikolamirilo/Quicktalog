@@ -10,9 +10,5 @@ export default async function ServicesFormSwitcher({
   initialData?: ServicesFormData
 }) {
   const userData = await getUserData()
-  if (type == "edit") {
-    return <ServicesForm type={type} userData={userData} />
-  } else {
-    return <ServicesForm type={type} userData={userData} initialData={initialData} />
-  }
+  return <ServicesForm type={type} userData={userData} initialData={initialData} />
 }

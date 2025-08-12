@@ -45,59 +45,76 @@ const useThemeDetection = () => {
 
 interface CatalogueFooterProps {
   type?: "default" | "custom"
-  customLogo?: string
-  customCompanyName?: string
-  customEmail?: string
-  customPhone?: string
-  customAddress?: string
-  customLocation?: string
-  customLegalName?: string
-  customSocialLinks?: Record<string, string>
-  customPartnerBadges?: Array<{
-    name: string
-    logo: string
-    description: string
-    rating: number
-    url?: string
-  }>
+  customData?: {
+    logo?: string
+    name?: string
+    address?: string
+    city?: string
+    email?: string
+    partners?: Array<{
+      name: string
+      logo: string
+      description: string
+      rating: number
+      url?: string
+    }>
+    phone?: string
+    socialLinks?: Record<string, string>
+    ctaFooter?: {
+      enabled: boolean
+      label: string
+      url: string
+    }
+    newsletter?: {
+      enabled: boolean
+      url: string
+    }
+    legal?: {
+      terms_and_conditions?: string
+      privacy_policy?: string
+    }
+  }
 }
 
-const CatalogueFooter: React.FC<CatalogueFooterProps> = ({
-  type = "default",
-  customLogo,
-  customCompanyName = "Your Company",
-  customEmail = "hello@example.com",
-  customPhone = "+1 (555) 123-4567",
-  customAddress = "123 Business St",
-  customLocation = "City, State 12345",
-  customLegalName = "Your Company LLC",
-  customSocialLinks = {
-    facebook: "https://facebook.com/yourcompany",
-    twitter: "https://twitter.com/yourcompany",
-    linkedin: "https://linkedin.com/company/yourcompany",
-    instagram: "https://instagram.com/yourcompany",
-  },
-  customPartnerBadges = [
-    {
-      name: "Partner 1",
-      logo: "/partners/partner1.svg",
-      description: "Business Partner",
-      rating: 4.8,
+const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", customData = {} }) => {
+  const {
+    logo: customLogo,
+    name: customCompanyName = "Your Company",
+    email: customEmail = "hello@example.com",
+    phone: customPhone = "+1 (555) 123-4567",
+    address: customAddress = "123 Business St",
+    city: customLocation = "City, State 12345",
+    socialLinks: customSocialLinks = {
+      facebook: "https://facebook.com/yourcompany",
+      twitter: "https://twitter.com/yourcompany",
+      linkedin: "https://linkedin.com/company/yourcompany",
+      instagram: "https://instagram.com/yourcompany",
     },
-    {
-      name: "Partner 2",
-      logo: "/partners/partner2.svg",
-      description: "Business Partner",
-      rating: 4.9,
-    },
-    {
-      name: "Partner 3",
-      logo: "/partners/partner3.svg",
-      description: "Business Partner",
-      rating: 4.7,
-    },
-  ],
-}) => {
+    partners: customPartnerBadges = [
+      {
+        name: "Partner 1",
+        logo: "/partners/partner1.svg",
+        description: "Business Partner",
+        rating: 4.8,
+      },
+      {
+        name: "Partner 2",
+        logo: "/partners/partner2.svg",
+        description: "Business Partner",
+        rating: 4.9,
+      },
+      {
+        name: "Partner 3",
+        logo: "/partners/partner3.svg",
+        description: "Business Partner",
+        rating: 4.7,
+      },
+    ],
+    ctaFooter = { enabled: false, label: "Learn More", url: "#" },
+    newsletter = { enabled: false, url: "" },
+    legal = {},
+  } = customData
+
   const { isDarkTheme } = useThemeDetection()
   const [logoPath, setLogoPath] = useState("/logo.svg")
   const [newsletterEmail, setNewsletterEmail] = useState("")
@@ -353,20 +370,25 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({
               </div>
 
               {/* Social Icons (Custom only) */}
-              {type === "custom" && (
-                <nav
-                  className="flex items-center space-x-3"
-                  role="navigation"
-                  aria-label="Social media links">
-                  {Object.keys(customSocialLinks).map((platform) => (
-                    <SocialIcon
-                      key={platform}
-                      platform={platform}
-                      href={customSocialLinks[platform as keyof typeof customSocialLinks]}
-                    />
-                  ))}
-                </nav>
-              )}
+              {type === "custom" &&
+                customSocialLinks &&
+                Object.keys(customSocialLinks).length > 0 && (
+                  <nav
+                    className="flex items-center space-x-3"
+                    role="navigation"
+                    aria-label="Social media links">
+                    {Object.keys(customSocialLinks).map(
+                      (platform) =>
+                        customSocialLinks[platform] && (
+                          <SocialIcon
+                            key={platform}
+                            platform={platform}
+                            href={customSocialLinks[platform as keyof typeof customSocialLinks]}
+                          />
+                        )
+                    )}
+                  </nav>
+                )}
             </div>
 
             {/* Column 2: Contact & Support */}
@@ -494,7 +516,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({
                         style={{ color: "var(--card-description)" }}
                       />
                       <span className="text-sm" style={{ color: "var(--card-description)" }}>
-                        {customLegalName}
+                        {customData.city}
                       </span>
                     </li>
                   </ul>
@@ -569,32 +591,55 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({
             className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm"
             style={{ color: "var(--card-description)" }}>
             <span>
-              © {new Date().getFullYear()} {type === "default" ? "Quicktalog" : customLegalName}.
+              © {new Date().getFullYear()} {type === "default" ? "Quicktalog" : customData.name}.
               All rights reserved.
             </span>
             <nav className="flex items-center space-x-6" role="navigation" aria-label="Legal links">
-              <Link
-                href="/privacy-policy"
-                className="hover:text-primary transition-colors duration-200"
-                aria-label="Privacy Policy">
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms-and-conditions"
-                className="hover:text-primary transition-colors duration-200"
-                aria-label="Terms of Service">
-                Terms of Service
-              </Link>
-              <Link
-                href="/refund-policy"
-                className="hover:text-primary transition-colors duration-200"
-                aria-label="Refund Policy">
-                Refund Policy
-              </Link>
+              {type === "default" ? (
+                <>
+                  <Link
+                    href="/privacy-policy"
+                    className="hover:text-primary transition-colors duration-200"
+                    aria-label="Privacy Policy">
+                    Privacy Policy
+                  </Link>
+                  <Link
+                    href="/terms-and-conditions"
+                    className="hover:text-primary transition-colors duration-200"
+                    aria-label="Terms of Service">
+                    Terms of Service
+                  </Link>
+                  <Link
+                    href="/refund-policy"
+                    className="hover:text-primary transition-colors duration-200"
+                    aria-label="Refund Policy">
+                    Refund Policy
+                  </Link>
+                </>
+              ) : (
+                <>
+                  {legal?.privacy_policy && (
+                    <Link
+                      href={legal.privacy_policy}
+                      className="hover:text-primary transition-colors duration-200"
+                      aria-label="Privacy Policy">
+                      Privacy Policy
+                    </Link>
+                  )}
+                  {legal?.terms_and_conditions && (
+                    <Link
+                      href={legal.terms_and_conditions}
+                      className="hover:text-primary transition-colors duration-200"
+                      aria-label="Terms of Service">
+                      Terms of Service
+                    </Link>
+                  )}
+                </>
+              )}
             </nav>
 
             {/* Enhanced Newsletter for Custom */}
-            {type === "custom" && (
+            {type === "custom" && newsletter?.enabled && (
               <div>
                 <form
                   onSubmit={handleNewsletterSubmit}
@@ -670,6 +715,26 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({
                   Stay updated with our latest news and offers.
                 </p>
               </div>
+            )}
+            {type === "custom" && ctaFooter?.enabled && (
+              <Button
+                asChild
+                variant="secondary"
+                size="default"
+                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2"
+                style={{
+                  fontFamily: "var(--font-family-heading, inherit)",
+                  fontWeight: "var(--font-weight-heading, 600)",
+                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
+                  backgroundColor: "var(--card-bg)",
+                  color: "var(--card-text)",
+                  border: "1px solid var(--primary)",
+                }}>
+                <Link href={ctaFooter.url} aria-label={ctaFooter.label}>
+                  <FiExternalLink className="w-4 h-4" />
+                  {ctaFooter.label}
+                </Link>
+              </Button>
             )}
           </div>
         </div>

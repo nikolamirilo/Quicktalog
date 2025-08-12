@@ -29,7 +29,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
           className={`theme-elegant bg-background text-foreground min-h-screen flex flex-col`}
           role="application"
           aria-label="Service Catalogue">
-          <CatalogueHeader />
+          <CatalogueHeader type="default" />
           <main
             className="flex-1 flex flex-col justify-center items-center px-4 py-16 sm:py-24"
             role="main"
@@ -43,7 +43,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
               </p>
             </div>
           </main>
-          <CatalogueFooter />
+          <CatalogueFooter type="default" />
         </div>
       )
     }
@@ -69,13 +69,52 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       twitter: getContactValue("twitter"),
       website: getContactValue("website"),
     }
+    const headerData = {
+      logo: item.logo || "/logo.svg",
+      email: getContactValue("email") || "",
+      phone: getContactValue("phone") || "",
+      emailButtonNavbar: item.configuration?.emailButtonNavbar,
+      ctaNavbar: item.configuration?.ctaNavbar,
+    }
+    const footerData = {
+      logo: item.logo || "/logo.svg",
+      name: item.name || "",
+      address: "123 Business St",
+      city: "City, State 12345",
+      email: getContactValue("email"),
+      partners: [
+        {
+          name: "Partner 1",
+          logo: "/partners/partner1.svg",
+          description: "Business Partner",
+          rating: 4.8,
+        },
+        {
+          name: "Partner 2",
+          logo: "/partners/partner2.svg",
+          description: "Business Partner",
+          rating: 4.9,
+        },
+        {
+          name: "Partner 3",
+          logo: "/partners/partner3.svg",
+          description: "Business Partner",
+          rating: 4.7,
+        },
+      ],
+      phone: getContactValue("phone"),
+      socialLinks: socialLinks,
+      ctaFooter: item.configuration?.ctaFooter,
+      newsletter: item.configuration?.newsletter,
+      legal: item.legal,
+    }
 
     return (
       <div
         className={`${item.theme} bg-background text-foreground min-h-screen flex flex-col`}
         role="application"
         aria-label={`${item.title} Service Catalogue`}>
-        <CatalogueHeader type="custom" />
+        <CatalogueHeader type="custom" customData={headerData} />
         <main
           className="flex-1 flex flex-col min-h-0"
           role="main"
@@ -109,13 +148,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
             </section>
           )}
         </main>
-        <CatalogueFooter
-          type="custom"
-          customLegalName={item.legal?.name}
-          customEmail={getContactValue("email")}
-          customPhone={getContactValue("phone")}
-          customSocialLinks={socialLinks}
-        />
+        <CatalogueFooter type="custom" customData={footerData} />
       </div>
     )
   } catch (error) {

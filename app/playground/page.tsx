@@ -1,7 +1,6 @@
 // @ts-nocheck
 "use client"
 import Toggle from "@/components/common/Toggle"
-import CatalogueFooter from "@/components/navigation/CatalogueFooter"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import ServicesSection from "@/components/sections/ServicesSection"
@@ -94,7 +93,7 @@ const page: React.FC = () => {
                 </div>
               </div>
             </section>
-            <CatalogueFooter type="custom" />
+            <Footer />
           </main>
         </div>
       </>

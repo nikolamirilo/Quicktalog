@@ -7,31 +7,28 @@ import { FiExternalLink, FiMail, FiPhone, FiPlus } from "react-icons/fi"
 
 interface CatalogueHeaderProps {
   type?: "default" | "custom"
-  customLogo?: string
-  customEmail?: string
-  customPhone?: string
-  customCtaText?: string
-  customCtaLink?: string
+  customData?: {
+    logo?: string
+    email?: string
+    phone?: string
+    emailButtonNavbar?: boolean
+    ctaNavbar?: {
+      enabled: boolean
+      label: string
+      url: string
+    }
+  }
 }
 
-const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
-  type = "default",
-  customLogo,
-  customEmail = "hello@example.com",
-  customPhone = "+1 (555) 123-4567",
-  customCtaText = "Contact Us",
-  customCtaLink = "#",
-}) => {
+const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", customData }) => {
   const [logoPath, setLogoPath] = useState("/logo.svg")
 
-  // Determine logo based on theme
   useEffect(() => {
     const getLogoPath = () => {
-      if (type === "custom" && customLogo) {
-        return customLogo
+      if (type === "custom" && customData?.logo) {
+        return customData.logo
       }
 
-      // Check if we're in a dark theme by looking for theme classes on parent elements
       const mainElement = document.querySelector("main")
       const isDarkTheme =
         mainElement?.classList.contains("theme-elegant") ||
@@ -45,11 +42,11 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
         ? isDarkTheme
           ? "/logo-light.svg"
           : "/logo.svg"
-        : customLogo || "/logo.svg"
+        : customData?.logo || "/logo.svg"
     }
 
     setLogoPath(getLogoPath())
-  }, [type, customLogo])
+  }, [type, customData?.logo])
 
   return (
     <header
@@ -66,7 +63,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
       }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-2 sm:py-3">
-          {/* Left side - Logo */}
+          {/* Logo */}
           <div className="flex items-center">
             <Link
               href="/"
@@ -82,7 +79,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
             </Link>
           </div>
 
-          {/* Right side - Contact CTA */}
+          {/* Contact & CTA */}
           <nav
             className="flex items-center space-x-2 sm:space-x-4"
             role="navigation"
@@ -93,9 +90,9 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
               role="group"
               aria-label="Contact options">
               <a
-                href={`mailto:${type === "default" ? "hello@quicktalog.com" : customEmail}`}
+                href={`mailto:${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}
                 className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
-                aria-label={`Send email to ${type === "default" ? "hello@quicktalog.com" : customEmail}`}
+                aria-label={`Send email to ${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}
                 style={{
                   fontFamily: "var(--font-family-heading, inherit)",
                   fontWeight: "var(--font-weight-heading, 600)",
@@ -109,11 +106,11 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
                   aria-hidden="true"
                 />
               </a>
-              {type === "custom" && customPhone && (
+              {type === "custom" && customData?.phone && (
                 <a
-                  href={`tel:${customPhone}`}
+                  href={`tel:${customData.phone}`}
                   className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
-                  aria-label={`Call ${customPhone}`}
+                  aria-label={`Call ${customData.phone}`}
                   style={{
                     fontFamily: "var(--font-family-heading, inherit)",
                     fontWeight: "var(--font-weight-heading, 600)",
@@ -131,36 +128,44 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({
             </div>
 
             {/* CTA Button */}
-            <Button
-              asChild
-              variant="secondary"
-              size="default"
-              className="font-semibold text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary"
-              style={{
-                fontFamily: "var(--font-family-heading, inherit)",
-                fontWeight: "var(--font-weight-heading, 600)",
-                letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                backgroundColor: "var(--card-bg)",
-                color: "var(--foreground)",
-                borderColor: "var(--primary)",
-              }}>
-              <Link
-                href={type === "default" ? "/auth?mode=signup" : customCtaLink}
-                aria-label={type === "default" ? "Create your own digital catalog" : customCtaText}>
-                {type === "default" ? (
-                  <>
-                    <FiPlus className="w-4 h-4 mr-2" aria-hidden="true" />
-                    <span className="hidden sm:inline">Create Your Catalog</span>
-                    <span className="sm:hidden">Get Started</span>
-                  </>
-                ) : (
-                  <>
-                    <FiExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
-                    <span>{customCtaText}</span>
-                  </>
-                )}
-              </Link>
-            </Button>
+            {(type === "default" || (type === "custom" && customData?.ctaNavbar?.enabled)) && (
+              <Button
+                asChild
+                variant="secondary"
+                size="default"
+                className="font-semibold text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary"
+                style={{
+                  fontFamily: "var(--font-family-heading, inherit)",
+                  fontWeight: "var(--font-weight-heading, 600)",
+                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
+                  backgroundColor: "var(--card-bg)",
+                  color: "var(--foreground)",
+                  borderColor: "var(--primary)",
+                }}>
+                <Link
+                  href={
+                    type === "default" ? "/auth?mode=signup" : customData?.ctaNavbar?.url || "#"
+                  }
+                  aria-label={
+                    type === "default"
+                      ? "Create your own digital catalog"
+                      : customData?.ctaNavbar?.label || "Learn more"
+                  }>
+                  {type === "default" ? (
+                    <>
+                      <FiPlus className="w-4 h-4 mr-2" aria-hidden="true" />
+                      <span className="hidden sm:inline">Create Your Catalog</span>
+                      <span className="sm:hidden">Get Started</span>
+                    </>
+                  ) : (
+                    <>
+                      <FiExternalLink className="w-4 h-4 mr-2" aria-hidden="true" />
+                      <span>{customData?.ctaNavbar?.label}</span>
+                    </>
+                  )}
+                </Link>
+              </Button>
+            )}
           </nav>
         </div>
       </div>

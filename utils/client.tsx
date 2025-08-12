@@ -1,4 +1,5 @@
 import { JSX } from "react"
+import { BsGlobe2 } from "react-icons/bs"
 import {
   FaFacebook,
   FaGithub,
@@ -26,6 +27,9 @@ export const getPlatformIconByName = (platformName: string): JSX.Element | null 
     }
     case "threads": {
       return <FaThreads size={24} className="min-w-fit" />
+    }
+    case "website": {
+      return <BsGlobe2 size={24} className="min-w-fit" />
     }
     case "twitter": {
       return <FaTwitter size={24} className="min-w-fit" />
