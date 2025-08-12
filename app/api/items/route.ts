@@ -15,6 +15,7 @@ export async function POST(request: Request) {
       currency,
       legal,
       contact,
+      partners,
       subtitle,
       configuration,
     } = await request.json()
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
           currency,
           legal,
           contact,
+          partners,
           subtitle,
           configuration,
         },
@@ -70,6 +72,7 @@ export async function PATCH(request: Request) {
       logo,
       title,
       currency,
+      partners,
       legal,
       contact,
       subtitle,
@@ -88,6 +91,7 @@ export async function PATCH(request: Request) {
         legal,
         contact,
         subtitle,
+        partners,
         configuration,
         updated_at: new Date().toISOString(),
       })

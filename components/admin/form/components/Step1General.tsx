@@ -40,6 +40,14 @@ const Step1General: React.FC<Step1GeneralProps> = ({
   errors = {},
   touched = {},
 }) => {
+  const handleThemeChange = (value: string) => {
+    setFormData((prev: any) => ({ ...prev, theme: value }))
+  }
+
+  const handleCurrencyChange = (value: string) => {
+    setFormData((prev: any) => ({ ...prev, currency: value }))
+  }
+
   return (
     <Card
       className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-md rounded-2xl"
@@ -77,7 +85,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             id="title"
             type="text"
             name="title"
-            value={formData.title}
+            value={formData.title || ""}
             onChange={handleInputChange}
             placeholder="e.g., Our Delicious Offerings"
             className="border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
@@ -95,7 +103,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           <Textarea
             id="subtitle"
             name="subtitle"
-            value={formData.subtitle}
+            value={formData.subtitle || ""}
             onChange={handleInputChange}
             placeholder="A short tagline or description"
             className="h-32 border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
@@ -105,13 +113,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           <Label htmlFor="currency" className="text-product-foreground font-medium font-body">
             Currency (e.g., USD, EUR)<span className="text-red-500 ml-1">*</span>
           </Label>
-          <Select
-            value={formData.currency || ""}
-            onValueChange={(value) =>
-              handleInputChange({
-                target: { name: "currency", value },
-              } as React.ChangeEvent<HTMLInputElement>)
-            }>
+          <Select value={formData.currency || ""} onValueChange={handleCurrencyChange}>
             <SelectTrigger className="border-product-border focus:border-product-primary focus:ring-product-primary/20">
               <SelectValue placeholder="Select currency" />
             </SelectTrigger>
@@ -143,11 +145,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
                     ? "border-product-primary shadow-product-shadow bg-product-primary/5"
                     : "border-product-border hover:border-product-primary/50"
                 }`}
-                onClick={() =>
-                  handleInputChange({
-                    target: { name: "theme", value: themeOption.key },
-                  } as React.ChangeEvent<HTMLInputElement>)
-                }>
+                onClick={() => handleThemeChange(themeOption.key)}>
                 <img
                   src={themeOption.image}
                   alt={themeOption.label}

@@ -1,21 +1,21 @@
 "use client"
 import { Button } from "@/components/ui/button"
+import { Legal } from "@/types"
 import { getPlatformIconByName } from "@/utils/client"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import {
   FiExternalLink,
-  FiHome,
   FiMail,
   FiMapPin,
   FiPhone,
   FiPlus,
   FiShield,
-  FiStar,
   FiUsers,
   FiZap,
 } from "react-icons/fi"
+import { MdTitle } from "react-icons/md"
 
 // Custom hook for theme detection
 const useThemeDetection = () => {
@@ -69,10 +69,7 @@ interface CatalogueFooterProps {
       enabled: boolean
       url: string
     }
-    legal?: {
-      terms_and_conditions?: string
-      privacy_policy?: string
-    }
+    legal?: Legal
   }
 }
 
@@ -82,8 +79,6 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
     name: customCompanyName = "Your Company",
     email: customEmail = "hello@example.com",
     phone: customPhone = "+1 (555) 123-4567",
-    address: customAddress = "123 Business St",
-    city: customLocation = "City, State 12345",
     socialLinks: customSocialLinks = {
       facebook: "https://facebook.com/yourcompany",
       twitter: "https://twitter.com/yourcompany",
@@ -112,7 +107,12 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
     ],
     ctaFooter = { enabled: false, label: "Learn More", url: "#" },
     newsletter = { enabled: false, url: "" },
-    legal = {},
+    legal = {
+      name: "Quicktalog",
+      address: "123 Business St, City, State 12345",
+      terms_and_conditions: "https://termify.io/terms-and-conditions-generator",
+      privacy_policy: "https://termify.io/terms-and-conditions-generator",
+    },
   } = customData
 
   const { isDarkTheme } = useThemeDetection()
@@ -273,11 +273,11 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             <span className="text-lg">{partner.name.charAt(0)}</span>
           ) : (
             <Image
-              src={partner.logo}
+              src={`https://logo.clearbit.com/${partner.url}`}
               alt={`${partner.name} logo`}
               width={32}
               height={32}
-              className="w-8 h-8 object-contain"
+              className="w-8 h-8 rounded-full"
               onError={() => setImageError(true)}
             />
           )}
@@ -295,7 +295,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
           </div>
           <div className="text-xs text-card-description">{partner.description}</div>
         </div>
-        <div className="flex items-center space-x-1">
+        {/* <div className="flex items-center space-x-1">
           <FiStar className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
           <span
             className="text-xs font-medium"
@@ -303,7 +303,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             aria-label={`Rating: ${partner.rating} out of 5`}>
             {partner.rating}
           </span>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -437,9 +437,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     style={{ color: "var(--card-description)" }}
                   />
                   <span className="text-sm" style={{ color: "var(--card-description)" }}>
-                    {type === "default"
-                      ? "San Francisco, CA"
-                      : `${customAddress}, ${customLocation}`}
+                    {type === "default" ? "Belgrade, Serbia" : `${legal.address}`}
                   </span>
                 </li>
               </ul>
@@ -500,24 +498,23 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     <span>Company Information</span>
                   </h4>
                   <ul className="space-y-4">
+                    <li className="flex items-center space-x-3">
+                      <MdTitle
+                        className="w-4 h-4 flex-shrink-0"
+                        style={{ color: "var(--card-description)" }}
+                      />
+                      <span className="text-sm" style={{ color: "var(--card-description)" }}>
+                        {customData.legal.name}
+                      </span>
+                    </li>
                     <li className="flex items-start space-x-3">
                       <FiMapPin
                         className="w-4 h-4 mt-1 flex-shrink-0"
                         style={{ color: "var(--card-description)" }}
                       />
                       <div className="text-sm" style={{ color: "var(--card-description)" }}>
-                        <div>{customAddress}</div>
-                        <div>{customLocation}</div>
+                        <div>{legal.address}</div>
                       </div>
-                    </li>
-                    <li className="flex items-center space-x-3">
-                      <FiHome
-                        className="w-4 h-4 flex-shrink-0"
-                        style={{ color: "var(--card-description)" }}
-                      />
-                      <span className="text-sm" style={{ color: "var(--card-description)" }}>
-                        {customData.city}
-                      </span>
                     </li>
                   </ul>
                 </>
@@ -530,9 +527,9 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 <>
                   {/* Social Icons (Default only) */}
                   <div className="flex items-center space-x-3">
-                    {Object.keys(socialLinks).map((platform) => (
+                    {Object.keys(socialLinks).map((platform, index) => (
                       <SocialIcon
-                        key={platform}
+                        key={index}
                         platform={platform}
                         href={socialLinks[platform as keyof typeof socialLinks]}
                       />

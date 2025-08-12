@@ -52,7 +52,6 @@ export interface ServiceCatalogue {
   services: {
     [key: string]: ServicesCategory
   }
-  address?: string
   partners?: Partner[]
   legal?: Legal
   configuration?: Configuration
@@ -65,13 +64,14 @@ export interface Service {
 }
 export interface Legal {
   name: string
+  address: string
   terms_and_conditions: string
   privacy_policy: string
 }
 export interface Partner {
   name: string
+  description: string
   url: string
-  icon: string
 }
 export interface Configuration {
   emailButtonNavbar?: boolean
@@ -124,6 +124,7 @@ export interface ServicesFormData {
   subtitle?: string
   services: ServicesCategory[]
   configuration?: Configuration
+  partners?: Partner[]
 }
 export interface UserData extends SupabaseUser {
   plan_name: string

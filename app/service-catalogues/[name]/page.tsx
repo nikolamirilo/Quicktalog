@@ -79,29 +79,8 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     const footerData = {
       logo: item.logo || "/logo.svg",
       name: item.name || "",
-      address: "123 Business St",
-      city: "City, State 12345",
       email: getContactValue("email"),
-      partners: [
-        {
-          name: "Partner 1",
-          logo: "/partners/partner1.svg",
-          description: "Business Partner",
-          rating: 4.8,
-        },
-        {
-          name: "Partner 2",
-          logo: "/partners/partner2.svg",
-          description: "Business Partner",
-          rating: 4.9,
-        },
-        {
-          name: "Partner 3",
-          logo: "/partners/partner3.svg",
-          description: "Business Partner",
-          rating: 4.7,
-        },
-      ],
+      partners: item.partners,
       phone: getContactValue("phone"),
       socialLinks: socialLinks,
       ctaFooter: item.configuration?.ctaFooter,
