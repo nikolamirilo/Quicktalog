@@ -5,23 +5,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.logotypes101.com",
+        hostname: "**", // allow all hostnames
       },
       {
-        protocol: "https",
-        hostname: "st.depositphotos.com",
-      },
-      {
-        protocol: "https",
-        hostname: "restoranplato.rs",
-      },
-      {
-        protocol: "https",
-        hostname: "utfs.io",
-      },
-      {
-        protocol: "https",
-        hostname: "logo.clearbit.com",
+        protocol: "http",
+        hostname: "**", // allow all http domains too (if needed)
       },
     ],
   },

@@ -1,5 +1,4 @@
 //@ts-nocheck
-import { getUserData } from "@/actions/users"
 import CatalogueFooter from "@/components/navigation/CatalogueFooter"
 import CatalogueHeader from "@/components/navigation/CatalogueHeader"
 import ServicesSection from "@/components/sections/ServicesSection"
@@ -157,7 +156,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     // Parallel execution of data fetching
-    const [cookieStore, userData] = await Promise.all([cookies(), getUserData()])
+    const [cookieStore] = await Promise.all([cookies()])
 
     const supabase = createClient(cookieStore)
     const { data, error } = await supabase
@@ -184,7 +183,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     // Check if user is on free plan
-    const isFreePlan = userData?.plan_name === "Starter"
+    const isFreePlan = item?.legal === null
 
     // Only build header/footer data if not on free plan
     const headerData = isFreePlan ? undefined : buildHeaderData(item)
