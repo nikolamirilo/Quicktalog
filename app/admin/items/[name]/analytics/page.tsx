@@ -40,7 +40,7 @@ export default async function page({ params }: { params: tParams }) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
+          Authorization: `Bearer ${process.env.POSTHGOG_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
