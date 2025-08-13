@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
           email,
           image: image_url,
           name: [first_name, last_name].filter(Boolean).join(" "),
-          plan_id: "pri_01k277hdtkkb1xdbz6karkqek9",
+          plan_id: "pri_01k27ajepm199twd1x77rpwdrq",
         },
       ])
 

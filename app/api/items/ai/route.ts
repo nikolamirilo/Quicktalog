@@ -107,7 +107,7 @@ export async function POST(req: NextRequest) {
 
     // Generate unique restaurant slug
     const baseSlug = generatedData.name.toLowerCase().replace(/\s+/g, "-")
-    let restaurantSlug = baseSlug
+    let catalogueSlug = baseSlug
     let counter = 1
 
     // Check if slug already exists and make it unique
@@ -115,12 +115,12 @@ export async function POST(req: NextRequest) {
       const { data: existingServiceCatalogue } = await supabase
         .from("service_catalogues")
         .select("name")
-        .eq("name", restaurantSlug)
+        .eq("name", catalogueSlug)
         .single()
 
       if (!existingServiceCatalogue) break
 
-      restaurantSlug = `${baseSlug}-${counter}`
+      catalogueSlug = `${baseSlug}-${counter}`
       counter++
     }
 
@@ -137,18 +137,18 @@ export async function POST(req: NextRequest) {
       {} as Record<string, { layout: string; items: any[] }>
     )
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("service_catalogues")
       .insert([
         {
-          name: restaurantSlug,
+          name: catalogueSlug,
           created_by: user.id,
           theme: generatedData.theme,
           logo: generatedData.logo,
-          layout: generatedData.layout,
           title: generatedData.title,
           currency: generatedData.currency,
           legal: generatedData.legal,
+          partners: generatedData.partners,
           configuration: generatedData.configuration,
           contact: generatedData.contact,
           subtitle: generatedData.subtitle,
@@ -158,11 +158,17 @@ export async function POST(req: NextRequest) {
       .select()
 
     if (error) {
-      console.error("Error inserting data into Supabase:", error)
+      console.error("Error inserting data into Supabase service-catalogues table:", error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
-
-    return NextResponse.json({ restaurantUrl: `/service-catalogues/${restaurantSlug}` })
+    const { error: errorPrompt } = await supabase
+      .from("prompts")
+      .insert([{ user_id: user.id, service_catalogue: catalogueSlug }])
+    if (errorPrompt) {
+      console.error("Error inserting data into Supabase prompt table:", errorPrompt)
+      return NextResponse.json({ error: errorPrompt.message }, { status: 500 })
+    }
+    return NextResponse.json({ restaurantUrl: `/service-catalogues/${catalogueSlug}` })
   } catch (error) {
     console.error("Error generating services:", error)
 
