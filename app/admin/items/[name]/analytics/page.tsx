@@ -31,7 +31,7 @@ export default async function page({ params }: { params: tParams }) {
     if (!process.env.POSTHOG_PROJECT_ID) {
       throw new Error("PostHog project ID environment variable is not configured")
     }
-    if (!process.env.POSTHOG_API_KEY) {
+    if (!process.env.NEXT_PUBLIC_POSTHOG_KEY) {
       throw new Error("PostHog API key environment variable is not configured")
     }
 
@@ -40,7 +40,7 @@ export default async function page({ params }: { params: tParams }) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.POSTHOG_API_KEY}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

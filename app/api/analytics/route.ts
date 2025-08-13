@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.POSTHOG_API_KEY!}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_POSTHOG_KEY!}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
