@@ -4,7 +4,7 @@ import { tiers } from "@/constants/pricing"
 import { usePaddlePrices } from "@/hooks/usePaddelPrices"
 import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 import { motion, Variants } from "framer-motion"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import PricingColumn from "./PricingColumn"
 
 const containerVariants: Variants = {
@@ -12,26 +12,26 @@ const containerVariants: Variants = {
   onscreen: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring" as const, bounce: 0.2, duration: 0.9, delayChildren: 0.2, staggerChildren: 0.1 },
+    transition: {
+      type: "spring" as const,
+      bounce: 0.2,
+      duration: 0.9,
+      delayChildren: 0.2,
+      staggerChildren: 0.1,
+    },
   },
 }
 
 const childVariants = {
   offscreen: { opacity: 0, y: 50 },
-  onscreen: { opacity: 1, y: 0, transition: { type: "spring" as const, bounce: 0.2, duration: 0.8 } },
+  onscreen: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, bounce: 0.2, duration: 0.8 },
+  },
 }
 
 type BillingCycle = "monthly" | "yearly"
-
-function computeAnnualFromFormatted(monthlyFormatted: string): string | null {
-  if (!monthlyFormatted) return null
-  const symbolMatch = monthlyFormatted.match(/^[^0-9]+/)
-  const symbol = symbolMatch ? symbolMatch[0] : ""
-  const numeric = parseFloat(monthlyFormatted.replace(/[^0-9.]/g, ""))
-  if (Number.isNaN(numeric)) return null
-  const annual = Math.round(numeric * 10 * 100) / 100 // 10x monthly (2 months free), keep 2 decimals
-  return `${symbol}${annual.toFixed(2)}`
-}
 
 const Pricing: React.FC = () => {
   const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
@@ -50,19 +50,6 @@ const Pricing: React.FC = () => {
     }
   }, [])
 
-  // Mock yearly prices: 2 months free (pay for 10 months)
-  const computedYearly = useMemo(() => {
-    const result: Record<string, string> = {}
-    tiers.forEach((tier) => {
-      const monthlyRaw = prices[tier.priceId.month]
-      const annualFormatted = computeAnnualFromFormatted(monthlyRaw)
-      if (annualFormatted) result[tier.priceId.year] = annualFormatted
-    })
-    return result
-  }, [prices])
-
-  const displayPrices = billingCycle === "monthly" ? prices : computedYearly
-
   return (
     <div className="space-y-6">
       {/* Segmented toggle */}
@@ -78,18 +65,25 @@ const Pricing: React.FC = () => {
           <button
             type="button"
             className={`relative z-10 flex-1 px-4 py-1.5 text-sm rounded-full transition-colors ${
-              billingCycle === "monthly" ? "text-product-foreground font-bold" : "text-product-foreground/60 font-medium"
+              billingCycle === "monthly"
+                ? "text-product-foreground font-bold"
+                : "text-product-foreground/60 font-medium"
             }`}
-            onClick={() => setBillingCycle("monthly")}>Monthly</button>
+            onClick={() => setBillingCycle("monthly")}>
+            Monthly
+          </button>
           <button
             type="button"
             className={`relative z-10 flex-1 px-4 py-1.5 text-sm  rounded-full transition-colors ${
-              billingCycle === "yearly" ? "text-product-foreground font-bold" : "text-product-foreground/60 font-medium"
+              billingCycle === "yearly"
+                ? "text-product-foreground font-bold"
+                : "text-product-foreground/60 font-medium"
             }`}
-            onClick={() => setBillingCycle("yearly")}>Yearly</button>
+            onClick={() => setBillingCycle("yearly")}>
+            Yearly
+          </button>
         </div>
       </div>
-    
 
       {/* Pricing grid */}
       <motion.div
@@ -103,7 +97,7 @@ const Pricing: React.FC = () => {
             <PricingColumn
               tier={tier}
               highlight={index === 2}
-              price={displayPrices[billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year]}
+              price={prices[billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year]}
               billingCycle={billingCycle}
             />
           </motion.div>

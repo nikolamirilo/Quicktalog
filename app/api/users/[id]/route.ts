@@ -24,7 +24,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
-    const pricingPlan = tiers.find((tier) => tier.id === supabaseUser.plan_id)
+    const pricingPlan = tiers.find((tier) =>
+      Object.values(tier.priceId).includes(supabaseUser.plan_id)
+    )
     if (!pricingPlan) {
       console.warn(`Pricing plan not found for ID: ${supabaseUser.plan_id}.`)
       const userData = { ...supabaseUser, plan_name: null, plan_features: null }

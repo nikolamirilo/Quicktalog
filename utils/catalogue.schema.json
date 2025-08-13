@@ -75,9 +75,6 @@
             "$ref": "#/definitions/ServicesCategory"
           }
         },
-        "address": {
-          "type": "string"
-        },
         "partners": {
           "type": "array",
           "items": {
@@ -216,17 +213,17 @@
         "name": {
           "type": "string"
         },
-        "url": {
+        "description": {
           "type": "string"
         },
-        "icon": {
+        "url": {
           "type": "string"
         }
       },
       "required": [
         "name",
-        "url",
-        "icon"
+        "description",
+        "url"
       ],
       "additionalProperties": false
     },
@@ -234,6 +231,9 @@
       "type": "object",
       "properties": {
         "name": {
+          "type": "string"
+        },
+        "address": {
           "type": "string"
         },
         "terms_and_conditions": {
@@ -245,6 +245,7 @@
       },
       "required": [
         "name",
+        "address",
         "terms_and_conditions",
         "privacy_policy"
       ],

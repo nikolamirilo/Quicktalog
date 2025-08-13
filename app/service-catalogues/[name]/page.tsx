@@ -1,9 +1,152 @@
 //@ts-nocheck
+import { getUserData } from "@/actions/users"
 import CatalogueFooter from "@/components/navigation/CatalogueFooter"
 import CatalogueHeader from "@/components/navigation/CatalogueHeader"
 import ServicesSection from "@/components/sections/ServicesSection"
 import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
+
+// Types for better type safety
+interface ContactItem {
+  type: string
+  value: string
+}
+
+interface ServiceCatalogueItem {
+  name: string
+  title: string
+  subtitle?: string
+  services: any[]
+  currency?: string
+  theme?: string
+  logo?: string
+  contact?: ContactItem[]
+  partners?: any[]
+  legal?: any[]
+  configuration?: {
+    emailButtonNavbar?: boolean
+    ctaNavbar?: any
+    ctaFooter?: any
+    newsletter?: any
+  }
+}
+
+interface HeaderData {
+  logo: string
+  email: string
+  phone: string
+  emailButtonNavbar?: boolean
+  ctaNavbar?: any
+}
+
+interface FooterData {
+  logo: string
+  name: string
+  email?: string
+  partners?: any[]
+  phone?: string
+  socialLinks: {
+    instagram?: string
+    facebook?: string
+    twitter?: string
+    website?: string
+  }
+  ctaFooter?: any
+  newsletter?: any
+  legal?: any[]
+}
+
+// Utility function to extract contact values
+const getContactValue = (contact: ContactItem[] | undefined, type: string): string | undefined => {
+  if (!contact || !Array.isArray(contact)) return undefined
+  return contact.find((c) => c.type === type)?.value
+}
+
+// Function to build header data
+const buildHeaderData = (item: ServiceCatalogueItem): HeaderData => ({
+  logo: item.logo || "/logo.svg",
+  email: getContactValue(item.contact, "email") || "",
+  phone: getContactValue(item.contact, "phone") || "",
+  emailButtonNavbar: item.configuration?.emailButtonNavbar,
+  ctaNavbar: item.configuration?.ctaNavbar,
+})
+
+// Function to build footer data
+const buildFooterData = (item: ServiceCatalogueItem): FooterData => ({
+  logo: item.logo || "/logo.svg",
+  name: item.name || "",
+  email: getContactValue(item.contact, "email"),
+  partners: item.partners,
+  phone: getContactValue(item.contact, "phone"),
+  socialLinks: {
+    instagram: getContactValue(item.contact, "instagram"),
+    facebook: getContactValue(item.contact, "facebook"),
+    twitter: getContactValue(item.contact, "twitter"),
+    website: getContactValue(item.contact, "website"),
+  },
+  ctaFooter: item.configuration?.ctaFooter,
+  newsletter: item.configuration?.newsletter,
+  legal: item.legal,
+})
+
+// Error component
+const ErrorPage = ({ error }: { error: unknown }) => (
+  <div
+    className="theme-elegant bg-background text-foreground min-h-screen flex flex-col"
+    role="application"
+    aria-label="Service Catalogue Error">
+    <CatalogueHeader type="default" />
+    <main
+      className="flex-1 flex flex-col justify-center items-center px-4 py-16 sm:py-24"
+      role="main"
+      aria-label="Error content">
+      <div
+        className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl"
+        role="alert"
+        aria-live="polite">
+        <h1 className="text-2xl font-bold text-red-800 mb-4">Error Loading Service Catalogue</h1>
+        <p className="text-red-700 mb-4">
+          {error instanceof Error
+            ? error.message
+            : "An unexpected error occurred while loading the service catalogue."}
+        </p>
+        <div className="text-sm text-red-600">
+          <p>Please check:</p>
+          <ul className="list-disc list-inside mt-2">
+            <li>The URL is correct</li>
+            <li>Your internet connection</li>
+            <li>Try refreshing the page</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+    <CatalogueFooter type="default" />
+  </div>
+)
+
+// Not found component
+const NotFoundPage = () => (
+  <div
+    className="theme-elegant bg-background text-foreground min-h-screen flex flex-col"
+    role="application"
+    aria-label="Service Catalogue">
+    <CatalogueHeader type="default" />
+    <main
+      className="flex-1 flex flex-col justify-center items-center px-4 py-16 sm:py-24"
+      role="main"
+      aria-label="Service catalogue content">
+      <div className="text-center max-w-4xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-lora font-semibold text-heading drop-shadow-sm mb-6">
+          Service Catalogue Not Found
+        </h1>
+        <p className="text-text text-base sm:text-lg md:text-xl px-5 max-w-[900px] font-lora font-normal leading-relaxed">
+          The service catalogue you're looking for doesn't exist or has been removed.
+        </p>
+      </div>
+    </main>
+    <CatalogueFooter type="default" />
+  </div>
+)
 
 const page = async ({ params }: { params: Promise<{ name: string }> }) => {
   try {
@@ -13,42 +156,26 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       throw new Error("Service catalogue name is required")
     }
 
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+    // Parallel execution of data fetching
+    const [cookieStore, userData] = await Promise.all([cookies(), getUserData()])
 
-    const { data, error } = await supabase.from("service_catalogues").select().eq("name", name)
+    const supabase = createClient(cookieStore)
+    const { data, error } = await supabase
+      .from("service_catalogues")
+      .select()
+      .eq("name", name)
+      .single() // Use single() since we expect only one result
 
     if (error) {
       console.error("Database error:", error)
       throw new Error(`Failed to fetch service catalogue: ${error.message}`)
     }
 
-    if (!data || data.length === 0) {
-      return (
-        <div
-          className={`theme-elegant bg-background text-foreground min-h-screen flex flex-col`}
-          role="application"
-          aria-label="Service Catalogue">
-          <CatalogueHeader type="default" />
-          <main
-            className="flex-1 flex flex-col justify-center items-center px-4 py-16 sm:py-24"
-            role="main"
-            aria-label="Service catalogue content">
-            <div className="text-center max-w-4xl mx-auto">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-lora font-semibold text-heading drop-shadow-sm mb-6">
-                Service Catalogue Not Found
-              </h1>
-              <p className="text-text text-base sm:text-lg md:text-xl px-5 max-w-[900px] font-lora font-normal leading-relaxed">
-                The service catalogue you're looking for doesn't exist or has been removed.
-              </p>
-            </div>
-          </main>
-          <CatalogueFooter type="default" />
-        </div>
-      )
+    if (!data) {
+      return <NotFoundPage />
     }
 
-    const item = data[0]
+    const item = data as ServiceCatalogueItem
 
     // Validate required fields
     if (!item.title || !item.services) {
@@ -56,44 +183,24 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       throw new Error("Service catalogue data is incomplete")
     }
 
-    // Safely extract contact information
-    const getContactValue = (type: string) => {
-      if (!item.contact || !Array.isArray(item.contact)) return undefined
-      const contact = item.contact.find((c: any) => c.type === type)
-      return contact?.value
-    }
+    // Check if user is on free plan
+    const isFreePlan = userData?.plan_name === "Starter"
 
-    const socialLinks = {
-      instagram: getContactValue("instagram"),
-      facebook: getContactValue("facebook"),
-      twitter: getContactValue("twitter"),
-      website: getContactValue("website"),
-    }
-    const headerData = {
-      logo: item.logo || "/logo.svg",
-      email: getContactValue("email") || "",
-      phone: getContactValue("phone") || "",
-      emailButtonNavbar: item.configuration?.emailButtonNavbar,
-      ctaNavbar: item.configuration?.ctaNavbar,
-    }
-    const footerData = {
-      logo: item.logo || "/logo.svg",
-      name: item.name || "",
-      email: getContactValue("email"),
-      partners: item.partners,
-      phone: getContactValue("phone"),
-      socialLinks: socialLinks,
-      ctaFooter: item.configuration?.ctaFooter,
-      newsletter: item.configuration?.newsletter,
-      legal: item.legal,
-    }
+    // Only build header/footer data if not on free plan
+    const headerData = isFreePlan ? undefined : buildHeaderData(item)
+    const footerData = isFreePlan ? undefined : buildFooterData(item)
 
     return (
       <div
-        className={`${item.theme} bg-background text-foreground min-h-screen flex flex-col`}
+        className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen flex flex-col`}
         role="application"
         aria-label={`${item.title} Service Catalogue`}>
-        <CatalogueHeader type="custom" customData={headerData} />
+        {isFreePlan ? (
+          <CatalogueHeader type="default" />
+        ) : (
+          <CatalogueHeader type="custom" customData={headerData} />
+        )}
+
         <main
           className="flex-1 flex flex-col min-h-0"
           role="main"
@@ -119,55 +226,23 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
           </section>
 
           {/* Services Section */}
-          {item && (
-            <section
-              className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 md:pt-16 pb-8 min-h-[60vh]"
-              aria-label="Services and items">
-              <ServicesSection servicesData={item.services} currency={item.currency} type="item" />
-            </section>
-          )}
+          <section
+            className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 md:pt-16 pb-8 min-h-[60vh]"
+            aria-label="Services and items">
+            <ServicesSection servicesData={item.services} currency={item.currency} type="item" />
+          </section>
         </main>
-        <CatalogueFooter type="custom" customData={footerData} />
+
+        {isFreePlan ? (
+          <CatalogueFooter type="default" />
+        ) : (
+          <CatalogueFooter type="custom" customData={footerData} />
+        )}
       </div>
     )
   } catch (error) {
     console.error("Service catalogue page error:", error)
-
-    return (
-      <div
-        className={`theme-elegant bg-background text-foreground min-h-screen flex flex-col`}
-        role="application"
-        aria-label="Service Catalogue Error">
-        <CatalogueHeader />
-        <main
-          className="flex-1 flex flex-col justify-center items-center px-4 py-16 sm:py-24"
-          role="main"
-          aria-label="Error content">
-          <div
-            className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl"
-            role="alert"
-            aria-live="polite">
-            <h1 className="text-2xl font-bold text-red-800 mb-4">
-              Error Loading Service Catalogue
-            </h1>
-            <p className="text-red-700 mb-4">
-              {error instanceof Error
-                ? error.message
-                : "An unexpected error occurred while loading the service catalogue."}
-            </p>
-            <div className="text-sm text-red-600">
-              <p>Please check:</p>
-              <ul className="list-disc list-inside mt-2">
-                <li>The URL is correct</li>
-                <li>Your internet connection</li>
-                <li>Try refreshing the page</li>
-              </ul>
-            </div>
-          </div>
-        </main>
-        <CatalogueFooter type="default" />
-      </div>
-    )
+    return <ErrorPage error={error} />
   }
 }
 

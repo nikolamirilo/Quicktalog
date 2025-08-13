@@ -570,11 +570,12 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     <span>Trusted Partners</span>
                   </h4>
                   <ul className="space-y-3">
-                    {customPartnerBadges.map((partner, index) => (
-                      <li key={index}>
-                        <PartnerBadge partner={partner} />
-                      </li>
-                    ))}
+                    {customPartnerBadges &&
+                      customPartnerBadges.map((partner, index) => (
+                        <li key={index}>
+                          <PartnerBadge partner={partner} />
+                        </li>
+                      ))}
                   </ul>
                 </>
               )}

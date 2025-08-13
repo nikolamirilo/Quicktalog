@@ -36,7 +36,7 @@ export default async function page({ params }: { params: tParams }) {
     }
 
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_POSTHOG_HOST}/api/projects/${process.env.POSTHOG_PROJECT_ID}/query/`,
+      `${process.env.NEXT_PUBLIC_POSTHOG_HOST}/api/projects/${process.env.POSTHOG_PROJECT_ID}/query`,
       {
         method: "POST",
         headers: {
