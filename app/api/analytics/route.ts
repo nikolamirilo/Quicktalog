@@ -39,6 +39,7 @@ ORDER BY date DESC, hour DESC`,
         cache: "no-store",
       }
     )
+
     // SELECT * FROM events WHERE timestamp >= toDateTime('2025-06-30T00:00:00Z') AND timestamp < toDateTime('2025-07-02T00:00:00Z')
     const eventsData = await res.json()
     const analyticsData = eventsData.results
@@ -52,7 +53,7 @@ ORDER BY date DESC, hour DESC`,
       .filter((item) => !(item.pageview_count === 0 && item.unique_visitors === 0))
 
     // 1. Extract unique restaurant names from analyticsData
-    const restaurantNames = [
+    const catalogueNames = [
       ...new Set(
         analyticsData
           .map((item) => {
@@ -63,20 +64,21 @@ ORDER BY date DESC, hour DESC`,
           .filter(Boolean)
       ),
     ]
+    console.log(catalogueNames)
 
-    // 2. Query all relevant restaurants in one go
-    const { data: restaurants, error: restaurantError } = await supabase
+    // 2. Query all relevant catalogues in one go
+    const { data: catalogues, error: catalogueError } = await supabase
       .from("service_catalogues")
       .select("name, created_by")
-      .in("name", restaurantNames)
+      .in("name", catalogueNames)
 
-    if (restaurantError) {
-      return NextResponse.json({ error: restaurantError.message }, { status: 500 })
+    if (catalogueError) {
+      return NextResponse.json({ error: catalogueError.message }, { status: 500 })
     }
 
     // 3. Create a map for quick lookup
     const nameToUserId = {}
-    ;(restaurants || []).forEach((r) => {
+    ;(catalogues || []).forEach((r) => {
       nameToUserId[r.name] = r.created_by
     })
 
