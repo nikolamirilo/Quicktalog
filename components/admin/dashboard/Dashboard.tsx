@@ -19,8 +19,8 @@ import {
   FiPlus,
   FiSettings,
   FiTrash2,
-  FiUsers,
 } from "react-icons/fi"
+import { IoPricetagOutline } from "react-icons/io5"
 import { LuSquareMenu } from "react-icons/lu"
 import { RiSparkling2Line } from "react-icons/ri"
 import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
@@ -32,8 +32,8 @@ const TABS = [
   { value: "overview", label: "Overview", icon: <TbFileAnalytics className="mr-2" size={20} /> },
   { value: "billing", label: "Billing", icon: <FiCalendar className="mr-2" size={20} /> },
   { value: "usage", label: "Usage", icon: <FiBarChart2 className="mr-2" size={20} /> },
+  { value: "extras", label: "Extras", icon: <IoPricetagOutline className="mr-2" size={20} /> },
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
-  { value: "users", label: "Users", icon: <FiUsers className="mr-2" size={20} /> },
 ]
 
 export default function Dashboard({
@@ -168,7 +168,6 @@ export default function Dashboard({
                     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
                       <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-product-foreground mb-1 font-heading">
                         Welcome back, {`${user.firstName} ${user.lastName}` || "User"}!{" "}
-                        <span className="align-middle">👋</span>
                       </div>
                       <div className="text-product-foreground-accent flex items-center gap-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl break-words font-body">
                         {user.email}

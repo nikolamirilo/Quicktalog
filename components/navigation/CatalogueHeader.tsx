@@ -1,24 +1,10 @@
 "use client"
 import { Button } from "@/components/ui/button"
+import { CatalogueHeaderProps } from "@/types"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
 import { FiExternalLink, FiMail, FiPhone, FiPlus } from "react-icons/fi"
-
-interface CatalogueHeaderProps {
-  type?: "default" | "custom"
-  customData?: {
-    logo?: string
-    email?: string
-    phone?: string
-    emailButtonNavbar?: boolean
-    ctaNavbar?: {
-      enabled: boolean
-      label: string
-      url: string
-    }
-  }
-}
 
 const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", customData }) => {
   const [logoPath, setLogoPath] = useState("/logo.svg")

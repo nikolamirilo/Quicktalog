@@ -210,6 +210,21 @@ export interface IStats {
   description: string
 }
 
+export interface CatalogueHeaderProps {
+  type?: "default" | "custom"
+  customData?: {
+    logo?: string
+    email?: string
+    phone?: string
+    emailButtonNavbar?: boolean
+    ctaNavbar?: {
+      enabled: boolean
+      label: string
+      url: string
+    }
+  }
+}
+
 export interface ISocials {
   facebook?: string
   github?: string
