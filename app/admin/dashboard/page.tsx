@@ -81,6 +81,17 @@ export default async function page() {
       email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
     }
 
+    const { data: promptsUsage } = await supabase
+      .from("prompts")
+      .select("count")
+      .eq("user_id", clerkUser.id)
+      .single()
+    const { data: ocrUsage } = await supabase
+      .from("ocr")
+      .select("count")
+      .eq("user_id", clerkUser.id)
+      .single()
+
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />
@@ -89,6 +100,8 @@ export default async function page() {
           user={userData}
           analytics={analytics}
           pricingPlan={pricingPlan}
+          promptsUsage={promptsUsage?.count || 0}
+          ocrUsage={ocrUsage?.count || 0}
         />
       </div>
     )

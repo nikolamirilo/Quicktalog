@@ -1,4 +1,3 @@
-import { getUserData } from "@/actions/users"
 import { fetchImageFromUnsplash } from "@/helpers/server"
 import { ServicesFormData } from "@/types"
 import schema from "@/utils/catalogue.schema.json"
@@ -12,7 +11,6 @@ export async function POST(req: NextRequest) {
   const { prompt } = await req.json()
   const cookieStore = await cookies()
   const supabase = createClient(cookieStore)
-  const userData = await getUserData()
   if (!prompt) {
     return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
   }

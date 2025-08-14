@@ -1,7 +1,9 @@
 "use client"
-
+import { assignUsage } from "@/actions/usage"
+import Footer from "@/components/navigation/Footer"
+import Navbar from "@/components/navigation/Navbar"
 import { useState } from "react"
-import { createWorker, PSM, OEM } from "tesseract.js"
+import { createWorker, OEM, PSM } from "tesseract.js"
 import { Button } from "../../components/ui/button"
 
 // Language options for Tesseract.js
@@ -276,7 +278,6 @@ const OcrReader = () => {
     if (!selectedImage) return
 
     setOcrStatus("Preprocessing image with advanced filters...")
-
     try {
       const preprocessedBlob = await preprocessImage(selectedImage)
 
@@ -354,7 +355,11 @@ const OcrReader = () => {
         LANGUAGE_OPTIONS.find((lang) => lang.code === displayLanguage)?.name || displayLanguage
       setOcrStatus(`OCR Completed (${langName})! Confidence: ${ocrConfidence.toFixed(1)}%`)
 
-      await worker.terminate()
+      const res = await assignUsage()
+      if (res) {
+        console.log("Usage assigned successfully.")
+        await worker.terminate()
+      }
     } catch (error) {
       console.error("Error during OCR recognition:", error)
       setOcrStatus("Error occurred during OCR processing. Please try again.")
@@ -362,154 +367,160 @@ const OcrReader = () => {
   }
 
   return (
-    <div className="flex flex-col items-center p-4 sm:p-6 md:p-8 bg-product-background text-product-foreground min-h-screen">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-product-secondary">
-        Multi-Language OCR Reader
-      </h1>
+    <>
+      <Navbar />
+      <div className="flex flex-col items-center py-32 bg-product-background text-product-foreground min-h-screen">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 sm:mb-8 text-product-secondary">
+          Multi-Language OCR Reader
+        </h1>
 
-      <div className="text-center mb-6 p-4 bg-hero-product-background rounded-lg border border-product-border">
-        <p className="text-sm text-product-foreground-accent">
-          Advanced image preprocessing • Multi-language support • Neural network OCR • Auto-language
-          detection
-        </p>
-      </div>
-
-      {/* Language Selection */}
-      <div className="mb-6 w-full max-w-md">
-        <label className="block text-sm font-medium text-product-foreground mb-2">
-          Select Language:
-        </label>
-        <select
-          value={selectedLanguage}
-          onChange={handleLanguageChange}
-          className="w-full p-3 rounded-lg border border-product-border bg-hero-product-background text-product-foreground focus:outline-none focus:ring-2 focus:ring-product-primary-accent">
-          {LANGUAGE_OPTIONS.map((lang) => (
-            <option key={lang.code} value={lang.code}>
-              {lang.flag} {lang.name}
-            </option>
-          ))}
-        </select>
-        {detectedLanguage && selectedLanguage === "auto" && (
-          <p className="text-xs text-product-foreground-accent mt-1">
-            Auto-detected: {LANGUAGE_OPTIONS.find((lang) => lang.code === detectedLanguage)?.name}
+        <div className="text-center mb-6 p-4 bg-hero-product-background rounded-lg border border-product-border">
+          <p className="text-sm text-product-foreground-accent">
+            Advanced image preprocessing • Multi-language support • Neural network OCR •
+            Auto-language detection
           </p>
-        )}
-      </div>
+        </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 sm:mb-8 items-center w-full max-w-lg">
-        <label
-          className="w-full sm:w-auto px-4 py-2 rounded-lg bg-product-primary text-product-secondary font-semibold text-center cursor-pointer
+        {/* Language Selection */}
+        <div className="mb-6 w-full max-w-md">
+          <label className="block text-sm font-medium text-product-foreground mb-2">
+            Select Language:
+          </label>
+          <select
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            className="w-full p-3 rounded-lg border border-product-border bg-hero-product-background text-product-foreground focus:outline-none focus:ring-2 focus:ring-product-primary-accent">
+            {LANGUAGE_OPTIONS.map((lang) => (
+              <option key={lang.code} value={lang.code}>
+                {lang.flag} {lang.name}
+              </option>
+            ))}
+          </select>
+          {detectedLanguage && selectedLanguage === "auto" && (
+            <p className="text-xs text-product-foreground-accent mt-1">
+              Auto-detected: {LANGUAGE_OPTIONS.find((lang) => lang.code === detectedLanguage)?.name}
+            </p>
+          )}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-4 mb-6 sm:mb-8 items-center w-full max-w-lg">
+          <label
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-product-primary text-product-secondary font-semibold text-center cursor-pointer
                           transition-all duration-300 ease-in-out hover:bg-product-primary-accent hover:shadow-md hover:scale-105
                           focus-within:outline-none focus-within:ring-2 focus-within:ring-product-primary-accent focus-within:ring-opacity-50">
-          Upload from Gallery
-          <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
-        </label>
+            Upload from Gallery
+            <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+          </label>
 
-        <label
-          className="w-full sm:w-auto px-4 py-2 rounded-lg bg-product-secondary text-product-primary font-semibold text-center cursor-pointer
+          <label
+            className="w-full sm:w-auto px-4 py-2 rounded-lg bg-product-secondary text-product-primary font-semibold text-center cursor-pointer
                           transition-all duration-300 ease-in-out hover:bg-blue-800 hover:shadow-md hover:scale-105
                           focus-within:outline-none focus-within:ring-2 focus-within:ring-blue-400 focus-within:ring-opacity-50">
-          Open Camera App
-          <input
-            type="file"
-            accept="image/*"
-            capture="environment"
-            onChange={handleImageChange}
-            className="hidden"
-          />
-        </label>
-      </div>
-
-      {selectedImage && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full max-w-4xl">
-          <div className="p-4 rounded-xl border border-product-border bg-hero-product-background shadow-product">
-            <h3 className="text-lg font-semibold mb-3 text-product-foreground">Original Image</h3>
-            <img
-              src={URL.createObjectURL(selectedImage)}
-              alt="Original content"
-              className="max-w-full h-auto rounded-lg"
+            Open Camera App
+            <input
+              type="file"
+              accept="image/*"
+              capture="environment"
+              onChange={handleImageChange}
+              className="hidden"
             />
-          </div>
+          </label>
+        </div>
 
-          {processedImageUrl && (
+        {selectedImage && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 w-full max-w-4xl">
             <div className="p-4 rounded-xl border border-product-border bg-hero-product-background shadow-product">
-              <h3 className="text-lg font-semibold mb-3 text-product-foreground">
-                Processed Image
-              </h3>
+              <h3 className="text-lg font-semibold mb-3 text-product-foreground">Original Image</h3>
               <img
-                src={processedImageUrl}
-                alt="Processed content"
+                src={URL.createObjectURL(selectedImage)}
+                alt="Original content"
                 className="max-w-full h-auto rounded-lg"
               />
             </div>
-          )}
-        </div>
-      )}
 
-      <div className="mb-8">
-        <Button
-          onClick={readImageText}
-          disabled={
-            !selectedImage ||
-            ocrStatus.includes("Processing") ||
-            ocrStatus.includes("Initializing") ||
-            ocrStatus.includes("Analyzing")
-          }
-          variant="file-action"
-          className={
-            selectedImage &&
-            !ocrStatus.includes("Processing") &&
-            !ocrStatus.includes("Initializing") &&
-            !ocrStatus.includes("Analyzing")
-              ? "bg-product-primary text-product-secondary hover:bg-product-primary-accent hover:shadow-product-hover hover:scale-105 cursor-pointer"
-              : "bg-gray-300 text-gray-600 cursor-not-allowed"
-          }>
-          Extract Text
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
-        <div className="p-6 rounded-xl border border-product-border bg-hero-product-background shadow-product">
-          <h3 className="font-bold text-xl mb-4 text-product-foreground flex items-center gap-2">
-            Analysis Status
-            {confidence > 0 && (
-              <span
-                className={`text-sm px-3 py-1 rounded-full ${
-                  confidence > 80
-                    ? "bg-green-100 text-green-800"
-                    : confidence > 60
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-red-100 text-red-800"
-                }`}>
-                {confidence.toFixed(1)}% confidence
-              </span>
+            {processedImageUrl && (
+              <div className="p-4 rounded-xl border border-product-border bg-hero-product-background shadow-product">
+                <h3 className="text-lg font-semibold mb-3 text-product-foreground">
+                  Processed Image
+                </h3>
+                <img
+                  src={processedImageUrl}
+                  alt="Processed content"
+                  className="max-w-full h-auto rounded-lg"
+                />
+              </div>
             )}
-          </h3>
-          <p className="text-product-foreground-accent">{ocrStatus || "Ready to process image"}</p>
+          </div>
+        )}
+
+        <div className="mb-8">
+          <Button
+            onClick={readImageText}
+            disabled={
+              !selectedImage ||
+              ocrStatus.includes("Processing") ||
+              ocrStatus.includes("Initializing") ||
+              ocrStatus.includes("Analyzing")
+            }
+            variant="file-action"
+            className={
+              selectedImage &&
+              !ocrStatus.includes("Processing") &&
+              !ocrStatus.includes("Initializing") &&
+              !ocrStatus.includes("Analyzing")
+                ? "bg-product-primary text-product-secondary hover:bg-product-primary-accent hover:shadow-product-hover hover:scale-105 cursor-pointer"
+                : "bg-gray-300 text-gray-600 cursor-not-allowed"
+            }>
+            Extract Text
+          </Button>
         </div>
 
-        <div className="p-6 rounded-xl border border-product-border bg-hero-product-background shadow-product">
-          <h3 className="font-bold text-xl mb-4 text-product-secondary">Extracted Text</h3>
-          <div className="border border-product-border bg-hero-product-background p-4 rounded-lg text-left text-product-foreground-accent break-words whitespace-pre-wrap min-h-[150px] max-h-[400px] overflow-auto">
-            {ocrResult ? (
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: ocrResult
-                    .replace(/\n/g, "<br />")
-                    .replace(/[=,—,+,_]{2,}/g, " ")
-                    .replace(/\s+/g, " ")
-                    .trim(),
-                }}
-              />
-            ) : (
-              <span className="text-product-foreground-accent opacity-60 italic">
-                Extracted text will appear here...
-              </span>
-            )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-4xl">
+          <div className="p-6 rounded-xl border border-product-border bg-hero-product-background shadow-product">
+            <h3 className="font-bold text-xl mb-4 text-product-foreground flex items-center gap-2">
+              Analysis Status
+              {confidence > 0 && (
+                <span
+                  className={`text-sm px-3 py-1 rounded-full ${
+                    confidence > 80
+                      ? "bg-green-100 text-green-800"
+                      : confidence > 60
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-red-100 text-red-800"
+                  }`}>
+                  {confidence.toFixed(1)}% confidence
+                </span>
+              )}
+            </h3>
+            <p className="text-product-foreground-accent">
+              {ocrStatus || "Ready to process image"}
+            </p>
+          </div>
+
+          <div className="p-6 rounded-xl border border-product-border bg-hero-product-background shadow-product">
+            <h3 className="font-bold text-xl mb-4 text-product-secondary">Extracted Text</h3>
+            <div className="border border-product-border bg-hero-product-background p-4 rounded-lg text-left text-product-foreground-accent break-words whitespace-pre-wrap min-h-[150px] max-h-[400px] overflow-auto">
+              {ocrResult ? (
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: ocrResult
+                      .replace(/\n/g, "<br />")
+                      .replace(/[=,—,+,_]{2,}/g, " ")
+                      .replace(/\s+/g, " ")
+                      .trim(),
+                  }}
+                />
+              ) : (
+                <span className="text-product-foreground-accent opacity-60 italic">
+                  Extracted text will appear here...
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   )
 }
 

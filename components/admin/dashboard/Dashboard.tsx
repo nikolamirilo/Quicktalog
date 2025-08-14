@@ -36,7 +36,14 @@ const TABS = [
   { value: "users", label: "Users", icon: <FiUsers className="mr-2" size={20} /> },
 ]
 
-export default function Dashboard({ user, restaurants, analytics, pricingPlan }) {
+export default function Dashboard({
+  user,
+  restaurants,
+  analytics,
+  pricingPlan,
+  promptsUsage,
+  ocrUsage,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [menuToDelete, setMenuToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
@@ -71,6 +78,12 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
     } finally {
       setDuplicatingId(null)
     }
+  }
+  const usage = {
+    traffic: totalPageViews,
+    catalogues: totalServiceCatalogues,
+    prompts: promptsUsage,
+    ocr: ocrUsage,
   }
 
   function cancelDelete() {
@@ -260,7 +273,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
                                 asChild
                                 className="text-product-foreground hover:bg-product-hover-background cursor-pointer">
                                 <div className="flex items-center gap-2">
-                                  <FiEdit size={18} /> Edit Catalogue
+                                  <FiEdit size={18} /> Edit
                                 </div>
                               </DropdownMenuItem>
                             </Link>
@@ -334,7 +347,7 @@ export default function Dashboard({ user, restaurants, analytics, pricingPlan })
           )}
           {activeTab === "usage" && (
             <section className="animate-fade-in">
-              <Usage />
+              <Usage data={usage} />
             </section>
           )}
         </section>

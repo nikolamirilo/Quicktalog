@@ -5,9 +5,9 @@ import { IoAnalyticsOutline } from "react-icons/io5"
 import { RiSparkling2Line } from "react-icons/ri"
 import DonutChart from "../../charts/DonutChart"
 
-const Usage = () => {
-  const overallUsage = {
-    data: [8252, 10000 - 8252],
+const Usage = ({ data }) => {
+  const trafficUsage = {
+    data: [data.traffic, 10000 - data.traffic],
     labels: ["Used", "Remaining"],
     title: "Traffic",
     description: "8,252 / 10,000",
@@ -15,7 +15,7 @@ const Usage = () => {
   }
 
   const cataloguesUsage = {
-    data: [5, 20 - 5],
+    data: [data.catalogues, 20 - data.catalogues],
     labels: ["Used", "Remaining"],
     title: "Catalogues",
     description: "5 / 20",
@@ -23,7 +23,7 @@ const Usage = () => {
   }
 
   const aiPromptsUsage = {
-    data: [8, 10 - 8],
+    data: [data.prompts, 10 - data.prompts],
     labels: ["Used", "Remaining"],
     title: "AI Prompts",
     description: "8 / 10",
@@ -31,14 +31,14 @@ const Usage = () => {
   }
 
   const ocrUsage = {
-    data: [4, 5 - 4],
+    data: [data.ocr, 5 - data.ocr],
     labels: ["Used", "Remaining"],
     title: "OCR Import",
     description: "4 / 5",
     icon: <BiScan size={30} />,
   }
 
-  const charts = [overallUsage, cataloguesUsage, aiPromptsUsage, ocrUsage]
+  const charts = [trafficUsage, cataloguesUsage, aiPromptsUsage, ocrUsage]
 
   return (
     <div>
