@@ -111,27 +111,15 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
   const handleAddItem = (categoryIndex: number) => {
     const updatedServices = [...formData.services]
-    const newItems = [
-      { name: "", description: "", price: 0, image: "" },
+    // Add new item at the end instead of beginning to maintain correct numbering
+    updatedServices[categoryIndex].items = [
       ...updatedServices[categoryIndex].items,
+      { name: "", description: "", price: 0, image: "" }
     ]
-    updatedServices[categoryIndex].items = newItems
     setFormData((prev) => ({ ...prev, services: updatedServices }))
-    setImagePreviews((prev) => {
-      const newPreviews = { ...prev }
-      const itemsLength = newItems.length
-      for (let i = itemsLength - 1; i > 0; i--) {
-        const oldKey = `${categoryIndex}-${i - 1}`
-        const newKey = `${categoryIndex}-${i}`
-        if (prev[oldKey]) {
-          newPreviews[newKey] = prev[oldKey]
-        } else {
-          delete newPreviews[newKey]
-        }
-      }
-      delete newPreviews[`${categoryIndex}-0`]
-      return newPreviews
-    })
+
+    // No need to shift image previews since we're adding at the end
+    // The new item will automatically get the correct index
   }
 
   const handleRemoveItem = (categoryIndex: number, itemIndex: number) => {
@@ -140,6 +128,27 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       (_, index) => index !== itemIndex
     )
     setFormData((prev) => ({ ...prev, services: updatedServices }))
+
+    // Clean up image previews for the removed item and shift remaining ones
+    setImagePreviews((prev) => {
+      const newPreviews = { ...prev }
+      const itemsLength = updatedServices[categoryIndex].items.length
+
+      // Remove the preview for the deleted item
+      delete newPreviews[`${categoryIndex}-${itemIndex}`]
+
+      // Shift previews for items that come after the deleted one
+      for (let i = itemIndex; i < itemsLength; i++) {
+        const currentKey = `${categoryIndex}-${i + 1}`
+        const newKey = `${categoryIndex}-${i}`
+        if (newPreviews[currentKey]) {
+          newPreviews[newKey] = newPreviews[currentKey]
+          delete newPreviews[currentKey]
+        }
+      }
+
+      return newPreviews
+    })
   }
 
   const handleItemChange = (
