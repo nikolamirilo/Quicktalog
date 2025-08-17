@@ -1,4 +1,5 @@
 "use client"
+import { newsletterSignup } from "@/actions/newsletter"
 import { Button } from "@/components/ui/button"
 import { Legal } from "@/types"
 import { getPlatformIconByName } from "@/utils/client"
@@ -69,7 +70,11 @@ interface CatalogueFooterProps {
       enabled: boolean
       url: string
     }
-    legal?: Legal
+    legal?: Legal,
+    catalogue?: {
+      id?: string
+      owner_id?: string;
+    }
   }
 }
 
@@ -107,6 +112,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
     ],
     ctaFooter = { enabled: false, label: "Learn More", url: "#" },
     newsletter = { enabled: false, url: "" },
+    catalogue = { id: null, owner_id: null },
     legal = {
       name: "Quicktalog",
       address: "123 Business St, City, State 12345",
@@ -195,28 +201,35 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
     setIsSubmitting(true)
     setSubmitError("")
     setSubmitSuccess(false)
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      // Call the actual newsletter signup function
+      await newsletterSignup(newsletterEmail, catalogue.id, catalogue.owner_id)
 
-      // TODO: Replace with real API call
-      console.log("Newsletter signup:", newsletterEmail)
+      console.log("Newsletter signup successful:", newsletterEmail)
 
       setNewsletterEmail("")
       setSubmitSuccess(true)
 
       // Hide success message after 3 seconds
       setTimeout(() => setSubmitSuccess(false), 3000)
-    } catch (error) {
-      setSubmitError("Failed to subscribe. Please try again.")
+    } catch (error: any) {
+      console.error("Newsletter signup failed:", error)
+
+      // If there's a specific message from the error (e.g. from Supabase or fetch), use it
+      const message =
+        error?.message || error?.response?.data?.message || "Failed to subscribe. Please try again."
+
+      setSubmitError(message)
     } finally {
       setIsSubmitting(false)
     }
   }
+
 
   // Enhanced Social Icon Component
   const SocialIcon = ({

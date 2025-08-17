@@ -20,14 +20,14 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
       features.support,
-      `${features.catalogues} catalogues`,
-      features.newsletter ? "Newsletter" : null,
-      `${features.customization} customization`,
-      `${features.ocr_ai_import} OCR AI imports`,
-      `${features.traffic_limit.toLocaleString()} traffic limit`,
-      features.custom_features ? "Custom features" : null,
+      `${features.catalogues} ${features.catalogues > 1 ? "catalogues" : "catalogue"}`,
       `${features.analytics} analytics`,
-      `${features.ai_catalogue_generation} AI catalogue generations`,
+      `${features.traffic_limit.toLocaleString()} traffic limit`,
+      `${features.customization} customization`,
+      features.ocr_ai_import == 0 ? null : `${features.ocr_ai_import} OCR AI imports`,
+      features.ai_catalogue_generation == 0 ? null : `${features.ai_catalogue_generation} AI catalogue generations`,
+      features.newsletter ? "Newsletter" : null,
+      features.custom_features ? "Custom features" : null,
     ].filter(Boolean)
   }
   const displayPrice = price ? formatPrice(price) : "N/A"

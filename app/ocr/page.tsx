@@ -1,5 +1,5 @@
 "use client"
-import { assignUsage } from "@/actions/usage"
+import { logOcrUsage } from "@/actions/usage"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { useState } from "react"
@@ -318,11 +318,10 @@ const OcrReader = () => {
       }
 
       setOcrStatus(
-        `Initializing OCR worker for ${
-          selectedLanguage === "auto"
-            ? LANGUAGE_OPTIONS.find((lang) => lang.code === languageToUse)?.name || languageToUse
-            : LANGUAGE_OPTIONS.find((lang) => lang.code === selectedLanguage)?.name ||
-              selectedLanguage
+        `Initializing OCR worker for ${selectedLanguage === "auto"
+          ? LANGUAGE_OPTIONS.find((lang) => lang.code === languageToUse)?.name || languageToUse
+          : LANGUAGE_OPTIONS.find((lang) => lang.code === selectedLanguage)?.name ||
+          selectedLanguage
         }...`
       )
 
@@ -355,7 +354,7 @@ const OcrReader = () => {
         LANGUAGE_OPTIONS.find((lang) => lang.code === displayLanguage)?.name || displayLanguage
       setOcrStatus(`OCR Completed (${langName})! Confidence: ${ocrConfidence.toFixed(1)}%`)
 
-      const res = await assignUsage()
+      const res = await logOcrUsage()
       if (res) {
         console.log("Usage assigned successfully.")
         await worker.terminate()
@@ -465,9 +464,9 @@ const OcrReader = () => {
             variant="file-action"
             className={
               selectedImage &&
-              !ocrStatus.includes("Processing") &&
-              !ocrStatus.includes("Initializing") &&
-              !ocrStatus.includes("Analyzing")
+                !ocrStatus.includes("Processing") &&
+                !ocrStatus.includes("Initializing") &&
+                !ocrStatus.includes("Analyzing")
                 ? "bg-product-primary text-product-secondary hover:bg-product-primary-accent hover:shadow-product-hover hover:scale-105 cursor-pointer"
                 : "bg-gray-300 text-gray-600 cursor-not-allowed"
             }>
@@ -481,13 +480,12 @@ const OcrReader = () => {
               Analysis Status
               {confidence > 0 && (
                 <span
-                  className={`text-sm px-3 py-1 rounded-full ${
-                    confidence > 80
+                  className={`text-sm px-3 py-1 rounded-full ${confidence > 80
                       ? "bg-green-100 text-green-800"
                       : confidence > 60
                         ? "bg-yellow-100 text-yellow-800"
                         : "bg-red-100 text-red-800"
-                  }`}>
+                    }`}>
                   {confidence.toFixed(1)}% confidence
                 </span>
               )}

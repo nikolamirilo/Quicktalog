@@ -52,7 +52,8 @@ interface FooterData {
   }
   ctaFooter?: any
   newsletter?: any
-  legal?: any[]
+  legal?: any[],
+  catalogue?: any
 }
 
 // Utility function to extract contact values
@@ -71,7 +72,7 @@ const buildHeaderData = (item: ServiceCatalogueItem): HeaderData => ({
 })
 
 // Function to build footer data
-const buildFooterData = (item: ServiceCatalogueItem): FooterData => ({
+const buildFooterData = (item: ServiceCatalogueItem) => ({
   logo: item.logo || "/logo.svg",
   name: item.name || "",
   email: getContactValue(item.contact, "email"),
@@ -86,6 +87,10 @@ const buildFooterData = (item: ServiceCatalogueItem): FooterData => ({
   ctaFooter: item.configuration?.ctaFooter,
   newsletter: item.configuration?.newsletter,
   legal: item.legal,
+  catalogue: {
+    id: item.id,
+    owner_id: item.created_by
+  }
 })
 
 // Error component
