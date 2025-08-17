@@ -1,4 +1,4 @@
-export const themes = [
+const themes = [
   {
     key: "theme-elegant",
     label: "Elegant",
@@ -34,9 +34,9 @@ export const themes = [
     description:
       "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look.",
   },
-]
+];
 
-export const layouts = [
+const layouts = [
   {
     key: "variant_1",
     label: "Layout 1",
@@ -65,9 +65,9 @@ export const layouts = [
     description:
       "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus.",
   },
-]
+];
 
-export const currencies = [
+const currencies = [
   { value: "USD", label: "USD - United States Dollar" },
   { value: "EUR", label: "EUR - Euro" },
   { value: "GBP", label: "GBP - British Pound" },
@@ -78,4 +78,10 @@ export const currencies = [
   { value: "CNY", label: "CNY - Chinese Yuan" },
   { value: "RUB", label: "RUB - Russian Ruble" },
   { value: "RSD", label: "RSD - Serbian Dinar" },
-]
+];
+
+module.exports = {
+  themes,
+  layouts,
+  currencies,
+};
