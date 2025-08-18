@@ -46,7 +46,6 @@ export const NavLink = ({ href, children, icon: Icon, className = "" }: NavLinkP
     </Link>
   )
 }
-
 // Mobile NavLink component
 export const MobileNavLink = ({ href, children, icon: Icon, onClick }: MobileNavLinkProps) => {
   const pathname = usePathname()
@@ -81,15 +80,18 @@ const Navbar = () => {
   return (
     <nav className="w-full flex items-center justify-between px-4 sm:px-6 font-lora py-2 sm:py-3 bg-product-background shadow-lg border-b border-gray-100 fixed top-0 left-0 z-50">
       <div className="flex items-center gap-2 sm:gap-3">
-        <Link href="/">
-          <Image
-            width={40}
-            height={40}
-            src="/logo.svg"
-            alt="Quicktalog Logo"
-            className="w-auto h-[7vh] rounded-full object-cover"
-          />
-        </Link>
+      <Link href="/">
+  <Image
+    src="/logo.svg"
+    alt="Quicktalog Logo"
+    width={160}            
+    height={160}           
+    className="h-[7vh] w-auto rounded-full"
+    style={{ width: 'auto', height: '7vh' }} 
+    priority //
+  />
+</Link>
+
       </div>
 
       {/* Desktop links */}

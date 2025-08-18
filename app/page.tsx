@@ -34,6 +34,8 @@ const HomePage: React.FC = async () => {
 
         <div className="lg:mt-0">
           <div className="text-center mb-6 lg:mb-12">
+          <h1 className="text-2xl lg:text-4xl mb-5 font-bold font-lora text-product-foreground">Or</h1>
+        
             <h3 className="text-2xl lg:text-3xl font-bold font-lora text-product-foreground">Let AI do the work</h3>
             <p className="text-sm lg:text-base text-product-foreground-accent mt-1">Describe your business and generate a ready-to-edit catalog in seconds.</p>
           </div>

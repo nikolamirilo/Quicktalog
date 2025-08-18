@@ -97,7 +97,7 @@ const ServicesSection = ({
   }
 
   return (
-    <main className="max-w-6xl mx-auto px-4 py-10" role="main" aria-label="Services and items">
+    <main className="max-w-6xl mx-auto py-5" role="main" aria-label="Services and items">
       {sectionsData.map((item) => {
         // The 'layout' variable now comes directly from the context
         const currentLayout = type === "playground" ? layout : servicesData[item.code]?.layout

@@ -9,7 +9,7 @@ const Container: React.FC<React.PropsWithChildren<Props>> = ({
   className,
 }: React.PropsWithChildren<Props>) => {
   return (
-    <div className={`px-5 w-full max-w-7xl mx-auto ${className ? className : ""}`}>{children}</div>
+    <div className={`px-4 w-full max-w-7xl mx-auto ${className ? className : ""}`}>{children}</div>
   )
 }
 
