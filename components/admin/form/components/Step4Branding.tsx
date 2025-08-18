@@ -14,7 +14,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { ContactInfo, contactTypes, Partner, ServicesFormData, UserData } from "@/types"
+import { contactTypes } from "@/constants/form"
+import { ContactInfo, Partner, ServicesFormData, UserData } from "@/types"
 import { Lock, Plus, Tag, Trash2 } from "lucide-react"
 import React, { useState } from "react"
 import { IoClose, IoDiamondOutline } from "react-icons/io5"

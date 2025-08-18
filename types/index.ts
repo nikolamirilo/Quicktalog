@@ -9,10 +9,10 @@ export type Record = {
 }
 
 export type NavbarProps = {
-  itemData?: any
+  itemData?: unknown
 }
 
-export interface ServicesItem {
+export type ServicesItem = {
   name: string
   description: string
   price: number
@@ -28,15 +28,16 @@ export type Theme = {
 
 export type Layout = Theme
 
-export interface ServicesCategory {
+export type ThemeVariant = (typeof themes)[number]["key"]
+export type LayoutVariant = (typeof layouts)[number]["key"]
+
+export type ServicesCategory = {
   name: string
   layout: LayoutVariant
   items: ServicesItem[]
 }
 
-export type ThemeVariant = (typeof themes)[number]["key"]
-export type LayoutVariant = (typeof layouts)[number]["key"]
-export interface ServiceCatalogue {
+export type ServiceCatalogue = {
   id: string
   name: string
   created_by: string
@@ -44,10 +45,7 @@ export interface ServiceCatalogue {
   logo?: string
   title: string
   currency: string
-  contact?: {
-    type: string
-    value: string
-  }[]
+  contact?: ContactInfo[]
   subtitle?: string
   services: {
     [key: string]: ServicesCategory
@@ -56,24 +54,28 @@ export interface ServiceCatalogue {
   legal?: Legal
   configuration?: Configuration
 }
-export interface Service {
+
+export type Service = {
   name: string
   image: string
   price: number
   description: string
 }
-export interface Legal {
+
+export type Legal = {
   name: string
   address: string
   terms_and_conditions: string
   privacy_policy: string
 }
-export interface Partner {
+
+export type Partner = {
   name: string
   description: string
   url: string
 }
-export interface Configuration {
+
+export type Configuration = {
   emailButtonNavbar?: boolean
   ctaNavbar?: {
     enabled: boolean
@@ -91,14 +93,15 @@ export interface Configuration {
   }
 }
 
-export interface Analytics {
+export type Analytics = {
   date: string
   hour: string
   current_url: string
   pageview_count: number
   unique_visitors: number
 }
-export interface SupabaseUser {
+
+export type SupabaseUser = {
   id: string
   email: string | null
   name: string | null
@@ -107,16 +110,16 @@ export interface SupabaseUser {
   plan_id: string | null
 }
 
-export interface ContactInfo {
+export type ContactInfo = {
   type: string
   value: string
 }
 
-export interface ServicesFormData {
+export type ServicesFormData = {
   name: string
-  theme?: string
+  theme?: ThemeVariant
   logo?: string
-  layout?: string
+  layout?: LayoutVariant
   title?: string
   currency?: string
   legal?: Legal
@@ -126,50 +129,43 @@ export interface ServicesFormData {
   configuration?: Configuration
   partners?: Partner[]
 }
-export interface UserData extends SupabaseUser {
+
+export type UserData = SupabaseUser & {
   plan_name: string
   features: string[]
 }
 
-export const contactTypes = [
-  { value: "phone", label: "Phone" },
-  { value: "email", label: "Email" },
-  { value: "instagram", label: "Instagram" },
-  { value: "tiktok", label: "TikTok" },
-  { value: "website", label: "Website" },
-  { value: "facebook", label: "Facebook" },
-  { value: "twitter", label: "Twitter" },
-]
-
-export interface IServicesItem {
+export type IServicesItem = {
   text: string
   url: string
 }
 
-export interface IBenefit {
+export type IBenefit = {
   title: string
   description: string
   imageSrc: string
   bullets: IBenefitBullet[]
 }
 
-export interface IBenefitBullet {
+export type IBenefitBullet = {
   title: string
   description: string
   icon: JSX.Element
 }
-export interface ServicesFormBaseProps {
+
+export type ServicesFormBaseProps = {
   type: "create" | "edit"
   initialData?: ServicesFormData
   onSuccess?: (restaurantUrl: string) => void
   userData: UserData
 }
-export interface EditServicesFormProps {
+
+export type EditServicesFormProps = {
   initialData: ServicesFormData
   onSuccess?: (restaurantUrl: string) => void
 }
 
-export interface PricingPlan {
+export type PricingPlan = {
   id: number
   name: string
   priceId: {
@@ -190,12 +186,12 @@ export interface PricingPlan {
   }
 }
 
-export interface IFAQ {
+export type IFAQ = {
   question: string
   answer: string
 }
 
-export interface ITestimonial {
+export type ITestimonial = {
   name: string
   role: string
   message: string
@@ -204,13 +200,13 @@ export interface ITestimonial {
   metric?: string
 }
 
-export interface IStats {
+export type IStats = {
   title: string
   icon: JSX.Element
   description: string
 }
 
-export interface CatalogueHeaderProps {
+export type CatalogueHeaderProps = {
   type?: "default" | "custom"
   customData?: {
     logo?: string
@@ -225,7 +221,7 @@ export interface CatalogueHeaderProps {
   }
 }
 
-export interface ISocials {
+export type ISocials = {
   facebook?: string
   github?: string
   instagram?: string
@@ -242,4 +238,37 @@ export type ContactData = {
   email: string
   name: string
   subject: string
+}
+
+
+export type ContactItem = {
+  type: string
+  value: string
+}
+
+
+export type HeaderData = {
+  logo: string
+  email: string
+  phone: string
+  emailButtonNavbar?: boolean
+  ctaNavbar?: any
+}
+
+export type FooterData = {
+  logo: string
+  name: string
+  email?: string
+  partners?: any[]
+  phone?: string
+  socialLinks: {
+    instagram?: string
+    facebook?: string
+    twitter?: string
+    website?: string
+  }
+  ctaFooter?: any
+  newsletter?: any
+  legal?: any[],
+  catalogue?: any
 }

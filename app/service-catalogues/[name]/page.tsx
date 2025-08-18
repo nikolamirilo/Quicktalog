@@ -2,59 +2,9 @@
 import CatalogueFooter from "@/components/navigation/CatalogueFooter"
 import CatalogueHeader from "@/components/navigation/CatalogueHeader"
 import ServicesSection from "@/components/sections/ServicesSection"
+import { ContactItem, HeaderData, ServiceCatalogue } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { cookies } from "next/headers"
-
-// Types for better type safety
-interface ContactItem {
-  type: string
-  value: string
-}
-
-interface ServiceCatalogueItem {
-  name: string
-  title: string
-  subtitle?: string
-  services: any[]
-  currency?: string
-  theme?: string
-  logo?: string
-  contact?: ContactItem[]
-  partners?: any[]
-  legal?: any[]
-  configuration?: {
-    emailButtonNavbar?: boolean
-    ctaNavbar?: any
-    ctaFooter?: any
-    newsletter?: any
-  }
-}
-
-interface HeaderData {
-  logo: string
-  email: string
-  phone: string
-  emailButtonNavbar?: boolean
-  ctaNavbar?: any
-}
-
-interface FooterData {
-  logo: string
-  name: string
-  email?: string
-  partners?: any[]
-  phone?: string
-  socialLinks: {
-    instagram?: string
-    facebook?: string
-    twitter?: string
-    website?: string
-  }
-  ctaFooter?: any
-  newsletter?: any
-  legal?: any[],
-  catalogue?: any
-}
 
 // Utility function to extract contact values
 const getContactValue = (contact: ContactItem[] | undefined, type: string): string | undefined => {
@@ -63,7 +13,7 @@ const getContactValue = (contact: ContactItem[] | undefined, type: string): stri
 }
 
 // Function to build header data
-const buildHeaderData = (item: ServiceCatalogueItem): HeaderData => ({
+const buildHeaderData = (item: ServiceCatalogue): HeaderData => ({
   logo: item.logo || "/logo.svg",
   email: getContactValue(item.contact, "email") || "",
   phone: getContactValue(item.contact, "phone") || "",
@@ -72,7 +22,7 @@ const buildHeaderData = (item: ServiceCatalogueItem): HeaderData => ({
 })
 
 // Function to build footer data
-const buildFooterData = (item: ServiceCatalogueItem) => ({
+const buildFooterData = (item: ServiceCatalogue) => ({
   logo: item.logo || "/logo.svg",
   name: item.name || "",
   email: getContactValue(item.contact, "email"),
@@ -179,7 +129,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       return <NotFoundPage />
     }
 
-    const item = data as ServiceCatalogueItem
+    const item = data as ServiceCatalogue
 
     // Validate required fields
     if (!item.title || !item.services) {

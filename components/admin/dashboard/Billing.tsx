@@ -293,11 +293,10 @@ export default function Billing({
               return (
                 <div
                   key={key}
-                  className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
-                    included
-                      ? "bg-product-hover-background border border-product-border"
-                      : "bg-product-background border border-product-border"
-                  }`}>
+                  className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${included
+                    ? "bg-product-hover-background border border-product-border"
+                    : "bg-product-background border border-product-border"
+                    }`}>
                   {included ? (
                     <CheckCircle className="w-5 h-5 text-product-primary flex-shrink-0" />
                   ) : (
@@ -307,9 +306,8 @@ export default function Billing({
                   <div className="flex-1">
                     <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
                     <p
-                      className={`text-sm ${
-                        included ? "text-product-primary" : "text-product-foreground-accent"
-                      }`}>
+                      className={`text-sm ${included ? "text-product-primary" : "text-product-foreground-accent"
+                        }`}>
                       {formatFeatureValue(key, value)}
                     </p>
                   </div>

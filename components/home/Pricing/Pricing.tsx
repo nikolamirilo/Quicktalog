@@ -57,28 +57,25 @@ const Pricing: React.FC = () => {
         <div className="relative inline-flex w-[260px] bg-product-background border border-product-border rounded-full p-1 shadow-sm">
           {/* Sliding thumb */}
           <span
-            className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-product-primary transition-transform duration-300 ease-out ${
-              billingCycle === "yearly" ? "translate-x-full" : "translate-x-0"
-            }`}
+            className={`absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-full bg-product-primary transition-transform duration-300 ease-out ${billingCycle === "yearly" ? "translate-x-full" : "translate-x-0"
+              }`}
             aria-hidden="true"
           />
           <button
             type="button"
-            className={`relative z-10 flex-1 px-4 py-1.5 text-sm rounded-full transition-colors ${
-              billingCycle === "monthly"
-                ? "text-product-foreground font-bold"
-                : "text-product-foreground/60 font-medium"
-            }`}
+            className={`relative z-10 flex-1 px-4 py-1.5 text-sm rounded-full transition-colors ${billingCycle === "monthly"
+              ? "text-product-foreground font-bold"
+              : "text-product-foreground/60 font-medium"
+              }`}
             onClick={() => setBillingCycle("monthly")}>
             Monthly
           </button>
           <button
             type="button"
-            className={`relative z-10 flex-1 px-4 py-1.5 text-sm  rounded-full transition-colors ${
-              billingCycle === "yearly"
-                ? "text-product-foreground font-bold"
-                : "text-product-foreground/60 font-medium"
-            }`}
+            className={`relative z-10 flex-1 px-4 py-1.5 text-sm  rounded-full transition-colors ${billingCycle === "yearly"
+              ? "text-product-foreground font-bold"
+              : "text-product-foreground/60 font-medium"
+              }`}
             onClick={() => setBillingCycle("yearly")}>
             Yearly
           </button>
@@ -98,7 +95,9 @@ const Pricing: React.FC = () => {
               tier={tier}
               highlight={index === 2}
               price={prices[billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year]}
+              priceId={billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year}
               billingCycle={billingCycle}
+              paddle={paddle}
             />
           </motion.div>
         ))}

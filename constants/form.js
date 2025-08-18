@@ -80,8 +80,19 @@ const currencies = [
   { value: "RSD", label: "RSD - Serbian Dinar" },
 ];
 
+const contactTypes = [
+  { value: "phone", label: "Phone" },
+  { value: "email", label: "Email" },
+  { value: "instagram", label: "Instagram" },
+  { value: "tiktok", label: "TikTok" },
+  { value: "website", label: "Website" },
+  { value: "facebook", label: "Facebook" },
+  { value: "twitter", label: "Twitter" },
+]
+
 module.exports = {
   themes,
   layouts,
   currencies,
+  contactTypes
 };

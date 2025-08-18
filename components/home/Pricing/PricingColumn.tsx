@@ -1,20 +1,22 @@
 "use client"
-import clsx from "clsx"
-import { useState } from "react"
-import { BsFillCheckCircleFill } from "react-icons/bs"
-
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/helpers/client"
 import { PricingPlan } from "@/types"
+import { Paddle } from "@paddle/paddle-js"
+import clsx from "clsx"
+import { useState } from "react"
+import { BsFillCheckCircleFill } from "react-icons/bs"
 
 interface PricingColumnProps {
   tier: PricingPlan
   highlight?: boolean
   price: string
   billingCycle: "monthly" | "yearly"
+  paddle: Paddle
+  priceId: string
 }
 
-const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle }) => {
+const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId }) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const getFeatureList = (features: PricingPlan["features"]) => {
@@ -73,7 +75,15 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
 
         <Button
           variant={highlight ? "cta" : "cta-secondary"}
-          className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]">
+          className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]"
+          onClick={() => {
+            paddle.Checkout.open({
+              items: [
+                { priceId: priceId, quantity: 1 }
+              ]
+            })
+          }}
+        >
           Get Started
         </Button>
       </div>

@@ -1,10 +1,9 @@
 "use client"
-import React from "react"
 import LineChart from "../../charts/LineChart"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../../ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../ui/card"
 // import { Badge } from "../../ui/badge";
 // import { Separator } from "../../ui/separator";
-import { FiTrendingUp, FiUsers, FiCalendar, FiBarChart } from "react-icons/fi"
+import { FiBarChart, FiCalendar, FiTrendingUp, FiUsers } from "react-icons/fi"
 // import { FiGlobe, FiMonitor, FiChrome } from 'react-icons/fi';
 
 interface AnalyticsProps {

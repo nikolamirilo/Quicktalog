@@ -25,7 +25,9 @@ import { LuSquareMenu } from "react-icons/lu"
 import { RiSparkling2Line } from "react-icons/ri"
 import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
 import Billing from "./Billing"
+import Extras from "./Extras"
 import InformModal from "./InformModal"
+import Settings from "./Settings"
 import Usage from "./Usage"
 
 const TABS = [
@@ -124,11 +126,10 @@ export default function Dashboard({
           key={tab.value}
           onClick={() => setActiveTab(tab.value)}
           variant="nav"
-          className={`${
-            activeTab === tab.value
-              ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
-              : ""
-          } flex items-center justify-start font-body`}
+          className={`${activeTab === tab.value
+            ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
+            : ""
+            } flex items-center justify-start font-body`}
           aria-current={activeTab === tab.value ? "page" : undefined}>
           <span className="flex items-center justify-center">{tab.icon}</span>
           {tab.label}
@@ -347,6 +348,16 @@ export default function Dashboard({
           {activeTab === "usage" && (
             <section className="animate-fade-in">
               <Usage data={usage} />
+            </section>
+          )}
+          {activeTab === "extras" && (
+            <section className="animate-fade-in">
+              <Extras />
+            </section>
+          )}
+          {activeTab === "settings" && (
+            <section className="animate-fade-in">
+              <Settings />
             </section>
           )}
         </section>
