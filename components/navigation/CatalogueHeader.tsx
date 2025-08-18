@@ -36,17 +36,9 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
 
   return (
     <header
-      className="border-b shadow-lg z-50"
+      className="border-b shadow-lg z-50 bg-card-bg text-foreground border-card-border font-body tracking-body"
       role="banner"
-      aria-label={`${type === "default" ? "Quicktalog" : "Company"} header navigation`}
-      style={{
-        fontFamily: "var(--font-family-body, inherit)",
-        fontWeight: "var(--font-weight-body, 400)",
-        letterSpacing: "var(--letter-spacing-body, 0)",
-        backgroundColor: "var(--header-bg, var(--card-bg))",
-        color: "var(--foreground)",
-        borderBottom: "1px solid var(--card-border)",
-      }}>
+      aria-label={`${type === "default" ? "Quicktalog" : "Company"} header navigation`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between py-2 sm:py-3">
           {/* Logo */}
@@ -77,16 +69,8 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
               aria-label="Contact options">
               <a
                 href={`mailto:${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}
-                className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
-                aria-label={`Send email to ${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}
-                style={{
-                  fontFamily: "var(--font-family-heading, inherit)",
-                  fontWeight: "var(--font-weight-heading, 600)",
-                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                  backgroundColor: "var(--card-bg)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--primary)",
-                }}>
+                className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary"
+                aria-label={`Send email to ${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}>
                 <FiMail
                   className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
                   aria-hidden="true"
@@ -95,16 +79,8 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
               {type === "custom" && customData?.phone && (
                 <a
                   href={`tel:${customData.phone}`}
-                  className="font-semibold px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center"
-                  aria-label={`Call ${customData.phone}`}
-                  style={{
-                    fontFamily: "var(--font-family-heading, inherit)",
-                    fontWeight: "var(--font-weight-heading, 600)",
-                    letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                    backgroundColor: "var(--card-bg)",
-                    color: "var(--foreground)",
-                    borderColor: "var(--primary)",
-                  }}>
+                  className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary"
+                  aria-label={`Call ${customData.phone}`}>
                   <FiPhone
                     className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
                     aria-hidden="true"
@@ -119,15 +95,8 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
                 asChild
                 variant="secondary"
                 size="default"
-                className="font-semibold text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary"
-                style={{
-                  fontFamily: "var(--font-family-heading, inherit)",
-                  fontWeight: "var(--font-weight-heading, 600)",
-                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                  backgroundColor: "var(--card-bg)",
-                  color: "var(--foreground)",
-                  borderColor: "var(--primary)",
-                }}>
+                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary"
+              >
                 <Link
                   href={
                     type === "default" ? "/auth?mode=signup" : customData?.ctaNavbar?.url || "#"

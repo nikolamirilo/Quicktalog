@@ -93,13 +93,13 @@ const buttonVariants = cva(
           group relative bg-product-primary hover:bg-primary-accent text-product-foreground px-12 py-4 font-semibold transition-all duration-300 transform hover:scale-product-hover-scale hover:shadow-product-hover-shadow disabled:opacity-30 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]`,
         "section-header": `
           w-full group relative flex items-center justify-between 
-          px-6 py-5 text-xl sm:text-2xl md:text-3xl font-semibold
+          px-4 py-4 text-xl sm:text-2xl md:text-3xl font-semibold
           bg-section-header-bg text-section-header-text border-2 border-section-header-border 
           rounded-2xl shadow-section-header-shadow transition-all duration-300 ease-in-out 
           hover:bg-section-header-hover-bg hover:shadow-section-header-hover-shadow
           hover:scale-[1.02] hover:transform hover:-translate-y-1
           backdrop-blur-sm overflow-hidden
-          !px-6 !py-5 !rounded-2xl !h-auto !min-h-0
+          !px-3 !py-3 !rounded-2xl !h-auto !min-h-0
         `,
         tab: `
           flex items-center px-4 py-2 transition-all text-sm sm:text-base md:text-lg

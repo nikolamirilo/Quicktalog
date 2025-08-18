@@ -71,8 +71,8 @@ const HowItWorks: React.FC = () => {
   const steps: SimpleStep[] = [
     {
       step: "1",
-      title: "Set up basics",
-      description: "Add your business details, logo, and theme in minutes.",
+      title: "Register",
+      description: "Creat an account and provide more information about your business.",
       icon: <FiUpload className="w-8 h-8" />,
       image: "/images/card1-business.svg",
     },

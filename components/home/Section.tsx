@@ -15,7 +15,7 @@ const Section: React.FC<React.PropsWithChildren<Props>> = ({
 }: React.PropsWithChildren<Props>) => {
   return (
     <section id={id} className="py-10 lg:py-20 lg:px-0 bg-product-background">
-      <div className="px-5">
+      <div className="px-4">
       <SectionTitle>
         <h2 className="text-center mb-4">{title}</h2>
       </SectionTitle>
