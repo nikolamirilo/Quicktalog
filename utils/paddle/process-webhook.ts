@@ -25,7 +25,6 @@ export class ProcessWebhook {
   }
 
   private async updateSubscriptionData(eventData: SubscriptionCreatedEvent | SubscriptionUpdatedEvent) {
-
     const supabase = await createClient();
     const { error } = await supabase
       .from('subscriptions')
@@ -38,7 +37,9 @@ export class ProcessWebhook {
         customer_id: eventData.data.customerId,
       })
       .select();
-
+    // const {errorUsers} = await supabase.from("users").update({
+    //   plan_id: eventData.data.items[0].price?.id,
+    // }).eq("customer_id", eventData.data.id)
     if (error) throw error;
   }
 
@@ -47,10 +48,16 @@ export class ProcessWebhook {
     const { error } = await supabase
       .from('users')
       .upsert({
-        customer_id: eventData.data.id
+        customer_id: eventData.data.id,
       })
       .select();
 
     if (error) throw error;
   }
 }
+
+
+/*
+1. When creating user via clerk create also new customer in Paddle and assign customer_id
+2. When buying new plan use existing customer_id
+*/
