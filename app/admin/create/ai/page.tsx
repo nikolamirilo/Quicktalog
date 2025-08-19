@@ -6,6 +6,7 @@ import Navbar from "@/components/navigation/Navbar"
 export const dynamic = "force-dynamic"
 export default async function AiCreateServicesPage() {
   const userData = await getUserData()
+  console.log(userData)
   if (userData && userData.plan_name !== "Starter") {
     return (
       <div className="product font-lora min-h-screen">

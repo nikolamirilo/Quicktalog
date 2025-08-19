@@ -91,11 +91,11 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
                 items: [
                   { priceId: priceId, quantity: 1 }
                 ],
-                customer: {
-                  email: user ? user.emailAddresses?.[0]?.emailAddress : ""
-                },
+                customer: user?.emailAddresses?.[0]?.emailAddress
+                  ? { email: user.emailAddresses[0].emailAddress }
+                  : undefined,
                 settings: {
-                  successUrl: `${process.env.BASE_URL}/admin/checkout/success`,
+                  successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/checkout/success`,
                 }
               })
             }

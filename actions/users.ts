@@ -51,7 +51,7 @@ export async function getUserData() {
       throw new Error("User not authenticated")
     }
 
-    const res = await fetch(`${process.env.BASE_URL}/api/users/${user.id}`)
+    const res = await fetch(`/api/users/${user.id}`)
 
     if (!res.ok) {
       throw new Error(`Failed to fetch user data: ${res.status} ${res.statusText}`)
