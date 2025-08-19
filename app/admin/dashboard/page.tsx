@@ -2,7 +2,7 @@ import Dashboard from "@/components/admin/dashboard/Dashboard"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
 import { tiers } from "@/constants/pricing"
-import type { Analytics, ServiceCatalogue, SupabaseUser } from "@/types"
+import type { Analytics, ServiceCatalogue, User } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import Link from "next/link"
@@ -15,7 +15,7 @@ export default async function page() {
   const clerkUser = await currentUser()
   let restaurants: ServiceCatalogue[] = []
   let analytics: Analytics[] = []
-  let supabaseUser: SupabaseUser | null = null
+  let User: User | null = null
   let pricingPlan = null
 
   if (clerkUser && clerkUser.id) {
@@ -32,12 +32,12 @@ export default async function page() {
       .eq("user_id", clerkUser.id)
     analytics = analyticsError ? [] : analyticsData || []
 
-    const { data: supabaseUserData, error: userError } = await supabase
+    const { data: UserData, error: userError } = await supabase
       .from("users")
       .select("*")
       .eq("id", clerkUser.id)
       .single()
-    supabaseUser = userError ? null : supabaseUserData || null
+    User = userError ? null : UserData || null
 
     function createPricingPlan(planId?: string) {
       if (!planId) {
@@ -70,7 +70,7 @@ export default async function page() {
         billingPeriod,
       }
     }
-    pricingPlan = createPricingPlan(supabaseUserData?.plan_id)
+    pricingPlan = createPricingPlan(UserData?.plan_id)
     console.log(pricingPlan)
     const userData = {
       id: clerkUser.id,

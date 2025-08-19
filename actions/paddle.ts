@@ -1,18 +1,4 @@
-import { Customer } from "@paddle/paddle-node-sdk";
-
-// Define the Paddle API response type
-interface PaddleCustomerResponse {
-    data?: Customer
-    error?: {
-        type: string
-        code: string;
-        detail: string;
-        documentation_url: string;
-    };
-    meta: {
-        request_id: string
-    }
-}
+import { PaddleCustomerResponse } from "@/types";
 
 export async function createPaddleCustomer(email: string, full_name: string) {
 
@@ -25,7 +11,7 @@ export async function createPaddleCustomer(email: string, full_name: string) {
             },
             body: JSON.stringify({
                 email,
-                name: full_name
+                name: full_name,
             }),
         });
 

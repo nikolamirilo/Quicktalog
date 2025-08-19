@@ -1,12 +1,13 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/helpers/client"
-import { PricingPlan } from "@/types"
+import { PricingPlan, User } from "@/types"
+import { createClient } from "@/utils/supabase/client"
 import { useUser } from "@clerk/nextjs"
 import { Paddle } from "@paddle/paddle-js"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 interface PricingColumnProps {
@@ -20,7 +21,9 @@ interface PricingColumnProps {
 
 const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const { user } = useUser()
+  const [user, setUser] = useState<User>(null)
+  const { user: clerkUser } = useUser()
+  const supabase = createClient()
   const router = useRouter()
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
@@ -37,6 +40,15 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
   const cycleLabel = billingCycle === "yearly" ? "/year" : "/month"
+  useEffect(() => {
+    async function getUserData() {
+      const res = await supabase.from("users").select("*").eq("email", clerkUser?.emailAddresses[0].emailAddress)
+      setUser(res.data[0])
+    }
+    if (clerkUser) {
+      getUserData()
+    }
+  }, [])
   return (
     <div
       className={clsx(
@@ -80,24 +92,23 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
           variant={highlight ? "cta" : "cta-secondary"}
           className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]"
           onClick={() => {
-            if (tier.name === "Starter") {
-              if (user) {
-                router.push("/admin/dashboard")
-              } else {
-                router.push("/auth")
-              }
-            } else {
+            if (user) {
               paddle.Checkout.open({
                 items: [
                   { priceId: priceId, quantity: 1 }
                 ],
-                customer: user?.emailAddresses?.[0]?.emailAddress
-                  ? { email: user.emailAddresses[0].emailAddress }
+                customer: user?.id
+                  ? { id: user.customer_id }
                   : undefined,
                 settings: {
                   successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/checkout/success`,
                 }
               })
+              /*
+              Check current plan of user, if he wants to purchase current plan he should get message that he is already on current plan, other way around he should purchase
+              */
+            } else {
+              router.push("/auth")
             }
 
           }}

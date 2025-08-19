@@ -1,4 +1,5 @@
 import { layouts, themes } from "@/constants/form"
+import { Customer } from "@paddle/paddle-node-sdk"
 import { JSX } from "react"
 
 export type Record = {
@@ -101,18 +102,33 @@ export type Analytics = {
   unique_visitors: number
 }
 
-export type SupabaseUser = {
+export type User = {
   id: string
   email: string | null
   name: string | null
   created_at: string
   image: string | null
   plan_id: string | null
+  customer_id: string | null
 }
 
 export type ContactInfo = {
   type: string
   value: string
+}
+
+
+export type PaddleCustomerResponse = {
+  data?: Customer
+  error?: {
+    type: string
+    code: string;
+    detail: string;
+    documentation_url: string;
+  };
+  meta: {
+    request_id: string
+  }
 }
 
 export type ServicesFormData = {
@@ -130,7 +146,7 @@ export type ServicesFormData = {
   partners?: Partner[]
 }
 
-export type UserData = SupabaseUser & {
+export type UserData = User & {
   plan_name: string
   features: string[]
 }

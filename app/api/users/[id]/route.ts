@@ -8,7 +8,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const supabase = await createClient()
     const { id } = await params
 
-    const { data: supabaseUser, error: userError } = await supabase
+    const { data: User, error: userError } = await supabase
       .from("users")
       .select("*")
       .eq("id", id)
@@ -18,22 +18,22 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       console.error("Database Error: Failed to fetch user from Supabase.", userError)
       return NextResponse.json({ error: "Failed to retrieve user data" }, { status: 500 })
     }
-    if (!supabaseUser) {
+    if (!User) {
       console.warn(`User data not found for Clerk ID: ${id}.`)
       return NextResponse.json({ error: "User not found" }, { status: 404 })
     }
 
     const pricingPlan = tiers.find((tier) =>
-      Object.values(tier.priceId).includes(supabaseUser.plan_id)
+      Object.values(tier.priceId).includes(User.plan_id)
     )
     if (!pricingPlan) {
-      console.warn(`Pricing plan not found for ID: ${supabaseUser.plan_id}.`)
-      const userData = { ...supabaseUser, plan_name: null, plan_features: null }
+      console.warn(`Pricing plan not found for ID: ${User.plan_id}.`)
+      const userData = { ...User, plan_name: null, plan_features: null }
       return NextResponse.json(userData, { status: 200 })
     }
 
     const userData = {
-      ...supabaseUser,
+      ...User,
       plan_name: pricingPlan.name,
       plan_features: pricingPlan.features,
     }

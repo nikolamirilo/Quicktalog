@@ -37,10 +37,13 @@ export class ProcessWebhook {
         customer_id: eventData.data.customerId,
       })
       .select();
-    // const {errorUsers} = await supabase.from("users").update({
-    //   plan_id: eventData.data.items[0].price?.id,
-    // }).eq("customer_id", eventData.data.id)
-    if (error) throw error;
+    const { error: errorUser } = await supabase.from("users").update({
+      plan_id: eventData.data.items[0].price?.id,
+    }).eq("customer_id", eventData.data.id)
+    if (error || errorUser) {
+      console.log(error, errorUser)
+      throw new Error("Error occured")
+    }
   }
 
   private async updateCustomerData(eventData: CustomerCreatedEvent | CustomerUpdatedEvent) {
