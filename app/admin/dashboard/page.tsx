@@ -5,12 +5,11 @@ import { tiers } from "@/constants/pricing"
 import type { Analytics, ServiceCatalogue, SupabaseUser } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
-import { cookies } from "next/headers"
 import Link from "next/link"
 
 export default async function page() {
-  const cookieStore = await cookies()
-  const supabase = createClient(cookieStore)
+
+  const supabase = await createClient()
 
   // Get current user by session (assuming Clerk user id is stored in users table)
   const clerkUser = await currentUser()

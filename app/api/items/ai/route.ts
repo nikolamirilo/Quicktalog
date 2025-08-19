@@ -4,13 +4,12 @@ import schema from "@/utils/catalogue.schema.json"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import Groq from "groq-sdk"
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
   const { prompt } = await req.json()
-  const cookieStore = await cookies()
-  const supabase = createClient(cookieStore)
+
+  const supabase = await createClient()
   if (!prompt) {
     return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
   }

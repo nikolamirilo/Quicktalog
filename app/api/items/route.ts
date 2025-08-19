@@ -1,10 +1,9 @@
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
 
 export async function POST(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+
+    const supabase = await createClient()
     const {
       name,
       created_by,
@@ -63,8 +62,8 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+
+    const supabase = await createClient()
     const {
       name,
       services,

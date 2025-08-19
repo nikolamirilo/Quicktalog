@@ -1,11 +1,10 @@
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+
+    const supabase = await createClient()
     const startDate = new Date(new Date().setDate(new Date().getDate() - 2))
     const endDate = new Date(new Date().setDate(new Date().getDate() + 1))
     const res = await fetch(
@@ -78,9 +77,9 @@ ORDER BY date DESC, hour DESC`,
 
     // 3. Create a map for quick lookup
     const nameToUserId = {}
-    ;(catalogues || []).forEach((r) => {
-      nameToUserId[r.name] = r.created_by
-    })
+      ; (catalogues || []).forEach((r) => {
+        nameToUserId[r.name] = r.created_by
+      })
 
     // 4. Add user_id to each analytics row
     const analyticsDataWithUserId = analyticsData.map((item) => {

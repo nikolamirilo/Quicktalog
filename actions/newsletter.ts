@@ -1,11 +1,10 @@
 "use server"
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
 
 export async function newsletterSignup(email: string, catalogue_id: string, owner_id: string) {
     try {
-        const cookieStore = await cookies()
-        const supabase = createClient(cookieStore)
+
+        const supabase = await createClient()
 
         const { error } = await supabase
             .from("newsletter")

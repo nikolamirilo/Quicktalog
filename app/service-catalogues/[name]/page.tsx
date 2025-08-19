@@ -113,7 +113,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     // Parallel execution of data fetching
     const [cookieStore] = await Promise.all([cookies()])
 
-    const supabase = createClient(cookieStore)
+    const supabase = await createClient()
     const { data, error } = await supabase
       .from("service_catalogues")
       .select()

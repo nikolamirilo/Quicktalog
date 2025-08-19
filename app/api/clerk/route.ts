@@ -1,6 +1,5 @@
 import { createClient } from "@/utils/supabase/server"
 import { verifyWebhook } from "@clerk/nextjs/webhooks"
-import { cookies } from "next/headers"
 import { NextRequest } from "next/server"
 
 export async function POST(req: NextRequest) {
@@ -10,8 +9,8 @@ export async function POST(req: NextRequest) {
     if (event.type === "user.created") {
       const { id, email_addresses, first_name, last_name, image_url } = event.data
       const email = email_addresses?.[0]?.email_address || null
-      const cookieStore = await cookies()
-      const supabase = createClient(cookieStore)
+
+      const supabase = await createClient()
 
       const { error } = await supabase.from("users").upsert([
         {

@@ -1,12 +1,11 @@
 import { tiers } from "@/constants/pricing"
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+
+    const supabase = await createClient()
     const { id } = await params
 
     const { data: supabaseUser, error: userError } = await supabase

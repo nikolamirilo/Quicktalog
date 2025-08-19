@@ -2,12 +2,11 @@ import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher"
 import Navbar from "@/components/navigation/Navbar"
 import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
 
 export default async function EditServicesPage({ params }: { params: Promise<{ name: string }> }) {
   const { name } = await params
-  const cookieStore = await cookies()
-  const supabase = createClient(cookieStore)
+
+  const supabase = await createClient()
   const { data, error } = await supabase
     .from("service_catalogues")
     .select("*")

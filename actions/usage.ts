@@ -1,12 +1,11 @@
 "use server"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
-import { cookies } from "next/headers"
 
 export async function logOcrUsage() {
   try {
-    const cookieStore = await cookies()
-    const supabase = createClient(cookieStore)
+
+    const supabase = await createClient()
 
     const user = await currentUser()
     if (!user || !user.id) {

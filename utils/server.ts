@@ -1,7 +1,6 @@
 "use server"
-import { revalidatePath, revalidateTag } from "next/cache"
 import { createClient } from "@/utils/supabase/server"
-import { cookies } from "next/headers"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 export async function revalidateData() {
   revalidatePath("/", "layout")
@@ -11,13 +10,13 @@ export async function revalidateTagCustom(tag: string) {
 }
 
 export async function deleteServiceCatalogue(id: string): Promise<boolean> {
-  const supabase = createClient(await cookies())
+  const supabase = await createClient()
   const { error } = await supabase.from("service_catalogues").delete().eq("id", id)
   return !error
 }
 
 export async function duplicateServiceCatalogue(id: string) {
-  const supabase = createClient(await cookies())
+  const supabase = await createClient()
   // Fetch the original record
   const { data, error } = await supabase
     .from("service_catalogues")
