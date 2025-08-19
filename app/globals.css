@@ -30,6 +30,9 @@ body {
   --product-hover-scale: 1.02;
   --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15);
 
+  /* Gradient backgrounds */
+  --product-gradient-primary: linear-gradient(to bottom right, var(--product-background), var(--hero-product-background));
+
   /* Navbar button hover enhancements */
   --navbar-button-hover-bg: #f0f0f0;
   --navbar-button-hover-text: #d3af37;

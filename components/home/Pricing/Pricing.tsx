@@ -1,10 +1,10 @@
 "use client"
-import { Button } from "@/components/ui/button"
 import { tiers } from "@/constants/pricing"
 import { usePaddlePrices } from "@/hooks/usePaddelPrices"
 import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 import { motion, Variants } from "framer-motion"
 import { useEffect, useState } from "react"
+import MiniCTA from "../MiniCTA"
 import PricingColumn from "./PricingColumn"
 
 const containerVariants: Variants = {
@@ -103,14 +103,9 @@ const Pricing: React.FC = () => {
         ))}
       </motion.div>
 
-      {/* CTA under pricing */}
-      <div className="text-center pt-2">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-3">
-          <span className="text-product-foreground-accent text-sm">Need a custom plan?</span>
-          <Button asChild variant="default" size="sm">
-            <a href="/contact">Contact us</a>
-          </Button>
-        </div>
+      
+      <div className="pt-4">
+        <MiniCTA />
       </div>
     </div>
   )

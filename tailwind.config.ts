@@ -28,6 +28,9 @@ export default withUt(
           "product-hover-scale": "var(--product-hover-scale)",
           "product-hover-shadow": "var(--product-hover-shadow)",
 
+          /* Gradient backgrounds */
+          "product-gradient-primary": "var(--product-gradient-primary)",
+
           /* Navbar button hover colors */
           "navbar-button-hover-bg": "var(--navbar-button-hover-bg)",
           "navbar-button-hover-text": "var(--navbar-button-hover-text)",

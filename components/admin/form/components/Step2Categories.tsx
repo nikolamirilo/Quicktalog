@@ -32,12 +32,6 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
         <TbCategory className="text-product-primary" size={32} />
         Add Categories
       </h2>
-      <Button
-        type="button"
-        onClick={handleAddCategory}
-        className="px-6 py-3 text-base font-medium bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
-        <Plus className="h-5 w-5 mr-2" /> Add New Category
-      </Button>
 
       {formData.services.map((category, categoryIndex) => (
         <Card
@@ -104,6 +98,13 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
           </div>
         </Card>
       ))}
+
+      <Button
+        type="button"
+        onClick={handleAddCategory}
+        className="px-6 py-3 text-base font-medium bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
+        <Plus className="h-5 w-5 mr-2" /> Add New Category
+      </Button>
     </Card>
   )
 }

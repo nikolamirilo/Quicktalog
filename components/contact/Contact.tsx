@@ -6,6 +6,8 @@ import { useState } from "react"
 
 const Contact = () => {
   const [name, setName] = useState("")
+  const [company, setCompany] = useState("")
+  const [subject, setSubject] = useState("Custom Plan")
   const [message, setMessage] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -13,6 +15,16 @@ const Contact = () => {
 
   // Email validation regex (simple version)
   const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+  const subjectOptions = [
+    "Custom Plan",
+    "Pricing Questions",
+    "Technical Support",
+    "Feature Request",
+    "Partnership",
+    "General Inquiry",
+    "Other"
+  ]
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -22,12 +34,14 @@ const Contact = () => {
       message,
       email,
       name,
-      subject: "New message from Service Catalogue Contact Form",
+      subject: `Contact Form: ${subject}`,
     })
     if (res == true) {
       setIsOpen(true)
       setIsLoading(false)
       setName("")
+      setCompany("")
+      setSubject("Custom Plan")
       setMessage("")
       setEmail("")
     } else {
@@ -60,7 +74,7 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold text-product-foreground mb-2">Thanks-your message is on its way!</h3>
               <p className="text-product-foreground-accent mb-6">
-                We’ve received your message and will reply via email within 1 business day.
+                We've received your message and will reply via email within 1 business day.
               </p>
               <Button onClick={() => setIsOpen(false)} variant="contact">
                 Close
@@ -117,6 +131,41 @@ const Contact = () => {
                 </div>
               </div>
 
+              {/* Company Field */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="company"
+                  className="block text-sm font-semibold text-product-foreground mb-2">
+                  Company (optional)
+                </label>
+                <div className="relative">
+                  <input
+                    id="company"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                    type="text"
+                    placeholder="Your Company"
+                    className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground placeholder-product-foreground-accent/60 focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow"
+                  />
+                  <div className="absolute inset-y-0 right-4 flex items-center">
+                    <svg
+                      className="w-5 h-5 text-product-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Email Field */}
               <div className="space-y-2">
                 <label
@@ -157,14 +206,52 @@ const Contact = () => {
                   )}
                 </div>
               </div>
+
+              {/* Subject Field */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-semibold text-product-foreground mb-2">
+                  Subject
+                </label>
+                <div className="relative">
+                  <select
+                    id="subject"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                    className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow appearance-none cursor-pointer"
+                    required
+                  >
+                    {subjectOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                    <svg
+                      className="w-5 h-5 text-product-icon"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Message Field */}
             <div className="space-y-2">
               <label
                 htmlFor="message"
-                  className="block text-sm font-semibold text-product-foreground mb-2">
-                  How can we help?
+                className="block text-sm font-semibold text-product-foreground mb-2">
+                How can we help?
               </label>
               <div className="relative">
                 <textarea

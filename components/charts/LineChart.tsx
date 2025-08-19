@@ -1,7 +1,6 @@
 "use client"
-import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react"
-import dynamic from "next/dynamic"
-import { CgLoadbarSound } from "react-icons/cg"
+import dynamic from "next/dynamic";
+
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
 interface LineChartProps {
@@ -14,8 +13,6 @@ export default function LineChart({ data = [] }: LineChartProps) {
   const seriesData = data.map((d) => d.count)
 
   const chartConfig = {
-    type: "line",
-    height: 240,
     series: [
       {
         name: "Page Views",
@@ -24,20 +21,18 @@ export default function LineChart({ data = [] }: LineChartProps) {
     ],
     options: {
       chart: {
+        type: "line" as const,
         toolbar: {
           show: false,
         },
-      },
-      title: {
-        show: "",
       },
       dataLabels: {
         enabled: false,
       },
       colors: ["#020617"],
       stroke: {
-        lineCap: "round",
-        curve: "smooth",
+        lineCap: "round" as const,
+        curve: "smooth" as const,
       },
       markers: {
         size: 0,
@@ -93,33 +88,8 @@ export default function LineChart({ data = [] }: LineChartProps) {
   }
 
   return (
-    //@ts-ignore
-    <Card>
-      {/*@ts-ignore */}
-      <CardHeader
-        floated={false}
-        shadow={false}
-        color="transparent"
-        className="flex flex-col gap-4 rounded-none md:flex-row md:items-center">
-        <div className="w-max rounded-lg bg-product-secondary text-white">
-          <CgLoadbarSound size={50} />
-        </div>
-        <div>
-          {/*@ts-ignore */}
-          <Typography variant="h6" color="blue-gray">
-            Traffic Overview
-          </Typography>
-          {/*@ts-ignore */}
-          <Typography variant="small" color="gray" className="max-w-sm font-normal">
-            Track analytics of your digital catalogue.
-          </Typography>
-        </div>
-      </CardHeader>
-      {/*@ts-ignore */}
-      <CardBody className="px-2 pb-0">
-        {/*@ts-ignore */}
-        <Chart {...chartConfig} height={350} />
-      </CardBody>
-    </Card>
+    <div className="w-full">
+      <Chart {...chartConfig} height={350} />
+    </div>
   )
 }

@@ -63,12 +63,6 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                 className="text-xl font-bold text-product-foreground font-heading">
                 Category: {category.name || "Unnamed Category"}
               </h3>
-              <Button
-                type="button"
-                onClick={() => handleAddItem(categoryIndex)}
-                className="px-6 py-3 text-base font-medium bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
-                <Plus className="h-5 w-5 mr-2" /> Add New Item to {category.name || "this Category"}
-              </Button>
             </div>
 
             {category.items.map((item, itemIndex) => (
@@ -199,6 +193,13 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                 </div>
               </Card>
             ))}
+
+            <Button
+              type="button"
+              onClick={() => handleAddItem(categoryIndex)}
+              className="px-6 py-3 text-base font-medium bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
+              <Plus className="h-5 w-5 mr-2" /> Add New Item to {category.name || "this Category"}
+            </Button>
           </Card>
         ))
       )}

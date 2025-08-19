@@ -58,21 +58,10 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
   }
 
   return (
-    <div className="px-2 max-w-[1200px] mx-auto space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold text-product-foreground flex items-center justify-center gap-2">
-          <FiBarChart className="w-8 h-8 text-product-primary" />
-          Analytics Dashboard
-        </h1>
-        <p className="text-product-foreground-accent text-lg">
-          Comprehensive insights and performance metrics for your restaurant
-        </p>
-      </div>
-
+    <div className="space-y-8">
       {/* Key Metrics Grid */}
       <div className="grid w-full mx-auto grid-cols-1 md:w-full md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
+        <Card className="bg-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -90,7 +79,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
+        <Card className="bg-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -108,7 +97,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
+        <Card className="bg-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -131,7 +120,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
+        <Card className="bg-product-background border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-300 hover:scale-product-hover-scale">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -147,16 +136,26 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
       </div>
 
       {/* Chart Section */}
-      <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow">
-        <CardHeader>
-          <CardTitle className="text-xl font-bold text-product-foreground">
-            Traffic Overview
-          </CardTitle>
-          <CardDescription className="text-product-foreground-accent">
-            Daily page views over time
-          </CardDescription>
+      <Card className="bg-product-background border-product-border shadow-product-shadow">
+        <CardHeader className="pb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-2xl font-bold text-product-foreground flex items-center gap-3">
+                <div className="w-10 h-10 bg-product-primary/10 rounded-xl flex items-center justify-center">
+                  <FiBarChart className="w-5 h-5 text-product-primary" />
+                </div>
+                Traffic Overview
+              </CardTitle>
+              <CardDescription className="text-product-foreground-accent text-base mt-2">
+                Track analytics of your digital catalogue
+              </CardDescription>
+            </div>
+            <div className="text-right">
+              <p className="text-sm text-product-foreground-accent font-medium">Daily page views over time</p>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent className="p-4">
+        <CardContent className="p-6">
           <div className="h-fit">
             <LineChart data={data} />
           </div>
@@ -165,7 +164,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
 
       {/* Quick Stats Grid */}
       {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow">
+        <Card className="bg-product-background border-product-border shadow-product-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold text-product-foreground flex items-center gap-2">
               <FiChrome className="w-5 h-5 text-product-primary" />
@@ -184,7 +183,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow">
+        <Card className="bg-product-background border-product-border shadow-product-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold text-product-foreground flex items-center gap-2">
               <FiMonitor className="w-5 h-5 text-product-secondary" />
@@ -203,7 +202,7 @@ const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
           </CardContent>
         </Card>
 
-        <Card className="bg-gradient-to-br from-product-background to-hero-product-background border-product-border shadow-product-shadow">
+        <Card className="bg-product-background border-product-border shadow-product-shadow">
           <CardHeader className="pb-3">
             <CardTitle className="text-lg font-semibold text-product-foreground flex items-center gap-2">
               <FiGlobe className="w-5 h-5 text-product-icon" />

@@ -117,35 +117,45 @@ export default async function page({ params }: { params: tParams }) {
   }
 
   return (
-    <div className="product font-lora min-h-screen">
+    <div className="product font-lora min-h-screen bg-product-background">
       <Navbar />
-      <div className="py-16 flex w-full gap-10 justify-center items-center flex-col relative">
-        <h1 className="text-3xl lg:text-4xl text-white font-bold">
-          Analytics for restaurant {transformedName}
-        </h1>
-
+      <div className="pt-32 md:pt-40 pb-16">
         {error ? (
-          <div className="w-full max-w-4xl mx-auto p-6 bg-red-50 border border-red-200 rounded-lg">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <svg className="h-8 w-8 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path
-                    fillRule="evenodd"
-                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div className="ml-3">
-                <h2 className="text-lg font-semibold text-red-800">Error Loading Analytics</h2>
-                <div className="mt-2 text-sm text-red-700">
-                  <p>{error}</p>
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-6 shadow-product-shadow">
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <svg className="h-8 w-8 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div className="ml-3">
+                  <h2 className="text-xl font-semibold text-red-800">Error Loading Analytics</h2>
+                  <div className="mt-2 text-sm text-red-700">
+                    <p>{error}</p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         ) : (
-          <Analytics data={chartData} rawEvents={rawEvents} />
+            <div className="max-w-6xl mx-auto px-4">
+            <div className="bg-product-gradient-primary border border-product-border rounded-2xl p-6 md:p-8 shadow-md">
+              <div className="text-center mb-8">
+                <h1 className="text-4xl lg:text-5xl font-bold text-product-foreground mb-4">
+                  Analytics for {transformedName}
+                </h1>
+                <p className="text-lg text-product-foreground-accent">
+                  Track your catalog performance and visitor insights
+                </p>
+              </div>
+              <Analytics data={chartData} rawEvents={rawEvents} />
+            </div>
+          </div>
         )}
       </div>
     </div>

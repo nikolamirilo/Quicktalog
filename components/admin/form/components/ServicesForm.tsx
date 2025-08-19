@@ -24,7 +24,11 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       currency: "",
       contact: [],
       subtitle: "",
-      services: [],
+      services: [{ 
+        name: "", 
+        layout: "", 
+        items: [{ name: "", description: "", price: 0, image: "" }] 
+      }],
       partners: [],
       legal: {
         name: "",
@@ -92,7 +96,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
   const handleAddCategory = () => {
     setFormData((prev) => ({
       ...prev,
-      services: [...prev.services, { name: "", layout: "variant_1", items: [] }],
+      services: [...prev.services, { name: "", layout: "", items: [] }],
     }))
   }
 
