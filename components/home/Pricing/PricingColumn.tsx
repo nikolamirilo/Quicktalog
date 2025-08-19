@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/helpers/client"
 import { PricingPlan } from "@/types"
+import { useUser } from "@clerk/nextjs"
 import { Paddle } from "@paddle/paddle-js"
 import clsx from "clsx"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
@@ -18,7 +20,8 @@ interface PricingColumnProps {
 
 const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId }) => {
   const [isHovered, setIsHovered] = useState(false)
-
+  const { user } = useUser()
+  const router = useRouter()
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
       features.support,
@@ -77,11 +80,26 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
           variant={highlight ? "cta" : "cta-secondary"}
           className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]"
           onClick={() => {
-            paddle.Checkout.open({
-              items: [
-                { priceId: priceId, quantity: 1 }
-              ]
-            })
+            if (tier.name === "Starter") {
+              if (user) {
+                router.push("/admin/dashboard")
+              } else {
+                router.push("/auth")
+              }
+            } else {
+              paddle.Checkout.open({
+                items: [
+                  { priceId: priceId, quantity: 1 }
+                ],
+                customer: {
+                  email: user ? user.emailAddresses?.[0]?.emailAddress : ""
+                },
+                settings: {
+                  successUrl: `${process.env.BASE_URL}/admin/checkout/success`,
+                }
+              })
+            }
+
           }}
         >
           Get Started
