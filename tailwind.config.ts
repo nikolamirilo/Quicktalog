@@ -104,6 +104,15 @@ export default withUt(
           md: "calc(var(--radius) - 2px)",
           sm: "calc(var(--radius) - 4px)",
         },
+        scrollbar: {
+          thin: "thin",
+          thumb: {
+            "product-primary/25": "rgba(229, 194, 48, 0.25)",
+          },
+          track: {
+            transparent: "transparent",
+          },
+        },
       },
     },
     plugins: [require("tailwindcss-animate")],
