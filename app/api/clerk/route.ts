@@ -1,4 +1,3 @@
-import { createPaddleCustomer } from "@/actions/paddle"
 import { createClient } from "@/utils/supabase/server"
 import { verifyWebhook } from "@clerk/nextjs/webhooks"
 import { NextRequest } from "next/server"
@@ -14,11 +13,11 @@ export async function POST(req: NextRequest) {
 
       const supabase = await createClient()
 
-      const paddleResponse = await createPaddleCustomer(email, full_name)
-      if (paddleResponse.error) {
-        console.error("Error creating customer:", paddleResponse.error)
-        return new Response(`${paddleResponse.error}, details: ${paddleResponse.details}`, { status: 500 })
-      }
+      // const paddleResponse = await createPaddleCustomer(email, full_name)
+      // if (paddleResponse.error) {
+      //   console.error("Error creating customer:", paddleResponse.error)
+      //   return new Response(`${paddleResponse.error}, details: ${paddleResponse.details}`, { status: 500 })
+      // }
 
       const { error } = await supabase.from("users").upsert([
         {
@@ -27,7 +26,7 @@ export async function POST(req: NextRequest) {
           image: image_url,
           name: full_name,
           plan_id: "pri_01k27ajepm199twd1x77rpwdrq",
-          customer_id: paddleResponse.customer.id
+          customer_id: null
         },
       ])
       if (error) {

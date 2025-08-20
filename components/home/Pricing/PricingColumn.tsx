@@ -1,13 +1,13 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { formatPrice } from "@/helpers/client"
-import { PricingPlan, User } from "@/types"
+import { PricingPlan } from "@/types"
 import { createClient } from "@/utils/supabase/client"
 import { useUser } from "@clerk/nextjs"
 import { Paddle } from "@paddle/paddle-js"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 interface PricingColumnProps {
@@ -21,8 +21,7 @@ interface PricingColumnProps {
 
 const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const [user, setUser] = useState<User>(null)
-  const { user: clerkUser } = useUser()
+  const { user } = useUser()
   const supabase = createClient()
   const router = useRouter()
   const getFeatureList = (features: PricingPlan["features"]) => {
@@ -40,15 +39,6 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
   const cycleLabel = billingCycle === "yearly" ? "/year" : "/month"
-  useEffect(() => {
-    async function getUserData() {
-      const res = await supabase.from("users").select("*").eq("email", clerkUser?.emailAddresses[0].emailAddress)
-      setUser(res.data[0])
-    }
-    if (clerkUser) {
-      getUserData()
-    }
-  }, [])
   return (
     <div
       className={clsx(
@@ -97,8 +87,8 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
                 items: [
                   { priceId: priceId, quantity: 1 }
                 ],
-                customer: user?.id
-                  ? { id: user.customer_id }
+                customer: user?.emailAddresses[0].emailAddress
+                  ? { email: user.emailAddresses[0].emailAddress }
                   : undefined,
                 settings: {
                   successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/checkout/success`,

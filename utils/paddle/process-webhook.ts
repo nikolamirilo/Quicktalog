@@ -4,63 +4,106 @@ import {
   CustomerUpdatedEvent,
   EventEntity,
   EventName,
+  SubscriptionActivatedEvent,
   SubscriptionCreatedEvent,
   SubscriptionUpdatedEvent,
 } from '@paddle/paddle-node-sdk';
 
-
-
 export class ProcessWebhook {
   async processEvent(eventData: EventEntity) {
-    switch (eventData.eventType) {
-      case EventName.SubscriptionCreated:
-      case EventName.SubscriptionUpdated:
-        await this.updateSubscriptionData(eventData);
-        break;
-      case EventName.CustomerCreated:
-      case EventName.CustomerUpdated:
-        await this.updateCustomerData(eventData);
-        break;
+    try {
+      switch (eventData.eventType) {
+        case EventName.SubscriptionCreated:
+        case EventName.SubscriptionUpdated:
+        case EventName.SubscriptionActivated:
+          await this.handleSubscriptionData(
+            eventData as
+            | SubscriptionCreatedEvent
+            | SubscriptionUpdatedEvent
+            | SubscriptionActivatedEvent
+          );
+          break;
+        case EventName.CustomerCreated:
+        case EventName.CustomerUpdated:
+          await this.handleCustomerData(
+            eventData as CustomerCreatedEvent | CustomerUpdatedEvent
+          );
+          break;
+        default:
+          console.log(`Unhandled event type: ${eventData.eventType}`);
+      }
+    } catch (err) {
+      console.error("Webhook processing error:", err);
+      // ⚠️ Important: your HTTP handler should still return 200 OK
+      // so Paddle doesn't retry endlessly
     }
   }
 
-  private async updateSubscriptionData(eventData: SubscriptionCreatedEvent | SubscriptionUpdatedEvent) {
+  private async handleSubscriptionData(
+    eventData:
+      | SubscriptionCreatedEvent
+      | SubscriptionUpdatedEvent
+      | SubscriptionActivatedEvent
+  ) {
     const supabase = await createClient();
-    const { error } = await supabase
+
+    const subscription = {
+      subscription_id: eventData.data.id,
+      subscription_status: eventData.data.status,
+      price_id: eventData.data.items?.[0]?.price?.id ?? null,
+      product_id: eventData.data.items?.[0]?.price?.productId ?? null,
+      scheduled_change: eventData.data.scheduledChange?.effectiveAt ?? null,
+      customer_id: eventData.data.customerId,
+    };
+
+    const { error: subError } = await supabase
       .from('subscriptions')
-      .upsert({
-        subscription_id: eventData.data.id,
-        subscription_status: eventData.data.status,
-        price_id: eventData.data.items[0].price?.id ?? '',
-        product_id: eventData.data.items[0].price?.productId ?? '',
-        scheduled_change: eventData.data.scheduledChange?.effectiveAt,
-        customer_id: eventData.data.customerId,
-      })
-      .select();
-    const { error: errorUser } = await supabase.from("users").update({
-      plan_id: eventData.data.items[0].price?.id,
-    }).eq("customer_id", eventData.data.id)
-    if (error || errorUser) {
-      console.log(error, errorUser)
-      throw new Error("Error occured")
+      .upsert(subscription, { onConflict: 'subscription_id' });
+
+    if (subError) {
+      console.error("Failed to upsert subscription:", subError);
+      return;
+    }
+
+    // Update user plan when subscription is activated
+    if (eventData.eventType === EventName.SubscriptionActivated) {
+      const { error: userError } = await supabase
+        .from('users')
+        .update({ plan_id: subscription.price_id })
+        .eq('customer_id', subscription.customer_id);
+
+      if (userError) console.error("Failed to update user plan:", userError);
     }
   }
 
-  private async updateCustomerData(eventData: CustomerCreatedEvent | CustomerUpdatedEvent) {
+  private async handleCustomerData(
+    eventData: CustomerCreatedEvent | CustomerUpdatedEvent
+  ) {
     const supabase = await createClient();
-    const { error } = await supabase
-      .from('users')
-      .upsert({
-        customer_id: eventData.data.id,
-      })
-      .select();
 
-    if (error) throw error;
+    if (eventData.data.email) {
+      // Link Paddle customer to user by email
+      const { error } = await supabase
+        .from('users')
+        .update({ customer_id: eventData.data.id })
+        .eq('email', eventData.data.email);
+
+      if (error) {
+        console.error("Failed to update user with customer_id:", error);
+      }
+    } else {
+      // Optional: ensure customers are tracked even if no email present
+      const { error } = await supabase
+        .from('customers')
+        .upsert(
+          {
+            customer_id: eventData.data.id,
+            created_at: new Date().toISOString(),
+          },
+          { onConflict: 'customer_id' }
+        );
+
+      if (error) console.error("Failed to upsert customer:", error);
+    }
   }
 }
-
-
-/*
-1. When creating user via clerk create also new customer in Paddle and assign customer_id
-2. When buying new plan use existing customer_id
-*/
