@@ -118,9 +118,7 @@ export default function Dashboard({
 
   // Mobile tab bar
   const MobileTabBar = (
-    <nav
-      className="dashboard-tabbar-scroll md:hidden flex flex-row gap-2 overflow-x-auto py-2 px-1 bg-product-background/95 mb-4"
-      style={{ WebkitOverflowScrolling: "touch" }}>
+    <nav className="mobile-tab-scroll md:hidden flex flex-row gap-2 overflow-x-auto py-2 px-1 bg-product-background/95 mb-4">
       {TABS.map((tab) => (
         <Button
           key={tab.value}
@@ -129,7 +127,7 @@ export default function Dashboard({
           className={`${activeTab === tab.value
             ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
             : ""
-            } flex items-center justify-start font-body`}
+            } flex items-center justify-start font-body flex-shrink-0 whitespace-nowrap`}
           aria-current={activeTab === tab.value ? "page" : undefined}>
           <span className="flex items-center justify-center">{tab.icon}</span>
           {tab.label}
@@ -362,19 +360,6 @@ export default function Dashboard({
           )}
         </section>
       </div>
-      {/* Custom ultra-thin scrollbar for dashboard tab bar only */}
-      <style jsx>{`
-        .dashboard-tabbar-scroll::-webkit-scrollbar {
-          height: 3px;
-        }
-        .dashboard-tabbar-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .dashboard-tabbar-scroll::-webkit-scrollbar-thumb {
-          background: rgba(229, 194, 48, 0.25); /* product-primary/40 */
-          border-radius: 2px;
-        }
-      `}</style>
     </div>
   )
 }

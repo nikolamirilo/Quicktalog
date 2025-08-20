@@ -74,6 +74,28 @@ body {
   border-radius: 1rem;
 }
 
+/* Mobile tab bar scrollbar */
+.mobile-tab-scroll::-webkit-scrollbar {
+  height: 3px;
+}
+
+.mobile-tab-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 0 4px;
+}
+
+.mobile-tab-scroll::-webkit-scrollbar-thumb {
+  background: var(--product-primary);
+  border-radius: 1px;
+}
+
+/* Dashboard sticky sidebar */
+.dashboard-sidebar {
+  position: sticky;
+  top: 8rem; /* 128px - matches pt-32 from dashboard container */
+  height: fit-content;
+}
+
 /* styles.css or your existing CSS file */
 a {
   position: relative;
