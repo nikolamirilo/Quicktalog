@@ -34,8 +34,6 @@ export class ProcessWebhook {
       }
     } catch (err) {
       console.error("Webhook processing error:", err);
-      // ⚠️ Important: your HTTP handler should still return 200 OK
-      // so Paddle doesn't retry endlessly
     }
   }
 

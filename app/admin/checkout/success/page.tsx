@@ -37,7 +37,7 @@ const page = () => {
                 </div>
 
                 <Button className="mt-12" size="lg" variant="cta">
-                    <Link href="/admin/dasboard">
+                    <Link href="/admin/dashboard">
                         Return to Dashboard
                     </Link>
                 </Button>
