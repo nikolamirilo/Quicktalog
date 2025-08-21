@@ -8,7 +8,7 @@ export async function getCustomerId() {
     const usersData = await supabase
       .from('users')
       .select('customer_id,email')
-      .eq('email', user.emailAddresses[0].emailAddress)
+      .eq('id', user.id)
       .single();
     if (usersData?.data?.customer_id) {
       return usersData?.data?.customer_id as string;

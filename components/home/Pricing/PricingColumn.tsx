@@ -1,9 +1,8 @@
 "use client"
 import { Button } from "@/components/ui/button"
+import { tiers } from "@/constants/pricing"
 import { formatPrice } from "@/helpers/client"
-import { PricingPlan } from "@/types"
-import { createClient } from "@/utils/supabase/client"
-import { useUser } from "@clerk/nextjs"
+import { PricingPlan, User } from "@/types"
 import { Paddle } from "@paddle/paddle-js"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
@@ -17,12 +16,11 @@ interface PricingColumnProps {
   billingCycle: "monthly" | "yearly"
   paddle: Paddle
   priceId: string
+  user: User
 }
 
-const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId }) => {
+const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, billingCycle, paddle, priceId, user }) => {
   const [isHovered, setIsHovered] = useState(false)
-  const { user } = useUser()
-  const supabase = createClient()
   const router = useRouter()
   const getFeatureList = (features: PricingPlan["features"]) => {
     return [
@@ -39,6 +37,7 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
   const cycleLabel = billingCycle === "yearly" ? "/year" : "/month"
+
   return (
     <div
       className={clsx(
@@ -83,27 +82,38 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
           className="w-full py-3 rounded-lg font-semibold transition-all duration-200 hover:scale-[1.02]"
           onClick={() => {
             if (user) {
-              paddle.Checkout.open({
-                items: [
-                  { priceId: priceId, quantity: 1 }
-                ],
-                customer: user?.emailAddresses[0].emailAddress
-                  ? { email: user.emailAddresses[0].emailAddress }
-                  : undefined,
-                settings: {
-                  successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/checkout/success`,
-                }
-              })
-              /*
-              Check current plan of user, if he wants to purchase current plan he should get message that he is already on current plan, other way around he should purchase
-              */
+              const matchedTier = tiers.find((tier) => Object.values(tier.priceId).includes(user.plan_id))
+              if (tier.name === matchedTier.name) {
+                alert("You currently have this plan")
+              } else {
+                paddle.Checkout.open({
+                  items: [
+                    { priceId: priceId, quantity: 1 }
+                  ],
+                  customer: user?.email
+                    ? { email: user.email }
+                    : undefined,
+                  settings: {
+                    successUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/admin/checkout/success`,
+                  }
+                })
+              }
             } else {
               router.push("/auth")
             }
 
           }}
         >
-          Get Started
+          {user ? (() => {
+            const currentTier = tiers.find(t =>
+              Object.values(t.priceId).includes(user.plan_id)
+            );
+
+            if (!currentTier) return "Get Started";
+
+            if (currentTier.name === tier.name) return "Current Plan";
+            return currentTier.id > tier.id ? "Downgrade" : "Upgrade";
+          })() : "Get Started"}
         </Button>
       </div>
 

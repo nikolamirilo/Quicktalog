@@ -1,6 +1,9 @@
 "use client"
 import { tiers } from "@/constants/pricing"
 import { usePaddlePrices } from "@/hooks/usePaddelPrices"
+import { User } from "@/types"
+import { createClient } from "@/utils/supabase/client"
+import { useUser } from "@clerk/nextjs"
 import { Environments, initializePaddle, Paddle } from "@paddle/paddle-js"
 import { motion, Variants } from "framer-motion"
 import { useEffect, useState } from "react"
@@ -36,6 +39,9 @@ type BillingCycle = "monthly" | "yearly"
 const Pricing: React.FC = () => {
   const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
   const [billingCycle, setBillingCycle] = useState<BillingCycle>("monthly")
+  const [user, setUser] = useState<User>(null)
+  const { user: clerkUser } = useUser()
+  const supabase = createClient()
 
   const { prices } = usePaddlePrices(paddle, "US")
 
@@ -49,6 +55,17 @@ const Pricing: React.FC = () => {
       })
     }
   }, [])
+
+  useEffect(() => {
+    async function getUserData() {
+      const res = await supabase.from("users").select("*").eq("email", clerkUser?.emailAddresses[0].emailAddress)
+      setUser(res.data[0])
+    }
+    if (clerkUser) {
+      getUserData()
+    }
+  }, [])
+
 
   return (
     <div className="space-y-6">
@@ -93,7 +110,8 @@ const Pricing: React.FC = () => {
           <motion.div key={tier.name} variants={childVariants}>
             <PricingColumn
               tier={tier}
-              highlight={index === 2}
+              highlight={user ? index === tiers.find((tier) => Object.values(tier.priceId).includes(user.plan_id)).id : index === 2}
+              user={user}
               price={prices[billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year]}
               priceId={billingCycle === "monthly" ? tier.priceId.month : tier.priceId.year}
               billingCycle={billingCycle}
@@ -103,7 +121,7 @@ const Pricing: React.FC = () => {
         ))}
       </motion.div>
 
-      
+
       <div className="pt-4">
         <MiniCTA />
       </div>

@@ -2,7 +2,7 @@ import { PricingPlan } from "@/types"
 
 export const tiers: PricingPlan[] = [
   {
-    id: 1,
+    id: 0,
     name: "Starter",
     priceId: { month: "pri_01k27ajepm199twd1x77rpwdrq", year: "pri_01k27ajepm199twd1x77rpwdrq" },
     description: "Perfect for individuals and small businesses getting started.",
@@ -19,7 +19,7 @@ export const tiers: PricingPlan[] = [
     },
   },
   {
-    id: 2,
+    id: 1,
     name: "Pro",
     priceId: { month: "pri_01k277hdtkkb1xdbz6karkqek9", year: "pri_01k277q6ftcjfzy9v7xhe6ckdt" },
     description: "Ideal for growing businesses with multiple services.",
@@ -36,7 +36,7 @@ export const tiers: PricingPlan[] = [
     },
   },
   {
-    id: 3,
+    id: 2,
     name: "Growth",
     priceId: { month: "pri_01k277kkzqz4ef7nc786ssnw6x", year: "pri_01k277r7p899gfn5nn3ne87pww" },
     description: "Built for teams that need advanced features and analytics.",
@@ -53,7 +53,7 @@ export const tiers: PricingPlan[] = [
     },
   },
   {
-    id: 4,
+    id: 3,
     name: "Premium",
     priceId: { month: "pri_01k277mzp3tgy7n5wvrsa5v0sx", year: "pri_01k277see7qtyq30kc5g3vyqy9" },
     description: "Enterprise-grade solution with unlimited possibilities.",

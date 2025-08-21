@@ -20,6 +20,7 @@ import {
   X,
   Zap,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FiCalendar } from "react-icons/fi"
 
@@ -36,6 +37,7 @@ export default function Billing({
 }: BillingProps) {
   const [paddle, setPaddle] = useState<Paddle | undefined>(undefined)
   const { prices, loading } = usePaddlePrices(paddle, "US")
+  const router = useRouter()
 
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN && process.env.NEXT_PUBLIC_PADDLE_ENV) {
@@ -173,32 +175,6 @@ export default function Billing({
         <FiCalendar className="text-product-icon font-lora w-6 h-6 sm:w-8 sm:h-8" /> Billing Overview
       </h2>
 
-      {/* Action Buttons */}
-      <Card style={{ boxShadow: "var(--product-shadow)" }}>
-        <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 border-product-border text-product-foreground hover:bg-product-hover-background">
-              <CreditCard className="w-4 h-4" />
-              Update Payment Method
-            </Button>
-            <Button
-              variant="outline"
-              className="flex items-center gap-2 border-product-border text-product-foreground hover:bg-product-hover-background">
-              <Calendar className="w-4 h-4" />
-              View Billing History
-            </Button>
-            <Button
-              variant="default"
-              className="bg-product-primary text-product-foreground hover:bg-product-primary-accent flex items-center gap-2">
-              <Star className="w-4 h-4" />
-              Upgrade Plan
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Main Plan Card */}
       <Card
         className="overflow-hidden border-product-border"
@@ -286,36 +262,61 @@ export default function Billing({
         </CardHeader>
         <CardContent>
           <div className="grid md:grid-cols-2 gap-4">
-            {Object.entries(pricingPlan.features).map(([key, value]) => {
-              const IconComponent = getFeatureIcon(key)
-              const included = isFeatureIncluded(value)
-
-              return (
-                <div
-                  key={key}
-                  className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${included
-                    ? "bg-product-hover-background border border-product-border"
-                    : "bg-product-background border border-product-border"
-                    }`}>
-                  {included ? (
-                    <CheckCircle className="w-5 h-5 text-product-primary flex-shrink-0" />
-                  ) : (
-                    <X className="w-5 h-5 text-product-foreground-accent flex-shrink-0" />
-                  )}
-                  <IconComponent className="w-4 h-4 text-product-icon flex-shrink-0" />
-                  <div className="flex-1">
-                    <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
-                    <p
-                      className={`text-sm ${included ? "text-product-primary" : "text-product-foreground-accent"
-                        }`}>
-                      {formatFeatureValue(key, value)}
-                    </p>
+            {Object.entries(pricingPlan.features)
+              .sort(([_, aValue], [__, bValue]) => {
+                // Sort so included features come first
+                const aIncluded = isFeatureIncluded(aValue) ? 0 : 1
+                const bIncluded = isFeatureIncluded(bValue) ? 0 : 1
+                return aIncluded - bIncluded
+              })
+              .map(([key, value]) => {
+                const IconComponent = getFeatureIcon(key)
+                const included = isFeatureIncluded(value)
+                return (
+                  <div
+                    key={key}
+                    className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${included
+                      ? "bg-product-hover-background border border-product-border"
+                      : "bg-product-background border border-product-border"
+                      }`}
+                  >
+                    {included ? (
+                      <CheckCircle className="w-5 h-5 text-product-primary flex-shrink-0" />
+                    ) : (
+                      <X className="w-5 h-5 text-product-foreground-accent flex-shrink-0" />
+                    )}
+                    <IconComponent className="w-4 h-4 text-product-icon flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
+                      <p
+                        className={`text-sm ${included ? "text-product-primary" : "text-product-foreground-accent"
+                          }`}
+                      >
+                        {formatFeatureValue(key, value)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
           </div>
         </CardContent>
+      </Card>
+
+      <Card className="p-6 border-product-border">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-product-background border border-product-border rounded-2xl p-6">
+          <div className="text-center sm:text-left">
+            <h2 className="text-xl font-semibold text-product-foreground">
+              Need more tools & features?
+            </h2>
+            <p className="text-product-foreground-accent text-sm mt-1">
+              Unlock advanced features, higher limits, and premium support by upgrading your plan.
+            </p>
+          </div>
+          <Button variant="default" onClick={() => { router.push("/pricing") }}>
+            <Star className="w-4 h-4" />
+            Upgrade Plan
+          </Button>
+        </div>
       </Card>
     </div>
   )
