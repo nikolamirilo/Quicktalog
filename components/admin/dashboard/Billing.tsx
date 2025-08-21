@@ -159,9 +159,9 @@ export default function Billing({
     return (
       <div className="max-w-5xl space-y-6">
         <div className="animate-pulse">
-          <div className="h-8 bg-product-hover-background rounded mb-6"></div>
           <div className="h-32 bg-product-hover-background rounded mb-6"></div>
-          <div className="h-64 bg-product-hover-background rounded"></div>
+          <div className="h-64 bg-product-hover-background rounded mb-6"></div>
+          <div className="h-16 bg-product-hover-background rounded"></div>
         </div>
       </div>
     )
