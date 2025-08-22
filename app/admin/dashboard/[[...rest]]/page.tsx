@@ -71,15 +71,12 @@ export default async function page() {
       }
     }
     pricingPlan = createPricingPlan(UserData?.plan_id)
-    console.log(pricingPlan)
-    const userData = {
-      id: clerkUser.id,
-      imageUrl: clerkUser.imageUrl || "",
-      firstName: clerkUser.firstName || "",
-      lastName: clerkUser.lastName || "",
-      email: clerkUser.emailAddresses?.[0]?.emailAddress || "",
-    }
 
+    const { data: userData } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", clerkUser.id)
+      .single()
     const { data: promptsUsage } = await supabase
       .from("prompts")
       .select("count")

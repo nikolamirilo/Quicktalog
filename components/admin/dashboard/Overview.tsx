@@ -52,7 +52,7 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
                 <div className="flex flex-col items-center md:flex-row md:items-center w-full gap-4 sm:gap-6 md:gap-8 z-10">
                     <div className="relative flex-shrink-0 flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32">
                         <img
-                            src={user.imageUrl}
+                            src={user.image}
                             alt="Profile"
                             width={128}
                             height={128}
@@ -62,7 +62,7 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
                     </div>
                     <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
                         <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-product-foreground mb-1 font-heading">
-                            Welcome back, {`${user.firstName} ${user.lastName}` || "User"}!{" "}
+                            Welcome back, {`${user.name}` || "User"}!{" "}
                         </div>
                         <div className="text-product-foreground-accent flex items-center gap-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl break-words font-body">
                             {user.email}

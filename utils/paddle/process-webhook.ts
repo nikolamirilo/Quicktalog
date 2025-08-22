@@ -18,6 +18,7 @@ export class ProcessWebhook {
         case EventName.SubscriptionCreated:
         case EventName.SubscriptionUpdated:
         case EventName.SubscriptionActivated:
+        case EventName.SubscriptionCanceled:
           await this.handleSubscriptionData(
             eventData as
             | SubscriptionCreatedEvent
