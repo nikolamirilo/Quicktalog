@@ -13,7 +13,7 @@ export default async function page() {
 
   // Get current user by session (assuming Clerk user id is stored in users table)
   const clerkUser = await currentUser()
-  let restaurants: ServiceCatalogue[] = []
+  let catalogues: ServiceCatalogue[] = []
   let analytics: Analytics[] = []
   let User: User | null = null
   let pricingPlan = null
@@ -23,9 +23,9 @@ export default async function page() {
       .from("service_catalogues")
       .select("*")
       .eq("created_by", clerkUser.id)
-    restaurants = restaurantError ? [] : restaurantData || []
+    catalogues = restaurantError ? [] : restaurantData || []
 
-    // Fetch analytics for all restaurants owned by the user
+    // Fetch analytics for all catalogues owned by the user
     const { data: analyticsData, error: analyticsError } = await supabase
       .from("analytics")
       .select("date, hour, current_url, pageview_count, unique_visitors")
@@ -95,7 +95,7 @@ export default async function page() {
       <div className="product font-lora min-h-screen">
         <Navbar />
         <Dashboard
-          restaurants={restaurants}
+          catalogues={catalogues}
           user={userData}
           analytics={analytics}
           pricingPlan={pricingPlan}
