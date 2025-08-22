@@ -6,7 +6,7 @@ import { PricingPlan, User } from "@/types"
 import { Paddle } from "@paddle/paddle-js"
 import clsx from "clsx"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { BsFillCheckCircleFill } from "react-icons/bs"
 
 interface PricingColumnProps {
@@ -37,6 +37,10 @@ const PricingColumn: React.FC<PricingColumnProps> = ({ tier, highlight, price, b
   }
   const displayPrice = price ? formatPrice(price) : "N/A"
   const cycleLabel = billingCycle === "yearly" ? "/year" : "/month"
+
+  useEffect(() => {
+    paddle.PricePreview()
+  }, [])
 
   return (
     <div

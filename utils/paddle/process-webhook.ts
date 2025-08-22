@@ -1,3 +1,4 @@
+import { tiers } from '@/constants/pricing';
 import { createClient } from '@/utils/supabase/server';
 import {
   CustomerCreatedEvent,
@@ -5,6 +6,7 @@ import {
   EventEntity,
   EventName,
   SubscriptionActivatedEvent,
+  SubscriptionCanceledEvent,
   SubscriptionCreatedEvent,
   SubscriptionUpdatedEvent,
 } from '@paddle/paddle-node-sdk';
@@ -21,6 +23,7 @@ export class ProcessWebhook {
             | SubscriptionCreatedEvent
             | SubscriptionUpdatedEvent
             | SubscriptionActivatedEvent
+            | SubscriptionCanceledEvent
           );
           break;
         case EventName.CustomerCreated:
@@ -42,6 +45,7 @@ export class ProcessWebhook {
       | SubscriptionCreatedEvent
       | SubscriptionUpdatedEvent
       | SubscriptionActivatedEvent
+      | SubscriptionCanceledEvent
   ) {
     const supabase = await createClient();
 
@@ -72,6 +76,15 @@ export class ProcessWebhook {
 
       if (userError) console.error("Failed to update user plan:", userError);
     }
+    if (eventData.eventType === EventName.SubscriptionCanceled) {
+      const { error: userError } = await supabase
+        .from('users')
+        .update({ plan_id: tiers[0].priceId.month })
+        .eq('customer_id', subscription.customer_id);
+
+      if (userError) console.error("Failed to update user plan:", userError);
+    }
+
   }
 
   private async handleCustomerData(
