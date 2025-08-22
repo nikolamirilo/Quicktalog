@@ -87,10 +87,6 @@ export default async function page() {
       .select("count")
       .eq("user_id", clerkUser.id)
       .single()
-    const { data: subscriptionsData } = await supabase
-      .from("subscriptions")
-      .select("*")
-      .eq("customer_id", userData.customer_id)
 
     return (
       <div className="product font-lora min-h-screen">
@@ -102,7 +98,6 @@ export default async function page() {
           pricingPlan={pricingPlan}
           promptsUsage={promptsUsage?.count || 0}
           ocrUsage={ocrUsage?.count || 0}
-          subscriptionsData={subscriptionsData}
         />
       </div>
     )

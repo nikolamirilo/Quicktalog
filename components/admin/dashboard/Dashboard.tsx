@@ -25,8 +25,7 @@ export default function Dashboard({
   analytics,
   pricingPlan,
   promptsUsage,
-  ocrUsage,
-  subscriptionsData
+  ocrUsage
 }) {
   const [activeTab, setActiveTab] = useState("overview")
 
