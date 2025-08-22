@@ -1,14 +1,12 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import { FaArrowsRotate } from "react-icons/fa6"
 import {
   FiBarChart2,
   FiCalendar,
   FiSettings
 } from "react-icons/fi"
 import { TbFileAnalytics } from "react-icons/tb"
-import Billing from "./Billing"
 import Overview from "./Overview"
 import Settings from "./Settings"
 import Subscription from "./Subscription"
@@ -16,9 +14,8 @@ import Usage from "./Usage"
 
 const TABS = [
   { value: "overview", label: "Overview", icon: <TbFileAnalytics className="mr-2" size={20} /> },
-  { value: "billing", label: "Billing", icon: <FiCalendar className="mr-2" size={20} /> },
+  { value: "subscription", label: "Subscription", icon: <FiCalendar className="mr-2" size={20} /> },
   { value: "usage", label: "Usage", icon: <FiBarChart2 className="mr-2" size={20} /> },
-  { value: "subscription", label: "Subscription", icon: <FaArrowsRotate className="mr-2" size={20} /> },
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
 ]
 
@@ -29,6 +26,7 @@ export default function Dashboard({
   pricingPlan,
   promptsUsage,
   ocrUsage,
+  subscriptionsData
 }) {
   const [activeTab, setActiveTab] = useState("overview")
 
@@ -108,19 +106,14 @@ export default function Dashboard({
               <Overview user={user} overallAnalytics={overallAnalytics} catalogues={catalogues} />
             </section>
           )}
-          {activeTab === "billing" && (
+          {activeTab === "subscription" && (
             <section className="animate-fade-in">
-              <Billing pricingPlan={pricingPlan} />
+              <Subscription pricingPlan={pricingPlan} />
             </section>
           )}
           {activeTab === "usage" && (
             <section className="animate-fade-in">
               <Usage data={usage} />
-            </section>
-          )}
-          {activeTab === "subscription" && (
-            <section className="animate-fade-in">
-              <Subscription />
             </section>
           )}
           {activeTab === "settings" && (
