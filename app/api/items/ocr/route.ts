@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
         Role: You are an expert in creating structured service offers (e.g., restaurant menus, beauty center service lists, etc.).
 
         Task: Generate a complete service offer configuration in **valid JSON format**.  
-        The JSON object must strictly follow the **ServicesFormData** type definition from the project.Identify categories (e.g. breakfast, lunch, welness, drinks), if you dont see category name group items on your own.
+        The JSON object must strictly follow the **ServicesFormData** type definition from the project.
 
         Input text (OCR extracted):  
         ${input}  
