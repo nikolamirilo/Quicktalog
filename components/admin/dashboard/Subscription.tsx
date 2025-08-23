@@ -303,7 +303,7 @@ export default function Subscription({
         </CardContent>
       </Card>
 
-      <Card className="p-6 border-product-border flex flex-col w-full gap-4">
+      <div className="flex flex-col gap-5 w-full">
         {/* Manage subscription */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-product-background border border-product-border rounded-2xl p-6">
           <div className="text-center sm:text-left">
@@ -311,17 +311,18 @@ export default function Subscription({
               Manage your subscription
             </h2>
             <p className="text-product-foreground-accent text-sm mt-1">
-              Update billing details, change plan, or cancel anytime.
+              Update billing details, check transactions or cancel subscription.
             </p>
           </div>
           <Button
             variant="default"
+            className="w-fit min-w-56"
             onClick={() =>
               router.push("https://customer-portal.paddle.com/cpl_01k11h2axbrhg4fzmw2zey50x0")
             }
           >
-            <MdOutlineSettings className="w-4 h-4 mr-2" />
-            Manage
+            <MdOutlineSettings className="w-4 h-4" />
+            Manage subscription
           </Button>
         </div>
 
@@ -335,12 +336,12 @@ export default function Subscription({
               Get more features, higher limits, and premium support.
             </p>
           </div>
-          <Button variant="default" onClick={() => router.push("/pricing")}>
-            <Star className="w-4 h-4 mr-2" />
-            Upgrade
+          <Button variant="default" onClick={() => router.push("/pricing")} className="w-fit min-w-56">
+            <Star className="w-4 h-4" />
+            Upgrade plan
           </Button>
         </div>
-      </Card>
+      </div>
 
     </div>
   )

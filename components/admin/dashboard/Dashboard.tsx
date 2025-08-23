@@ -112,7 +112,7 @@ export default function Dashboard({
           )}
           {activeTab === "usage" && (
             <section className="animate-fade-in">
-              <Usage data={usage} />
+              <Usage data={usage} pricingPlan={pricingPlan} />
             </section>
           )}
           {activeTab === "settings" && (

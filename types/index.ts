@@ -202,6 +202,13 @@ export type PricingPlan = {
   }
 }
 
+export type OverallUsage = {
+  traffic: number;
+  prompts: number;
+  ocr: number;
+  catalogues: number
+}
+
 export type IFAQ = {
   question: string
   answer: string

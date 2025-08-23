@@ -20,11 +20,11 @@ export async function POST(req: NextRequest) {
     })
 
     const generationPrompt = `
-      You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
+      Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
       Based on the following prompt, generate a complete service offer configuration in JSON format.
       The JSON object should strictly follow the ServicesFormData type definition from the project.
       
-      Prompt: "${prompt}"
+      Prompt: ${prompt}
       
       Schema: ${JSON.stringify(schema)}
       

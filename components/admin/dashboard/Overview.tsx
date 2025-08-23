@@ -9,7 +9,7 @@ import { FiCopy, FiEdit, FiMoreVertical, FiPlus, FiTrash2 } from 'react-icons/fi
 import { LuSquareMenu } from 'react-icons/lu'
 import { RiSparkling2Line } from 'react-icons/ri'
 import { TbBrandGoogleAnalytics, TbFileAnalytics } from 'react-icons/tb'
-import InformModal from './InformModal'
+import InformModal from '../../modals/InformModal'
 
 const Overview = ({ user, overallAnalytics, catalogues }) => {
     const [isModalOpen, setIsModalOpen] = useState(false)

@@ -1,6 +1,6 @@
 import { getUserData } from "@/actions/users"
 import AiServicesForm from "@/components/admin/form/AiServicesForm"
-import UpgradePlan from "@/components/common/UpgradePlan"
+import UpgradePlan from "@/components/modals/LimitsModal"
 import Navbar from "@/components/navigation/Navbar"
 
 export const dynamic = "force-dynamic"

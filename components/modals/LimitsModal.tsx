@@ -1,8 +1,7 @@
-import React from "react"
-import { Lock, Crown, ArrowRight } from "lucide-react"
+import { ArrowRight, Crown, Lock } from "lucide-react"
 import Link from "next/link"
 
-const UpgradePlan = ({
+const LimitsModal = ({
   featureName = "this feature",
   currentPlan = "Starter",
   requiredPlan = "Premium",
@@ -77,4 +76,4 @@ const UpgradePlan = ({
   )
 }
 
-export default UpgradePlan
+export default LimitsModal
