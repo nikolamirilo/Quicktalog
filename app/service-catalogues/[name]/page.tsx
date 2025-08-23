@@ -138,7 +138,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     // Check if user is on free plan
-    const isFreePlan = item?.legal === null
+    const isFreePlan = item?.logo == "" || item?.logo == null
 
     // Only build header/footer data if not on free plan
     const headerData = isFreePlan ? undefined : buildHeaderData(item)

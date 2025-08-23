@@ -1,10 +1,15 @@
 "use client"
 import { logOcrUsage } from "@/actions/usage"
+import SuccessModal from "@/components/modals/SuccessModal"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { Button } from "@/components/ui/button"
+import { toast } from "@/hooks/use-toast"
+import { revalidateData } from "@/utils/server"
+import Link from "next/link"
 import { useState } from "react"
 import { createWorker, OEM, PSM } from "tesseract.js"
-import { Button } from "../../components/ui/button"
+
 
 // Language options for Tesseract.js
 const LANGUAGE_OPTIONS = [
@@ -258,6 +263,9 @@ const OcrReader = () => {
   const [confidence, setConfidence] = useState<number>(0)
   const [selectedLanguage, setSelectedLanguage] = useState<string>("auto")
   const [detectedLanguage, setDetectedLanguage] = useState<string>("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [serviceCatalogueUrl, setServiceCatalogueUrl] = useState("")
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -272,6 +280,54 @@ const OcrReader = () => {
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedLanguage(event.target.value)
+  }
+
+  const sendToOcrApi = async (extractedText: string) => {
+    if (!extractedText.trim()) return
+
+    setIsSubmitting(true)
+    setServiceCatalogueUrl("")
+
+    try {
+      const response = await fetch("/api/items/ocr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: extractedText }),
+      })
+
+      if (response.ok) {
+        const { restaurantUrl } = await response.json()
+        setServiceCatalogueUrl(restaurantUrl)
+        setShowSuccessModal(true)
+        toast({
+          title: "Success!",
+          description: (
+            <p>
+              Your digital showcase has been created from the scanned text. You can view it at{" "}
+              <Link href={restaurantUrl} className="text-primary-accent hover:underline">
+                {restaurantUrl}
+              </Link>
+            </p>
+          ),
+        })
+      } else {
+        const errorData = await response.json()
+        toast({
+          title: "Error",
+          description: `Failed to create showcase: ${errorData.error || "Unknown error"}`,
+          variant: "destructive",
+        })
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "An error occurred while processing the extracted text.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
+      revalidateData()
+    }
   }
 
   const readImageText = async () => {
@@ -359,11 +415,16 @@ const OcrReader = () => {
         console.log("Usage assigned successfully.")
         await worker.terminate()
       }
+
+      // Automatically send extracted text to OCR API
+      await sendToOcrApi(text)
     } catch (error) {
       console.error("Error during OCR recognition:", error)
       setOcrStatus("Error occurred during OCR processing. Please try again.")
     }
   }
+
+  const handleCloseModal = () => setShowSuccessModal(false)
 
   return (
     <>
@@ -376,7 +437,7 @@ const OcrReader = () => {
         <div className="text-center mb-6 p-4 bg-hero-product-background rounded-lg border border-product-border">
           <p className="text-sm text-product-foreground-accent">
             Advanced image preprocessing • Multi-language support • Neural network OCR •
-            Auto-language detection
+            Auto-language detection • Auto-catalogue generation
           </p>
         </div>
 
@@ -459,18 +520,20 @@ const OcrReader = () => {
               !selectedImage ||
               ocrStatus.includes("Processing") ||
               ocrStatus.includes("Initializing") ||
-              ocrStatus.includes("Analyzing")
+              ocrStatus.includes("Analyzing") ||
+              isSubmitting
             }
             variant="file-action"
             className={
               selectedImage &&
                 !ocrStatus.includes("Processing") &&
                 !ocrStatus.includes("Initializing") &&
-                !ocrStatus.includes("Analyzing")
+                !ocrStatus.includes("Analyzing") &&
+                !isSubmitting
                 ? "bg-product-primary text-product-secondary hover:bg-product-primary-accent hover:shadow-product-hover hover:scale-105 cursor-pointer"
                 : "bg-gray-300 text-gray-600 cursor-not-allowed"
             }>
-            Extract Text
+            {isSubmitting ? "Creating Catalogue..." : "Extract Text & Create Catalogue"}
           </Button>
         </div>
 
@@ -481,17 +544,19 @@ const OcrReader = () => {
               {confidence > 0 && (
                 <span
                   className={`text-sm px-3 py-1 rounded-full ${confidence > 80
-                      ? "bg-green-100 text-green-800"
-                      : confidence > 60
-                        ? "bg-yellow-100 text-yellow-800"
-                        : "bg-red-100 text-red-800"
+                    ? "bg-green-100 text-green-800"
+                    : confidence > 60
+                      ? "bg-yellow-100 text-yellow-800"
+                      : "bg-red-100 text-red-800"
                     }`}>
                   {confidence.toFixed(1)}% confidence
                 </span>
               )}
             </h3>
             <p className="text-product-foreground-accent">
-              {ocrStatus || "Ready to process image"}
+              {isSubmitting
+                ? "Creating service catalogue from extracted text..."
+                : ocrStatus || "Ready to process image"}
             </p>
           </div>
 
@@ -517,6 +582,14 @@ const OcrReader = () => {
           </div>
         </div>
       </div>
+
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={handleCloseModal}
+        restaurantUrl={serviceCatalogueUrl}
+        type="ai"
+      />
+
       <Footer />
     </>
   )

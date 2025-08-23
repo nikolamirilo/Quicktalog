@@ -8,11 +8,11 @@ import { saEvent } from "@/utils/analytics"
 import { useUser } from "@clerk/nextjs"
 import { ArrowLeft, ArrowRight, Edit, Plus } from "lucide-react"
 import React, { useEffect, useState } from "react"
+import SuccessModal from "../../../modals/SuccessModal"
 import Step1General from "./Step1General"
 import Step2Categories from "./Step2Categories"
 import Step3Services from "./Step3Services"
 import Step4Branding from "./Step4Branding"
-import SuccessModal from "./SuccessModal"
 
 function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBaseProps) {
   const [formData, setFormData] = useState<ServicesFormData>(
@@ -24,10 +24,10 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       currency: "",
       contact: [],
       subtitle: "",
-      services: [{ 
-        name: "", 
-        layout: "", 
-        items: [{ name: "", description: "", price: 0, image: "" }] 
+      services: [{
+        name: "",
+        layout: "",
+        items: [{ name: "", description: "", price: 0, image: "" }]
       }],
       partners: [],
       legal: {
