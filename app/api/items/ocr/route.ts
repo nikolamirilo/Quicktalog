@@ -27,12 +27,12 @@ export async function POST(req: NextRequest) {
         Input text (OCR extracted):  
         ${input}  
 
-        Schema according to which you MUST prepare output:  
+        Schema:  
         ${JSON.stringify(schema)}  
 
         IMPORTANT RULES:
-        1. Output must be **ONLY the JSON object** — no extra text, no markdown, no explanations. IT SHOULD BE VALID JSON!!.
-        2. Response must begin with "{" and end with "}".  
+        1. Return ONLY the JSON object, no additional text, explanations, or formatting
+        2. Start your response directly with { and end with }
         3. Service offer language and alphabet must match the input text.  
         4. The \`services\` field must be an **array of categories**, not an object.  
         5. Exclude fields: \`id\`, \`created_at\`, \`updated_at\`, \`created_by\`.  
@@ -61,7 +61,6 @@ export async function POST(req: NextRequest) {
             ],
             model: "gemma2-9b-it",
             temperature: 0.7,
-            max_tokens: 8000,
             top_p: 1,
             stream: false,
         })
