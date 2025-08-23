@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
         Input text (OCR extracted):  
         ${input}  
 
-        Schema reference:  
+        Schema according to which you MUST prepare output:  
         ${JSON.stringify(schema)}  
 
         IMPORTANT RULES:
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
         3. Service offer language and alphabet must match the input text.  
         4. The \`services\` field must be an **array of categories**, not an object.  
         5. Exclude fields: \`id\`, \`created_at\`, \`updated_at\`, \`created_by\`.  
-        6. Each category must contain: \`name\`, \`layout\`, and \`items\` (array).  
+        6. Each category must contain: \`name\`, \`layout\`, and \`items\` (array). Name detect from menu sections or if there is no exact name group items in logical way.
         7. Always set \`layout\` = "variant_3".  
         8. Each item must contain:  
         - \`name\` (full name of dish/service, e.g., "Spaghetti Carbonara", not just "Carbonara")  
@@ -52,6 +52,7 @@ export async function POST(req: NextRequest) {
         - \`contact\` = []  
         - \`logo\` = ""  
         11. If name and subtitle of business are missing, invent them. Write subtitle of at least 250 characters.
+        12. Output MUST comply with SCHEMA!!!
 
         Now generate the JSON object:
         `;
