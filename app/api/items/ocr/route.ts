@@ -43,18 +43,13 @@ export async function POST(req: NextRequest) {
         - \`description\` (write it yourself if missing in input)  
         - \`price\` (invent if missing in input)  
         - \`image\` (use placeholder: "https://static1.squarespace.com/static/5898e29c725e25e7132d5a5a/58aa11bc9656ca13c4524c68/58aa11e99656ca13c45253e2/1487540713345/600x400-Image-Placeholder.jpg?format=original")  
-        9. Choose theme:  
-        - Dark = restaurant  
-        - Light = coffee shop or similar  
-        10. Leave fields as follows:  
+        9. Leave fields as follows:  
         - \`legal\` = {}  
         - \`configuration\` = {}  
         - \`contact\` = []  
         - \`logo\` = ""  
-        11. If name and subtitle of business are missing, invent them. Write subtitle of at least 250 characters.
-        12. Output MUST comply with SCHEMA!!!
-
-        Now generate the JSON object:
+        10. If name and subtitle of business are missing, invent them. Write subtitle of at least 250 characters.
+        11. Output MUST comply with SCHEMA!!!
         `;
 
         const chatCompletion = await groq.chat.completions.create({
