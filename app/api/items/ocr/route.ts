@@ -1,16 +1,15 @@
-import { ServicesFormData } from "@/types"
-import schema from "@/utils/catalogue.schema.json"
+import { ServicesCategory } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import Groq from "groq-sdk"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-    const { ocr_text, title, name, subtitle, theme, } = await req.json()
+    const { ocr_text, formData } = await req.json()
 
     const supabase = await createClient()
     if (!ocr_text) {
-        return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
+        return NextResponse.json({ error: "OCR text is required" }, { status: 400 })
     }
 
     try {
@@ -19,39 +18,39 @@ export async function POST(req: NextRequest) {
         })
 
         const generationPrompt = `
-        Role: You are an expert in creating structured service offers (e.g., restaurant menus, beauty center service lists, etc.).
+      Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
+      Based on the following prompt, generate a complete service offer configuration in JSON format.
+      The JSON object should strictly follow the type definition from the project.
+      
+      Prompt: Create services array based on text extracted from service catalogue: ${ocr_text}
+      
+      Schema: ${JSON.stringify({
+            services: [
+                {
+                    name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
+                    layout: "variant_3",
+                    items: [{
+                        name: "Item Name",
+                        description: "Description of Item",
+                        price: 12,
+                        image: "leave as empty string as I will populate this later via unsplash API"
+                    }]
+                }
+            ]
+        })}
 
-        Task: Generate a complete service offer configuration in **valid JSON format**.  
-        The JSON object must strictly follow the **ServicesFormData** type definition from the project.
+    For layout use always variant_3
 
-        Input text (OCR extracted):  
-        ${ocr_text}  
+    Detect categories in text (breakfast, lunch, etc.) if you dont see it there group items by similarity. 
 
-        Schema:  
-        ${JSON.stringify(schema)}  
-
-        IMPORTANT RULES:
-        1. Return ONLY the JSON object, no additional text, explanations, or formatting
-        2. Start your response directly with { and end with }
-        3. Service offer language and alphabet must match the input text.  
-        4. The \`services\` field must be an **array of categories**, not an object.  
-        5. Exclude fields: \`id\`, \`created_at\`, \`updated_at\`, \`created_by\`.  
-        6. Each category must contain: \`name\`, \`layout\`, and \`items\` (array). Name detect from menu sections or if there is no exact name group items in logical way.
-        7. Always set \`layout\` = "variant_3".  
-        8. Each item must contain:  
-        - \`name\` (full name of dish/service, e.g., "Spaghetti Carbonara", not just "Carbonara")  
-        - \`description\` (write it yourself if missing in input)  
-        - \`price\` (invent if missing in input)  
-        - \`image\` (use placeholder: "https://static1.squarespace.com/static/5898e29c725e25e7132d5a5a/58aa11bc9656ca13c4524c68/58aa11e99656ca13c45253e2/1487540713345/600x400-Image-Placeholder.jpg?format=original")  
-        9. Leave fields as follows:  
-        - \`legal\` = {}  
-        - \`configuration\` = {}  
-        - \`contact\` = []  
-        - \`logo\` = ""  
-        10. If name and subtitle of business are missing, invent them. Write subtitle of at least 250 characters.
-        11. Output MUST comply with SCHEMA!!!
-        `;
-
+    General information about service catalogue: ${JSON.stringify(formData)}
+      
+      IMPORTANT REQUIREMENTS:
+      1. Return ONLY the JSON object, no additional text, explanations, or formatting
+      2. Start your response directly with { and end with }
+      3. Service offer should be created in the language and alphabet of the text.
+      4. Ensure the JSON is valid and well-formed  
+      `
         const chatCompletion = await groq.chat.completions.create({
             messages: [
                 {
@@ -61,13 +60,14 @@ export async function POST(req: NextRequest) {
             ],
             model: "gemma2-9b-it",
             temperature: 0.7,
+            max_tokens: 8000,
             top_p: 1,
             stream: false,
         })
 
         const text = chatCompletion.choices[0]?.message?.content || ""
 
-        let generatedData: ServicesFormData
+        let generatedData: { services: ServicesCategory[] } = { services: [] }
         try {
             // Clean up the response to extract JSON
             let cleanedText = text
@@ -87,17 +87,17 @@ export async function POST(req: NextRequest) {
 
             generatedData = JSON.parse(cleanedText)
 
-            // IMAGE GENERATION
-
             // for (const category of generatedData.services) {
-            //     for (const item of category.items) {
-            //         item.image = await fetchImageFromUnsplash(item.name)
+            //     if (category.layout != "variant_3") {
+            //         for (const item of category.items) {
+            //             item.image = await fetchImageFromUnsplash(item.name)
+            //         }
             //     }
             // }
 
             // Validate that services is an array
             if (!Array.isArray(generatedData.services)) {
-                console.error("Services is not an array:", generatedData.services)
+                console.error("Services is not an array:", generatedData)
                 return NextResponse.json({ error: "Invalid services structure generated" }, { status: 500 })
             }
         } catch (e) {
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Generate unique restaurant slug
-        const baseSlug = generatedData.name.toLowerCase().replace(/\s+/g, "-")
+        const baseSlug = formData.name.toLowerCase().replace(/\s+/g, "-")
         let catalogueSlug = baseSlug
         let counter = 1
 
@@ -147,17 +147,17 @@ export async function POST(req: NextRequest) {
             .from("service_catalogues")
             .insert([
                 {
-                    name: catalogueSlug,
+                    name: baseSlug,
+                    title: formData.title,
+                    currency: formData.currency,
+                    theme: formData.theme,
+                    subtitle: formData.subtitle,
                     created_by: user.id,
-                    theme: generatedData.theme,
-                    logo: generatedData.logo,
-                    title: generatedData.title,
-                    currency: generatedData.currency,
-                    legal: generatedData.legal,
-                    partners: generatedData.partners,
-                    configuration: generatedData.configuration,
-                    contact: generatedData.contact,
-                    subtitle: generatedData.subtitle,
+                    logo: "",
+                    legal: {},
+                    partners: [],
+                    configuration: {},
+                    contact: [],
                     services: transformedServices,
                 },
             ])

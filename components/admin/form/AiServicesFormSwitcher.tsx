@@ -3,7 +3,6 @@
 import SuccessModal from "@/components/modals/SuccessModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import { examplePrompts } from "@/constants/static"
 import { toast } from "@/hooks/use-toast"
 import { revalidateData } from "@/utils/server"
@@ -11,8 +10,10 @@ import Link from "next/link"
 import React, { useState } from "react"
 import { RiLightbulbLine, RiSparkling2Line } from "react-icons/ri"
 import Step1General from "./components/Step1General"
+import OcrReader from "./OcrReader"
+import PromptInput from "./PromptInput"
 
-export default function AiServicesForm() {
+export default function AiServicesFormSwithcer({ type }) {
   const [formData, setFormData] = useState({
     name: "",
     theme: "",
@@ -21,6 +22,7 @@ export default function AiServicesForm() {
     subtitle: "",
   })
   const [prompt, setPrompt] = useState("")
+
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -101,21 +103,20 @@ export default function AiServicesForm() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
+    <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl my-32">
       <Card className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none" type="form">
         <CardHeader className="p-6 sm:p-8">
           <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
-            AI Business Catalogue Generator
+            {type === "ai_prompt" ? "AI Business Catalogue Generator" : "Service Catalogue OCR import"}
           </CardTitle>
           <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
-            Create stunning digital showcases for your services in minutes. Perfect for restaurants,
+            {type === "ai_prompt" ? "Generate stunning service catalogues" : "Import your existing service catalogues"} of your services in minutes. Perfect for restaurants,
             salons, gyms, and more.
           </CardDescription>
         </CardHeader>
 
         <CardContent className="p-6 sm:p-8 pt-0">
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* ✅ reuse Step1General */}
             <Step1General
               formData={formData}
               handleInputChange={handleInputChange}
@@ -124,87 +125,72 @@ export default function AiServicesForm() {
               touched={touched}
             />
 
-            {/* AI-specific prompt field */}
-            <div className="space-y-2">
-              <label htmlFor="prompt" className="text-sm font-medium text-product-foreground">
-                Services Description<span className="text-red-500 ml-1">*</span>
-              </label>
-              <Textarea
-                id="prompt"
-                placeholder="e.g., A modern beauty salon specializing in premium hair treatments, nail services, and skincare..."
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                rows={6}
-                className="resize-none border border-product-border focus:border-product-primary focus:ring-product-primary bg-transparent text-product-foreground transition-colors"
-              />
-              {touched.prompt && errors.prompt && (
-                <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">
-                  {errors.prompt}
-                </div>
-              )}
-              <p className="text-xs text-product-foreground-accent">{prompt.length}/500 characters</p>
-            </div>
+            {type === "ai_prompt" ? <><PromptInput
+              prompt={prompt} touched={touched} errors={errors} setPrompt={setPrompt} />
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                variant="cta"
+                className="h-12 font-medium rounded-lg">
+                {isSubmitting ? (
+                  <div className="flex items-center gap-2 animate-pulse">
+                    <RiSparkling2Line size={20} className="animate-spin" />
+                    Creating Your Catalogue...
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <RiSparkling2Line size={20} />
+                    Generate Catalogue
+                  </div>
+                )}
+              </Button>
+            </> : type === "ocr_import" ?
+              <OcrReader formData={formData} /> : null
+            }
 
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              variant="cta"
-              className="h-12 font-medium rounded-lg">
-              {isSubmitting ? (
-                <div className="flex items-center gap-2 animate-pulse">
-                  <RiSparkling2Line size={20} className="animate-spin" />
-                  Creating Your Catalogue...
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <RiSparkling2Line size={20} />
-                  Generate Catalogue
-                </div>
-              )}
-            </Button>
+
           </form>
 
-          {/* Example Prompts */}
-          <div className="mt-8 pt-6 border-t border-product-border">
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold text-product-foreground flex items-center gap-2">
-                <RiLightbulbLine className="text-primary-accent" />
-                Business Examples
-              </h3>
-              <p className="text-product-foreground-accent text-sm">
-                Choose your business type or get inspired
-              </p>
-            </div>
-            <div className="grid gap-3">
-              {examplePrompts.map((example, index) => (
-                <Button
-                  key={index}
-                  onClick={() => setPrompt(example.prompt)}
-                  disabled={isSubmitting}
-                  variant="ghost"
-                  className="text-left p-4 rounded-lg bg-transparent hover:bg-product-hover-background border border-product-border transition-all group !h-fit">
-                  <div className="flex flex-row justify-start items-center w-full h-full gap-3">
-                    <div className="w-8 h-8 rounded-full bg-primary-accent/10 flex items-center justify-center group-hover:bg-primary-accent/20 transition-colors">
-                      <span className="text-product-primary">{example.icon}</span>
-                    </div>
-                    <div className="flex-1">
-                      <div className="font-medium text-product-foreground group-hover:text-product-primary mb-1">
-                        {example.category}
+          {type === "ai_prompt" &&
+            <div className="mt-8 pt-6 border-t border-product-border">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-product-foreground flex items-center gap-2">
+                  <RiLightbulbLine className="text-primary-accent" />
+                  Business Examples
+                </h3>
+                <p className="text-product-foreground-accent text-sm">
+                  Choose your business type or get inspired
+                </p>
+              </div>
+              <div className="grid gap-3">
+                {examplePrompts.map((example, index) => (
+                  <Button
+                    key={index}
+                    onClick={() => setPrompt(example.prompt)}
+                    disabled={isSubmitting}
+                    variant="ghost"
+                    className="text-left p-4 rounded-lg bg-transparent hover:bg-product-hover-background border border-product-border transition-all group !h-fit">
+                    <div className="flex flex-row justify-start items-center w-full h-full gap-3">
+                      <div className="w-8 h-8 rounded-full bg-primary-accent/10 flex items-center justify-center group-hover:bg-primary-accent/20 transition-colors">
+                        <span className="text-product-primary">{example.icon}</span>
                       </div>
-                      <div className="text-sm text-product-foreground-accent group-hover:text-product-primary">
-                        {example.prompt}
+                      <div className="flex-1">
+                        <div className="font-medium text-product-foreground group-hover:text-product-primary mb-1">
+                          {example.category}
+                        </div>
+                        <div className="text-sm text-product-foreground-accent group-hover:text-product-primary">
+                          {example.prompt}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Button>
-              ))}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
+          }
         </CardContent>
       </Card>
-
-      {/* ✅ Success Modal */}
-      <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} restaurantUrl={restaurantUrl} type="ai" />
+      {type === "ai_prompt" && <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} restaurantUrl={restaurantUrl} type="ai" />}
     </div>
   )
 }
