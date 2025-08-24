@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from "next/server"
 
 export async function GET(request: NextRequest) {
   try {
-
     const supabase = await createClient()
     const startDate = new Date(new Date().setDate(new Date().getDate() - 2))
     const endDate = new Date(new Date().setDate(new Date().getDate() + 1))
@@ -39,7 +38,6 @@ ORDER BY date DESC, hour DESC`,
       }
     )
 
-    // SELECT * FROM events WHERE timestamp >= toDateTime('2025-06-30T00:00:00Z') AND timestamp < toDateTime('2025-07-02T00:00:00Z')
     const eventsData = await res.json()
     const analyticsData = eventsData.results
       .map(([date, hour, current_url, pageview_count, unique_visitors]) => ({
@@ -56,14 +54,12 @@ ORDER BY date DESC, hour DESC`,
       ...new Set(
         analyticsData
           .map((item) => {
-            // Assuming current_url is like "/service-catalogues/[name]"
             const match = item.current_url.match(/\/service-catalogues\/([^/]+)/)
             return match ? match[1] : null
           })
           .filter(Boolean)
       ),
     ]
-    console.log(catalogueNames)
 
     // 2. Query all relevant catalogues in one go
     const { data: catalogues, error: catalogueError } = await supabase
@@ -91,26 +87,98 @@ ORDER BY date DESC, hour DESC`,
       }
     })
 
-    // 5. Upsert analyticsDataWithUserId
-    const { data, error } = await supabase.from("analytics").upsert(analyticsDataWithUserId, {
-      onConflict: "date,hour,current_url",
-      ignoreDuplicates: true,
-    })
+    // 5. Process each record individually to handle additive behavior
+    const processedResults = []
+    const errors = []
+
+    for (const item of analyticsDataWithUserId) {
+      try {
+        // Check if record exists
+        const { data: existing, error: selectError } = await supabase
+          .from("analytics")
+          .select("pageview_count, unique_visitors")
+          .eq("date", item.date)
+          .eq("hour", item.hour)
+          .eq("current_url", item.current_url)
+          .maybeSingle() // Use maybeSingle instead of single to avoid errors when no record found
+
+        if (selectError) {
+          errors.push({ item, error: selectError })
+          continue
+        }
+
+        if (existing) {
+          // Record exists - add to existing values
+          const { data, error } = await supabase
+            .from("analytics")
+            .update({
+              pageview_count: existing.pageview_count + item.pageview_count,
+              unique_visitors: existing.unique_visitors + item.unique_visitors,
+              user_id: item.user_id // Update user_id in case it changed
+            })
+            .eq("date", item.date)
+            .eq("hour", item.hour)
+            .eq("current_url", item.current_url)
+
+          if (error) {
+            errors.push({ item, error })
+          } else {
+            processedResults.push({
+              action: 'updated',
+              item,
+              previous: existing,
+              newValues: {
+                pageview_count: existing.pageview_count + item.pageview_count,
+                unique_visitors: existing.unique_visitors + item.unique_visitors
+              }
+            })
+          }
+        } else {
+          // Record doesn't exist - insert new
+          const { data, error } = await supabase
+            .from("analytics")
+            .insert([item])
+
+          if (error) {
+            errors.push({ item, error })
+          } else {
+            processedResults.push({ action: 'inserted', item })
+          }
+        }
+      } catch (err) {
+        errors.push({ item, error: err })
+      }
+    }
+
+    if (errors.length > 0) {
+      console.error('Processing errors:', errors)
+      return NextResponse.json({
+        error: 'Some records failed to process',
+        details: errors,
+        successful: processedResults
+      }, { status: 207 }) // 207 = Multi-Status
+    }
 
     return NextResponse.json(
       {
-        message: "Analytics inserted successfuly",
+        message: "Analytics processed successfully with additive behavior",
         options: {
           startDate: startDate.toISOString().replace("Z", "000Z"),
           endDate: endDate.toISOString().replace("Z", "000Z"),
         },
         inputData: analyticsData,
-        response: data,
-        error: error,
+        processedResults: processedResults,
+        summary: {
+          total: analyticsDataWithUserId.length,
+          inserted: processedResults.filter(r => r.action === 'inserted').length,
+          updated: processedResults.filter(r => r.action === 'updated').length,
+          failed: errors.length
+        }
       },
       { status: 200 }
     )
   } catch (error) {
-    return new Response("Error occurred while pinging.", { status: 500 })
+    console.error('Error in analytics function:', error)
+    return new Response("Error occurred while processing analytics.", { status: 500 })
   }
 }

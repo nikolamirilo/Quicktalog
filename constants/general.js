@@ -1,3 +1,5 @@
+const { RiStore2Line, RiScissorsLine, RiHeartPulseLine, RiGamepadLine } = require("react-icons/ri");
+
 const themes = [
   {
     key: "theme-elegant",
@@ -90,9 +92,43 @@ const contactTypes = [
   { value: "twitter", label: "Twitter" },
 ]
 
+const examplePrompts = [
+  {
+    icon: <RiStore2Line size={18} />,
+    category: "Restaurant",
+    prompt:
+      "A cozy Italian restaurant with fresh pasta, wood-fired pizzas, and wine pairings in a warm, family-friendly atmosphere",
+  },
+  {
+    icon: <RiScissorsLine size={18} />,
+    category: "Beauty Salon",
+    prompt:
+      "A modern beauty salon offering haircuts, coloring, styling, manicures, and facial treatments with premium products",
+  },
+  {
+    icon: <RiHeartPulseLine size={18} />,
+    category: "Fitness Gym",
+    prompt:
+      "A fitness center with personal training, group classes, weight training, and cardio equipment for all fitness levels",
+  },
+  {
+    icon: <RiGamepadLine size={18} />,
+    category: "Entertainment",
+    prompt:
+      "A bowling alley with lane rentals, birthday parties, arcade games, and food service for families and groups",
+  },
+  {
+    icon: <RiStore2Line size={18} />,
+    category: "Café",
+    prompt:
+      "A specialty coffee shop with artisan drinks, fresh pastries, light meals, and a cozy workspace atmosphere",
+  },
+]
+
 module.exports = {
   themes,
   layouts,
   currencies,
-  contactTypes
+  contactTypes,
+  examplePrompts
 };

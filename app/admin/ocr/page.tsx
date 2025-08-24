@@ -292,7 +292,7 @@ const OcrReader = () => {
       const response = await fetch("/api/items/ocr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: extractedText }),
+        body: JSON.stringify({ ocr_text: extractedText }),
       })
 
       if (response.ok) {

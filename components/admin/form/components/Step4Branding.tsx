@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { contactTypes } from "@/constants/form"
+import { contactTypes } from "@/constants/general"
 import { ContactInfo, Partner, ServicesFormData, UserData } from "@/types"
 import { Lock, Plus, Tag, Trash2 } from "lucide-react"
 import React, { useState } from "react"

@@ -1,18 +1,23 @@
+import { layouts } from "@/constants/general"
 import { fetchImageFromUnsplash } from "@/helpers/server"
-import { ServicesFormData } from "@/types"
-import schema from "@/utils/catalogue.schema.json"
+import { ServicesCategory } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import Groq from "groq-sdk"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const { prompt } = await req.json()
+  const { prompt, formData } = await req.json()
 
   const supabase = await createClient()
   if (!prompt) {
     return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
   }
+
+  const layoutData = layouts.map((l) => ({
+    key: l.key,
+    description: l.description,
+  }))
 
   try {
     const groq = new Groq({
@@ -22,28 +27,38 @@ export async function POST(req: NextRequest) {
     const generationPrompt = `
       Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
       Based on the following prompt, generate a complete service offer configuration in JSON format.
-      The JSON object should strictly follow the ServicesFormData type definition from the project.
+      The JSON object should strictly follow the type definition from the project.
       
       Prompt: ${prompt}
       
-      Schema: ${JSON.stringify(schema)}
+      Schema: ${JSON.stringify({
+      services: [
+        {
+          name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
+          layout: "variant_1",
+          items: [{
+            name: "Item Name",
+            description: "Description of Item",
+            price: 12,
+            image: "leave as empty string as I will populate this later via unsplash API"
+          }]
+        }
+      ]
+    })}
+
+    Layouts keys and description of each variant: ${JSON.stringify(layoutData)}. For drinks for example use without image.
+
+    General information about service catalogue: ${JSON.stringify(formData)}
       
       IMPORTANT REQUIREMENTS:
       1. Return ONLY the JSON object, no additional text, explanations, or formatting
       2. Start your response directly with { and end with }
       3. Service offer should be created in the language and alphabet of the prompt.
       4. The services field should be an ARRAY of categories, NOT an object
-      5. Do NOT include id, created_at, updated_at, or created_by fields
-      6. Each category should have: name, layout, items array
-      7. Each item should have: name, description, price, image
-      8. Add at least 3 categories with at least 5 items each
-      9. Depending on the prompt use either dark or light theme. 
-      10. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
-      10. For all images add placeholder "https://static1.squarespace.com/static/5898e29c725e25e7132d5a5a/58aa11bc9656ca13c4524c68/58aa11e99656ca13c45253e2/1487540713345/600x400-Image-Placeholder.jpg?format=original"
-      11. Ensure the JSON is valid and well-formed    
-      12. For legal and configuration leave placeholder values
+      5. Add at least 3 categories with at least 5 items each
+      6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
+      7. Ensure the JSON is valid and well-formed  
       `
-
     const chatCompletion = await groq.chat.completions.create({
       messages: [
         {
@@ -60,7 +75,7 @@ export async function POST(req: NextRequest) {
 
     const text = chatCompletion.choices[0]?.message?.content || ""
 
-    let generatedData: ServicesFormData
+    let generatedData: { services: ServicesCategory[] } = { services: [] }
     try {
       // Clean up the response to extract JSON
       let cleanedText = text
@@ -81,14 +96,16 @@ export async function POST(req: NextRequest) {
       generatedData = JSON.parse(cleanedText)
 
       for (const category of generatedData.services) {
-        for (const item of category.items) {
-          item.image = await fetchImageFromUnsplash(item.name)
+        if (category.layout != "variant_3") {
+          for (const item of category.items) {
+            item.image = await fetchImageFromUnsplash(item.name)
+          }
         }
       }
 
       // Validate that services is an array
       if (!Array.isArray(generatedData.services)) {
-        console.error("Services is not an array:", generatedData.services)
+        console.error("Services is not an array:", generatedData)
         return NextResponse.json({ error: "Invalid services structure generated" }, { status: 500 })
       }
     } catch (e) {
@@ -103,7 +120,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Generate unique restaurant slug
-    const baseSlug = generatedData.name.toLowerCase().replace(/\s+/g, "-")
+    const baseSlug = formData.name.toLowerCase().replace(/\s+/g, "-")
     let catalogueSlug = baseSlug
     let counter = 1
 
@@ -138,17 +155,17 @@ export async function POST(req: NextRequest) {
       .from("service_catalogues")
       .insert([
         {
-          name: catalogueSlug,
+          name: baseSlug,
+          title: formData.title,
+          currency: formData.currency,
+          theme: formData.theme,
+          subtitle: formData.subtitle,
           created_by: user.id,
-          theme: generatedData.theme,
-          logo: generatedData.logo,
-          title: generatedData.title,
-          currency: generatedData.currency,
-          legal: generatedData.legal,
-          partners: generatedData.partners,
-          configuration: generatedData.configuration,
-          contact: generatedData.contact,
-          subtitle: generatedData.subtitle,
+          logo: "",
+          legal: {},
+          partners: [],
+          configuration: {},
+          contact: [],
           services: transformedServices,
         },
       ])

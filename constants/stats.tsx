@@ -1,6 +1,4 @@
-import { BsBarChartFill, BsFillStarFill } from "react-icons/bs"
-import { PiGlobeFill } from "react-icons/pi"
-import { FiClock, FiUsers, FiZap, FiSmartphone } from "react-icons/fi"
+import { FiClock, FiUsers, FiZap } from "react-icons/fi"
 
 import { IStats } from "@/types"
 

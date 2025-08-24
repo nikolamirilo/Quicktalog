@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { currencies, themes } from "@/constants/form"
+import { currencies, themes } from "@/constants/general"
 import { FileText } from "lucide-react"
 import * as React from "react"
 
@@ -67,7 +67,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            placeholder="e.g., The Golden Spoon"
+            placeholder="e.g., Five Guys"
             className="border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
             required
           />
@@ -79,7 +79,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
         </div>
         <div className="space-y-3">
           <Label htmlFor="title" className="text-product-foreground font-medium font-body">
-            Title (e.g., Five guys)<span className="text-red-500 ml-1">*</span>
+            Title<span className="text-red-500 ml-1">*</span>
           </Label>
           <Input
             id="title"
@@ -140,11 +140,10 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             {themes.map((themeOption) => (
               <div
                 key={themeOption.key}
-                className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
-                  formData.theme === themeOption.key
-                    ? "border-product-primary shadow-product-shadow bg-product-primary/5"
-                    : "border-product-border hover:border-product-primary/50"
-                }`}
+                className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${formData.theme === themeOption.key
+                  ? "border-product-primary shadow-product-shadow bg-product-primary/5"
+                  : "border-product-border hover:border-product-primary/50"
+                  }`}
                 onClick={() => handleThemeChange(themeOption.key)}>
                 <img
                   src={themeOption.image}

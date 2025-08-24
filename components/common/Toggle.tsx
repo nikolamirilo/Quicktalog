@@ -1,5 +1,5 @@
 "use client"
-import { layouts, themes } from "@/constants/form"
+import { layouts, themes } from "@/constants/general"
 import { useMainContext } from "@/context/MainContext"
 import { Button } from "../ui/button"
 
@@ -34,10 +34,9 @@ const Toggle = () => {
                 size="sm"
                 className={`
                   relative flex-1 px-3 sm:px-4 py-2.5 text-xs sm:text-sm transition-all duration-300 ease-out
-                  ${
-                    layout === layoutOption.key
-                      ? "shadow-product-hover-shadow scale-105 transform font-semibold"
-                      : ""
+                  ${layout === layoutOption.key
+                    ? "shadow-product-hover-shadow scale-105 transform font-semibold"
+                    : ""
                   }
                   rounded-xl
                   hover:shadow-md hover:scale-102 transform
@@ -96,10 +95,9 @@ const Toggle = () => {
                 size="sm"
                 className={`
                   relative flex-1 px-2 sm:px-3 py-2.5 text-xs sm:text-sm transition-all duration-300 ease-out
-                  ${
-                    theme === themeOption.key
-                      ? "shadow-product-hover-shadow scale-105 transform font-semibold"
-                      : ""
+                  ${theme === themeOption.key
+                    ? "shadow-product-hover-shadow scale-105 transform font-semibold"
+                    : ""
                   }
                   rounded-xl
                   hover:shadow-md hover:scale-102 transform

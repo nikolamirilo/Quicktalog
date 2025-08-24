@@ -1,4 +1,4 @@
-import { layouts, themes } from "@/constants/form"
+import { layouts, themes } from "@/constants/general"
 import { Customer } from "@paddle/paddle-node-sdk"
 import { JSX } from "react"
 
@@ -48,13 +48,17 @@ export type ServiceCatalogue = {
   currency: string
   contact?: ContactInfo[]
   subtitle?: string
-  services: {
-    [key: string]: ServicesCategory
-  }
+  services: ServicesCategory[]
   partners?: Partner[]
   legal?: Legal
   configuration?: Configuration
 }
+
+
+export type ServicesFormData = Omit<
+  ServiceCatalogue,
+  "id" | "created_by" | ""
+>
 
 export type Service = {
   name: string
@@ -131,20 +135,7 @@ export type PaddleCustomerResponse = {
   }
 }
 
-export type ServicesFormData = {
-  name: string
-  theme?: ThemeVariant
-  logo?: string
-  layout?: LayoutVariant
-  title?: string
-  currency?: string
-  legal?: Legal
-  contact: ContactInfo[]
-  subtitle?: string
-  services: ServicesCategory[]
-  configuration?: Configuration
-  partners?: Partner[]
-}
+
 
 export type UserData = User & {
   plan_name: string

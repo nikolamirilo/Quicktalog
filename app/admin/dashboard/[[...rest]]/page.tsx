@@ -2,10 +2,13 @@ import Dashboard from "@/components/admin/dashboard/Dashboard"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
 import { tiers } from "@/constants/pricing"
+import { endOfMonth, startOfMonth } from "@/helpers/client"
 import type { Analytics, ServiceCatalogue, User } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import Link from "next/link"
+
+export const dynamic = "force-dynamic"
 
 export default async function page() {
 
@@ -15,8 +18,9 @@ export default async function page() {
   const clerkUser = await currentUser()
   let catalogues: ServiceCatalogue[] = []
   let analytics: Analytics[] = []
-  let User: User | null = null
+  let user: User | null = null
   let pricingPlan = null
+
 
   if (clerkUser && clerkUser.id) {
     const { data: restaurantData, error: restaurantError } = await supabase
@@ -30,14 +34,16 @@ export default async function page() {
       .from("analytics")
       .select("date, hour, current_url, pageview_count, unique_visitors")
       .eq("user_id", clerkUser.id)
+      .gte("date", startOfMonth.toISOString())
+      .lt("date", endOfMonth.toISOString())
     analytics = analyticsError ? [] : analyticsData || []
 
-    const { data: UserData, error: userError } = await supabase
+    const { data: userData, error: userError } = await supabase
       .from("users")
       .select("*")
       .eq("id", clerkUser.id)
       .single()
-    User = userError ? null : UserData || null
+    user = userError ? null : userData
 
     function createPricingPlan(planId?: string) {
       if (!planId) {
@@ -70,24 +76,24 @@ export default async function page() {
         billingPeriod,
       }
     }
-    pricingPlan = createPricingPlan(UserData?.plan_id)
+    pricingPlan = createPricingPlan(user?.plan_id)
 
-    const { data: userData } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", clerkUser.id)
+
+
+    const { data: ocrUsage } = await supabase
+      .from("ocr")
+      .select("count")
+      .eq("user_id", clerkUser.id)
+      .gte("datetime", startOfMonth.toISOString())
+      .lt("datetime", endOfMonth.toISOString())
       .single()
     const { data: promptsUsage } = await supabase
       .from("prompts")
       .select("count")
       .eq("user_id", clerkUser.id)
+      .gte("datetime", startOfMonth.toISOString())
+      .lt("datetime", endOfMonth.toISOString())
       .single()
-    const { data: ocrUsage } = await supabase
-      .from("ocr")
-      .select("count")
-      .eq("user_id", clerkUser.id)
-      .single()
-
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />

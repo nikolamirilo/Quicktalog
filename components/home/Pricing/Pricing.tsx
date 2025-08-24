@@ -57,14 +57,23 @@ const Pricing: React.FC = () => {
   }, [])
 
   useEffect(() => {
-    async function getUserData() {
-      const res = await supabase.from("users").select("*").eq("email", clerkUser?.emailAddresses[0].emailAddress)
-      setUser(res.data[0])
+    if (!clerkUser?.id) return;
+
+    async function fetchUserData() {
+      const res = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", clerkUser.id)
+        .single()
+
+      if (res.data) {
+        setUser(res.data)
+      }
     }
-    if (clerkUser) {
-      getUserData()
-    }
-  }, [])
+
+    fetchUserData()
+  }, [clerkUser?.id])
+
 
 
   return (

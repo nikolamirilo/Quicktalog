@@ -4,27 +4,57 @@ import SuccessModal from "@/components/modals/SuccessModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import { examplePrompts } from "@/constants/general"
 import { toast } from "@/hooks/use-toast"
 import { revalidateData } from "@/utils/server"
 import Link from "next/link"
 import React, { useState } from "react"
-import {
-  RiGamepadLine,
-  RiHeartPulseLine,
-  RiLightbulbLine,
-  RiScissorsLine,
-  RiSparkling2Line,
-  RiStore2Line,
-} from "react-icons/ri"
+import { RiLightbulbLine, RiSparkling2Line } from "react-icons/ri"
+import Step1General from "./components/Step1General"
 
 export default function AiServicesForm() {
+  const [formData, setFormData] = useState({
+    name: "",
+    theme: "",
+    title: "",
+    currency: "",
+    subtitle: "",
+  })
   const [prompt, setPrompt] = useState("")
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [restaurantUrl, setServiceCatalogueUrl] = useState("")
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }
+  ) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {}
+    if (!formData.name.trim()) newErrors.name = "Name is required."
+    if (!formData.title.trim()) newErrors.title = "Title is required."
+    if (!formData.currency.trim()) newErrors.currency = "Currency is required."
+    if (!formData.theme.trim()) newErrors.theme = "Theme is required."
+    if (!prompt.trim()) newErrors.prompt = "Services description is required."
+    setErrors(newErrors)
+    setTouched({
+      name: true,
+      title: true,
+      currency: true,
+      theme: true,
+      prompt: true,
+    })
+    return Object.keys(newErrors).length === 0
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    if (!validate()) return
     setIsSubmitting(true)
     setServiceCatalogueUrl("")
 
@@ -32,7 +62,7 @@ export default function AiServicesForm() {
       const response = await fetch("/api/items/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ formData: formData, prompt }),
       })
 
       if (response.ok) {
@@ -70,46 +100,9 @@ export default function AiServicesForm() {
     }
   }
 
-  const handleCloseModal = () => setShowSuccessModal(false)
-
-  const businessExamples = [
-    {
-      icon: <RiStore2Line size={18} />,
-      category: "Restaurant",
-      prompt:
-        "A cozy Italian restaurant with fresh pasta, wood-fired pizzas, and wine pairings in a warm, family-friendly atmosphere",
-    },
-    {
-      icon: <RiScissorsLine size={18} />,
-      category: "Beauty Salon",
-      prompt:
-        "A modern beauty salon offering haircuts, coloring, styling, manicures, and facial treatments with premium products",
-    },
-    {
-      icon: <RiHeartPulseLine size={18} />,
-      category: "Fitness Gym",
-      prompt:
-        "A fitness center with personal training, group classes, weight training, and cardio equipment for all fitness levels",
-    },
-    {
-      icon: <RiGamepadLine size={18} />,
-      category: "Entertainment",
-      prompt:
-        "A bowling alley with lane rentals, birthday parties, arcade games, and food service for families and groups",
-    },
-    {
-      icon: <RiStore2Line size={18} />,
-      category: "Café",
-      prompt:
-        "A specialty coffee shop with artisan drinks, fresh pastries, light meals, and a cozy workspace atmosphere",
-    },
-  ]
-
   return (
     <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
-      <Card
-        className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
-        type="form">
+      <Card className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none" type="form">
         <CardHeader className="p-6 sm:p-8">
           <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
             AI Business Catalogue Generator
@@ -118,17 +111,23 @@ export default function AiServicesForm() {
             Create stunning digital showcases for your services in minutes. Perfect for restaurants,
             salons, gyms, and more.
           </CardDescription>
-          <div className="flex justify-center mt-6">
-            {/* <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-accent text-white shadow-md">
-              <RiSparkling2Line size={32} />
-            </div> */}
-          </div>
         </CardHeader>
+
         <CardContent className="p-6 sm:p-8 pt-0">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* ✅ reuse Step1General */}
+            <Step1General
+              formData={formData}
+              handleInputChange={handleInputChange}
+              setFormData={setFormData}
+              errors={errors}
+              touched={touched}
+            />
+
+            {/* AI-specific prompt field */}
             <div className="space-y-2">
               <label htmlFor="prompt" className="text-sm font-medium text-product-foreground">
-                Business Description
+                Services Description<span className="text-red-500 ml-1">*</span>
               </label>
               <Textarea
                 id="prompt"
@@ -138,14 +137,17 @@ export default function AiServicesForm() {
                 rows={6}
                 className="resize-none border border-product-border focus:border-product-primary focus:ring-product-primary bg-transparent text-product-foreground transition-colors"
               />
-              <p className="text-xs text-product-foreground-accent">
-                {prompt.length}/500 characters
-              </p>
+              {touched.prompt && errors.prompt && (
+                <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">
+                  {errors.prompt}
+                </div>
+              )}
+              <p className="text-xs text-product-foreground-accent">{prompt.length}/500 characters</p>
             </div>
 
             <Button
               type="submit"
-              disabled={isSubmitting || !prompt.trim()}
+              disabled={isSubmitting}
               variant="cta"
               className="h-12 font-medium rounded-lg">
               {isSubmitting ? (
@@ -174,7 +176,7 @@ export default function AiServicesForm() {
               </p>
             </div>
             <div className="grid gap-3">
-              {businessExamples.map((example, index) => (
+              {examplePrompts.map((example, index) => (
                 <Button
                   key={index}
                   onClick={() => setPrompt(example.prompt)}
@@ -201,12 +203,8 @@ export default function AiServicesForm() {
         </CardContent>
       </Card>
 
-      <SuccessModal
-        isOpen={showSuccessModal}
-        onClose={handleCloseModal}
-        restaurantUrl={restaurantUrl}
-        type="ai"
-      />
+      {/* ✅ Success Modal */}
+      <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} restaurantUrl={restaurantUrl} type="ai" />
     </div>
   )
 }

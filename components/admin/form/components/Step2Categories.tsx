@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { layouts } from "@/constants/form"
+import { layouts } from "@/constants/general"
 import { ServicesCategory } from "@/types"
 import { Plus, Trash2 } from "lucide-react"
 import * as React from "react"
@@ -78,11 +78,10 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
               {layouts.map((layoutOption) => (
                 <div
                   key={layoutOption.key}
-                  className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
-                    category.layout === layoutOption.key
+                  className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${category.layout === layoutOption.key
                       ? "border-product-primary shadow-product-shadow bg-product-primary/5"
                       : "border-product-border hover:border-product-primary/50"
-                  }`}
+                    }`}
                   onClick={() => handleCategoryChange(categoryIndex, "layout", layoutOption.key)}>
                   <img
                     src={layoutOption.image}

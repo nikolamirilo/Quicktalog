@@ -209,7 +209,7 @@ export default function Subscription({
                     {formatPrice(currentPrice)}
                     {currentPrice && parseFloat(currentPrice) > 0 && (
                       <span className="text-base font-normal text-product-foreground-accent ml-1">
-                        /{pricingPlan.SubscriptionPeriod}
+                        /{pricingPlan.billingPeriod}
                       </span>
                     )}
                   </p>
@@ -221,7 +221,7 @@ export default function Subscription({
                 <div>
                   <p className="text-sm text-product-foreground-accent">Subscription Cycle</p>
                   <p className="font-semibold text-product-foreground capitalize">
-                    {pricingPlan.SubscriptionPeriod}ly
+                    {pricingPlan.billingPeriod}ly
                   </p>
                 </div>
               </div>

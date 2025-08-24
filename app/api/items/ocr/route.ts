@@ -6,10 +6,10 @@ import Groq from "groq-sdk"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-    const { input } = await req.json()
+    const { ocr_text, title, name, subtitle, theme, } = await req.json()
 
     const supabase = await createClient()
-    if (!input) {
+    if (!ocr_text) {
         return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
     }
 
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
         The JSON object must strictly follow the **ServicesFormData** type definition from the project.
 
         Input text (OCR extracted):  
-        ${input}  
+        ${ocr_text}  
 
         Schema:  
         ${JSON.stringify(schema)}  
