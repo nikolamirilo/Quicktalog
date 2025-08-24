@@ -37,6 +37,15 @@ const nextConfig: NextConfig = {
   },
   // This is required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+  webpack: (config) => {
+    config.ignoreWarnings = [
+      {
+        module: /@supabase\/realtime-js/,
+        message: /Critical dependency: the request of a dependency is an expression/,
+      },
+    ]
+    return config
+  },
 }
 
 export default nextConfig
