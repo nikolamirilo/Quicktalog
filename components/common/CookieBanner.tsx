@@ -78,9 +78,9 @@ const CookieBanner = () => {
 
     if (isSignedIn && user) {
       // For logged-in users, check Clerk's publicMetadata.cookieConsent
-      const hasClerkPreferences = !!user.publicMetadata
+      const hasClerkPreferences = !!user.publicMetadata.cookieConsent
       if (hasClerkPreferences) {
-        savePreferences(user.publicMetadata)
+        savePreferences(user.publicMetadata.cookieConsent as CookiePreferences)
         setIsVisible(false)
       } else {
         // Show banner if no Clerk preferences
