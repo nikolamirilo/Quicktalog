@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <>
+    <div className="font-lora">
       <Navbar />
       <div className="mx-auto h-fit flex flex-col items-center justify-center py-24 max-w-[1400px]">
         <Section
@@ -23,7 +23,7 @@ const page = () => {
         </Section>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
 

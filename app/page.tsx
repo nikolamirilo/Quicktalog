@@ -1,3 +1,4 @@
+import CookieBanner from "@/components/common/CookieBanner"
 import AIShortcut from "@/components/home/AIShortcut"
 import Benefits from "@/components/home/Benefits/Benefits"
 import Container from "@/components/home/Container"
@@ -58,6 +59,8 @@ const HomePage: React.FC = async () => {
         description="Learn how digital catalogs differ from websites, how updates work, and how AI/OCR help you launch faster.">
         <FAQ />
       </Section>
+
+      <CookieBanner />
 
       <Footer />
     </div>

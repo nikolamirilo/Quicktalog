@@ -1,7 +1,7 @@
 "use client"
 import { newsletterSignup } from "@/actions/newsletter"
 import { Button } from "@/components/ui/button"
-import { Legal } from "@/types"
+import { CatalogueFooterProps } from "@/types"
 import { getPlatformIconByName } from "@/utils/client"
 import Image from "next/image"
 import Link from "next/link"
@@ -44,82 +44,19 @@ const useThemeDetection = () => {
   return { isDarkTheme }
 }
 
-interface CatalogueFooterProps {
-  type?: "default" | "custom"
-  customData?: {
-    logo?: string
-    name?: string
-    address?: string
-    city?: string
-    email?: string
-    partners?: Array<{
-      name: string
-      logo: string
-      description: string
-      rating: number
-      url?: string
-    }>
-    phone?: string
-    socialLinks?: Record<string, string>
-    ctaFooter?: {
-      enabled: boolean
-      label: string
-      url: string
-    }
-    newsletter?: {
-      enabled: boolean
-      url: string
-    }
-    legal?: Legal,
-    catalogue?: {
-      id?: string
-      owner_id?: string;
-    }
-  }
-}
-
-const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", customData = {} }) => {
+const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", customData }) => {
   const {
     logo: customLogo,
-    name: customCompanyName = "Your Company",
-    email: customEmail = "hello@example.com",
-    phone: customPhone = "+1 (555) 123-4567",
-    socialLinks: customSocialLinks = {
-      facebook: "https://facebook.com/yourcompany",
-      twitter: "https://twitter.com/yourcompany",
-      linkedin: "https://linkedin.com/company/yourcompany",
-      instagram: "https://instagram.com/yourcompany",
-    },
-    partners: customPartnerBadges = [
-      {
-        name: "Partner 1",
-        logo: "/partners/partner1.svg",
-        description: "Business Partner",
-        rating: 4.8,
-      },
-      {
-        name: "Partner 2",
-        logo: "/partners/partner2.svg",
-        description: "Business Partner",
-        rating: 4.9,
-      },
-      {
-        name: "Partner 3",
-        logo: "/partners/partner3.svg",
-        description: "Business Partner",
-        rating: 4.7,
-      },
-    ],
-    ctaFooter = { enabled: false, label: "Learn More", url: "#" },
-    newsletter = { enabled: false, url: "" },
-    catalogue = { id: null, owner_id: null },
-    legal = {
-      name: "Quicktalog",
-      address: "123 Business St, City, State 12345",
-      terms_and_conditions: "https://termify.io/terms-and-conditions-generator",
-      privacy_policy: "https://termify.io/terms-and-conditions-generator",
-    },
-  } = customData
+    name: customCompanyName,
+    email: customEmail,
+    phone: customPhone,
+    socialLinks: customSocialLinks,
+    partners: customPartnerBadges,
+    ctaFooter,
+    newsletter,
+    catalogue,
+    legal,
+  } = customData || {}
 
   const { isDarkTheme } = useThemeDetection()
   const [logoPath, setLogoPath] = useState("/logo.svg")
@@ -135,29 +72,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
     instagram: "https://instagram.com/quicktalog",
   }
 
-  const partnerBadges = [
-    {
-      name: "Glovo",
-      logo: "/partners/glovo.svg",
-      description: "Delivery Partner",
-      rating: 4.8,
-      url: "https://glovo.com",
-    },
-    {
-      name: "Wolt",
-      logo: "/partners/wolt.svg",
-      description: "Delivery Partner",
-      rating: 4.9,
-      url: "https://wolt.com",
-    },
-    {
-      name: "Uber Eats",
-      logo: "/partners/uber-eats.svg",
-      description: "Delivery Partner",
-      rating: 4.7,
-      url: "https://ubereats.com",
-    },
-  ]
+
 
   const features = [
     {
@@ -208,7 +123,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
     try {
       // Call the actual newsletter signup function
-      await newsletterSignup(newsletterEmail, catalogue.id, catalogue.owner_id)
+      await newsletterSignup(newsletterEmail, catalogue?.id, catalogue?.owner_id)
 
       console.log("Newsletter signup successful:", newsletterEmail)
 
@@ -243,12 +158,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
   }) => (
     <Link
       href={href}
-      className={`p-2 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-3 group ${className}`}
-      style={{
-        backgroundColor: "var(--card-bg)",
-        color: "var(--card-description)",
-        border: "1px solid var(--card-border)",
-      }}
+      className={`p-2 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-3 group bg-card-bg text-card-description border border-card-border ${className}`}
       aria-label={`Follow us on ${platform}`}>
       <div className="group-hover:text-primary transition-colors duration-300">
         {getPlatformIconByName(platform)}
@@ -266,12 +176,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
     return (
       <div
-        className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer"
-        style={{
-          backgroundColor: "var(--card-bg)",
-          color: "var(--card-description)",
-          border: "1px solid var(--card-border)",
-        }}
+        className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer bg-card-bg text-card-description border border-card-border"
         onClick={() => partner.url && window.open(partner.url, "_blank")}
         role={partner.url ? "button" : undefined}
         tabIndex={partner.url ? 0 : undefined}
@@ -286,7 +191,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             <span className="text-lg">{partner.name.charAt(0)}</span>
           ) : (
             <Image
-              src={`https://logo.clearbit.com/${partner.url}`}
+              src={partner.logo || `https://logo.clearbit.com/${partner.url}`}
               alt={`${partner.name} logo`}
               width={32}
               height={32}
@@ -296,44 +201,20 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
           )}
         </div>
         <div className="flex-1">
-          <div
-            className="font-semibold text-sm"
-            style={{
-              fontFamily: "var(--font-family-heading, inherit)",
-              fontWeight: "var(--font-weight-heading, 600)",
-              letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-              color: "var(--card-heading)",
-            }}>
+          <div className="font-semibold text-sm font-heading font-weight-heading tracking-heading text-card-heading">
             {partner.name}
           </div>
           <div className="text-xs text-card-description">{partner.description}</div>
         </div>
-        {/* <div className="flex items-center space-x-1">
-          <FiStar className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
-          <span
-            className="text-xs font-medium"
-            style={{ color: "var(--card-description)" }}
-            aria-label={`Rating: ${partner.rating} out of 5`}>
-            {partner.rating}
-          </span>
-        </div> */}
       </div>
     )
   }
 
   return (
     <footer
-      className="border-t mt-auto"
+      className="border-t mt-auto font-body font-weight-body tracking-body bg-footer-bg text-footer-text border-footer-border"
       role="contentinfo"
-      aria-label={`${type === "default" ? "Quicktalog" : customCompanyName} footer`}
-      style={{
-        fontFamily: "var(--font-family-body, inherit)",
-        fontWeight: "var(--font-weight-body, 400)",
-        letterSpacing: "var(--letter-spacing-body, 0)",
-        backgroundColor: "var(--footer-bg, var(--section-bg))",
-        color: "var(--section-heading)",
-        borderTop: "1px solid var(--section-border)",
-      }}>
+      aria-label={`${type === "default" ? "Quicktalog" : customCompanyName || "Custom"} footer`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Primary Footer - Top Row */}
         <div className="py-12 sm:py-16">
@@ -344,38 +225,31 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 <Link
                   href="/"
                   className="flex flex-col items-start space-y-2 group transition-transform duration-200 hover:scale-105"
-                  aria-label={`Go to ${type === "default" ? "Quicktalog" : customCompanyName} homepage`}>
+                  aria-label={`Go to ${type === "default" ? "Quicktalog" : customCompanyName || "Custom"} homepage`}>
                   <Image
                     src={logoPath}
-                    alt={`${type === "default" ? "Quicktalog" : customCompanyName} logo`}
+                    alt={`${type === "default" ? "Quicktalog" : customCompanyName || "Custom"} logo`}
                     width={120}
                     height={40}
                     className="w-24 h-auto"
                   />
                   {type === "default" && (
-                    <p className="text-sm" style={{ color: "var(--card-description)" }}>
+                    <p className="text-sm text-card-description">
                       Digital Catalogue Platform
                     </p>
                   )}
                   {type === "custom" && (
                     <div>
-                      <h3
-                        className="text-xl font-semibold group-hover:text-primary transition-colors duration-200"
-                        style={{
-                          fontFamily: "var(--font-family-heading, inherit)",
-                          fontWeight: "var(--font-weight-heading, 600)",
-                          letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                          color: "var(--section-heading)",
-                        }}>
+                      <h3 className="text-xl font-semibold group-hover:text-primary transition-colors duration-200 font-heading font-weight-heading tracking-heading text-section-heading">
                         {customCompanyName}
                       </h3>
-                      <p className="text-sm" style={{ color: "var(--card-description)" }}>
+                      <p className="text-sm text-card-description">
                         Professional Services
                       </p>
                     </div>
                   )}
                 </Link>
-                <p className="text-sm leading-relaxed" style={{ color: "var(--card-description)" }}>
+                <p className="text-sm leading-relaxed text-card-description">
                   {type === "default"
                     ? "Create beautiful, shareable digital catalogs in minutes. No tech skills required."
                     : "Professional services delivered with excellence and attention to detail."}
@@ -391,14 +265,19 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     role="navigation"
                     aria-label="Social media links">
                     {Object.keys(customSocialLinks).map(
-                      (platform) =>
-                        customSocialLinks[platform] && (
-                          <SocialIcon
-                            key={platform}
-                            platform={platform}
-                            href={customSocialLinks[platform as keyof typeof customSocialLinks]}
-                          />
-                        )
+                      (platform) => {
+                        const socialUrl = customSocialLinks[platform as keyof typeof customSocialLinks]
+                        if (platform && socialUrl) {
+                          return (
+                            <SocialIcon
+                              key={platform}
+                              platform={platform}
+                              href={socialUrl}
+                            />
+                          )
+                        }
+                        return null
+                      }
                     )}
                   </nav>
                 )}
@@ -406,53 +285,49 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
             {/* Column 2: Contact & Support */}
             <div className="space-y-6">
-              <h4
-                className="text-lg font-semibold flex items-center space-x-2"
-                style={{
-                  fontFamily: "var(--font-family-heading, inherit)",
-                  fontWeight: "var(--font-weight-heading, 600)",
-                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                  color: "var(--section-heading)",
-                }}>
+              <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
                 <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
                 <span>Contact & Support</span>
               </h4>
               <ul className="space-y-4">
-                <li>
-                  <a
-                    href={`mailto:${type === "default" ? "hello@quicktalog.com" : customEmail}`}
-                    className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group"
-                    aria-label={`Send email to ${type === "default" ? "hello@quicktalog.com" : customEmail}`}
-                    style={{ color: "var(--card-description)" }}>
-                    <FiMail
-                      className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                      aria-hidden="true"
+                {(type === "default" || customEmail) && (
+                  <li>
+                    <a
+                      href={`mailto:${type === "default" ? "hello@quicktalog.com" : customEmail}`}
+                      className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
+                      aria-label={`Send email to ${type === "default" ? "hello@quicktalog.com" : customEmail || "contact"}`}>
+                      <FiMail
+                        className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+                        aria-hidden="true"
+                      />
+                      <span>{type === "default" ? "hello@quicktalog.com" : customEmail}</span>
+                    </a>
+                  </li>
+                )}
+                {(type === "default" || customPhone) && (
+                  <li>
+                    <a
+                      href={`tel:${type === "default" ? "+1234567890" : customPhone}`}
+                      className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
+                      aria-label={`Call ${type === "default" ? "+1 (234) 567-890" : customPhone || "contact"}`}>
+                      <FiPhone
+                        className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+                        aria-hidden="true"
+                      />
+                      <span>{type === "default" ? "+1 (234) 567-890" : customPhone}</span>
+                    </a>
+                  </li>
+                )}
+                {(type === "default" || legal?.address) && (
+                  <li className="flex items-start space-x-3">
+                    <FiMapPin
+                      className="w-4 h-4 mt-1 flex-shrink-0 text-card-description"
                     />
-                    <span>{type === "default" ? "hello@quicktalog.com" : customEmail}</span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href={`tel:${type === "default" ? "+1234567890" : customPhone}`}
-                    className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group"
-                    aria-label={`Call ${type === "default" ? "+1 (234) 567-890" : customPhone}`}
-                    style={{ color: "var(--card-description)" }}>
-                    <FiPhone
-                      className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                      aria-hidden="true"
-                    />
-                    <span>{type === "default" ? "+1 (234) 567-890" : customPhone}</span>
-                  </a>
-                </li>
-                <li className="flex items-start space-x-3">
-                  <FiMapPin
-                    className="w-4 h-4 mt-1 flex-shrink-0"
-                    style={{ color: "var(--card-description)" }}
-                  />
-                  <span className="text-sm" style={{ color: "var(--card-description)" }}>
-                    {type === "default" ? "Belgrade, Serbia" : `${legal.address}`}
-                  </span>
-                </li>
+                    <span className="text-sm text-card-description">
+                      {type === "default" ? "Belgrade, Serbia" : legal?.address}
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
 
@@ -460,14 +335,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             <div className="space-y-6">
               {type === "default" ? (
                 <>
-                  <h4
-                    className="text-lg font-semibold flex items-center space-x-2"
-                    style={{
-                      fontFamily: "var(--font-family-heading, inherit)",
-                      fontWeight: "var(--font-weight-heading, 600)",
-                      letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                      color: "var(--section-heading)",
-                    }}>
+                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
                     <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
                     <span>Platform Features</span>
                   </h4>
@@ -475,20 +343,12 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     {features.map((feature, index) => (
                       <li
                         key={index}
-                        className="flex items-start space-x-3 group"
-                        style={{ color: "var(--card-description)" }}>
+                        className="flex items-start space-x-3 group text-card-description">
                         <div className="mt-1 group-hover:scale-110 transition-transform duration-200 text-primary">
                           {feature.icon}
                         </div>
                         <div>
-                          <div
-                            className="font-semibold text-sm"
-                            style={{
-                              fontFamily: "var(--font-family-heading, inherit)",
-                              fontWeight: "var(--font-weight-heading, 600)",
-                              letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                              color: "var(--card-heading)",
-                            }}>
+                          <div className="font-semibold text-sm font-heading font-weight-heading tracking-heading text-card-heading">
                             {feature.title}
                           </div>
                           <div className="text-xs opacity-75">{feature.description}</div>
@@ -499,36 +359,31 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 </>
               ) : (
                 <>
-                  <h4
-                    className="text-lg font-semibold flex items-center space-x-2"
-                    style={{
-                      fontFamily: "var(--font-family-heading, inherit)",
-                      fontWeight: "var(--font-weight-heading, 600)",
-                      letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                      color: "var(--section-heading)",
-                    }}>
+                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
                     <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
                     <span>Company Information</span>
                   </h4>
                   <ul className="space-y-4">
-                    <li className="flex items-center space-x-3">
-                      <MdTitle
-                        className="w-4 h-4 flex-shrink-0"
-                        style={{ color: "var(--card-description)" }}
-                      />
-                      <span className="text-sm" style={{ color: "var(--card-description)" }}>
-                        {customData.legal.name}
-                      </span>
-                    </li>
-                    <li className="flex items-start space-x-3">
-                      <FiMapPin
-                        className="w-4 h-4 mt-1 flex-shrink-0"
-                        style={{ color: "var(--card-description)" }}
-                      />
-                      <div className="text-sm" style={{ color: "var(--card-description)" }}>
-                        <div>{legal.address}</div>
-                      </div>
-                    </li>
+                    {legal?.name && (
+                      <li className="flex items-center space-x-3">
+                        <MdTitle
+                          className="w-4 h-4 flex-shrink-0 text-card-description"
+                        />
+                        <span className="text-sm text-card-description">
+                          {legal.name}
+                        </span>
+                      </li>
+                    )}
+                    {legal?.address && (
+                      <li className="flex items-start space-x-3">
+                        <FiMapPin
+                          className="w-4 h-4 mt-1 flex-shrink-0 text-card-description"
+                        />
+                        <div className="text-sm text-card-description">
+                          <div>{legal.address}</div>
+                        </div>
+                      </li>
+                    )}
                   </ul>
                 </>
               )}
@@ -554,15 +409,8 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     asChild
                     variant="secondary"
                     size="default"
-                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2"
-                    style={{
-                      fontFamily: "var(--font-family-heading, inherit)",
-                      fontWeight: "var(--font-weight-heading, 600)",
-                      letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                      backgroundColor: "var(--card-bg)",
-                      color: "var(--card-text)",
-                      border: "1px solid var(--primary)",
-                    }}>
+                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
+                  >
                     <Link href="/auth?mode=signup" aria-label="Create your own digital catalog">
                       <FiPlus className="w-4 h-4" />
                       Create Your Digital Catalog
@@ -571,19 +419,13 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 </>
               ) : (
                 <>
-                  <h4
-                    className="text-lg font-semibold flex items-center space-x-2"
-                    style={{
-                      fontFamily: "var(--font-family-heading, inherit)",
-                      fontWeight: "var(--font-weight-heading, 600)",
-                      letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                      color: "var(--section-heading)",
-                    }}>
+                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
                     <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
                     <span>Trusted Partners</span>
                   </h4>
                   <ul className="space-y-3">
                     {customPartnerBadges &&
+                      customPartnerBadges.length > 0 &&
                       customPartnerBadges.map((partner, index) => (
                         <li key={index}>
                           <PartnerBadge partner={partner} />
@@ -597,12 +439,10 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
         </div>
 
         {/* Legal Footer - Bottom Row */}
-        <div className="border-t py-6" style={{ borderTop: "1px solid var(--section-border)" }}>
-          <div
-            className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm"
-            style={{ color: "var(--card-description)" }}>
+        <div className="border-t py-6 border-footer-border">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-card-description">
             <span>
-              © {new Date().getFullYear()} {type === "default" ? "Quicktalog" : customData.name}.
+              © {new Date().getFullYear()} {type === "default" ? "Quicktalog" : customCompanyName || "Your Company"}.
               All rights reserved.
             </span>
             <nav className="flex items-center space-x-6" role="navigation" aria-label="Legal links">
@@ -650,7 +490,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             </nav>
 
             {/* Enhanced Newsletter for Custom */}
-            {type === "custom" && newsletter?.enabled && (
+            {type === "custom" && newsletter?.enabled && newsletter?.url && (
               <div>
                 <form
                   onSubmit={handleNewsletterSubmit}
@@ -667,12 +507,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                       placeholder="your@email.com"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-48 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50"
-                      style={{
-                        backgroundColor: "var(--card-bg)",
-                        color: "var(--card-text)",
-                        border: "1px solid var(--card-border)",
-                      }}
+                      className="w-48 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card-bg text-card-text border border-card-border"
                       required
                       disabled={isSubmitting}
                       aria-describedby="newsletter-description"
@@ -691,15 +526,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     type="submit"
                     variant="secondary"
                     size="default"
-                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2"
-                    style={{
-                      fontFamily: "var(--font-family-heading, inherit)",
-                      fontWeight: "var(--font-weight-heading, 600)",
-                      letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                      backgroundColor: "var(--card-bg)",
-                      color: "var(--card-text)",
-                      border: "1px solid var(--primary)",
-                    }}
+                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
                     disabled={isSubmitting}
                     aria-label="Subscribe to newsletter">
                     {isSubmitting ? (
@@ -721,26 +548,18 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 </form>
                 <p
                   id="newsletter-description"
-                  className="text-xs mt-2"
-                  style={{ color: "var(--card-description)" }}>
+                  className="text-xs mt-2 text-card-description">
                   Stay updated with our latest news and offers.
                 </p>
               </div>
             )}
-            {type === "custom" && ctaFooter?.enabled && (
+            {type === "custom" && ctaFooter?.enabled && ctaFooter?.url && (
               <Button
                 asChild
                 variant="secondary"
                 size="default"
-                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2"
-                style={{
-                  fontFamily: "var(--font-family-heading, inherit)",
-                  fontWeight: "var(--font-weight-heading, 600)",
-                  letterSpacing: "var(--letter-spacing-heading, -0.02em)",
-                  backgroundColor: "var(--card-bg)",
-                  color: "var(--card-text)",
-                  border: "1px solid var(--primary)",
-                }}>
+                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
+              >
                 <Link href={ctaFooter.url} aria-label={ctaFooter.label}>
                   <FiExternalLink className="w-4 h-4" />
                   {ctaFooter.label}

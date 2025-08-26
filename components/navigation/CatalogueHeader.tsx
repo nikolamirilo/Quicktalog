@@ -69,7 +69,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
               aria-label="Contact options">
               <a
                 href={`mailto:${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}
-                className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary"
+                className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary footer-cta-button"
                 aria-label={`Send email to ${type === "default" ? "quicktalog@outlook.com" : customData?.email || ""}`}>
                 <FiMail
                   className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
@@ -79,7 +79,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
               {type === "custom" && customData?.phone && (
                 <a
                   href={`tel:${customData.phone}`}
-                  className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary"
+                  className="font-heading tracking-heading px-2 h-9 rounded-lg border hover:scale-105 transition-all duration-200 group text-xs sm:text-sm lg:text-sm flex items-center justify-center bg-card-bg text-foreground border-primary footer-cta-button"
                   aria-label={`Call ${customData.phone}`}>
                   <FiPhone
                     className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform duration-200"
@@ -95,7 +95,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
                 asChild
                 variant="secondary"
                 size="default"
-                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary"
+                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button"
               >
                 <Link
                   href={

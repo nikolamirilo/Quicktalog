@@ -66,6 +66,11 @@ export default withUt(
           "section-icon": "var(--section-icon)",
           "section-hover": "var(--section-hover)",
 
+          /* Footer Variables */
+          "footer-bg": "var(--footer-bg, var(--section-bg))",
+          "footer-text": "var(--footer-text, var(--section-heading))",
+          "footer-border": "var(--footer-border, var(--section-border))",
+
           /* Section Header Variables */
           "section-header-bg": "var(--section-header-bg)",
           "section-header-text": "var(--section-header-text)",

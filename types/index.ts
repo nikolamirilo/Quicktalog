@@ -76,8 +76,10 @@ export type Legal = {
 
 export type Partner = {
   name: string
+  logo: string
   description: string
-  url: string
+  rating: number
+  url?: string
 }
 
 export type Configuration = {
@@ -273,16 +275,44 @@ export type FooterData = {
   logo: string
   name: string
   email?: string
-  partners?: any[]
+  partners?: Partner[]
   phone?: string
   socialLinks: {
     instagram?: string
     facebook?: string
     twitter?: string
     website?: string
+    linkedin?: string
+    youtube?: string
+    github?: string
+    x?: string
+    threads?: string
   }
-  ctaFooter?: any
-  newsletter?: any
-  legal?: any[],
-  catalogue?: any
+  ctaFooter?: {
+    enabled: boolean
+    label: string
+    url: string
+  }
+  newsletter?: {
+    enabled: boolean
+    url: string
+  }
+  legal?: Legal
+  catalogue?: {
+    id?: string
+    owner_id?: string
+  }
+}
+
+export type FooterDetails = {
+  subheading: string
+  quickLinks: IServicesItem[]
+  email: string
+  telephone: string
+  socials: ISocials
+}
+
+export type CatalogueFooterProps = {
+  type?: "default" | "custom"
+  customData?: FooterData
 }

@@ -869,3 +869,10 @@ body>div[class*="cl-userButtonPopoverCard"]>div {
   /* product-primary */
   border-radius: 2px;
 }
+
+/* Footer CTA Button Font Override */
+.footer-cta-button {
+  font-family: var(--font-family-heading, "Lora", serif) !important;
+  font-weight: var(--font-weight-heading, 600) !important;
+  letter-spacing: var(--letter-spacing-heading, -0.02em) !important;
+}
