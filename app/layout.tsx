@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import type { Metadata } from "next"
 
 import ClarityScript from "@/components/analytics/ClarityScript"
+import CookieBanner from "@/components/common/CookieBanner"
 import {
   crimsonText,
   inter,
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <ClerkProvider afterSignOutUrl="/">
         <body className="product">
           <PageWrapperClient children={children} />
+          <CookieBanner />
         </body>
       </ClerkProvider>
     </html>

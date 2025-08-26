@@ -124,7 +124,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 rounded-xl"
       role="dialog"
       aria-modal="true"
       aria-labelledby="cookie-settings-title">
@@ -171,7 +171,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
                   Needed for site security, login, and core features. Cannot be disabled.
                 </p>
                 <div className="mt-2 text-xs text-product-foreground-accent">
-                  <strong>Examples:</strong> Sessions, tokens, accessibility
+                  <strong>Examples:</strong> Sessions, tokens, accessibility, user details.
                 </div>
               </div>
               <div className="flex-shrink-0">

@@ -1,4 +1,3 @@
-import CookieBanner from "@/components/common/CookieBanner"
 import AIShortcut from "@/components/home/AIShortcut"
 import Benefits from "@/components/home/Benefits/Benefits"
 import Container from "@/components/home/Container"
@@ -35,10 +34,16 @@ const HomePage: React.FC = async () => {
 
         <div className="lg:mt-0">
           <div className="text-center mb-6 lg:mb-12">
-          <h1 className="text-2xl lg:text-4xl mb-5 font-bold font-lora text-product-foreground">Or</h1>
-        
-            <h3 className="text-2xl lg:text-3xl font-bold font-lora text-product-foreground">Let AI do the work</h3>
-            <p className="text-sm lg:text-base text-product-foreground-accent mt-1">Describe your business and generate a ready-to-edit catalog in seconds.</p>
+            <h1 className="text-2xl lg:text-4xl mb-5 font-bold font-lora text-product-foreground">
+              Or
+            </h1>
+
+            <h3 className="text-2xl lg:text-3xl font-bold font-lora text-product-foreground">
+              Let AI do the work
+            </h3>
+            <p className="text-sm lg:text-base text-product-foreground-accent mt-1">
+              Describe your business and generate a ready-to-edit catalog in seconds.
+            </p>
           </div>
           <AIShortcut />
         </div>
@@ -59,8 +64,6 @@ const HomePage: React.FC = async () => {
         description="Learn how digital catalogs differ from websites, how updates work, and how AI/OCR help you launch faster.">
         <FAQ />
       </Section>
-
-      <CookieBanner />
 
       <Footer />
     </div>

@@ -30,7 +30,9 @@ export default function AiServicesFormSwithcer({ type }) {
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | { target: { name: string; value: string } }
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
   ) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
@@ -104,14 +106,20 @@ export default function AiServicesFormSwithcer({ type }) {
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl my-32">
-      <Card className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none" type="form">
+      <Card
+        className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
+        type="form">
         <CardHeader className="p-6 sm:p-8">
           <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
-            {type === "ai_prompt" ? "AI Business Catalogue Generator" : "Service Catalogue OCR import"}
+            {type === "ai_prompt"
+              ? "AI Business Catalogue Generator"
+              : "Service Catalogue OCR import"}
           </CardTitle>
           <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
-            {type === "ai_prompt" ? "Generate stunning service catalogues" : "Import your existing service catalogues"} of your services in minutes. Perfect for restaurants,
-            salons, gyms, and more.
+            {type === "ai_prompt"
+              ? "Generate stunning service catalogues"
+              : "Import your existing service catalogues"}{" "}
+            of your services in minutes. Perfect for restaurants, salons, gyms, and more.
           </CardDescription>
         </CardHeader>
 
@@ -125,33 +133,38 @@ export default function AiServicesFormSwithcer({ type }) {
               touched={touched}
             />
 
-            {type === "ai_prompt" ? <><PromptInput
-              prompt={prompt} touched={touched} errors={errors} setPrompt={setPrompt} />
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                variant="cta"
-                className="h-12 font-medium rounded-lg">
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2 animate-pulse">
-                    <RiSparkling2Line size={20} className="animate-spin" />
-                    Creating Your Catalogue...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <RiSparkling2Line size={20} />
-                    Generate Catalogue
-                  </div>
-                )}
-              </Button>
-            </> : type === "ocr_import" ?
-              <OcrReader formData={formData} /> : null
-            }
-
-
+            {type === "ai_prompt" ? (
+              <>
+                <PromptInput
+                  prompt={prompt}
+                  touched={touched}
+                  errors={errors}
+                  setPrompt={setPrompt}
+                />
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  variant="cta"
+                  className="h-12 font-medium rounded-lg">
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2 animate-pulse">
+                      <RiSparkling2Line size={20} className="animate-spin" />
+                      Creating Your Catalogue...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <RiSparkling2Line size={20} />
+                      Generate Catalogue
+                    </div>
+                  )}
+                </Button>
+              </>
+            ) : type === "ocr_import" ? (
+              <OcrReader formData={formData} />
+            ) : null}
           </form>
 
-          {type === "ai_prompt" &&
+          {type === "ai_prompt" && (
             <div className="mt-8 pt-6 border-t border-product-border">
               <div className="mb-4">
                 <h3 className="text-lg font-semibold text-product-foreground flex items-center gap-2">
@@ -187,10 +200,17 @@ export default function AiServicesFormSwithcer({ type }) {
                 ))}
               </div>
             </div>
-          }
+          )}
         </CardContent>
       </Card>
-      {type === "ai_prompt" && <SuccessModal isOpen={showSuccessModal} onClose={() => setShowSuccessModal(false)} restaurantUrl={restaurantUrl} type="ai" />}
+      {type === "ai_prompt" && (
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={() => setShowSuccessModal(false)}
+          restaurantUrl={restaurantUrl}
+          type="ai"
+        />
+      )}
     </div>
   )
 }

@@ -24,11 +24,13 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       currency: "",
       contact: [],
       subtitle: "",
-      services: [{
-        name: "",
-        layout: "",
-        items: [{ name: "", description: "", price: 0, image: "" }]
-      }],
+      services: [
+        {
+          name: "",
+          layout: "",
+          items: [{ name: "", description: "", price: 0, image: "" }],
+        },
+      ],
       partners: [],
       legal: {
         name: "",
@@ -118,7 +120,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
     // Add new item at the end instead of beginning to maintain correct numbering
     updatedServices[categoryIndex].items = [
       ...updatedServices[categoryIndex].items,
-      { name: "", description: "", price: 0, image: "" }
+      { name: "", description: "", price: 0, image: "" },
     ]
     setFormData((prev) => ({ ...prev, services: updatedServices }))
 
@@ -519,12 +521,10 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
         type="form">
         <CardHeader className="p-6 sm:p-8">
-          <CardTitle
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
-            {type === "edit" ? "Edit Your Service Catalogue" : "Create Your Service Catalogue"}
+          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
+            {type === "edit" ? "Edit Service Catalogue" : "Create Service Catalogue"}
           </CardTitle>
-          <CardDescription
-            className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
+          <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
             Step {currentStep} of 4:{" "}
             {currentStep === 1
               ? "General Information"
@@ -564,14 +564,12 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
           <form onSubmit={handleSubmit} className="space-y-8">
             {renderStep()}
             {currentStep === 2 && step2Error && (
-              <div
-                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
+              <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
                 {step2Error}
               </div>
             )}
             {currentStep === 3 && step3Error && (
-              <div
-                className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
+              <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
                 {step3Error}
               </div>
             )}

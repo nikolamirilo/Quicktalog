@@ -1,11 +1,10 @@
-// components/CookieBanner.tsx
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { defaultCookiePreferences } from "@/constants"
 import { CookiePreferences } from "@/types"
 import { useUser } from "@clerk/nextjs"
 import { Cookie, ExternalLink, Settings } from "lucide-react"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import CookiePreferencesModal from "./CookiePreferencesModal"
 
@@ -18,16 +17,25 @@ declare global {
 
 const COOKIE_KEY = "cookiePreferences"
 
+const defaultPreferences: CookiePreferences = {
+  accepted: false,
+  essential: true,
+  analytics: false,
+  marketing: false,
+  timestamp: "",
+  version: "1.1",
+}
+
 function loadPreferences(): CookiePreferences {
-  if (typeof window === "undefined") return defaultCookiePreferences
+  if (typeof window === "undefined") return defaultPreferences
   const raw = localStorage.getItem(COOKIE_KEY)
-  return raw ? { ...defaultCookiePreferences, ...JSON.parse(raw) } : defaultCookiePreferences
+  return raw ? { ...defaultPreferences, ...JSON.parse(raw) } : defaultPreferences
 }
 
 function savePreferences(prefs: Partial<CookiePreferences>): CookiePreferences {
-  if (typeof window === "undefined") return defaultCookiePreferences
+  if (typeof window === "undefined") return defaultPreferences
   const newPrefs: CookiePreferences = {
-    ...defaultCookiePreferences,
+    ...defaultPreferences,
     ...loadPreferences(),
     ...prefs,
     timestamp: new Date().toISOString(),
@@ -63,15 +71,35 @@ const CookieBanner = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    const prefs = loadPreferences()
-    if (!prefs.accepted || prefs.version !== defaultCookiePreferences.version) {
-      setIsVisible(true)
+    if (typeof window === "undefined") {
+      setIsLoading(false)
+      return
     }
-    setIsLoading(false)
+
+    if (isSignedIn && user) {
+      // For logged-in users, check Clerk's publicMetadata.cookieConsent
+      const hasClerkPreferences = !!user.publicMetadata
+      if (hasClerkPreferences) {
+        savePreferences(user.publicMetadata)
+        setIsVisible(false)
+      } else {
+        // Show banner if no Clerk preferences
+        setIsVisible(true)
+      }
+    } else {
+      // For non-logged-in users, check localStorage
+      const hasLocalPreferences = !!localStorage.getItem(COOKIE_KEY)
+      setIsVisible(!hasLocalPreferences)
+    }
+
+    // Initialize analytics if preferences allow
+    const prefs = loadPreferences()
     if (prefs.analytics) {
       initializeAnalytics(true)
     }
-  }, [])
+
+    setIsLoading(false)
+  }, [isSignedIn, user])
 
   const updateUserConsent = async (prefs: CookiePreferences) => {
     if (!isSignedIn || !user) return
@@ -141,14 +169,14 @@ const CookieBanner = () => {
                   We use cookies and similar technologies to improve your experience, analyze site
                   usage, and assist in marketing efforts. You can choose which types of cookies to
                   allow.{" "}
-                  <a
-                    href="/privacy"
+                  <Link
+                    href="/privacy-policy"
                     className="text-product-primary hover:underline inline-flex items-center gap-1"
                     target="_blank"
                     rel="noopener noreferrer">
                     Learn more
                     <ExternalLink className="w-3 h-3" />
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
