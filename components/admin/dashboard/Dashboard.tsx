@@ -1,11 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
-import {
-  FiBarChart2,
-  FiCalendar,
-  FiSettings
-} from "react-icons/fi"
+import { FiBarChart2, FiCalendar, FiSettings } from "react-icons/fi"
 import { TbFileAnalytics } from "react-icons/tb"
 import Overview from "./Overview"
 import Settings from "./Settings"
@@ -25,7 +21,7 @@ export default function Dashboard({
   analytics,
   pricingPlan,
   promptsUsage,
-  ocrUsage
+  ocrUsage,
 }) {
   const [activeTab, setActiveTab] = useState("overview")
 
@@ -43,7 +39,7 @@ export default function Dashboard({
   const overallAnalytics = {
     totalPageViews,
     totalUniqueVisitors,
-    totalServiceCatalogues
+    totalServiceCatalogues,
   }
 
   // Sidebar content for md+ screens
@@ -77,10 +73,11 @@ export default function Dashboard({
           key={tab.value}
           onClick={() => setActiveTab(tab.value)}
           variant="nav"
-          className={`${activeTab === tab.value
-            ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
-            : ""
-            } flex items-center justify-start font-body flex-shrink-0 whitespace-nowrap`}
+          className={`${
+            activeTab === tab.value
+              ? "!bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm font-semibold hover:scale-[1.03] hover:transform"
+              : ""
+          } flex items-center justify-start font-body flex-shrink-0 whitespace-nowrap`}
           aria-current={activeTab === tab.value ? "page" : undefined}>
           <span className="flex items-center justify-center">{tab.icon}</span>
           {tab.label}
@@ -90,7 +87,7 @@ export default function Dashboard({
   )
 
   return (
-    <div className="w-full min-h-screen px-2 sm:px-4 md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
+    <div className="w-full min-h-screen px-2 sm:px-4 relative md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
         {/* Sidebar Tabs (hidden on mobile) */}
         <aside className="hidden md:block w-56 flex-shrink-0 bg-product-background/90 border border-product-border shadow-md rounded-2xl sticky top-24 self-start">

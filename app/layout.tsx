@@ -2,6 +2,7 @@ import { PageWrapperClient } from "@/components/wrappers/PageWrapperClient"
 import { ClerkProvider } from "@clerk/nextjs"
 import type { Metadata } from "next"
 
+import ClarityScript from "@/components/analytics/ClarityScript"
 import {
   crimsonText,
   inter,
@@ -24,6 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       className={`${loraRegular.variable} ${loraSemiBold.variable} ${playfairDisplay.variable} ${inter.variable} ${nunito.variable} ${crimsonText.variable} ${poppins.variable} antialiased`}>
+      <head>
+        <ClarityScript />
+      </head>
       <ClerkProvider afterSignOutUrl="/">
         <body className="product">
           <PageWrapperClient children={children} />

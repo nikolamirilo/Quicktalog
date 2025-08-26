@@ -8,6 +8,14 @@ export type Record = {
   price: number
   image: string
 }
+export type CookiePreferences = {
+  accepted: boolean
+  essential: boolean
+  analytics: boolean
+  marketing: boolean
+  timestamp: string
+  version: string
+}
 
 export type NavbarProps = {
   itemData?: unknown
@@ -54,11 +62,7 @@ export type ServiceCatalogue = {
   configuration?: Configuration
 }
 
-
-export type ServicesFormData = Omit<
-  ServiceCatalogue,
-  "id" | "created_by" | ""
->
+export type ServicesFormData = Omit<ServiceCatalogue, "id" | "created_by" | "">
 
 export type Service = {
   name: string
@@ -123,21 +127,18 @@ export type ContactInfo = {
   value: string
 }
 
-
 export type PaddleCustomerResponse = {
   data?: Customer
   error?: {
     type: string
-    code: string;
-    detail: string;
-    documentation_url: string;
-  };
+    code: string
+    detail: string
+    documentation_url: string
+  }
   meta: {
     request_id: string
   }
 }
-
-
 
 export type UserData = User & {
   plan_name: string
@@ -196,9 +197,9 @@ export type PricingPlan = {
 }
 
 export type OverallUsage = {
-  traffic: number;
-  prompts: number;
-  ocr: number;
+  traffic: number
+  prompts: number
+  ocr: number
   catalogues: number
 }
 
@@ -256,12 +257,10 @@ export type ContactData = {
   subject: string
 }
 
-
 export type ContactItem = {
   type: string
   value: string
 }
-
 
 export type HeaderData = {
   logo: string

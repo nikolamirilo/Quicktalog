@@ -1,208 +1,192 @@
+// components/CookieBanner.tsx
 "use client"
+
 import { Button } from "@/components/ui/button"
-import { Cookie, Settings, Shield, X } from "lucide-react"
+import { defaultCookiePreferences } from "@/constants"
+import { CookiePreferences } from "@/types"
+import { useUser } from "@clerk/nextjs"
+import { Cookie, ExternalLink, Settings } from "lucide-react"
 import { useEffect, useState } from "react"
+import CookiePreferencesModal from "./CookiePreferencesModal"
+
+declare global {
+  interface Window {
+    dataLayer: any[]
+    gtag: (...args: any[]) => void
+  }
+}
+
+const COOKIE_KEY = "cookiePreferences"
+
+function loadPreferences(): CookiePreferences {
+  if (typeof window === "undefined") return defaultCookiePreferences
+  const raw = localStorage.getItem(COOKIE_KEY)
+  return raw ? { ...defaultCookiePreferences, ...JSON.parse(raw) } : defaultCookiePreferences
+}
+
+function savePreferences(prefs: Partial<CookiePreferences>): CookiePreferences {
+  if (typeof window === "undefined") return defaultCookiePreferences
+  const newPrefs: CookiePreferences = {
+    ...defaultCookiePreferences,
+    ...loadPreferences(),
+    ...prefs,
+    timestamp: new Date().toISOString(),
+  }
+  localStorage.setItem(COOKIE_KEY, JSON.stringify(newPrefs))
+  return newPrefs
+}
+
+function initializeAnalytics(enabled: boolean) {
+  if (!enabled) return
+  const existingScript = document.querySelector('script[src*="googletagmanager"]')
+  if (existingScript) return
+  const script = document.createElement("script")
+  script.src = "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
+  script.async = true
+  document.head.appendChild(script)
+  window.dataLayer = window.dataLayer || []
+  function gtag(...args: any[]) {
+    window.dataLayer.push(args)
+  }
+  window.gtag = gtag
+  gtag("js", new Date())
+  gtag("config", "GA_MEASUREMENT_ID", {
+    anonymize_ip: true,
+    allow_google_signals: false,
+  })
+}
 
 const CookieBanner = () => {
+  const { user, isSignedIn } = useUser()
   const [isVisible, setIsVisible] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Check if user has already accepted cookies
-    const hasAcceptedCookies = localStorage.getItem("cookiesAccepted")
-    if (!hasAcceptedCookies) {
+    const prefs = loadPreferences()
+    if (!prefs.accepted || prefs.version !== defaultCookiePreferences.version) {
       setIsVisible(true)
+    }
+    setIsLoading(false)
+    if (prefs.analytics) {
+      initializeAnalytics(true)
     }
   }, [])
 
-  const handleAcceptAll = () => {
-    localStorage.setItem("cookiesAccepted", "true")
-    localStorage.setItem("analyticsCookies", "true")
-    localStorage.setItem("marketingCookies", "true")
-    setIsVisible(false)
+  const updateUserConsent = async (prefs: CookiePreferences) => {
+    if (!isSignedIn || !user) return
+    try {
+      const response = await fetch("/api/update-consent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cookieConsent: prefs }),
+      })
+      if (!response.ok) {
+        throw new Error("Failed to update consent")
+      }
+    } catch (error) {
+      console.error("Error updating user consent:", error)
+    }
   }
 
-  const handleAcceptEssential = () => {
-    localStorage.setItem("cookiesAccepted", "true")
-    localStorage.setItem("analyticsCookies", "false")
-    localStorage.setItem("marketingCookies", "false")
+  const handleAcceptAll = async () => {
+    const prefs = savePreferences({
+      accepted: true,
+      analytics: true,
+      marketing: true,
+    })
+    initializeAnalytics(true)
+    await updateUserConsent(prefs)
     setIsVisible(false)
+    if (window.gtag) {
+      window.gtag("event", "consent_update", {
+        analytics_storage: "granted",
+        ad_storage: "granted",
+      })
+    }
   }
 
-  const handleSaveSettings = () => {
-    const analytics = document.getElementById("analytics-cookies") as HTMLInputElement
-    const marketing = document.getElementById("marketing-cookies") as HTMLInputElement
-    
-    localStorage.setItem("cookiesAccepted", "true")
-    localStorage.setItem("analyticsCookies", analytics?.checked?.toString() || "false")
-    localStorage.setItem("marketingCookies", marketing?.checked?.toString() || "false")
-    
-    setIsSettingsOpen(false)
+  const handleAcceptEssential = async () => {
+    const prefs = savePreferences({
+      accepted: true,
+      analytics: false,
+      marketing: false,
+    })
+    await updateUserConsent(prefs)
     setIsVisible(false)
+    if (window.gtag) {
+      window.gtag("event", "consent_update", {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+      })
+    }
   }
 
-  if (!isVisible) return null
+  if (isLoading || !isVisible) return null
 
   return (
     <>
-      {/* Main Cookie Banner */}
       <div className="fixed bottom-0 left-0 right-0 z-50 bg-product-background border-t border-product-border shadow-lg">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            {/* Cookie Icon and Text */}
             <div className="flex items-start gap-3 flex-1">
               <div className="flex-shrink-0 w-10 h-10 rounded-full bg-product-primary/10 flex items-center justify-center">
                 <Cookie className="w-5 h-5 text-product-primary" />
               </div>
               <div className="flex-1">
                 <h3 className="text-sm font-semibold text-product-foreground mb-1">
-                  We use cookies to enhance your experience
+                  We respect your privacy
                 </h3>
                 <p className="text-xs text-product-foreground-accent leading-relaxed">
-                  We use cookies to analyze site traffic, personalize content, and provide social media features. 
-                  By continuing to use our site, you consent to our use of cookies.
+                  We use cookies and similar technologies to improve your experience, analyze site
+                  usage, and assist in marketing efforts. You can choose which types of cookies to
+                  allow.{" "}
+                  <a
+                    href="/privacy"
+                    className="text-product-primary hover:underline inline-flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    Learn more
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
                 </p>
               </div>
             </div>
-
-            {/* Action Buttons */}
             <div className="flex items-center gap-2 flex-shrink-0">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setIsSettingsOpen(true)}
                 className="text-xs px-3 py-2"
-              >
+                aria-label="Open cookie settings">
                 <Settings className="w-3 h-3 mr-1" />
-                Settings
+                Customize
               </Button>
               <Button
                 variant="secondary"
                 size="sm"
                 onClick={handleAcceptEssential}
-                className="text-xs px-3 py-2"
-              >
+                className="text-xs px-3 py-2">
                 Essential Only
               </Button>
               <Button
                 variant="cta"
                 size="sm"
                 onClick={handleAcceptAll}
-                className="text-xs px-4 py-2"
-              >
+                className="text-xs px-4 py-2">
                 Accept All
               </Button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Cookie Settings Modal */}
-      {isSettingsOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-product-background rounded-lg shadow-lg max-w-md w-full mx-4 overflow-hidden">
-            {/* Header */}
-            <div className="relative p-6 text-center bg-hero-product-background">
-              <button
-                onClick={() => setIsSettingsOpen(false)}
-                className="absolute top-4 right-4 text-product-foreground-accent hover:text-product-foreground transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              <div className="flex justify-center mb-4">
-                <div className="w-16 h-16 rounded-full flex items-center justify-center bg-product-primary">
-                  <Shield className="w-8 h-8 text-product-secondary" />
-                </div>
-              </div>
-
-              <h2 className="text-xl font-semibold mb-2 text-product-foreground">Cookie Settings</h2>
-              <p className="text-sm text-product-foreground-accent">
-                Choose which cookies you want to allow
-              </p>
-            </div>
-
-            {/* Content */}
-            <div className="p-6 space-y-4">
-              {/* Essential Cookies */}
-              <div className="flex items-center justify-between p-3 rounded-lg bg-product-hover-background">
-                <div className="flex-1">
-                  <h3 className="text-sm font-medium text-product-foreground">Essential Cookies</h3>
-                  <p className="text-xs text-product-foreground-accent mt-1">
-                    Required for the website to function properly
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <input
-                    type="checkbox"
-                    checked
-                    disabled
-                    className="w-4 h-4 text-product-primary bg-product-background border-product-border rounded focus:ring-product-primary"
-                  />
-                </div>
-              </div>
-
-              {/* Analytics Cookies */}
-              <div className="flex items-center justify-between p-3 rounded-lg border border-product-border">
-                <div className="flex-1">
-                  <h3 className="text-sm font-medium text-product-foreground">Analytics Cookies</h3>
-                  <p className="text-xs text-product-foreground-accent mt-1">
-                    Help us understand how visitors interact with our website
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <input
-                    id="analytics-cookies"
-                    type="checkbox"
-                    defaultChecked
-                    className="w-4 h-4 text-product-primary bg-product-background border-product-border rounded focus:ring-product-primary"
-                  />
-                </div>
-              </div>
-
-              {/* Marketing Cookies */}
-              <div className="flex items-center justify-between p-3 rounded-lg border border-product-border">
-                <div className="flex-1">
-                  <h3 className="text-sm font-medium text-product-foreground">Marketing Cookies</h3>
-                  <p className="text-xs text-product-foreground-accent mt-1">
-                    Used to deliver personalized advertisements
-                  </p>
-                </div>
-                <div className="flex-shrink-0">
-                  <input
-                    id="marketing-cookies"
-                    type="checkbox"
-                    defaultChecked
-                    className="w-4 h-4 text-product-primary bg-product-background border-product-border rounded focus:ring-product-primary"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="p-6 pt-0">
-              <div className="flex gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsSettingsOpen(false)}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant="cta"
-                  onClick={handleSaveSettings}
-                  className="flex-1"
-                >
-                  Save Settings
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <CookiePreferencesModal
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        onSave={() => setIsVisible(false)}
+      />
     </>
   )
 }
 
-export default CookieBanner 
+export default CookieBanner

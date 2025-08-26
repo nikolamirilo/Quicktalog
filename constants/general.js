@@ -1,5 +1,3 @@
-
-
 const themes = [
   {
     key: "theme-elegant",
@@ -36,7 +34,7 @@ const themes = [
     description:
       "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look.",
   },
-];
+]
 
 const layouts = [
   {
@@ -67,7 +65,7 @@ const layouts = [
     description:
       "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus.",
   },
-];
+]
 
 const currencies = [
   { value: "USD", label: "USD - United States Dollar" },
@@ -80,7 +78,7 @@ const currencies = [
   { value: "CNY", label: "CNY - Chinese Yuan" },
   { value: "RUB", label: "RUB - Russian Ruble" },
   { value: "RSD", label: "RSD - Serbian Dinar" },
-];
+]
 
 const contactTypes = [
   { value: "phone", label: "Phone" },
@@ -92,10 +90,9 @@ const contactTypes = [
   { value: "twitter", label: "Twitter" },
 ]
 
-
 module.exports = {
   themes,
   layouts,
   currencies,
-  contactTypes
-};
+  contactTypes,
+}
