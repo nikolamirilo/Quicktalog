@@ -191,7 +191,7 @@ const CookieBanner = () => {
                 Customize
               </Button>
               <Button
-                variant="secondary"
+                variant="outline"
                 size="sm"
                 onClick={handleAcceptEssential}
                 className="text-xs px-3 py-2">
