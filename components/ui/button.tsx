@@ -35,10 +35,10 @@ const buttonVariants = cva(
           transition-colors shadow-sm
         `,
         secondary: `
-          bg-product-secondary 
-          text-product-background 
+          bg-product-background 
+          text-product-foreground-accent 
           border border-product-border 
-          hover:bg-product-hover-secondary 
+          hover:bg-product-hover-background 
           hover:text-product-background 
           shadow-sm
         `,
