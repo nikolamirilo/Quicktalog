@@ -216,8 +216,14 @@
         "name": {
           "type": "string"
         },
+        "logo": {
+          "type": "string"
+        },
         "description": {
           "type": "string"
+        },
+        "rating": {
+          "type": "number"
         },
         "url": {
           "type": "string"
@@ -225,8 +231,9 @@
       },
       "required": [
         "name",
+        "logo",
         "description",
-        "url"
+        "rating"
       ],
       "additionalProperties": false
     },

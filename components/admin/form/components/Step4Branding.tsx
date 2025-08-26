@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { contactTypes } from "@/constants/general"
@@ -119,7 +119,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
     if ((formData.partners?.length || 0) < 3) {
       setFormData((prev) => ({
         ...prev,
-        partners: [...(prev.partners || []), { name: "", description: "", icon: "", url: "" }],
+        partners: [...(prev.partners || []), { name: "", description: "", logo: "", rating: 0, url: "" }],
       }))
     }
   }
@@ -144,7 +144,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
     setFormData((prev) => ({
       ...prev,
       partners: prev.partners?.map((partner, i) =>
-        i === index ? { ...partner, icon: url } : partner
+        i === index ? { ...partner, logo: url } : partner
       ),
     }))
   }
