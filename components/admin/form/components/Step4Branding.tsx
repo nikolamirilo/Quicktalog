@@ -7,11 +7,11 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { contactTypes } from "@/constants/general"
@@ -43,7 +43,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   handleContactChange,
   setFormData,
 }) => {
-  const isFreePlan = userData?.plan_name === "Starter"
+  const isFreePlan = userData?.current_plan_id === 0
 
   const [logoPreview, setLogoPreview] = useState<string | null>(formData.logo || null)
 
@@ -119,7 +119,10 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
     if ((formData.partners?.length || 0) < 3) {
       setFormData((prev) => ({
         ...prev,
-        partners: [...(prev.partners || []), { name: "", description: "", logo: "", rating: 0, url: "" }],
+        partners: [
+          ...(prev.partners || []),
+          { name: "", description: "", logo: "", rating: 0, url: "" },
+        ],
       }))
     }
   }

@@ -140,9 +140,19 @@ export type PaddleCustomerResponse = {
   }
 }
 
+export type Usage = {
+  traffic: { pageview_count: number; unique_visitors: number }
+  ocr: number
+  prompts: number
+  catalogues: number
+}
+
 export type UserData = User & {
+  usage: Usage
   plan_name: string
-  features: string[]
+  next_plan: string
+  plan_features: PricingPlan["features"] | null
+  current_plan_id: number
 }
 
 export type IServicesItem = {

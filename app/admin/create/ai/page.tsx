@@ -1,14 +1,19 @@
 import { getUserData } from "@/actions/users"
 import AiServicesFormSwithcer from "@/components/admin/form/AiServicesFormSwitcher"
-import UpgradePlan from "@/components/modals/LimitsModal"
+import LimitsModal from "@/components/modals/LimitsModal"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { UserData } from "@/types"
 
 export const dynamic = "force-dynamic"
 export default async function page() {
-  const userData = await getUserData()
+  const userData: UserData = await getUserData()
   console.log(userData)
-  if (userData && userData.plan_name !== "Starter") {
+  if (
+    userData &&
+    userData.current_plan_id !== 0 &&
+    userData.usage.catalogues <= userData.plan_features.catalogues
+  ) {
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />
@@ -21,6 +26,8 @@ export default async function page() {
       </div>
     )
   } else {
-    return <UpgradePlan />
+    return (
+      <LimitsModal type="ai" currentPlan={userData.plan_name} requiredPlan={userData.next_plan} />
+    )
   }
 }
