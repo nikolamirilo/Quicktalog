@@ -15,44 +15,44 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     if (!name) {
       throw new Error("Service catalogue name is required")
     }
-    const userData: UserData = await getUserData()
-    console.log(userData)
+
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from("service_catalogues")
+      .select()
+      .eq("name", name)
+      .single() // Use single() since we expect only one result
+
+    if (error) {
+      console.error("Database error:", error)
+      throw new Error(`Failed to fetch service catalogue: ${error.message}`)
+    }
+
+    if (!data) {
+      return <NotFoundPage />
+    }
+
+    const item = data as ServiceCatalogue
+    const userData: UserData = await getUserData(item.created_by)
+
+    // Validate required fields
+    if (!item.title || !item.services) {
+      console.error("Invalid service catalogue data:", item)
+      throw new Error("Service catalogue data is incomplete")
+    }
+
+    // Check if user is on free plan
+    const isFreePlan = item?.logo == "" || item?.logo == null
+
+    // Only build header/footer data if not on free plan
+    const headerData = isFreePlan ? undefined : buildHeaderData(item)
+    const footerData = isFreePlan ? undefined : buildFooterData(item)
+
     if (
       userData &&
       userData.current_plan_id !== 0 &&
       userData.usage.traffic.pageview_count <= userData.plan_features.traffic_limit
     ) {
-      const supabase = await createClient()
-      const { data, error } = await supabase
-        .from("service_catalogues")
-        .select()
-        .eq("name", name)
-        .single() // Use single() since we expect only one result
-
-      if (error) {
-        console.error("Database error:", error)
-        throw new Error(`Failed to fetch service catalogue: ${error.message}`)
-      }
-
-      if (!data) {
-        return <NotFoundPage />
-      }
-
-      const item = data as ServiceCatalogue
-
-      // Validate required fields
-      if (!item.title || !item.services) {
-        console.error("Invalid service catalogue data:", item)
-        throw new Error("Service catalogue data is incomplete")
-      }
-
-      // Check if user is on free plan
-      const isFreePlan = item?.logo == "" || item?.logo == null
-
-      // Only build header/footer data if not on free plan
-      const headerData = isFreePlan ? undefined : buildHeaderData(item)
-      const footerData = isFreePlan ? undefined : buildFooterData(item)
-
       return (
         <div
           className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen flex flex-col`}

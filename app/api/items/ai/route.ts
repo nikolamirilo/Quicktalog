@@ -1,9 +1,9 @@
 import { layouts } from "@/constants/general"
 import { fetchImageFromUnsplash } from "@/helpers/server"
 import { ServicesCategory } from "@/types"
+import { chatCompletion } from "@/utils/deepseek"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
-import Groq from "groq-sdk"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
@@ -20,10 +20,6 @@ export async function POST(req: NextRequest) {
   }))
 
   try {
-    const groq = new Groq({
-      apiKey: process.env.GROQ_API_KEY!,
-    })
-
     const generationPrompt = `
       Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
       Based on the following prompt, generate a complete service offer configuration in JSON format.
@@ -32,19 +28,21 @@ export async function POST(req: NextRequest) {
       Prompt: ${prompt}
       
       Schema: ${JSON.stringify({
-      services: [
-        {
-          name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
-          layout: "variant_1",
-          items: [{
-            name: "Item Name",
-            description: "Description of Item",
-            price: 12,
-            image: "leave as empty string as I will populate this later via unsplash API"
-          }]
-        }
-      ]
-    })}
+        services: [
+          {
+            name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
+            layout: "variant_1",
+            items: [
+              {
+                name: "Item Name",
+                description: "Description of Item",
+                price: 12,
+                image: "leave as empty string as I will populate this later via unsplash API",
+              },
+            ],
+          },
+        ],
+      })}
 
     Layouts keys and description of each variant: ${JSON.stringify(layoutData)}. For drinks for example use without image.
 
@@ -59,26 +57,12 @@ export async function POST(req: NextRequest) {
       6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
       7. Ensure the JSON is valid and well-formed  
       `
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [
-        {
-          role: "user",
-          content: generationPrompt,
-        },
-      ],
-      model: "gemma2-9b-it",
-      temperature: 0.7,
-      max_tokens: 8000,
-      top_p: 1,
-      stream: false,
-    })
-
-    const text = chatCompletion.choices[0]?.message?.content || ""
+    const response = await chatCompletion(generationPrompt)
 
     let generatedData: { services: ServicesCategory[] } = { services: [] }
     try {
       // Clean up the response to extract JSON
-      let cleanedText = text
+      let cleanedText = response
         .replace(/```json/g, "")
         .replace(/```/g, "")
         .trim()
@@ -109,7 +93,7 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: "Invalid services structure generated" }, { status: 500 })
       }
     } catch (e) {
-      console.error("Failed to parse generated JSON:", text)
+      console.error("Failed to parse generated JSON:", response)
       return NextResponse.json({ error: "Failed to parse AI response" }, { status: 500 })
     }
 

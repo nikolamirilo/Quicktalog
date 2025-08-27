@@ -44,21 +44,17 @@ export async function subscribeToPlan(email: string) {
   }
 }
 
-export async function getUserData() {
+export async function getUserData(userId?: string) {
   try {
-    const user = await currentUser()
-    if (!user || !user.id) {
-      throw new Error("User not authenticated")
-    }
+    const id = userId ?? (await currentUser())?.id
+    if (!id) throw new Error("User not authenticated")
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${user.id}`)
-
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users/${id}`)
     if (!res.ok) {
       throw new Error(`Failed to fetch user data: ${res.status} ${res.statusText}`)
     }
 
-    const userData = await res.json()
-    return userData
+    return await res.json()
   } catch (error) {
     console.error("Error in getUserData:", error)
     return null

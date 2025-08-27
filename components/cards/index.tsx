@@ -16,10 +16,13 @@ const CardsSwitcher = ({
   i: number
 }) => {
   // Validate record data
-  if (!record || !record.name || !record.description || record.price === undefined) {
+  if (!record || !record.name || record.price === undefined) {
     console.error("CardsSwitcher: Invalid record data:", record)
     return (
-      <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert" aria-live="polite">
+      <div
+        className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
+        role="alert"
+        aria-live="polite">
         <p>Invalid item data</p>
       </div>
     )
