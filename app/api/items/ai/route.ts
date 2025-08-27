@@ -1,62 +1,26 @@
-import { layouts } from "@/constants/general"
 import { fetchImageFromUnsplash } from "@/helpers/server"
 import { ServicesCategory } from "@/types"
-import { chatCompletion } from "@/utils/deepseek"
+import { chatCompletion, createGenerationPrompt } from "@/utils/deepseek"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(req: NextRequest) {
-  const { prompt, formData } = await req.json()
+  const { prompt, ocr_text, formData } = await req.json()
 
   const supabase = await createClient()
-  if (!prompt) {
-    return NextResponse.json({ error: "Prompt is required" }, { status: 400 })
+
+  // Check that either prompt or ocr_text is provided
+  if (!prompt && !ocr_text) {
+    return NextResponse.json({ error: "Either prompt or ocr_text is required" }, { status: 400 })
   }
 
-  const layoutData = layouts.map((l) => ({
-    key: l.key,
-    description: l.description,
-  }))
+  const isOcrMode = !!ocr_text
+  const inputText = isOcrMode ? ocr_text : prompt
 
   try {
-    const generationPrompt = `
-      Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
-      Based on the following prompt, generate a complete service offer configuration in JSON format.
-      The JSON object should strictly follow the type definition from the project.
-      
-      Prompt: ${prompt}
-      
-      Schema: ${JSON.stringify({
-        services: [
-          {
-            name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
-            layout: "variant_1",
-            items: [
-              {
-                name: "Item Name",
-                description: "Description of Item",
-                price: 12,
-                image: "leave as empty string as I will populate this later via unsplash API",
-              },
-            ],
-          },
-        ],
-      })}
+    const generationPrompt = createGenerationPrompt(inputText, formData, isOcrMode)
 
-    Layouts keys and description of each variant: ${JSON.stringify(layoutData)}. For drinks for example use without image.
-
-    General information about service catalogue: ${JSON.stringify(formData)}
-      
-      IMPORTANT REQUIREMENTS:
-      1. Return ONLY the JSON object, no additional text, explanations, or formatting
-      2. Start your response directly with { and end with }
-      3. Service offer should be created in the language and alphabet of the prompt.
-      4. The services field should be an ARRAY of categories, NOT an object
-      5. Add at least 3 categories with at least 5 items each
-      6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
-      7. Ensure the JSON is valid and well-formed  
-      `
     const response = await chatCompletion(generationPrompt)
 
     let generatedData: { services: ServicesCategory[] } = { services: [] }
@@ -79,10 +43,13 @@ export async function POST(req: NextRequest) {
 
       generatedData = JSON.parse(cleanedText)
 
-      for (const category of generatedData.services) {
-        if (category.layout != "variant_3") {
-          for (const item of category.items) {
-            item.image = await fetchImageFromUnsplash(item.name)
+      // Generate images only for AI mode (not OCR mode)
+      if (!isOcrMode) {
+        for (const category of generatedData.services) {
+          if (category.layout != "variant_3") {
+            for (const item of category.items) {
+              item.image = await fetchImageFromUnsplash(item.name)
+            }
           }
         }
       }
@@ -159,6 +126,7 @@ export async function POST(req: NextRequest) {
       console.error("Error inserting data into Supabase service-catalogues table:", error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
+
     const { error: errorPrompt } = await supabase
       .from("prompts")
       .insert([{ user_id: user.id, service_catalogue: catalogueSlug }])
@@ -166,11 +134,12 @@ export async function POST(req: NextRequest) {
       console.error("Error inserting data into Supabase prompt table:", errorPrompt)
       return NextResponse.json({ error: errorPrompt.message }, { status: 500 })
     }
+
     return NextResponse.json({ restaurantUrl: `/service-catalogues/${catalogueSlug}` })
   } catch (error) {
     console.error("Error generating services:", error)
 
-    // Handle specific Groq API errors
+    // Handle specific API errors
     if (error instanceof Error) {
       if (error.message.includes("rate limit")) {
         return NextResponse.json(

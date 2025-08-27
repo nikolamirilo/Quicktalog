@@ -288,7 +288,7 @@ const OcrReader = ({ formData }) => {
     console.log({ ocr_text: extractedText, formData: formData })
 
     try {
-      const response = await fetch("/api/items/ocr", {
+      const response = await fetch("/api/items/ai", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ocr_text: extractedText, formData: formData }),
