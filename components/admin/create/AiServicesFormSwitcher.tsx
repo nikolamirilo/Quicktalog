@@ -7,7 +7,7 @@ import { toast } from "@/hooks/use-toast"
 import { revalidateData } from "@/utils/server"
 import Link from "next/link"
 import React, { useState } from "react"
-import { RiLightbulbLine, RiSparkling2Line } from "react-icons/ri"
+import { RiSparkling2Line } from "react-icons/ri"
 import PromptExamples from "./components/ai/PromptExamples"
 import PromptInput from "./components/ai/PromptInput"
 import OcrReader from "./components/ocr/OcrReader"
@@ -163,21 +163,7 @@ export default function AiServicesFormSwithcer({ type }) {
               <OcrReader formData={formData} />
             ) : null}
           </form>
-
-          {type === "ai_prompt" && (
-            <div className="mt-8 pt-6 border-t border-product-border">
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-product-foreground flex items-center gap-2">
-                  <RiLightbulbLine className="text-primary-accent" />
-                  Business Examples
-                </h3>
-                <p className="text-product-foreground-accent text-sm">
-                  Choose your business type or get inspired
-                </p>
-              </div>
-              <PromptExamples setPrompt={setPrompt} disabled={isSubmitting} />
-            </div>
-          )}
+          {type === "ai_prompt" && <PromptExamples setPrompt={setPrompt} disabled={isSubmitting} />}
         </CardContent>
       </Card>
       {type === "ai_prompt" && (

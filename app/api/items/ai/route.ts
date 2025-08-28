@@ -25,13 +25,10 @@ export async function POST(req: NextRequest) {
 
     let generatedData: { services: ServicesCategory[] } = { services: [] }
     try {
-      // Clean up the response to extract JSON
       let cleanedText = response
         .replace(/```json/g, "")
         .replace(/```/g, "")
         .trim()
-
-      // Find the JSON object in the response
       const jsonStart = cleanedText.indexOf("{")
       const jsonEnd = cleanedText.lastIndexOf("}")
 
