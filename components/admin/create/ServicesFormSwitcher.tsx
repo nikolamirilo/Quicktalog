@@ -1,6 +1,6 @@
 import { getUserData } from "@/actions/users"
 import { ServicesFormData } from "@/types"
-import ServicesForm from "./components/ServicesForm"
+import ServicesForm from "./components"
 
 export default async function ServicesFormSwitcher({
   type,

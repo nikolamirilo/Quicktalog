@@ -154,6 +154,24 @@ export type UserData = User & {
   plan_features: PricingPlan["features"] | null
   current_plan_id: number
 }
+export interface LanguageOption {
+  code: string
+  name: string
+  flag: string
+}
+
+export interface OcrState {
+  result: string
+  selectedImage: File | null
+  processedImageUrl: string
+  status: string
+  confidence: number
+  selectedLanguage: string
+  detectedLanguage: string
+  isSubmitting: boolean
+  serviceCatalogueUrl: string
+  showSuccessModal: boolean
+}
 
 export type IServicesItem = {
   text: string

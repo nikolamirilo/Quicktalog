@@ -1,4 +1,6 @@
 import Dashboard from "@/components/admin/dashboard/Dashboard"
+import FloatingActionMenu from "@/components/admin/dashboard/FloatingActionMenu"
+import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
 import { tiers } from "@/constants/pricing"
@@ -11,7 +13,6 @@ import Link from "next/link"
 export const dynamic = "force-dynamic"
 
 export default async function page() {
-
   const supabase = await createClient()
 
   // Get current user by session (assuming Clerk user id is stored in users table)
@@ -20,7 +21,6 @@ export default async function page() {
   let analytics: Analytics[] = []
   let user: User | null = null
   let pricingPlan = null
-
 
   if (clerkUser && clerkUser.id) {
     const { data: restaurantData, error: restaurantError } = await supabase
@@ -78,8 +78,6 @@ export default async function page() {
     }
     pricingPlan = createPricingPlan(user?.plan_id)
 
-
-
     const { data: ocrUsage } = await supabase
       .from("ocr")
       .select("count")
@@ -105,6 +103,8 @@ export default async function page() {
           promptsUsage={promptsUsage?.count || 0}
           ocrUsage={ocrUsage?.count || 0}
         />
+        <FloatingActionMenu />
+        <Footer />
       </div>
     )
   }

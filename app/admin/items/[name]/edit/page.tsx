@@ -1,4 +1,4 @@
-import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher"
+import ServicesFormSwitcher from "@/components/admin/create/ServicesFormSwitcher"
 import Navbar from "@/components/navigation/Navbar"
 import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
 import { createClient } from "@/utils/supabase/server"

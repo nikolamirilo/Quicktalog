@@ -1,5 +1,5 @@
 import { getUserData } from "@/actions/users"
-import ServicesFormSwitcher from "@/components/admin/form/ServicesFormSwitcher"
+import ServicesFormSwitcher from "@/components/admin/create/ServicesFormSwitcher"
 import LimitsModal from "@/components/modals/LimitsModal"
 import Navbar from "@/components/navigation/Navbar"
 import { UserData } from "@/types"

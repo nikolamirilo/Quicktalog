@@ -2,255 +2,13 @@
 import { logOcrUsage } from "@/actions/usage"
 import SuccessModal from "@/components/modals/SuccessModal"
 import { Button } from "@/components/ui/button"
+import { LANGUAGE_OPTIONS } from "@/constants/ocr"
 import { toast } from "@/hooks/use-toast"
+import { detectLanguage, getLanguageParameters, preprocessImage } from "@/utils/ocr"
 import { revalidateData } from "@/utils/server"
-import Link from "next/link"
 import { useState } from "react"
-import { createWorker, OEM, PSM } from "tesseract.js"
-
-// Language options for Tesseract.js
-const LANGUAGE_OPTIONS = [
-  { code: "eng", name: "English", flag: "🇺🇸" },
-  { code: "spa", name: "Spanish", flag: "🇪🇸" },
-  { code: "fra", name: "French", flag: "🇫🇷" },
-  { code: "deu", name: "German", flag: "🇩🇪" },
-  { code: "ita", name: "Italian", flag: "🇮🇹" },
-  { code: "por", name: "Portuguese", flag: "🇵🇹" },
-  { code: "rus", name: "Russian", flag: "🇷🇺" },
-  { code: "chi_sim", name: "Chinese (Simplified)", flag: "🇨🇳" },
-  { code: "chi_tra", name: "Chinese (Traditional)", flag: "🇹🇼" },
-  { code: "jpn", name: "Japanese", flag: "🇯🇵" },
-  { code: "kor", name: "Korean", flag: "🇰🇷" },
-  { code: "ara", name: "Arabic", flag: "🇸🇦" },
-  { code: "hin", name: "Hindi", flag: "🇮🇳" },
-  { code: "tha", name: "Thai", flag: "🇹🇭" },
-  { code: "vie", name: "Vietnamese", flag: "🇻🇳" },
-  { code: "nld", name: "Dutch", flag: "🇳🇱" },
-  { code: "swe", name: "Swedish", flag: "🇸🇪" },
-  { code: "nor", name: "Norwegian", flag: "🇳🇴" },
-  { code: "dan", name: "Danish", flag: "🇩🇰" },
-  { code: "fin", name: "Finnish", flag: "🇫🇮" },
-  { code: "pol", name: "Polish", flag: "🇵🇱" },
-  { code: "ces", name: "Czech", flag: "🇨🇿" },
-  { code: "hun", name: "Hungarian", flag: "🇭🇺" },
-  { code: "tur", name: "Turkish", flag: "🇹🇷" },
-  { code: "heb", name: "Hebrew", flag: "🇮🇱" },
-  { code: "ukr", name: "Ukrainian", flag: "🇺🇦" },
-  { code: "bul", name: "Bulgarian", flag: "🇧🇬" },
-  { code: "hrv", name: "Croatian", flag: "🇭🇷" },
-  { code: "slk", name: "Slovak", flag: "🇸🇰" },
-  { code: "slv", name: "Slovenian", flag: "🇸🇮" },
-  { code: "srp", name: "Serbian (Cyrillic)", flag: "🇷🇸" },
-  { code: "srp_latn", name: "Serbian (Latin)", flag: "🇷🇸" },
-  { code: "auto", name: "Auto-detect", flag: "🌐" },
-]
-
-// Optimal dimensions based on Tesseract research
-const OPTIMAL_DPI = 300
-const MIN_TEXT_HEIGHT = 20
-const MAX_IMAGE_DIMENSION = 2000
-const MIN_EFFECTIVE_DIMENSION = 1000
-
-// Advanced image preprocessing with multiple techniques
-const preprocessImage = (imageFile: File): Promise<Blob | null> => {
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const img = new Image()
-      img.onload = () => {
-        const canvas = document.createElement("canvas")
-        const ctx = canvas.getContext("2d")
-
-        if (!ctx) {
-          console.error("Could not get 2D context for canvas.")
-          resolve(null)
-          return
-        }
-
-        let { width: originalWidth, height: originalHeight } = img
-
-        // --- Step 1: Calculate optimal dimensions for 300 DPI equivalent ---
-        let newWidth = originalWidth
-        let newHeight = originalHeight
-
-        // Calculate scale factor to achieve effective 300 DPI
-        const dpiScaleFactor = OPTIMAL_DPI / 72
-
-        // Apply DPI scaling first
-        newWidth = Math.round(originalWidth * dpiScaleFactor)
-        newHeight = Math.round(originalHeight * dpiScaleFactor)
-
-        // Then apply size constraints
-        if (newWidth > MAX_IMAGE_DIMENSION || newHeight > MAX_IMAGE_DIMENSION) {
-          const aspectRatio = newWidth / newHeight
-          if (newWidth > newHeight) {
-            newWidth = MAX_IMAGE_DIMENSION
-            newHeight = Math.round(MAX_IMAGE_DIMENSION / aspectRatio)
-          } else {
-            newHeight = MAX_IMAGE_DIMENSION
-            newWidth = Math.round(MAX_IMAGE_DIMENSION * aspectRatio)
-          }
-        }
-
-        // Ensure minimum dimensions for text recognition
-        if (newWidth < MIN_EFFECTIVE_DIMENSION || newHeight < MIN_EFFECTIVE_DIMENSION) {
-          const aspectRatio = newWidth / newHeight
-          if (aspectRatio > 1) {
-            newWidth = Math.max(newWidth, MIN_EFFECTIVE_DIMENSION)
-            newHeight = Math.round(newWidth / aspectRatio)
-          } else {
-            newHeight = Math.max(newHeight, MIN_EFFECTIVE_DIMENSION)
-            newWidth = Math.round(newHeight * aspectRatio)
-          }
-        }
-
-        canvas.width = newWidth
-        canvas.height = newHeight
-
-        // --- Step 2: High-quality image rendering ---
-        ctx.imageSmoothingEnabled = true
-        ctx.imageSmoothingQuality = "high"
-        ctx.drawImage(img, 0, 0, newWidth, newHeight)
-
-        // --- Step 3: Convert to grayscale with simple thresholding ---
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        const data = imageData.data
-
-        // Simple but effective preprocessing
-        for (let i = 0; i < data.length; i += 4) {
-          // Convert to grayscale using luminance formula
-          const gray = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2])
-
-          // Apply threshold for binarization
-          const threshold = 128
-          const binaryValue = gray > threshold ? 255 : 0
-
-          data[i] = binaryValue
-          data[i + 1] = binaryValue
-          data[i + 2] = binaryValue
-        }
-
-        ctx.putImageData(imageData, 0, 0)
-
-        // --- Step 4: Add border for better recognition ---
-        const borderSize = 20
-        const borderedCanvas = document.createElement("canvas")
-        const borderedCtx = borderedCanvas.getContext("2d")
-
-        if (borderedCtx) {
-          borderedCanvas.width = canvas.width + borderSize * 2
-          borderedCanvas.height = canvas.height + borderSize * 2
-
-          // Fill with white background
-          borderedCtx.fillStyle = "white"
-          borderedCtx.fillRect(0, 0, borderedCanvas.width, borderedCanvas.height)
-
-          // Draw the processed image with border
-          borderedCtx.drawImage(canvas, borderSize, borderSize)
-
-          // Convert to PNG format
-          borderedCanvas.toBlob(
-            (blob) => {
-              if (blob) {
-                resolve(blob)
-              } else {
-                console.error("Failed to create blob from bordered canvas.")
-                resolve(null)
-              }
-            },
-            "image/png",
-            1.0
-          )
-        } else {
-          canvas.toBlob(
-            (blob) => {
-              resolve(blob)
-            },
-            "image/png",
-            1.0
-          )
-        }
-      }
-      img.src = e.target?.result as string
-    }
-    reader.readAsDataURL(imageFile)
-  })
-}
-
-// Auto-detect language based on character patterns
-const detectLanguage = (text: string): string => {
-  // Simple language detection based on character sets
-  const patterns = [
-    { code: "chi_sim", pattern: /[\u4e00-\u9fff]/ },
-    { code: "chi_tra", pattern: /[\u4e00-\u9fff]/ },
-    { code: "jpn", pattern: /[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9fff]/ },
-    { code: "kor", pattern: /[\uac00-\ud7af\u1100-\u11ff\u3130-\u318f\ua960-\ua97f\ud7b0-\ud7ff]/ },
-    { code: "ara", pattern: /[\u0600-\u06ff\u0750-\u077f\u08a0-\u08ff\ufb50-\ufdff\ufe70-\ufeff]/ },
-    { code: "rus", pattern: /[\u0400-\u04ff]/ },
-    { code: "hin", pattern: /[\u0900-\u097f]/ },
-    { code: "tha", pattern: /[\u0e00-\u0e7f]/ },
-    { code: "heb", pattern: /[\u0590-\u05ff]/ },
-  ]
-
-  for (const { code, pattern } of patterns) {
-    if (pattern.test(text)) {
-      return code
-    }
-  }
-
-  return "eng" // Default to English
-}
-
-// Get language-specific OCR parameters
-const getLanguageParameters = (languageCode: string) => {
-  const baseParams = {
-    tessedit_pageseg_mode: PSM.AUTO,
-    tessedit_ocr_engine_mode: OEM.LSTM_ONLY,
-    preserve_interword_spaces: "1",
-  }
-
-  // Language-specific optimizations
-  const languageParams: { [key: string]: any } = {
-    chi_sim: {
-      ...baseParams,
-      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-      tessedit_char_whitelist: "",
-    },
-    chi_tra: {
-      ...baseParams,
-      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-      tessedit_char_whitelist: "",
-    },
-    jpn: {
-      ...baseParams,
-      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-      tessedit_char_whitelist: "",
-    },
-    kor: {
-      ...baseParams,
-      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-    },
-    ara: {
-      ...baseParams,
-      tessedit_pageseg_mode: PSM.SINGLE_BLOCK,
-    },
-    rus: {
-      ...baseParams,
-      tessedit_char_whitelist: "",
-    },
-    srp: {
-      ...baseParams,
-      tessedit_char_whitelist: "", // Cyrillic characters
-    },
-    srp_latn: {
-      ...baseParams,
-      tessedit_char_whitelist:
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzČčĆćĐđŠšŽž0123456789.,!?;:()[]{}\"-' ",
-    },
-  }
-
-  return languageParams[languageCode] || baseParams
-}
+import { createWorker, OEM } from "tesseract.js"
+import { LanguageSelector } from "./LanguageSelector"
 
 const OcrReader = ({ formData }) => {
   const [ocrResult, setOcrResult] = useState("")
@@ -298,17 +56,6 @@ const OcrReader = ({ formData }) => {
         const { restaurantUrl } = await response.json()
         setServiceCatalogueUrl(restaurantUrl)
         setShowSuccessModal(true)
-        toast({
-          title: "Success!",
-          description: (
-            <p>
-              Your digital showcase has been created from the scanned text. You can view it at{" "}
-              <Link href={restaurantUrl} className="text-primary-accent hover:underline">
-                {restaurantUrl}
-              </Link>
-            </p>
-          ),
-        })
       } else {
         const errorData = await response.json()
         toast({
@@ -430,26 +177,11 @@ const OcrReader = ({ formData }) => {
     <>
       <div className="flex flex-col items-center text-product-foreground min-h-screen">
         {/* Language Selection */}
-        <div className="mb-6 w-full max-w-md">
-          <label className="block text-sm font-medium text-product-foreground mb-2">
-            Select Language of Images:
-          </label>
-          <select
-            value={selectedLanguage}
-            onChange={handleLanguageChange}
-            className="w-full p-3 rounded-lg border border-product-border text-product-foreground focus:outline-none focus:ring-2 focus:ring-product-primary-accent">
-            {LANGUAGE_OPTIONS.map((lang) => (
-              <option key={lang.code} value={lang.code}>
-                {lang.flag} {lang.name}
-              </option>
-            ))}
-          </select>
-          {detectedLanguage && selectedLanguage === "auto" && (
-            <p className="text-xs text-product-foreground-accent mt-1">
-              Auto-detected: {LANGUAGE_OPTIONS.find((lang) => lang.code === detectedLanguage)?.name}
-            </p>
-          )}
-        </div>
+        <LanguageSelector
+          selectedLanguage={selectedLanguage}
+          detectedLanguage={detectedLanguage}
+          onLanguageChange={setSelectedLanguage}
+        />
 
         <div className="flex flex-col sm:flex-row gap-4 mb-6 sm:mb-8 items-center w-full max-w-lg">
           <label

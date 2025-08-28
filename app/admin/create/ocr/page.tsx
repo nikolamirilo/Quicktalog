@@ -1,5 +1,5 @@
 import { getUserData } from "@/actions/users"
-import AiServicesFormSwithcer from "@/components/admin/form/AiServicesFormSwitcher"
+import AiServicesFormSwithcer from "@/components/admin/create/AiServicesFormSwitcher"
 import LimitsModal from "@/components/modals/LimitsModal"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"

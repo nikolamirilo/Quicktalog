@@ -108,7 +108,7 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
           </Card>
           <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
             <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-product-foreground mb-2 text-center">
-              Engagement
+              Newsletter
             </div>
             <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-product-primary">
               0

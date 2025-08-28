@@ -3,15 +3,15 @@
 import SuccessModal from "@/components/modals/SuccessModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { examplePrompts } from "@/constants/static"
 import { toast } from "@/hooks/use-toast"
 import { revalidateData } from "@/utils/server"
 import Link from "next/link"
 import React, { useState } from "react"
 import { RiLightbulbLine, RiSparkling2Line } from "react-icons/ri"
+import PromptExamples from "./components/ai/PromptExamples"
+import PromptInput from "./components/ai/PromptInput"
+import OcrReader from "./components/ocr/OcrReader"
 import Step1General from "./components/Step1General"
-import OcrReader from "./OcrReader"
-import PromptInput from "./PromptInput"
 
 export default function AiServicesFormSwithcer({ type }) {
   const [formData, setFormData] = useState({
@@ -175,30 +175,7 @@ export default function AiServicesFormSwithcer({ type }) {
                   Choose your business type or get inspired
                 </p>
               </div>
-              <div className="grid gap-3">
-                {examplePrompts.map((example, index) => (
-                  <Button
-                    key={index}
-                    onClick={() => setPrompt(example.prompt)}
-                    disabled={isSubmitting}
-                    variant="ghost"
-                    className="text-left p-4 rounded-lg bg-transparent hover:bg-product-hover-background border border-product-border transition-all group !h-fit">
-                    <div className="flex flex-row justify-start items-center w-full h-full gap-3">
-                      <div className="w-8 h-8 rounded-full bg-primary-accent/10 flex items-center justify-center group-hover:bg-primary-accent/20 transition-colors">
-                        <span className="text-product-primary">{example.icon}</span>
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-product-foreground group-hover:text-product-primary mb-1">
-                          {example.category}
-                        </div>
-                        <div className="text-sm text-product-foreground-accent group-hover:text-product-primary">
-                          {example.prompt}
-                        </div>
-                      </div>
-                    </div>
-                  </Button>
-                ))}
-              </div>
+              <PromptExamples setPrompt={setPrompt} disabled={isSubmitting} />
             </div>
           )}
         </CardContent>
