@@ -3,7 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/hooks/use-toast"
-import { ContactInfo, ServicesFormBaseProps, ServicesFormData, ServicesItem } from "@/types"
+import {
+  ContactInfo,
+  ServicesCategory,
+  ServicesFormBaseProps,
+  ServicesFormData,
+  ServicesItem,
+} from "@/types"
 import { saEvent } from "@/utils/analytics"
 import { useUser } from "@clerk/nextjs"
 import { ArrowLeft, ArrowRight, Edit, Plus } from "lucide-react"
@@ -26,6 +32,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       subtitle: "",
       services: [
         {
+          order: 0,
           name: "",
           layout: "",
           items: [{ name: "", description: "", price: 0, image: "" }],
@@ -73,6 +80,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       // If services is an object (from database), convert to array format
       if (typeof services === "object" && !Array.isArray(services)) {
         transformedServices = Object.entries(services).map(([key, value]) => ({
+          order: value.order || 0,
           name: key.replace(/-/g, " "),
           layout: value.layout,
           items: value.items,
@@ -94,19 +102,36 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
-
+  const handleReorderCategories = (newOrder: ServicesFormData["services"]) => {
+    setFormData((prev) => ({
+      ...prev,
+      services: newOrder,
+    }))
+  }
   const handleAddCategory = () => {
     setFormData((prev) => ({
       ...prev,
-      services: [...prev.services, { name: "", layout: "", items: [] }],
+      services: [
+        ...prev.services,
+        { order: prev.services.length, name: "", layout: "", items: [] },
+      ],
     }))
   }
 
   const handleRemoveCategory = (categoryIndex: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      services: prev.services.filter((_, index) => index !== categoryIndex),
-    }))
+    setFormData((prev) => {
+      const newServices = prev.services.filter((_, index) => index !== categoryIndex)
+      // Update order values for remaining categories
+      const reorderedServices = newServices.map((category, index) => ({
+        ...category,
+        order: index,
+      }))
+
+      return {
+        ...prev,
+        services: reorderedServices,
+      }
+    })
   }
 
   const handleCategoryChange = (index: number, field: "name" | "layout", value: string) => {
@@ -367,13 +392,15 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       const serviceCatalogueSlug = transformedFormData.name.toLowerCase().replace(/\s+/g, "-")
 
       // Transform services array back to object format for database storage
-      const servicesObject: { [key: string]: { layout: string; items: ServicesItem[] } } = {}
+      const servicesArray: ServicesCategory[] = []
       transformedFormData.services.forEach((category) => {
         const categoryKey = category.name.toLowerCase().replace(/\s+/g, "-")
-        servicesObject[categoryKey] = {
+        servicesArray.push({
+          name: categoryKey,
+          order: category.order,
           layout: category.layout,
           items: category.items,
-        }
+        })
       })
 
       const submissionData = {
@@ -384,7 +411,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         currency: transformedFormData.currency,
         contact: transformedFormData.contact,
         subtitle: transformedFormData.subtitle,
-        services: servicesObject,
+        services: servicesArray,
         partners: transformedFormData.partners,
         legal: transformedFormData.legal,
         configuration: transformedFormData.configuration,
@@ -485,6 +512,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             handleAddCategory={handleAddCategory}
             handleRemoveCategory={handleRemoveCategory}
             handleCategoryChange={handleCategoryChange}
+            handleReorderCategories={handleReorderCategories}
           />
         )
       case 3:

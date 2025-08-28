@@ -13,7 +13,6 @@ const buttonVariants = cva(
         default: `
           bg-product-primary 
           text-button-text
-          font-semibold
           shadow 
           hover:bg-primary-accent 
           hover:shadow-md 

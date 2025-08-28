@@ -1,6 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Plus, Scan, Sparkles, X } from "lucide-react"
+import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
 const FloatingActionMenu = () => {
@@ -63,8 +64,9 @@ const FloatingActionMenu = () => {
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
         }`}>
         {menuOptions.map((option, index) => (
-          <div
+          <Link
             key={option.href}
+            href={option.href}
             className={`transform transition-all duration-300 ${
               isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
@@ -72,7 +74,7 @@ const FloatingActionMenu = () => {
             <Button
               onClick={() => handleOptionClick(option.href)}
               variant={option.variant === "primary" ? "default" : "outline"}
-              className={`flex items-center gap-3 px-4 py-3 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 whitespace-nowrap text-sm font-medium ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-full shadow-lg z-10 hover:shadow-xl transform hover:scale-105 transition-all duration-200 whitespace-nowrap text-sm font-medium ${
                 option.variant === "primary"
                   ? "bg-product-primary hover:product-primary/20 text-white"
                   : "bg-white hover:bg-gray-50 text-gray-700 border border-gray-200"
@@ -80,7 +82,7 @@ const FloatingActionMenu = () => {
               <option.icon size={18} />
               <span className="hidden sm:inline">{option.label}</span>
             </Button>
-          </div>
+          </Link>
         ))}
       </div>
 

@@ -26,6 +26,7 @@ export function createGenerationPrompt(
         layout: isOcrMode ? "variant_3" : "variant_1",
         items: [
           {
+            order: 1,
             name: "Item Name",
             description: "Description of Item",
             price: 12,
@@ -58,6 +59,7 @@ export function createGenerationPrompt(
       3. Service offer should be created in the language and alphabet of the text.
       4. Ensure the JSON is valid and well-formed  
       5. If you cannot find price for an item, you set price. Keep in mind currency and make sure price is not 0.
+      6. Set order for each category starting from 1. Order items in logical way. They will be displayed in this ascending order.
       `
   } else {
     const layoutData = layouts.map((l) => ({
@@ -85,7 +87,8 @@ export function createGenerationPrompt(
     4. The services field should be an ARRAY of categories, NOT an object
     5. Add at least 3 categories with at least 5 items each
     6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
-    7. Ensure the JSON is valid and well-formed  
+    7. Ensure the JSON is valid and well-formed
+    8. Set order for each category starting from 1. Order items in logical way. They will be displayed in this ascending order.
     `
   }
 }

@@ -8,11 +8,7 @@ export const dynamic = "force-dynamic"
 export default async function CreateServicesPage() {
   const userData: UserData = await getUserData()
   console.log(userData)
-  if (
-    userData &&
-    userData.current_plan_id !== 0 &&
-    userData.usage.prompts <= userData.plan_features.ai_catalogue_generation
-  ) {
+  if (userData && userData.usage.catalogues <= userData.plan_features.catalogues) {
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />

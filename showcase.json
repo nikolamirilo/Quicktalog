@@ -40,6 +40,7 @@
   "services": {
     "breakfast": {
       "layout": "variant_1",
+      "order": 1,
       "items": [
         {
           "name": "Pancakes",
@@ -69,6 +70,7 @@
     },
     "lunch": {
       "layout": "variant_2",
+      "order": 2,
       "items": [
         {
           "name": "Caesar Salad",
@@ -92,6 +94,7 @@
     },
     "snacks": {
       "layout": "variant_4",
+      "order": 3,
       "items": [
         {
           "name": "Nachos",
@@ -109,6 +112,7 @@
     },
     "desserts": {
       "layout": "variant_1",
+      "order": 4,
       "items": [
         {
           "name": "Chocolate Cake",

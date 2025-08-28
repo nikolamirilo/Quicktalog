@@ -16,7 +16,7 @@ const ServicesSection = ({
   currency,
   type,
 }: {
-  servicesData: any
+  servicesData: any[]
   currency: string
   type: "playground" | "item"
 }) => {
@@ -26,30 +26,27 @@ const ServicesSection = ({
   }>({})
 
   const sectionsData = useMemo(() => {
-    if (!servicesData) {
-      console.warn("ServicesSection: No servicesData provided")
+    if (!servicesData || !Array.isArray(servicesData)) {
+      console.warn("ServicesSection: No servicesData provided or not an array")
       return []
     }
 
     console.log("ServicesSection: Processing servicesData:", servicesData)
 
     try {
-      const customOrder = ["breakfast", "lunch", "snacks", "desserts"]
-
-      const sections = Object.keys(servicesData)
+      const sections = servicesData
         .map((item) => ({
-          title: item
+          title: item.name
             .replace(/[-_]/g, " ") // Replace dashes/underscores with space
             .split(" ") // Split into words
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
             .join(" "), // Join back into a string
-          code: item,
+          code: item.name,
+          order: item.order || 999, // Get order from data, default to 999 if not set
+          layout: item.layout,
+          items: item.items,
         }))
-        .sort((a, b) => {
-          const aIndex = customOrder.indexOf(a.code)
-          const bIndex = customOrder.indexOf(b.code)
-          return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex)
-        })
+        .sort((a, b) => a.order - b.order) // Sort by order from lowest to highest
 
       return sections
     } catch (error) {
@@ -65,7 +62,7 @@ const ServicesSection = ({
     }))
   }
 
-  if (!servicesData) {
+  if (!servicesData || !Array.isArray(servicesData)) {
     console.warn("ServicesSection: No servicesData, rendering null")
     return (
       <main className="max-w-6xl mx-auto px-4 py-4" role="main" aria-label="Services content">
@@ -99,17 +96,14 @@ const ServicesSection = ({
   return (
     <main className="max-w-6xl mx-auto py-5" role="main" aria-label="Services and items">
       {sectionsData.map((item) => {
-        // The 'layout' variable now comes directly from the context
-        const currentLayout = type === "playground" ? layout : servicesData[item.code]?.layout
+        // The 'layout' variable now comes directly from the context or from the item data
+        const currentLayout = type === "playground" ? layout : item.layout
 
         console.log(`ServicesSection: Rendering section ${item.code} with layout ${currentLayout}`)
 
         // Validate section data
-        if (!servicesData[item.code] || !Array.isArray(servicesData[item.code].items)) {
-          console.error(
-            `ServicesSection: Invalid data for section ${item.code}:`,
-            servicesData[item.code]
-          )
+        if (!item.items || !Array.isArray(item.items)) {
+          console.error(`ServicesSection: Invalid data for section ${item.code}:`, item)
           return (
             <section
               key={item.code}
@@ -166,12 +160,12 @@ const ServicesSection = ({
                       className="mt-4 px-0 sm:px-2 py-2"
                       role="region"
                       aria-label={`${item.title} carousel`}>
-                      {servicesData[item.code].items.map((record: any, i: number) => (
+                      {item.items.map((record: any, i: number) => (
                         <SwiperSlide
                           key={i}
                           className="!w-[160px] sm:!w-[220px] md:!w-[260px] lg:!w-[320px] py-2 flex-shrink-0 flex flex-col !h-auto"
                           role="group"
-                          aria-label={`Item ${i + 1} of ${servicesData[item.code].items.length}`}>
+                          aria-label={`Item ${i + 1} of ${item.items.length}`}>
                           <CardsSwitcher
                             variant={currentLayout}
                             record={record}
@@ -186,7 +180,7 @@ const ServicesSection = ({
                       className={getGridStyle(currentLayout)}
                       role="grid"
                       aria-label={`${item.title} items grid`}>
-                      {servicesData[item.code].items.map((record: any, i: number) => (
+                      {item.items.map((record: any, i: number) => (
                         <CardsSwitcher
                           key={i}
                           variant={currentLayout}

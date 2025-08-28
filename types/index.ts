@@ -41,6 +41,7 @@ export type ThemeVariant = (typeof themes)[number]["key"]
 export type LayoutVariant = (typeof layouts)[number]["key"]
 
 export type ServicesCategory = {
+  order: number
   name: string
   layout: LayoutVariant
   items: ServicesItem[]

@@ -1,6 +1,6 @@
 import ServicesFormSwitcher from "@/components/admin/create/ServicesFormSwitcher"
 import Navbar from "@/components/navigation/Navbar"
-import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
+import { ContactInfo, ServicesFormData } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 
 export default async function EditServicesPage({ params }: { params: Promise<{ name: string }> }) {
@@ -18,14 +18,8 @@ export default async function EditServicesPage({ params }: { params: Promise<{ n
   }
 
   // Transform DB data to ServicesFormData shape
-  const servicesObj = data.services || {}
-  const services: ServicesCategory[] = Object.entries(servicesObj).map(
-    ([name, section]: [string, { layout: string; items: ServicesItem[] }]) => ({
-      name,
-      layout: section.layout || "variant_1",
-      items: section.items || [],
-    })
-  )
+  const services = data.services || []
+
   let contact: ContactInfo[] = []
   if (Array.isArray(data.contact)) {
     contact = data.contact

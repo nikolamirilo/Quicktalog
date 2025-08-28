@@ -86,19 +86,6 @@ export async function POST(req: NextRequest) {
       counter++
     }
 
-    // Transform services array to object structure expected by database
-    const transformedServices = generatedData.services.reduce(
-      (acc, category) => {
-        const categorySlug = category.name.toLowerCase().replace(/\s+/g, "-")
-        acc[categorySlug] = {
-          layout: category.layout,
-          items: category.items,
-        }
-        return acc
-      },
-      {} as Record<string, { layout: string; items: any[] }>
-    )
-
     const { error } = await supabase
       .from("service_catalogues")
       .insert([
@@ -114,7 +101,7 @@ export async function POST(req: NextRequest) {
           partners: [],
           configuration: {},
           contact: [],
-          services: transformedServices,
+          services: generatedData.services,
         },
       ])
       .select()
