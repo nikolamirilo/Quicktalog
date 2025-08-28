@@ -129,6 +129,9 @@
     "ServicesCategory": {
       "type": "object",
       "properties": {
+        "order": {
+          "type": "number"
+        },
         "name": {
           "type": "string"
         },
@@ -160,6 +163,7 @@
         }
       },
       "required": [
+        "order",
         "name",
         "layout",
         "items"
