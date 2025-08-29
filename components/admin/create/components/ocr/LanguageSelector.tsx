@@ -1,11 +1,6 @@
 import { LANGUAGE_OPTIONS } from "@/constants/ocr"
+import { LanguageSelectorProps } from "@/types/components"
 import React from "react"
-
-interface LanguageSelectorProps {
-  selectedLanguage: string
-  detectedLanguage: string
-  onLanguageChange: (language: string) => void
-}
 
 export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   selectedLanguage,

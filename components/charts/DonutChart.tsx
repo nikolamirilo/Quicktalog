@@ -5,13 +5,7 @@ import { JSX, useState } from "react"
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
-interface DonutChartProps {
-  data: number[]
-  labels: string[]
-  title: string
-  description: string
-  icon: JSX.Element
-}
+import type { DonutChartProps } from "@/types/components"
 
 export default function DonutChart({
   data = [],

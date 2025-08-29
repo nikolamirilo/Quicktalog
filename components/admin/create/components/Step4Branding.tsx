@@ -15,24 +15,11 @@ import {
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
 import { contactTypes } from "@/constants"
-import { ContactInfo, Partner, ServicesFormData, UserData } from "@/types"
+import { Partner } from "@/types"
+import type { Step4BrandingProps } from "@/types/components"
 import { Lock, Plus, Tag, Trash2 } from "lucide-react"
 import React, { useState } from "react"
 import { IoClose, IoDiamondOutline } from "react-icons/io5"
-
-interface Step4BrandingProps {
-  formData: ServicesFormData
-  userData: UserData
-  handleInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | { target: { name: string; value: string } }
-  ) => void
-  handleAddContact: () => void
-  handleRemoveContact: (index: number) => void
-  handleContactChange: (index: number, field: keyof ContactInfo, value: string) => void
-  setFormData: React.Dispatch<React.SetStateAction<ServicesFormData>>
-}
 
 const Step4Branding: React.FC<Step4BrandingProps> = ({
   formData,

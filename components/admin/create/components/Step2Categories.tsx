@@ -4,20 +4,10 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { layouts } from "@/constants"
-import { ServicesCategory } from "@/types"
+import type { Step2ServicesSectionsProps } from "@/types/components"
 import { GripVertical, Plus, Trash2 } from "lucide-react"
 import * as React from "react"
 import { TbCategory } from "react-icons/tb"
-
-interface Step2ServicesSectionsProps {
-  formData: {
-    services: ServicesCategory[]
-  }
-  handleAddCategory: () => void
-  handleRemoveCategory: (index: number) => void
-  handleCategoryChange: (index: number, field: "name" | "layout", value: string) => void
-  handleReorderCategories?: (newOrder: ServicesCategory[]) => void
-}
 
 const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
   formData,

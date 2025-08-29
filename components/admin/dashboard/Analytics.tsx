@@ -6,10 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../..
 import { FiBarChart, FiCalendar, FiTrendingUp, FiUsers } from "react-icons/fi"
 // import { FiGlobe, FiMonitor, FiChrome } from 'react-icons/fi';
 
-interface AnalyticsProps {
-  data: { date: string; count: number }[]
-  rawEvents: any[]
-}
+import type { AnalyticsProps } from "@/types/components"
 
 const Analytics = ({ data, rawEvents }: AnalyticsProps) => {
   // Total page views

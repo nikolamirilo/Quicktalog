@@ -2,10 +2,7 @@ import { Button } from "@/components/ui/button"
 import { examplePrompts } from "@/constants/ui"
 import { RiLightbulbLine } from "react-icons/ri"
 
-interface PromptExamplesProps {
-  setPrompt: (prompt: string) => void
-  disabled?: boolean
-}
+import type { PromptExamplesProps } from "@/types/components"
 
 const PromptExamples: React.FC<PromptExamplesProps> = ({ setPrompt, disabled }) => {
   return (

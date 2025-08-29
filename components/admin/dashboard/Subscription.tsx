@@ -25,11 +25,7 @@ import { useEffect, useState } from "react"
 import { FiCalendar } from "react-icons/fi"
 import { MdOutlineSettings } from "react-icons/md"
 
-interface SubscriptionProps {
-  pricingPlan: any
-  subscriptionStartDate?: string
-  subscriptionUpdatedDate?: string
-}
+import type { SubscriptionProps } from "@/types/components"
 
 export default function Subscription({
   pricingPlan,

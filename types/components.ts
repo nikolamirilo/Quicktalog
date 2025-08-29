@@ -1,5 +1,6 @@
+import { ServicesCategory, ServicesItem } from "@/types"
 import { JSX } from "react"
-import { FooterData, ServicesFormData, UserData } from "."
+import { ContactInfo, FooterData, ServicesFormData, UserData } from "."
 
 export type ITestimonial = {
   name: string
@@ -83,4 +84,92 @@ export type ServicesFormBaseProps = {
   initialData?: ServicesFormData
   onSuccess?: (restaurantUrl: string) => void
   userData: UserData
+}
+
+export type Step1GeneralProps = {
+  formData: {
+    name: string
+    theme?: string
+    title?: string
+    currency?: string
+    subtitle?: string
+  }
+  handleInputChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
+  ) => void
+  setFormData: React.Dispatch<React.SetStateAction<any>>
+  errors?: { [key: string]: string }
+  touched?: { [key: string]: boolean }
+}
+
+export type Step2ServicesSectionsProps = {
+  formData: {
+    services: ServicesCategory[]
+  }
+  handleAddCategory: () => void
+  handleRemoveCategory: (index: number) => void
+  handleCategoryChange: (index: number, field: "name" | "layout", value: string) => void
+  handleReorderCategories?: (newOrder: ServicesCategory[]) => void
+}
+
+export type Step3ServicesProps = {
+  formData: {
+    services: { name: string; layout: string; items: ServicesItem[] }[]
+  }
+  handleAddItem: (categoryIndex: number) => void
+  handleRemoveItem: (categoryIndex: number, itemIndex: number) => void
+  handleItemChange: (
+    categoryIndex: number,
+    itemIndex: number,
+    field: keyof ServicesItem,
+    value: string | number
+  ) => void
+  imagePreviews: { [key: string]: string }
+  setImagePreviews: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>
+}
+
+export type Step4BrandingProps = {
+  formData: ServicesFormData
+  userData: UserData
+  handleInputChange: (
+    e:
+      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+      | { target: { name: string; value: string } }
+  ) => void
+  handleAddContact: () => void
+  handleRemoveContact: (index: number) => void
+  handleContactChange: (index: number, field: keyof ContactInfo, value: string) => void
+  setFormData: React.Dispatch<React.SetStateAction<ServicesFormData>>
+}
+
+export type PromptExamplesProps = {
+  setPrompt: (prompt: string) => void
+  disabled?: boolean
+}
+
+export type LanguageSelectorProps = {
+  selectedLanguage: string
+  detectedLanguage: string
+  onLanguageChange: (language: string) => void
+}
+
+export type DonutChartProps = {
+  data: number[]
+  labels: string[]
+  title: string
+  description: string
+  icon: JSX.Element
+}
+
+export type AnalyticsProps = {
+  data: { date: string; count: number }[]
+  rawEvents: any[]
+}
+
+export type SubscriptionProps = {
+  pricingPlan: any
+  subscriptionStartDate?: string
+  subscriptionUpdatedDate?: string
 }

@@ -12,26 +12,9 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { currencies, themes } from "@/constants"
+import type { Step1GeneralProps } from "@/types/components"
 import { FileText } from "lucide-react"
 import * as React from "react"
-
-interface Step1GeneralProps {
-  formData: {
-    name: string
-    theme?: string
-    title?: string
-    currency?: string
-    subtitle?: string
-  }
-  handleInputChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-      | { target: { name: string; value: string } }
-  ) => void
-  setFormData: React.Dispatch<React.SetStateAction<any>>
-  errors?: { [key: string]: string }
-  touched?: { [key: string]: boolean }
-}
 
 const Step1General: React.FC<Step1GeneralProps> = ({
   formData,

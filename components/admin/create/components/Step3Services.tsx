@@ -1,32 +1,15 @@
 "use client"
-
 import ImageDropzone from "@/components/common/ImageDropzone"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { ServicesItem } from "@/types"
+import type { Step3ServicesProps } from "@/types/components"
 import { Plus, Trash2 } from "lucide-react"
 import React from "react"
 import { IoClose } from "react-icons/io5"
 import { MdOutlineLocalOffer } from "react-icons/md"
-
-interface Step3ServicesProps {
-  formData: {
-    services: { name: string; layout: string; items: ServicesItem[] }[]
-  }
-  handleAddItem: (categoryIndex: number) => void
-  handleRemoveItem: (categoryIndex: number, itemIndex: number) => void
-  handleItemChange: (
-    categoryIndex: number,
-    itemIndex: number,
-    field: keyof ServicesItem,
-    value: string | number
-  ) => void
-  imagePreviews: { [key: string]: string }
-  setImagePreviews: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>
-}
 
 const Step3Services: React.FC<Step3ServicesProps> = ({
   formData,
@@ -40,15 +23,13 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
     <Card
       className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
       type="form">
-      <h2
-        className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
+      <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <MdOutlineLocalOffer className="text-product-primary" size={32} />
         Add Services
       </h2>
       {formData.services.length === 0 ? (
         <div className="text-center p-8 bg-product-background/50 rounded-xl border border-product-border">
-          <p
-            className="text-product-foreground-accent text-lg font-body">
+          <p className="text-product-foreground-accent text-lg font-body">
             Please add categories in Step 2 first.
           </p>
         </div>
@@ -59,8 +40,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
             className="p-6 sm:p-8 space-y-6 shadow-product-shadow bg-product-background/50 border border-product-border rounded-xl"
             type="form">
             <div className="flex justify-between items-center">
-              <h3
-                className="text-xl font-bold text-product-foreground font-heading">
+              <h3 className="text-xl font-bold text-product-foreground font-heading">
                 Category: {category.name || "Unnamed Category"}
               </h3>
             </div>
@@ -70,8 +50,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                 key={itemIndex}
                 className="p-6 space-y-6 border border-product-border shadow-product-shadow bg-product-background rounded-xl">
                 <div className="flex justify-between items-center">
-                  <h5
-                    className="text-lg font-bold text-product-foreground font-body">
+                  <h5 className="text-lg font-bold text-product-foreground font-body">
                     Item {itemIndex + 1}
                   </h5>
                   <Button
