@@ -1,12 +1,12 @@
 //@ts-nocheck
 "use client"
-import Image from "next/image"
 import clsx from "clsx"
 import { motion, Variants } from "framer-motion"
+import Image from "next/image"
 
-import BenefitBullet from "./BenefitBullet"
+import { IBenefit } from "@/types/components"
 import SectionTitle from "../SectionTitle"
-import { IBenefit } from "@/types"
+import BenefitBullet from "./BenefitBullet"
 
 interface Props {
   benefit: IBenefit

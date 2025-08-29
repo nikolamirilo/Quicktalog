@@ -1,4 +1,4 @@
-import { fetchImageFromUnsplash } from "@/helpers/server"
+import { fetchImageFromUnsplash } from "@/helpers/client"
 import { ServicesCategory } from "@/types"
 import { chatCompletion, createGenerationPrompt } from "@/utils/deepseek"
 import { createClient } from "@/utils/supabase/server"

@@ -10,7 +10,7 @@ import {
   FiZap,
 } from "react-icons/fi"
 
-import { IBenefit } from "@/types"
+import { IBenefit } from "@/types/components"
 
 export const benefits: IBenefit[] = [
   {

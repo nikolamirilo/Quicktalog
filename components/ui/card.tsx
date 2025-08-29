@@ -1,7 +1,7 @@
 //@ts-nocheck
 import * as React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/helpers/client"
 
 interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   type?: "form" | string

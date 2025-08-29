@@ -1,4 +1,10 @@
 import { ContactItem, HeaderData, ServiceCatalogue } from "@/types"
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export function formatPrice(price) {
   if (!price.includes(".")) return price
@@ -45,3 +51,46 @@ export const buildFooterData = (item: ServiceCatalogue) => ({
     owner_id: item.created_by,
   },
 })
+
+export async function fetchImageFromUnsplash(query: string): Promise<string> {
+  try {
+    const res = await fetch(
+      `https://api.unsplash.com/search/photos?page=1&per_page=1&query=${encodeURIComponent(query)}`,
+      {
+        headers: {
+          Authorization: `Client-ID ${process.env.UNSPLASH_API_KEY}`,
+        },
+      }
+    )
+
+    const data = await res.json()
+
+    if (data?.results?.[0]?.urls?.regular) {
+      return data.results[0].urls.regular
+    }
+  } catch (err) {
+    console.error(`Failed to fetch image for "${query}":`, err)
+  }
+
+  return "https://static1.squarespace.com/static/5898e29c725e25e7132d5a5a/58aa11bc9656ca13c4524c68/58aa11e99656ca13c45253e2/1487540713345/600x400-Image-Placeholder.jpg?format=original"
+}
+
+export const getGridStyle = (variant: string): string => {
+  switch (variant) {
+    case "variant_1":
+      return "grid grid-cols-1 md:grid-cols-2 gap-3 px-2 my-4"
+    case "variant_2":
+      return "flex flex-wrap justify-start gap-3 mx-auto sm:gap-4 md:gap-6 my-4"
+    case "variant_3":
+      return "grid grid-cols-1 md:grid-cols-2 gap-3 my-4"
+    case "variant_4":
+      return ""
+    default:
+      return "flex flex-row flex-wrap gap-3 my-4"
+  }
+}
+
+export const contentVariants = {
+  hidden: { height: 0, opacity: 0, marginTop: 0 },
+  visible: { height: "auto", opacity: 1, marginTop: 16 },
+}

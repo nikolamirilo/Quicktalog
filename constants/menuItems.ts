@@ -1,6 +1,6 @@
-import { IServicesItem } from "@/types"
+import { ILinkItem } from "@/types/components"
 
-export const menuItems: IServicesItem[] = [
+export const menuItems: ILinkItem[] = [
   {
     text: "Features",
     url: "#features",

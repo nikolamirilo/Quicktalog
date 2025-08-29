@@ -1,7 +1,7 @@
 "use client"
 import { newsletterSignup } from "@/actions/newsletter"
 import { Button } from "@/components/ui/button"
-import { CatalogueFooterProps } from "@/types"
+import { CatalogueFooterProps } from "@/types/components"
 import { getPlatformIconByName } from "@/utils/client"
 import Image from "next/image"
 import Link from "next/link"
@@ -71,8 +71,6 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
     linkedin: "https://linkedin.com/company/quicktalog",
     instagram: "https://instagram.com/quicktalog",
   }
-
-
 
   const features = [
     {
@@ -144,7 +142,6 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
       setIsSubmitting(false)
     }
   }
-
 
   // Enhanced Social Icon Component
   const SocialIcon = ({
@@ -234,18 +231,14 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     className="w-24 h-auto"
                   />
                   {type === "default" && (
-                    <p className="text-sm text-card-description">
-                      Digital Catalogue Platform
-                    </p>
+                    <p className="text-sm text-card-description">Digital Catalogue Platform</p>
                   )}
                   {type === "custom" && (
                     <div>
                       <h3 className="text-xl font-semibold group-hover:text-primary transition-colors duration-200 font-heading font-weight-heading tracking-heading text-section-heading">
                         {customCompanyName}
                       </h3>
-                      <p className="text-sm text-card-description">
-                        Professional Services
-                      </p>
+                      <p className="text-sm text-card-description">Professional Services</p>
                     </div>
                   )}
                 </Link>
@@ -264,21 +257,14 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     className="flex items-center space-x-3"
                     role="navigation"
                     aria-label="Social media links">
-                    {Object.keys(customSocialLinks).map(
-                      (platform) => {
-                        const socialUrl = customSocialLinks[platform as keyof typeof customSocialLinks]
-                        if (platform && socialUrl) {
-                          return (
-                            <SocialIcon
-                              key={platform}
-                              platform={platform}
-                              href={socialUrl}
-                            />
-                          )
-                        }
-                        return null
+                    {Object.keys(customSocialLinks).map((platform) => {
+                      const socialUrl =
+                        customSocialLinks[platform as keyof typeof customSocialLinks]
+                      if (platform && socialUrl) {
+                        return <SocialIcon key={platform} platform={platform} href={socialUrl} />
                       }
-                    )}
+                      return null
+                    })}
                   </nav>
                 )}
             </div>
@@ -320,9 +306,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 )}
                 {(type === "default" || legal?.address) && (
                   <li className="flex items-start space-x-3">
-                    <FiMapPin
-                      className="w-4 h-4 mt-1 flex-shrink-0 text-card-description"
-                    />
+                    <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
                     <span className="text-sm text-card-description">
                       {type === "default" ? "Belgrade, Serbia" : legal?.address}
                     </span>
@@ -366,19 +350,13 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   <ul className="space-y-4">
                     {legal?.name && (
                       <li className="flex items-center space-x-3">
-                        <MdTitle
-                          className="w-4 h-4 flex-shrink-0 text-card-description"
-                        />
-                        <span className="text-sm text-card-description">
-                          {legal.name}
-                        </span>
+                        <MdTitle className="w-4 h-4 flex-shrink-0 text-card-description" />
+                        <span className="text-sm text-card-description">{legal.name}</span>
                       </li>
                     )}
                     {legal?.address && (
                       <li className="flex items-start space-x-3">
-                        <FiMapPin
-                          className="w-4 h-4 mt-1 flex-shrink-0 text-card-description"
-                        />
+                        <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
                         <div className="text-sm text-card-description">
                           <div>{legal.address}</div>
                         </div>
@@ -409,8 +387,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     asChild
                     variant="secondary"
                     size="default"
-                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
-                  >
+                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button">
                     <Link href="/auth?mode=signup" aria-label="Create your own digital catalog">
                       <FiPlus className="w-4 h-4" />
                       Create Your Digital Catalog
@@ -442,8 +419,9 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
         <div className="border-t py-6 border-footer-border">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-card-description">
             <span>
-              © {new Date().getFullYear()} {type === "default" ? "Quicktalog" : customCompanyName || "Your Company"}.
-              All rights reserved.
+              © {new Date().getFullYear()}{" "}
+              {type === "default" ? "Quicktalog" : customCompanyName || "Your Company"}. All rights
+              reserved.
             </span>
             <nav className="flex items-center space-x-6" role="navigation" aria-label="Legal links">
               {type === "default" ? (
@@ -546,9 +524,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     </p>
                   )}
                 </form>
-                <p
-                  id="newsletter-description"
-                  className="text-xs mt-2 text-card-description">
+                <p id="newsletter-description" className="text-xs mt-2 text-card-description">
                   Stay updated with our latest news and offers.
                 </p>
               </div>
@@ -558,8 +534,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 asChild
                 variant="secondary"
                 size="default"
-                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
-              >
+                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button">
                 <Link href={ctaFooter.url} aria-label={ctaFooter.label}>
                   <FiExternalLink className="w-4 h-4" />
                   {ctaFooter.label}

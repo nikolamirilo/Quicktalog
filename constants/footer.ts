@@ -1,8 +1,8 @@
-import { IServicesItem, ISocials } from "@/types"
+import { ILinkItem, ISocials } from "@/types/components"
 
 export const footerDetails: {
   subheading: string
-  quickLinks: IServicesItem[]
+  quickLinks: ILinkItem[]
   email: string
   telephone: string
   socials: ISocials

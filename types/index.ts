@@ -1,6 +1,5 @@
 import { layouts, themes } from "@/constants/general"
-import { Customer } from "@paddle/paddle-node-sdk"
-import { JSX } from "react"
+import { ILinkItem, ISocials } from "./components"
 
 export type Record = {
   name: string
@@ -128,19 +127,6 @@ export type ContactInfo = {
   value: string
 }
 
-export type PaddleCustomerResponse = {
-  data?: Customer
-  error?: {
-    type: string
-    code: string
-    detail: string
-    documentation_url: string
-  }
-  meta: {
-    request_id: string
-  }
-}
-
 export type Usage = {
   traffic: { pageview_count: number; unique_visitors: number }
   ocr: number
@@ -174,36 +160,6 @@ export interface OcrState {
   showSuccessModal: boolean
 }
 
-export type IServicesItem = {
-  text: string
-  url: string
-}
-
-export type IBenefit = {
-  title: string
-  description: string
-  imageSrc: string
-  bullets: IBenefitBullet[]
-}
-
-export type IBenefitBullet = {
-  title: string
-  description: string
-  icon: JSX.Element
-}
-
-export type ServicesFormBaseProps = {
-  type: "create" | "edit"
-  initialData?: ServicesFormData
-  onSuccess?: (restaurantUrl: string) => void
-  userData: UserData
-}
-
-export type EditServicesFormProps = {
-  initialData: ServicesFormData
-  onSuccess?: (restaurantUrl: string) => void
-}
-
 export type PricingPlan = {
   id: number
   name: string
@@ -230,53 +186,6 @@ export type OverallUsage = {
   prompts: number
   ocr: number
   catalogues: number
-}
-
-export type IFAQ = {
-  question: string
-  answer: string
-}
-
-export type ITestimonial = {
-  name: string
-  role: string
-  message: string
-  avatar: string
-  industry?: string
-  metric?: string
-}
-
-export type IStats = {
-  title: string
-  icon: JSX.Element
-  description: string
-}
-
-export type CatalogueHeaderProps = {
-  type?: "default" | "custom"
-  customData?: {
-    logo?: string
-    email?: string
-    phone?: string
-    emailButtonNavbar?: boolean
-    ctaNavbar?: {
-      enabled: boolean
-      label: string
-      url: string
-    }
-  }
-}
-
-export type ISocials = {
-  facebook?: string
-  github?: string
-  instagram?: string
-  linkedin?: string
-  threads?: string
-  twitter?: string
-  youtube?: string
-  x?: string
-  [key: string]: string | undefined
 }
 
 export type ContactData = {
@@ -334,13 +243,8 @@ export type FooterData = {
 
 export type FooterDetails = {
   subheading: string
-  quickLinks: IServicesItem[]
+  quickLinks: ILinkItem[]
   email: string
   telephone: string
   socials: ISocials
-}
-
-export type CatalogueFooterProps = {
-  type?: "default" | "custom"
-  customData?: FooterData
 }

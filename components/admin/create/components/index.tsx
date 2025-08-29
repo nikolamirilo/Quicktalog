@@ -3,13 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast } from "@/hooks/use-toast"
-import {
-  ContactInfo,
-  ServicesCategory,
-  ServicesFormBaseProps,
-  ServicesFormData,
-  ServicesItem,
-} from "@/types"
+import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
+import { ServicesFormBaseProps } from "@/types/components"
 import { saEvent } from "@/utils/analytics"
 import { useUser } from "@clerk/nextjs"
 import { ArrowLeft, ArrowRight, Edit, Plus } from "lucide-react"

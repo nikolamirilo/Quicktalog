@@ -1,6 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
-import { CatalogueHeaderProps } from "@/types"
+import { CatalogueHeaderProps } from "@/types/components"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
@@ -95,8 +95,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
                 asChild
                 variant="secondary"
                 size="default"
-                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button"
-              >
+                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button">
                 <Link
                   href={
                     type === "default" ? "/auth?mode=signup" : customData?.ctaNavbar?.url || "#"

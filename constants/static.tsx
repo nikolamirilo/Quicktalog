@@ -1,7 +1,7 @@
-import { FiClock, FiUsers, FiZap } from "react-icons/fi";
-import { RiGamepadLine, RiHeartPulseLine, RiScissorsLine, RiStore2Line } from "react-icons/ri";
+import { FiClock, FiUsers, FiZap } from "react-icons/fi"
+import { RiGamepadLine, RiHeartPulseLine, RiScissorsLine, RiStore2Line } from "react-icons/ri"
 
-import { IStats } from "@/types";
+import { IStats } from "@/types/components"
 
 export const stats: IStats[] = [
   {
@@ -20,8 +20,6 @@ export const stats: IStats[] = [
     description: "Convert existing paper catalogs instantly with AI technology.",
   },
 ]
-
-
 
 export const examplePrompts = [
   {

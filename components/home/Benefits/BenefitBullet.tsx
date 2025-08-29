@@ -1,7 +1,7 @@
 //@ts-nocheck
 import { motion } from "framer-motion"
 
-import { IBenefitBullet } from "@/types"
+import { IBenefitBullet } from "@/types/components"
 import { childVariants } from "./BenefitSection"
 
 const BenefitBullet: React.FC<IBenefitBullet> = ({ title, description, icon }: IBenefitBullet) => {

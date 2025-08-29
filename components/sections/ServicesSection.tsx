@@ -7,9 +7,9 @@ import "swiper/css/pagination"
 import { Swiper, SwiperSlide } from "swiper/react"
 
 import { useMainContext } from "@/context/MainContext"
+import { contentVariants, getGridStyle } from "@/helpers/client"
 import CardsSwitcher from "../cards"
 import SectionHeader from "./SectionHeader"
-import { contentVariants, getGridStyle } from "./helpers"
 
 const ServicesSection = ({
   servicesData,
