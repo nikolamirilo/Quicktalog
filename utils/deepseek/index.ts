@@ -1,4 +1,4 @@
-import { layouts } from "@/constants/general"
+import { layouts } from "@/constants"
 import OpenAI from "openai"
 
 const openai = new OpenAI({

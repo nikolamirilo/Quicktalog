@@ -1,8 +1,8 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { menuItems } from "@/constants/menuItems"
-import { siteDetails } from "@/constants/siteDetails"
+import { menuItems } from "@/constants"
+import { siteDetails } from "@/constants/details"
 import { Transition } from "@headlessui/react"
 import Link from "next/link"
 import React, { useState } from "react"

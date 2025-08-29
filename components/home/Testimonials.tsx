@@ -1,4 +1,4 @@
-import { testimonials } from "@/constants/testimonials"
+import { testimonials } from "@/constants/details"
 import Image from "next/image"
 import React from "react"
 import { FiTrendingUp } from "react-icons/fi"

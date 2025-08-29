@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { ctaDetails } from "@/constants/cta"
+import { ctaDetails } from "@/constants/details"
 
 const PlayStoreButton = ({ dark }: { dark?: boolean }) => {
   return (

@@ -1,4 +1,5 @@
 "use client"
+import { deleteServiceCatalogue, duplicateServiceCatalogue } from "@/actions/items"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
@@ -7,7 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { deleteServiceCatalogue, duplicateServiceCatalogue, revalidateData } from "@/utils/server"
+import { revalidateData } from "@/helpers/server"
 import Link from "next/link"
 import { useState } from "react"
 import { BiScan } from "react-icons/bi"

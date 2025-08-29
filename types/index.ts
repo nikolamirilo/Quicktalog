@@ -1,4 +1,4 @@
-import { layouts, themes } from "@/constants/general"
+import { layouts, themes } from "@/constants"
 import { ILinkItem, ISocials } from "./components"
 
 export type Record = {

@@ -1,13 +1,4 @@
-"use server"
 import { createClient } from "@/utils/supabase/server"
-import { revalidatePath, revalidateTag } from "next/cache"
-
-export async function revalidateData() {
-  revalidatePath("/", "layout")
-}
-export async function revalidateTagCustom(tag: string) {
-  revalidateTag(tag)
-}
 
 export async function deleteServiceCatalogue(id: string): Promise<boolean> {
   const supabase = await createClient()

@@ -1,5 +1,5 @@
 "use client"
-import { faqs } from "@/constants/faq"
+import { faqs } from "@/constants/details"
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react"
 import { motion, Variants } from "framer-motion"
 import React, { useState } from "react"

@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { toast } from "@/hooks/use-toast"
 import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
 import { ServicesFormBaseProps } from "@/types/components"
-import { saEvent } from "@/utils/analytics"
 import { useUser } from "@clerk/nextjs"
 import { ArrowLeft, ArrowRight, Edit, Plus } from "lucide-react"
 import React, { useEffect, useState } from "react"
@@ -354,7 +353,6 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
   const handlePrevious = () => {
     setCurrentStep((prev) => prev - 1)
-    saEvent("button_click")
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

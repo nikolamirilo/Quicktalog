@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { currencies, themes } from "@/constants/general"
+import { currencies, themes } from "@/constants"
 import { FileText } from "lucide-react"
 import * as React from "react"
 
@@ -140,10 +140,11 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             {themes.map((themeOption) => (
               <div
                 key={themeOption.key}
-                className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${formData.theme === themeOption.key
-                  ? "border-product-primary shadow-product-shadow bg-product-primary/5"
-                  : "border-product-border hover:border-product-primary/50"
-                  }`}
+                className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
+                  formData.theme === themeOption.key
+                    ? "border-product-primary shadow-product-shadow bg-product-primary/5"
+                    : "border-product-border hover:border-product-primary/50"
+                }`}
                 onClick={() => handleThemeChange(themeOption.key)}>
                 <img
                   src={themeOption.image}

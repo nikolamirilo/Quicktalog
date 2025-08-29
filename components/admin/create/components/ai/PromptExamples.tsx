@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { examplePrompts } from "@/constants/static"
+import { examplePrompts } from "@/constants/ui"
 import { RiLightbulbLine } from "react-icons/ri"
 
 interface PromptExamplesProps {

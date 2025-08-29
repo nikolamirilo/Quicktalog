@@ -1,5 +1,5 @@
 "use client"
-import { stats } from "@/constants/static"
+import { stats } from "@/constants/ui"
 import { motion, Variants } from "framer-motion"
 
 const containerVariants: Variants = {

@@ -1,3 +1,65 @@
+import { ITestimonial } from "@/types/components"
+
+export const siteDetails = {
+  siteName: "Quicktalog",
+  siteUrl: "https://quicktalog.app/",
+  metadata: {
+    title: "Quicktalog - Modern Digital Catalogue Solution",
+    description:
+      "Quicktalog empowers businesses to create, manage, and share interactive digital catalogues for products and services.",
+  },
+  language: "en-us",
+  locale: "en-US",
+  siteLogo: `${process.env.BASE_PATH || ""}/images/logo.svg`, // or use a string for the logo e.g. "TechStartup"
+  googleAnalyticsId: "", // e.g. G-XXXXXXX,
+}
+
+import { ILinkItem, ISocials } from "@/types/components"
+
+export const footerDetails: {
+  subheading: string
+  quickLinks: ILinkItem[]
+  email: string
+  telephone: string
+  socials: ISocials
+} = {
+  subheading: "Empowering businesses to go digital with interactive catalogues.",
+  quickLinks: [
+    {
+      text: "Pricing",
+      url: "/pricing",
+    },
+    {
+      text: "Showcases",
+      url: "/showcases",
+    },
+    {
+      text: "Terms & Conditions",
+      url: "/terms-and-conditions",
+    },
+    {
+      text: "Privacy Policy",
+      url: "/privacy-policy",
+    },
+    {
+      text: "Refund Policy",
+      url: "/refund-policy",
+    },
+  ],
+  email: "quicktalog@outlook.com",
+  telephone: "+1 (800) 123-4567",
+  socials: {
+    // github: 'https://github.com',
+    // x: 'https://twitter.com/x',
+    twitter: "https://twitter.com/Twitter",
+    facebook: "https://facebook.com",
+    // youtube: 'https://youtube.com',
+    linkedin: "https://www.linkedin.com",
+    // threads: 'https://www.threads.net',
+    instagram: "https://www.instagram.com",
+  },
+}
+
 import { IFAQ } from "@/types/components"
 
 export const faqs: IFAQ[] = [
@@ -60,5 +122,46 @@ export const faqs: IFAQ[] = [
     question: "How much does it cost to upgrade?",
     answer:
       "We offer flexible pricing starting at $10/month for the Pro plan. Our Starter plan is free forever with one catalog. Higher tiers include more catalogs, AI features, OCR import, and advanced analytics to help you grow your business.",
+  },
+]
+
+export const ctaDetails = {
+  heading: "Ready to Transform Your Business?",
+  subheading:
+    "Join thousands of businesses already using digital catalogs to increase sales and improve customer experience. Start free today.",
+  riskReversal: [
+    "No credit card required",
+    "Free plan forever",
+    "Cancel anytime",
+    "Setup in under 5 minutes",
+  ],
+  appStoreUrl: "#",
+  googlePlayUrl: "#",
+}
+
+export const testimonials: ITestimonial[] = [
+  {
+    name: "Maria Lopez",
+    role: "Owner, Bella Café",
+    message: `${siteDetails.siteName} transformed our menu updates from a weekly headache to a 2-minute task. Our customers love the QR code feature - no more waiting for printed menus!`,
+    avatar: "/images/testimonial-1.webp",
+    industry: "Hospitality",
+    metric: "Saved 8 hours/week",
+  },
+  {
+    name: "David Kim",
+    role: "Manager, TechMart Electronics",
+    message: `We digitalized our entire product catalog in under 5 minutes. The OCR feature saved us hours of manual entry. Our sales team loves how easy it is to share products with clients.`,
+    avatar: "/images/testimonial-2.webp",
+    industry: "Retail",
+    metric: "40% faster product updates",
+  },
+  {
+    name: "Sophie Dubois",
+    role: "Marketing Lead, GreenLeaf Spa",
+    message: `The ability to update our service list instantly and get real-time feedback from clients has helped us increase bookings by 40%. The analytics feature is a game-changer!`,
+    avatar: "/images/testimonial-3.webp",
+    industry: "Wellness",
+    metric: "40% increase in bookings",
   },
 ]
