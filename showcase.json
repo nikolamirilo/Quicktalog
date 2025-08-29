@@ -37,8 +37,9 @@
       "url": "https://plato-restoran.com/subscribe"
     }
   },
-  "services": {
-    "breakfast": {
+  "services": [
+    {
+      "name": "breakfast",
       "layout": "variant_1",
       "order": 1,
       "items": [
@@ -68,7 +69,8 @@
         }
       ]
     },
-    "lunch": {
+    {
+      "name": "lunch",
       "layout": "variant_2",
       "order": 2,
       "items": [
@@ -92,7 +94,8 @@
         }
       ]
     },
-    "snacks": {
+    {
+      "name": "snacks",
       "layout": "variant_4",
       "order": 3,
       "items": [
@@ -110,7 +113,8 @@
         }
       ]
     },
-    "desserts": {
+    {
+      "name": "desserts",
       "layout": "variant_1",
       "order": 4,
       "items": [
@@ -140,5 +144,5 @@
         }
       ]
     }
-  }
+  ]
 }
