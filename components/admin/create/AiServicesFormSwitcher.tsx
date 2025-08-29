@@ -26,7 +26,7 @@ export default function AiServicesFormSwithcer({ type }) {
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [restaurantUrl, setServiceCatalogueUrl] = useState("")
+  const [catalogueUrl, setCatalogueUrl] = useState("")
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   const handleInputChange = (
@@ -60,7 +60,7 @@ export default function AiServicesFormSwithcer({ type }) {
     e.preventDefault()
     if (!validate()) return
     setIsSubmitting(true)
-    setServiceCatalogueUrl("")
+    setCatalogueUrl("")
 
     try {
       const response = await fetch("/api/items/ai", {
@@ -70,16 +70,16 @@ export default function AiServicesFormSwithcer({ type }) {
       })
 
       if (response.ok) {
-        const { restaurantUrl } = await response.json()
-        setServiceCatalogueUrl(restaurantUrl)
+        const { catalogueUrl } = await response.json()
+        setCatalogueUrl(catalogueUrl)
         setShowSuccessModal(true)
         toast({
           title: "Success!",
           description: (
             <p>
               Your digital showcase has been created. You can view it at{" "}
-              <Link href={restaurantUrl} className="text-primary-accent hover:underline">
-                {restaurantUrl}
+              <Link href={catalogueUrl} className="text-primary-accent hover:underline">
+                {catalogueUrl}
               </Link>
             </p>
           ),
@@ -160,20 +160,22 @@ export default function AiServicesFormSwithcer({ type }) {
                 </Button>
               </>
             ) : type === "ocr_import" ? (
-              <OcrReader formData={formData} />
+              <OcrReader
+                formData={formData}
+                setShowSuccessModal={setShowSuccessModal}
+                setServiceCatalogueUrl={setCatalogueUrl}
+              />
             ) : null}
           </form>
           {type === "ai_prompt" && <PromptExamples setPrompt={setPrompt} disabled={isSubmitting} />}
         </CardContent>
       </Card>
-      {type === "ai_prompt" && (
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          restaurantUrl={restaurantUrl}
-          type="ai"
-        />
-      )}
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        catalogueUrl={catalogueUrl}
+        type="ai"
+      />
     </div>
   )
 }

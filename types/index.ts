@@ -122,6 +122,14 @@ export type User = {
   customer_id: string | null
 }
 
+export type OCRImageData = {
+  id: string
+  file: File
+  originalUrl: string
+  confidence?: number
+  isProcessed: boolean
+}
+
 export type ContactInfo = {
   type: string
   value: string

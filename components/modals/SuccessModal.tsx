@@ -8,6 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { SuccessModalProps } from "@/types/components"
 import { QRCodeSVG } from "qrcode.react"
 import * as React from "react"
 import { useEffect, useRef, useState } from "react"
@@ -17,17 +18,10 @@ import { IoMdCheckmark, IoMdOpen } from "react-icons/io"
 import { IoClose, IoQrCode, IoShareSocialOutline } from "react-icons/io5"
 import { MdContentCopy } from "react-icons/md"
 
-interface SuccessModalProps {
-  isOpen: boolean
-  onClose: () => void
-  restaurantUrl: string
-  type?: "regular" | "ai"
-}
-
 const SuccessModal: React.FC<SuccessModalProps> = ({
   isOpen,
   onClose,
-  restaurantUrl,
+  catalogueUrl,
   type = "regular",
 }) => {
   const [fullURL, setFullURL] = useState("")
@@ -70,7 +64,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         }
         const url2 = URL.createObjectURL(blob)
         const a = document.createElement("a")
-        const restaurantName = restaurantUrl.split("/")[2]
+        const restaurantName = catalogueUrl.split("/")[2]
         a.download = `${restaurantName}.png`
         a.href = url2
         document.body.appendChild(a)
@@ -93,7 +87,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
-    const restaurantName = restaurantUrl.split("/")[2]
+    const restaurantName = catalogueUrl.split("/")[2]
     a.download = `${restaurantName}.html`
     document.body.appendChild(a)
     a.click()
@@ -102,8 +96,8 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   }
 
   useEffect(() => {
-    setFullURL(`${window.location.origin}${restaurantUrl}`)
-  }, [restaurantUrl])
+    setFullURL(`${window.location.origin}${catalogueUrl}`)
+  }, [catalogueUrl])
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>

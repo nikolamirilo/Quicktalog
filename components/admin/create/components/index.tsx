@@ -638,7 +638,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         <SuccessModal
           isOpen={showSuccessModal}
           onClose={() => setShowSuccessModal(false)}
-          restaurantUrl={serviceCatalogueUrl}
+          catalogueUrl={serviceCatalogueUrl}
         />
       </Card>
     </div>

@@ -28,6 +28,13 @@ export type ISocials = {
   [key: string]: string | undefined
 }
 
+export type SuccessModalProps = {
+  isOpen: boolean
+  onClose: () => void
+  catalogueUrl: string
+  type?: "regular" | "ai"
+}
+
 export type CatalogueHeaderProps = {
   type?: "default" | "custom"
   customData?: {
