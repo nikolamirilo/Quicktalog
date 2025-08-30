@@ -144,7 +144,7 @@ export default async function page({ params }: { params: tParams }) {
           </div>
         ) : (
             <div className="max-w-6xl mx-auto px-4">
-            <div className="bg-product-gradient-primary border border-product-border rounded-2xl p-6 md:p-8 shadow-md">
+            <div className="bg-product-background border border-product-border rounded-2xl p-6 md:p-8 shadow-md">
               <div className="text-center mb-8">
                 <h1 className="text-4xl lg:text-5xl font-bold text-product-foreground mb-4">
                   Analytics for {transformedName}

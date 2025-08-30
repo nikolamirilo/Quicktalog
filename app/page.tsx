@@ -28,7 +28,7 @@ const HomePage: React.FC = async () => {
         <Section
           id="how-it-works"
           title="Go Live in Minutes"
-          description="Create a digital catalog in a few simple steps-or let AI generate it for you. No design or code required.">
+          description="Create a professional digital catalog with our free online catalog maker in a few simple steps-or let AI generate it for you. No design or code required.">
           <HowItWorks />
         </Section>
 
@@ -51,7 +51,7 @@ const HomePage: React.FC = async () => {
         <Section
           id="pricing"
           title="Simple, Transparent Pricing"
-          description="Start free and upgrade as you grow. No hidden fees. AI generation, OCR import, and analytics on higher tiers.">
+          description="Start with our free online catalog maker and upgrade as you grow. No hidden fees. Access professional catalog templates, AI generation, OCR import, and analytics on higher tiers.">
           <Pricing />
         </Section>
 

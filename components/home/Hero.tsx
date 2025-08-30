@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
           Create a Stunning Digital Catalog in Minutes
         </h1>
         <p className="mt-4 text-product-foreground-accent text-lg md:text-xl max-w-2xl mx-auto">
-          Turn your services, menus, or products into an interactive, mobile-friendly online catalog. No code or design skills required.
+          The best free online catalog maker for businesses. Turn your services, menus, or products into an interactive, mobile-friendly digital catalog or price list. No code or design skills required.
         </p>
 
         {/* Value propositions */}
@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <FiDollarSign className="w-4 h-4 text-product-primary" />
-            <span className="font-medium">No code or design skills needed</span>
+            <span className="font-medium">Free online catalog maker</span>
           </div>
         </div>
 

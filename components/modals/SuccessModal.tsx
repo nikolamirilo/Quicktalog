@@ -33,7 +33,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
     setTimeout(() => setCopied(false), 3000) // reset after 3s
   }
   const codeRef = useRef<HTMLDivElement>(null)
-  const iframeCode = `<iframe src="${fullURL}" style="width:100vw;height:100vh;border:none;position:fixed;top:0;left:0;z-index:9999;background:#fff;"></iframe>`
+  const iframeCode = `<iframe src="${fullURL}" style="width:100vw;height:100vh;border:none;position:fixed;top:0;left:0;z-index:9999;background:white;"></iframe>`
 
   const handleDownloadPng = () => {
     const svg = document.querySelector("#success-modal-qr svg")
@@ -82,7 +82,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   }
 
   const handleDownloadHTML = () => {
-    const html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Embedded Catalogue</title>\n  <style>\n    html, body { margin: 0; padding: 0; height: 100%; width: 100%; background: #fff; }\n    iframe { width: 100vw; height: 100vh; border: none; position: fixed; top: 0; left: 0; z-index: 9999; background: #fff; }\n  </style>\n</head>\n<body>\n  <iframe src=\"${fullURL}\"></iframe>\n</body>\n</html>`
+    const html = `<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />\n  <title>Embedded Catalogue</title>\n  <style>\n    html, body { margin: 0; padding: 0; height: 100%; width: 100%; background: white; }\n    iframe { width: 100vw; height: 100vh; border: none; position: fixed; top: 0; left: 0; z-index: 9999; background: white; }\n  </style>\n</head>\n<body>\n  <iframe src=\"${fullURL}\"></iframe>\n</body>\n</html>`
     const blob = new Blob([html], { type: "text/html" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
@@ -101,14 +101,14 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[550px] max-h-screen overflow-y-auto w-full !p-7 bg-white/95 border border-product-border shadow-product-shadow rounded-3xl">
+      <DialogContent className=" max-h-screen overflow-y-auto w-[95vw] max-w-[95vw] sm:max-w-[550px] !p-4 sm:!p-7 bg-white/95 border border-product-border shadow-product-shadow rounded-3xl">
         <DialogHeader className="space-y-3">
           <div className="flex items-center justify-center gap-3">
-            <DialogTitle className="text-2xl font-bold text-product-foreground font-heading">
+            <DialogTitle className="text-xl sm:text-2xl font-bold text-product-foreground font-heading">
               🎉 Congratulations!
             </DialogTitle>
           </div>
-          <DialogDescription className="text-center text-product-foreground-accent text-base font-body">
+          <DialogDescription className="text-center text-product-foreground-accent text-sm sm:text-base font-body">
             {type === "ai"
               ? "Your AI-generated Service Catalogue is now live and ready to share with your customers."
               : "Your Service Catalogue is now live and ready to share with your customers."}
@@ -116,43 +116,42 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         </DialogHeader>
 
         {/* Two-column layout for better space usage */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
           {/* QR Code Section */}
-          <div className="flex flex-col items-center gap-4 p-5 bg-product-background/50 rounded-xl border border-product-border">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 p-3 sm:p-5 bg-product-background/50 rounded-xl border border-product-border">
             <div className="flex items-center gap-2">
-              <IoShareSocialOutline size={22} className="text-product-primary" />
-              <h4 className="text-base font-semibold text-product-foreground font-body">
+              <IoShareSocialOutline className="w-5 h-5 sm:w-6 sm:h-6 text-product-primary" />
+              <h4 className="text-sm sm:text-base font-semibold text-product-foreground font-body">
                 Share instantly
               </h4>
             </div>
-            <p className="text-sm text-product-foreground-accent text-center font-body">
+            <p className="text-xs sm:text-sm text-product-foreground-accent text-center font-body">
               Use the QR code below for quick access
             </p>
             <div
               id="success-modal-qr"
-              className="p-3 bg-white rounded-xl shadow-sm border border-product-border">
-              <QRCodeSVG value={fullURL} size={150} bgColor="#fff" fgColor="#000" />
+              className="p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-product-border">
+              <QRCodeSVG value={fullURL} size={120} className="w-30 h-30 sm:w-36 sm:h-36" bgColor="white" fgColor="black" />
             </div>
             <Button onClick={handleDownloadPng} variant="outline">
-              <IoQrCode size={18} /> Download QR code
+              <IoQrCode className="w-4 h-4" /> Download QR code
             </Button>
           </div>
 
           {/* Embed Section */}
-          <div className="flex flex-col items-center gap-4 p-5 bg-product-background/50 rounded-xl border border-product-border">
+          <div className="flex flex-col items-center gap-3 sm:gap-4 p-3 sm:p-5 bg-product-background/50 rounded-xl border border-product-border">
             <div className="flex items-center gap-2">
-              <ImEmbed2 size={22} className="text-product-primary" />
-              <h4 className="text-base font-semibold text-product-foreground font-body">
+              <ImEmbed2 className="w-5 h-5 sm:w-6 sm:h-6 text-product-primary" />
+              <h4 className="text-sm sm:text-base font-semibold text-product-foreground font-body">
                 Embed Anywhere
               </h4>
             </div>
-            <p className="text-sm text-product-foreground-accent text-center font-body">
+            <p className="text-xs sm:text-sm text-product-foreground-accent text-center font-body">
               Copy the code to add to your website
             </p>
             <div
               ref={codeRef}
-              className="bg-[#1e1e1e] rounded-xl p-4 text-xs overflow-x-auto font-mono border border-[#333] transition-all duration-200"
-              style={{ color: "#d4d4d4", lineHeight: "1.5", maxHeight: "180px" }}>
+              className="bg-gray-900 rounded-xl p-3 sm:p-4 text-xs overflow-x-auto font-mono border border-gray-700 transition-all duration-200 text-gray-300 leading-relaxed max-h-36 sm:max-h-44">
               <pre className="whitespace-pre-wrap break-all relative m-0">
                 {iframeCode}
                 <button
@@ -162,23 +161,23 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
                       ? "bg-green-500 text-white"
                       : "bg-gray-700 text-gray-300 hover:bg-gray-600"
                   }`}>
-                  {copied ? <IoMdCheckmark size={18} /> : <MdContentCopy size={18} />}
+                  {copied ? <IoMdCheckmark className="w-4 h-4" /> : <MdContentCopy className="w-4 h-4" />}
                 </button>
               </pre>
             </div>
             <Button onClick={handleDownloadHTML} variant="outline">
-              <FaCode size={18} /> Download HTML code
+              <FaCode className="w-4 h-4" /> Download HTML code
             </Button>
           </div>
         </div>
 
-        <DialogFooter className="flex gap-3 pt-5 border-t border-product-border">
+        <DialogFooter className="flex gap-2 sm:gap-3 pt-4 sm:pt-5 border-t border-product-border">
           <Button onClick={onClose} variant="destructive" className="flex-1">
-            <IoClose size={18} />
+            <IoClose className="w-4 h-4" />
             Close
           </Button>
           <Button onClick={() => window.open(fullURL, "_blank")} className="flex-1">
-            <IoMdOpen size={18} /> Visit
+            <IoMdOpen className="w-4 h-4" /> Visit
           </Button>
         </DialogFooter>
       </DialogContent>

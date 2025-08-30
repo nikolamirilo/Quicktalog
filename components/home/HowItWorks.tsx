@@ -72,14 +72,14 @@ const HowItWorks: React.FC = () => {
     {
       step: "1",
       title: "Register",
-      description: "Creat an account and provide more information about your business.",
+      description: "Create an account and provide more information about your business.",
       icon: <FiUpload className="w-8 h-8" />,
       image: "/images/card1-business.svg",
     },
     {
       step: "2",
-      title: "Add items & prices",
-      description: "Create categories and add services or products with pricing.",
+      title: "Build your price list",
+      description: "Create categories and add services or products with pricing to build your professional price list.",
       icon: <MdOutlineLocalOffer className="w-8 h-8" />,
       image: "/images/card3.svg",
     },

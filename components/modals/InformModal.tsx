@@ -36,7 +36,7 @@ export default function InformModal({
       onOpenChange={(open) => {
         if (!open) onCancel()
       }}>
-      <AlertDialogContent className="text-gray-900">
+      <AlertDialogContent className="text-gray-900 w-[95vw] max-w-md mx-4 p-4 sm:p-6">
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{message}</AlertDialogDescription>

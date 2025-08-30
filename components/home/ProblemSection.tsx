@@ -154,9 +154,9 @@ const ProblemSection: React.FC = () => {
       metric: "No Code",
       metricLabel: "No design skills required",
       problem:
-        "DIY tools are clunky and hiring a designer is expensive. Updates take too long and slow you down.",
+        "DIY tools are clunky and hiring a designer is expensive. Most online catalogue makers are complex and updates take too long.",
       solution:
-        "Build a polished catalog with simple drag and drop. Launch fast without a designer or developer.",
+        "Our intuitive online catalogue maker lets you build a polished catalog with simple drag and drop. Launch fast without a designer or developer.",
       ctaText: "Browse Templates",
       impactMetric: "Designer quality results",
       icon: <FiSmartphone />,

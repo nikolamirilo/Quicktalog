@@ -1,7 +1,6 @@
 "use client"
-import { Card, CardBody, CardHeader, Typography } from "@material-tailwind/react"
 import dynamic from "next/dynamic"
-import { JSX, useState } from "react"
+import { useState } from "react"
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false })
 
@@ -14,11 +13,12 @@ export default function DonutChart({
   description,
   icon,
 }: DonutChartProps) {
-  const [chartColors, setChartColors] = useState(["#ffc107", "#010e58"])
+  const [chartColors, setChartColors] = useState(["#010e58", "#f3f3f5"])
 
   const chartConfig = {
-    type: "donut",
-    height: 240,
+    type: "donut" as const,
+    height: "100%",
+    width: "100%",
     series: data.length > 0 ? data : [1],
     options: {
       chart: {
@@ -38,29 +38,24 @@ export default function DonutChart({
             speed: 350,
           },
         },
+        dropShadow: {
+          enabled: true,
+          opacity: 0.1,
+          blur: 4,
+          left: 0,
+          top: 2,
+        },
       },
       title: {
-        show: "",
+        text: "",
+        align: "left" as const,
       },
       dataLabels: {
-        enabled: true,
-        formatter: function (val: number) {
-          return val.toFixed(1) + "%"
-        },
-        dropShadow: {
-          enabled: false,
-        },
-        style: {
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 600,
-        },
+        enabled: false,
       },
       colors: chartColors,
       legend: {
-        show: true,
-        position: "bottom",
-        horizontalAlign: "center",
+        show: false,
       },
       labels: labels.length > 0 ? labels : ["-"],
       states: {
@@ -78,32 +73,60 @@ export default function DonutChart({
       plotOptions: {
         pie: {
           donut: {
+            size: '70%',
             labels: {
               show: true,
               total: {
                 show: true,
                 showAlways: true,
-                label: "Total",
+                label: "Used",
+                fontSize: '16px',
+                fontWeight: 600,
+                color: '#374151',
                 formatter: function (w: any) {
                   const total = w.globals.seriesTotals.reduce((a: number, b: number) => {
                     return a + b
                   }, 0)
-                  return Number(total.toFixed(0)).toLocaleString()
+                  const used = w.globals.series[0]
+                  const percentage = total > 0 ? Math.round((used / total) * 100) : 0
+                  return `${percentage}%`
                 },
               },
             },
           },
         },
       },
+      stroke: {
+        width: 0,
+      },
       responsive: [
+        {
+          breakpoint: 768,
+          options: {
+            chart: {
+              height: 180,
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  size: '65%',
+                },
+              },
+            },
+          },
+        },
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              height: 160,
             },
-            legend: {
-              position: "bottom",
+            plotOptions: {
+              pie: {
+                donut: {
+                  size: '60%',
+                },
+              },
             },
           },
         },
@@ -112,31 +135,8 @@ export default function DonutChart({
   }
 
   return (
-    //@ts-ignore
-    <Card>
-      {/*@ts-ignore */}
-      <CardHeader
-        floated={false}
-        shadow={false}
-        color="transparent"
-        className="flex flex-col gap-4 rounded-none md:flex-row md:items-center">
-        <div className="w-max rounded-lg bg-product-secondary text-white p-2">{icon}</div>
-        <div>
-          {/*@ts-ignore */}
-          <Typography variant="h6" color="blue-gray">
-            {title}
-          </Typography>
-          {/*@ts-ignore */}
-          <Typography variant="small" color="gray" className="max-w-sm font-normal">
-            {description}
-          </Typography>
-        </div>
-      </CardHeader>
-      {/*@ts-ignore */}
-      <CardBody className="px-2 pb-0 donut-chart-wrapper">
-        {/*@ts-ignore */}
-        <Chart {...chartConfig} height={350} />
-      </CardBody>
-    </Card>
+    <div className="w-full h-full flex items-center justify-center">
+      <Chart {...chartConfig} />
+    </div>
   )
 }

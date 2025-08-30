@@ -56,11 +56,11 @@ const CTA: React.FC = () => {
             <motion.h2
               className="text-2xl sm:text-3xl md:text-5xl md:leading-tight font-semibold mb-4 max-w-3xl"
               variants={childVariants}>
-              Create Your Digital Catalog Today
+              Start With Our Free Online Catalog Maker
             </motion.h2>
 
             <motion.p className="mx-auto max-w-2xl md:px-5 text-lg mb-8" variants={childVariants}>
-              Launch a mobile-friendly, interactive catalog in minutes. Start free-no credit card required.
+              Launch a professional digital catalog with our catalog templates in minutes. The best free online catalog maker for businesses-no credit card required.
             </motion.p>
 
             {/* Risk reversal indicators */}
@@ -69,7 +69,7 @@ const CTA: React.FC = () => {
               variants={childVariants}>
               <div className="flex items-center gap-2 text-sm text-gray-300 min-w-[180px] justify-center">
                 <FiCheck className="w-4 h-4 text-green-500 flex-shrink-0" />
-                <span>Free plan available</span>
+                <span>Free online catalog maker</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-300 min-w-[180px] justify-center">
                 <FiCheck className="w-4 h-4 text-green-500 flex-shrink-0" />

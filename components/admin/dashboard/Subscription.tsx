@@ -250,9 +250,9 @@ export default function Subscription({
       </Card>
 
       {/* Features Card */}
-      <Card style={{ boxShadow: "var(--product-shadow)" }}>
+      <Card  className="bg-product-background shadow-product-shadow" >
         <CardHeader className="pb-4">
-          <CardTitle className="text-xl font-bold flex items-center gap-2 text-product-foreground">
+          <CardTitle className="text-xl font-bold flex items-center gap-2   text-product-foreground">
             <Star className="w-5 h-5 text-product-icon" />
             Plan Features
           </CardTitle>
@@ -273,7 +273,7 @@ export default function Subscription({
                   <div
                     key={key}
                     className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${included
-                      ? "bg-product-hover-background border border-product-border"
+                      ? "bg-product-background border border-product-primary"
                       : "bg-product-background border border-product-border"
                       }`}
                   >
@@ -286,7 +286,7 @@ export default function Subscription({
                     <div className="flex-1">
                       <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
                       <p
-                        className={`text-sm ${included ? "text-product-primary" : "text-product-foreground-accent"
+                        className={`text-sm ${included ? "text-product-primary-foreground" : "text-product-foreground-accent"
                           }`}
                       >
                         {formatFeatureValue(key, value)}
