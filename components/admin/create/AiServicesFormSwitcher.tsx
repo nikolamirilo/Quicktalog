@@ -13,12 +13,13 @@ import PromptInput from "./components/ai/PromptInput"
 import OcrReader from "./components/ocr/OcrReader"
 import Step1General from "./components/Step1General"
 
-export default function AiServicesFormSwithcer({ type }) {
+export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "ocr_import" }) {
   const [formData, setFormData] = useState({
     name: "",
     theme: "",
     title: "",
     currency: "",
+
     subtitle: "",
   })
   const [prompt, setPrompt] = useState("")
