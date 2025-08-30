@@ -3,10 +3,10 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { FiBarChart2, FiCalendar, FiSettings } from "react-icons/fi"
 import { TbFileAnalytics } from "react-icons/tb"
+import MonthlyUsage from "./MonthlyUsage"
 import Overview from "./Overview"
 import Settings from "./Settings"
 import Subscription from "./Subscription"
-import Usage from "./Usage"
 
 const TABS = [
   { value: "overview", label: "Overview", icon: <TbFileAnalytics className="mr-2" size={20} /> },
@@ -15,39 +15,14 @@ const TABS = [
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
 ]
 
-export default function Dashboard({
-  user,
-  catalogues,
-  analytics,
-  pricingPlan,
-  promptsUsage,
-  ocrUsage,
-}) {
+export default function Dashboard({ userData, catalogues, overallAnalytics }) {
   const [activeTab, setActiveTab] = useState("overview")
-
-  // Aggregate analytics
-  const totalPageViews = analytics?.reduce((sum, a) => sum + (a.pageview_count || 0), 0)
-  const totalUniqueVisitors = analytics?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0)
-  const totalServiceCatalogues = catalogues?.length || 0
-
-  const usage = {
-    traffic: totalPageViews,
-    catalogues: totalServiceCatalogues,
-    prompts: promptsUsage,
-    ocr: ocrUsage,
-  }
-  const overallAnalytics = {
-    totalPageViews,
-    totalUniqueVisitors,
-    totalServiceCatalogues,
-  }
-
-  // Sidebar content for md+ screens
   function getSidebarButtonClass(isActive: boolean) {
     return isActive
       ? "font-bold !bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm hover:scale-[1.03] hover:transform"
       : "font-medium"
   }
+  console.log(overallAnalytics)
 
   const SidebarContent = (
     <nav className="p-4 flex md:flex-col flex-row gap-2 md:gap-3">
@@ -86,6 +61,7 @@ export default function Dashboard({
     </nav>
   )
 
+  const { pricing_plan, usage, ...user } = userData
   return (
     <div className="w-full min-h-screen px-2 sm:px-4 relative md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
@@ -104,12 +80,12 @@ export default function Dashboard({
           )}
           {activeTab === "subscription" && (
             <section className="animate-fade-in">
-              <Subscription pricingPlan={pricingPlan} />
+              <Subscription pricingPlan={userData.pricing_plan} />
             </section>
           )}
           {activeTab === "usage" && (
             <section className="animate-fade-in">
-              <Usage data={usage} pricingPlan={pricingPlan} />
+              <MonthlyUsage data={userData.usage} pricingPlan={userData.pricing_plan} />
             </section>
           )}
           {activeTab === "settings" && (

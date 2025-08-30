@@ -11,8 +11,8 @@ export default async function page() {
   console.log(userData)
   if (
     userData &&
-    userData.current_plan_id !== 0 &&
-    userData.usage.ocr <= userData.plan_features.ocr_ai_import
+    userData.pricing_plan.id !== 0 &&
+    userData.usage.ocr <= userData.pricing_plan.features.ocr_ai_import
   ) {
     return (
       <div className="product font-lora min-h-screen">
@@ -27,7 +27,11 @@ export default async function page() {
     )
   } else {
     return (
-      <LimitsModal type="ocr" currentPlan={userData.plan_name} requiredPlan={userData.next_plan} />
+      <LimitsModal
+        type="ocr"
+        currentPlan={userData.pricing_plan.name}
+        requiredPlan={userData.pricing_plan.next_plan}
+      />
     )
   }
 }

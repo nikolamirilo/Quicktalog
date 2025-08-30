@@ -1,4 +1,4 @@
-import { ServicesCategory, ServicesItem } from "@/types"
+import { PricingPlan, ServicesCategory, ServicesItem } from "@/types"
 import { JSX } from "react"
 import { ContactInfo, FooterData, ServicesFormData, UserData } from "."
 
@@ -169,7 +169,7 @@ export type AnalyticsProps = {
 }
 
 export type SubscriptionProps = {
-  pricingPlan: any
+  pricingPlan: PricingPlan
   subscriptionStartDate?: string
   subscriptionUpdatedDate?: string
 }

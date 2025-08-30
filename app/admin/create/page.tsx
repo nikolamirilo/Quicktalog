@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic"
 export default async function CreateServicesPage() {
   const userData: UserData = await getUserData()
   console.log(userData)
-  if (userData && userData.usage.catalogues <= userData.plan_features.catalogues) {
+  if (userData && userData.usage.catalogues <= userData.pricing_plan.features.catalogues) {
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />
@@ -23,8 +23,8 @@ export default async function CreateServicesPage() {
     return (
       <LimitsModal
         type="catalogues"
-        currentPlan={userData.plan_name}
-        requiredPlan={userData.next_plan}
+        currentPlan={userData.pricing_plan.name}
+        requiredPlan={userData.pricing_plan.next_plan}
       />
     )
   }

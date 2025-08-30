@@ -29,6 +29,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const pricingPlan = tiers.find((tier) => Object.values(tier.priceId).includes(user.plan_id))
     // Find next plan only if pricingPlan exists
     const nextPlan = pricingPlan ? tiers.find((tier) => tier.id === pricingPlan.id + 1) : null
+    const billingPeriod = Object.entries(pricingPlan.priceId).find(
+      ([_, id]) => id === user.plan_id
+    )?.[0] as "month" | "year"
 
     // Fetch usage data
     const { data: cataloguesUsage, error: cataloguesUsageError } = await supabase
@@ -90,13 +93,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       { pageview_count: 0, unique_visitors: 0 }
     ) || { pageview_count: 0, unique_visitors: 0 }
 
-    // Construct response
+    const { cookie_preferences, created_at, customer_id, plan_id, ...adjustedUser } = user
     const userData: UserData = {
-      ...user,
-      plan_name: pricingPlan?.name || null,
-      plan_features: pricingPlan?.features || null,
-      next_plan: nextPlan?.name || "Enterprise",
-      current_plan_id: pricingPlan?.id ?? null,
+      ...adjustedUser,
+      pricing_plan: {
+        id: pricingPlan?.id || null,
+        name: pricingPlan?.name || null,
+        description: pricingPlan?.description || null,
+        priceId: pricingPlan.priceId || null,
+        features: pricingPlan?.features || null,
+        next_plan: nextPlan?.name || "Enterprise",
+        billing_period: billingPeriod || null,
+      },
       usage: {
         traffic,
         ocr: ocrUsage?.count ?? 0,

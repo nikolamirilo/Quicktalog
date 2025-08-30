@@ -73,9 +73,9 @@ ORDER BY date DESC, hour DESC`,
 
     // 3. Create a map for quick lookup
     const nameToUserId = {}
-      ; (catalogues || []).forEach((r) => {
-        nameToUserId[r.name] = r.created_by
-      })
+    ;(catalogues || []).forEach((r) => {
+      nameToUserId[r.name] = r.created_by
+    })
 
     // 4. Add user_id to each analytics row
     const analyticsDataWithUserId = analyticsData.map((item) => {
@@ -114,7 +114,7 @@ ORDER BY date DESC, hour DESC`,
             .update({
               pageview_count: existing.pageview_count + item.pageview_count,
               unique_visitors: existing.unique_visitors + item.unique_visitors,
-              user_id: item.user_id // Update user_id in case it changed
+              user_id: item.user_id, // Update user_id in case it changed
             })
             .eq("date", item.date)
             .eq("hour", item.hour)
@@ -124,25 +124,23 @@ ORDER BY date DESC, hour DESC`,
             errors.push({ item, error })
           } else {
             processedResults.push({
-              action: 'updated',
+              action: "updated",
               item,
               previous: existing,
               newValues: {
                 pageview_count: existing.pageview_count + item.pageview_count,
-                unique_visitors: existing.unique_visitors + item.unique_visitors
-              }
+                unique_visitors: existing.unique_visitors + item.unique_visitors,
+              },
             })
           }
         } else {
           // Record doesn't exist - insert new
-          const { data, error } = await supabase
-            .from("analytics")
-            .insert([item])
+          const { data, error } = await supabase.from("analytics").insert([item])
 
           if (error) {
             errors.push({ item, error })
           } else {
-            processedResults.push({ action: 'inserted', item })
+            processedResults.push({ action: "inserted", item })
           }
         }
       } catch (err) {
@@ -151,12 +149,15 @@ ORDER BY date DESC, hour DESC`,
     }
 
     if (errors.length > 0) {
-      console.error('Processing errors:', errors)
-      return NextResponse.json({
-        error: 'Some records failed to process',
-        details: errors,
-        successful: processedResults
-      }, { status: 207 }) // 207 = Multi-Status
+      console.error("Processing errors:", errors)
+      return NextResponse.json(
+        {
+          error: "Some records failed to process",
+          details: errors,
+          successful: processedResults,
+        },
+        { status: 207 }
+      ) // 207 = Multi-Status
     }
 
     return NextResponse.json(
@@ -170,15 +171,15 @@ ORDER BY date DESC, hour DESC`,
         processedResults: processedResults,
         summary: {
           total: analyticsDataWithUserId.length,
-          inserted: processedResults.filter(r => r.action === 'inserted').length,
-          updated: processedResults.filter(r => r.action === 'updated').length,
-          failed: errors.length
-        }
+          inserted: processedResults.filter((r) => r.action === "inserted").length,
+          updated: processedResults.filter((r) => r.action === "updated").length,
+          failed: errors.length,
+        },
       },
       { status: 200 }
     )
   } catch (error) {
-    console.error('Error in analytics function:', error)
+    console.error("Error in analytics function:", error)
     return new Response("Error occurred while processing analytics.", { status: 500 })
   }
 }

@@ -11,8 +11,8 @@ export default async function page() {
   console.log(userData)
   if (
     userData &&
-    userData.current_plan_id !== 0 &&
-    userData.usage.catalogues <= userData.plan_features.catalogues
+    userData.pricing_plan.id !== 0 &&
+    userData.usage.catalogues <= userData.pricing_plan.features.catalogues
   ) {
     return (
       <div className="product font-lora min-h-screen">
@@ -27,7 +27,11 @@ export default async function page() {
     )
   } else {
     return (
-      <LimitsModal type="ai" currentPlan={userData.plan_name} requiredPlan={userData.next_plan} />
+      <LimitsModal
+        type="ai"
+        currentPlan={userData.pricing_plan.name}
+        requiredPlan={userData.pricing_plan.next_plan}
+      />
     )
   }
 }

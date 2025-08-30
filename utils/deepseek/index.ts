@@ -60,6 +60,7 @@ export function createGenerationPrompt(
       4. Ensure the JSON is valid and well-formed  
       5. If you cannot find price for an item, you set price. Keep in mind currency and make sure price is not 0.
       6. Set order for each category starting from 1. Order items in logical way. They will be displayed in this ascending order.
+      7. Wherecver you have string it should be valid string. It should not contain any special character like /,-,",' etc."
       `
   } else {
     const layoutData = layouts.map((l) => ({
@@ -89,6 +90,7 @@ export function createGenerationPrompt(
     6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
     7. Ensure the JSON is valid and well-formed
     8. Set order for each category starting from 1. Order items in logical way. They will be displayed in this ascending order.
+    9. Wherecver you have string it should be valid string. It should not contain any special character like /,-,",' etc."
     `
   }
 }

@@ -125,7 +125,9 @@ export default function Subscription({
   }
 
   // Get current price from Paddle
-  const currentPrice = pricingPlan.priceId ? prices[pricingPlan.priceId] : "0"
+  const currentPrice = pricingPlan.priceId
+    ? prices[pricingPlan.priceId[pricingPlan.billing_period]]
+    : "0"
 
   const defaultDate = new Date().toISOString()
 
@@ -169,7 +171,8 @@ export default function Subscription({
       <h2
         className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
         style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
-        <FiCalendar className="text-product-icon font-lora w-6 h-6 sm:w-8 sm:h-8" /> Subscription Overview
+        <FiCalendar className="text-product-icon font-lora w-6 h-6 sm:w-8 sm:h-8" /> Subscription
+        Overview
       </h2>
 
       {/* Main Plan Card */}
@@ -205,7 +208,7 @@ export default function Subscription({
                     {formatPrice(currentPrice)}
                     {currentPrice && parseFloat(currentPrice) > 0 && (
                       <span className="text-base font-normal text-product-foreground-accent ml-1">
-                        /{pricingPlan.billingPeriod}
+                        /{pricingPlan.billing_period}
                       </span>
                     )}
                   </p>
@@ -217,7 +220,7 @@ export default function Subscription({
                 <div>
                   <p className="text-sm text-product-foreground-accent">Subscription Cycle</p>
                   <p className="font-semibold text-product-foreground capitalize">
-                    {pricingPlan.billingPeriod}ly
+                    {pricingPlan.billing_period}ly
                   </p>
                 </div>
               </div>
@@ -250,7 +253,7 @@ export default function Subscription({
       </Card>
 
       {/* Features Card */}
-      <Card  className="bg-product-background shadow-product-shadow" >
+      <Card className="bg-product-background shadow-product-shadow">
         <CardHeader className="pb-4">
           <CardTitle className="text-xl font-bold flex items-center gap-2   text-product-foreground">
             <Star className="w-5 h-5 text-product-icon" />
@@ -272,11 +275,11 @@ export default function Subscription({
                 return (
                   <div
                     key={key}
-                    className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${included
-                      ? "bg-product-background border border-product-primary"
-                      : "bg-product-background border border-product-border"
-                      }`}
-                  >
+                    className={`flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                      included
+                        ? "bg-product-background border border-product-primary"
+                        : "bg-product-background border border-product-border"
+                    }`}>
                     {included ? (
                       <CheckCircle className="w-5 h-5 text-product-primary flex-shrink-0" />
                     ) : (
@@ -286,9 +289,11 @@ export default function Subscription({
                     <div className="flex-1">
                       <p className="font-medium text-product-foreground">{formatFeatureKey(key)}</p>
                       <p
-                        className={`text-sm ${included ? "text-product-primary-foreground" : "text-product-foreground-accent"
-                          }`}
-                      >
+                        className={`text-sm ${
+                          included
+                            ? "text-product-primary-foreground"
+                            : "text-product-foreground-accent"
+                        }`}>
                         {formatFeatureValue(key, value)}
                       </p>
                     </div>
@@ -315,8 +320,7 @@ export default function Subscription({
             className="w-fit min-w-56"
             onClick={() =>
               router.push("https://customer-portal.paddle.com/cpl_01k11h2axbrhg4fzmw2zey50x0")
-            }
-          >
+            }>
             <MdOutlineSettings className="w-4 h-4" />
             Manage subscription
           </Button>
@@ -325,20 +329,20 @@ export default function Subscription({
         {/* Upgrade plan */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-product-background border border-product-border rounded-2xl p-6">
           <div className="text-center sm:text-left">
-            <h2 className="text-lg font-semibold text-product-foreground">
-              Upgrade your plan
-            </h2>
+            <h2 className="text-lg font-semibold text-product-foreground">Upgrade your plan</h2>
             <p className="text-product-foreground-accent text-sm mt-1">
               Get more features, higher limits, and premium support.
             </p>
           </div>
-          <Button variant="default" onClick={() => router.push("/pricing")} className="w-fit min-w-56">
+          <Button
+            variant="default"
+            onClick={() => router.push("/pricing")}
+            className="w-fit min-w-56">
             <Star className="w-4 h-4" />
             Upgrade plan
           </Button>
         </div>
       </div>
-
     </div>
   )
 }

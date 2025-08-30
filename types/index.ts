@@ -118,6 +118,7 @@ export type User = {
   name: string | null
   created_at: string
   image: string | null
+  cookie_preferences?: CookiePreferences | null
   plan_id: string | null
   customer_id: string | null
 }
@@ -144,10 +145,7 @@ export type Usage = {
 
 export type UserData = User & {
   usage: Usage
-  plan_name: string
-  next_plan: string
-  plan_features: PricingPlan["features"] | null
-  current_plan_id: number
+  pricing_plan: PricingPlan
 }
 export interface LanguageOption {
   code: string
@@ -187,13 +185,8 @@ export type PricingPlan = {
     analytics: string
     ai_catalogue_generation: number
   }
-}
-
-export type OverallUsage = {
-  traffic: number
-  prompts: number
-  ocr: number
-  catalogues: number
+  next_plan?: string
+  billing_period?: "month" | "year"
 }
 
 export type ContactData = {

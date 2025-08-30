@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import React, { useState } from "react"
-import { HiOutlineTrophy } from "react-icons/hi2"
 
 import Image from "next/image"
 import { FaRegCirclePlay } from "react-icons/fa6"
@@ -80,18 +79,17 @@ const Navbar = () => {
   return (
     <nav className="w-full flex items-center justify-between px-4 sm:px-6 font-lora py-2 sm:py-3 bg-product-background shadow-lg border-b border-gray-100 fixed top-0 left-0 z-50">
       <div className="flex items-center gap-2 sm:gap-3">
-      <Link href="/">
-  <Image
-    src="/logo.svg"
-    alt="Quicktalog Logo"
-    width={160}            
-    height={160}           
-    className="h-[7vh] w-auto rounded-full"
-    style={{ width: 'auto', height: '7vh' }} 
-    priority //
-  />
-</Link>
-
+        <Link href="/">
+          <Image
+            src="/logo.svg"
+            alt="Quicktalog Logo"
+            width={160}
+            height={160}
+            className="h-[7vh] w-auto rounded-full"
+            style={{ width: "auto", height: "7vh" }}
+            priority //
+          />
+        </Link>
       </div>
 
       {/* Desktop links */}
@@ -105,10 +103,6 @@ const Navbar = () => {
         <NavLink href="/playground" icon={FaRegCirclePlay}>
           Playground
         </NavLink>
-        <NavLink href="/showcases" icon={HiOutlineTrophy}>
-          Showcases
-        </NavLink>
-
         <AuthLinks />
       </div>
 
@@ -159,12 +153,6 @@ const Navbar = () => {
             icon={FaRegCirclePlay}
             onClick={() => setMobileOpen(false)}>
             Playground
-          </MobileNavLink>
-          <MobileNavLink
-            href="/showcases"
-            icon={HiOutlineTrophy}
-            onClick={() => setMobileOpen(false)}>
-            Showcases
           </MobileNavLink>
 
           <AuthLinks isMobile onLinkClick={() => setMobileOpen(false)} />

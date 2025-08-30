@@ -1,107 +1,50 @@
+import { getUserData } from "@/actions/users"
 import Dashboard from "@/components/admin/dashboard/Dashboard"
 import FloatingActionMenu from "@/components/admin/dashboard/FloatingActionMenu"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
-import { tiers } from "@/constants/pricing"
-import { endOfMonth, startOfMonth } from "@/helpers/client"
-import type { Analytics, ServiceCatalogue, User } from "@/types"
+import type { Analytics, ServiceCatalogue, UserData } from "@/types"
 import { createClient } from "@/utils/supabase/server"
-import { currentUser } from "@clerk/nextjs/server"
 import Link from "next/link"
 
 export const dynamic = "force-dynamic"
 
 export default async function page() {
   const supabase = await createClient()
-
-  // Get current user by session (assuming Clerk user id is stored in users table)
-  const clerkUser = await currentUser()
   let catalogues: ServiceCatalogue[] = []
   let analytics: Analytics[] = []
-  let user: User | null = null
-  let pricingPlan = null
-
-  if (clerkUser && clerkUser.id) {
-    const { data: restaurantData, error: restaurantError } = await supabase
+  const userData: UserData = await getUserData()
+  if (userData) {
+    const { data, error } = await supabase
       .from("service_catalogues")
       .select("*")
-      .eq("created_by", clerkUser.id)
-    catalogues = restaurantError ? [] : restaurantData || []
+      .eq("created_by", userData.id)
+    catalogues = error ? [] : data || []
 
-    // Fetch analytics for all catalogues owned by the user
     const { data: analyticsData, error: analyticsError } = await supabase
       .from("analytics")
       .select("date, hour, current_url, pageview_count, unique_visitors")
-      .eq("user_id", clerkUser.id)
-      .gte("date", startOfMonth.toISOString())
-      .lt("date", endOfMonth.toISOString())
+      .eq("user_id", userData.id)
     analytics = analyticsError ? [] : analyticsData || []
 
-    const { data: userData, error: userError } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", clerkUser.id)
-      .single()
-    user = userError ? null : userData
+    const totalPageViews = analytics?.reduce((sum, a) => sum + (a.pageview_count || 0), 0)
+    const totalUniqueVisitors = analytics?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0)
+    const totalServiceCatalogues = catalogues?.length || 0
 
-    function createPricingPlan(planId?: string) {
-      if (!planId) {
-        return {
-          name: "Free",
-          description: "Free plan with basic features",
-          priceId: null,
-          billingPeriod: null,
-        }
-      }
-
-      const matchedTier = tiers.find((tier) => Object.values(tier.priceId).includes(planId))
-
-      if (!matchedTier) {
-        return {
-          name: "Free",
-          description: "Free plan with basic features",
-          priceId: null,
-          billingPeriod: null,
-        }
-      }
-
-      const billingPeriod = Object.entries(matchedTier.priceId).find(
-        ([_, id]) => id === planId
-      )?.[0] as "month" | "year"
-
-      return {
-        ...matchedTier,
-        priceId: planId, // flatten to just string
-        billingPeriod,
-      }
+    const overallAnalytics = {
+      totalPageViews,
+      totalUniqueVisitors,
+      totalServiceCatalogues,
     }
-    pricingPlan = createPricingPlan(user?.plan_id)
 
-    const { data: ocrUsage } = await supabase
-      .from("ocr")
-      .select("count")
-      .eq("user_id", clerkUser.id)
-      .gte("datetime", startOfMonth.toISOString())
-      .lt("datetime", endOfMonth.toISOString())
-      .single()
-    const { data: promptsUsage } = await supabase
-      .from("prompts")
-      .select("count")
-      .eq("user_id", clerkUser.id)
-      .gte("datetime", startOfMonth.toISOString())
-      .lt("datetime", endOfMonth.toISOString())
-      .single()
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />
         <Dashboard
           catalogues={catalogues}
-          user={userData}
-          analytics={analytics}
-          pricingPlan={pricingPlan}
-          promptsUsage={promptsUsage?.count || 0}
-          ocrUsage={ocrUsage?.count || 0}
+          userData={userData}
+          overallAnalytics={overallAnalytics}
         />
         <FloatingActionMenu />
         <Footer />

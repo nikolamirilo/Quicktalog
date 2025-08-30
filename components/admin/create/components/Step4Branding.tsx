@@ -30,7 +30,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   handleContactChange,
   setFormData,
 }) => {
-  const isFreePlan = userData?.current_plan_id === 0
+  const isFreePlan = userData?.pricing_plan.id === 0
 
   const [logoPreview, setLogoPreview] = useState<string | null>(formData.logo || null)
 

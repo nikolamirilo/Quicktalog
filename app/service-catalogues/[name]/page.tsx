@@ -48,7 +48,10 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     const headerData = isFreePlan ? undefined : buildHeaderData(item)
     const footerData = isFreePlan ? undefined : buildFooterData(item)
 
-    if (userData && userData.usage.traffic.pageview_count <= userData.plan_features.traffic_limit) {
+    if (
+      userData &&
+      userData.usage.traffic.pageview_count <= userData.pricing_plan.features.traffic_limit
+    ) {
       return (
         <div
           className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen flex flex-col`}
@@ -103,7 +106,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       return (
         <LimitsModal
           type="traffic"
-          currentPlan={userData.plan_name}
+          currentPlan={userData.pricing_plan.name}
           requiredPlan={userData.next_plan}
         />
       )
