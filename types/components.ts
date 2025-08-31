@@ -1,4 +1,12 @@
-import { PricingPlan, ServicesCategory, ServicesItem } from "@/types"
+import {
+  OverallAnalytics,
+  PricingPlan,
+  ServiceCatalogue,
+  ServicesCategory,
+  ServicesItem,
+  Usage,
+  User,
+} from "@/types"
 import { JSX } from "react"
 import { ContactInfo, FooterData, ServicesFormData, UserData } from "."
 
@@ -172,4 +180,12 @@ export type SubscriptionProps = {
   pricingPlan: PricingPlan
   subscriptionStartDate?: string
   subscriptionUpdatedDate?: string
+}
+
+export type DashboardProps = {
+  user: User
+  catalogues: ServiceCatalogue[]
+  overallAnalytics: OverallAnalytics
+  usage: Usage
+  pricingPlan: PricingPlan
 }

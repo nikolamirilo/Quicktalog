@@ -37,14 +37,17 @@ export default async function page() {
       totalUniqueVisitors,
       totalServiceCatalogues,
     }
+    const { pricing_plan, usage, ...user } = userData
 
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />
         <Dashboard
           catalogues={catalogues}
-          userData={userData}
+          user={user}
           overallAnalytics={overallAnalytics}
+          pricingPlan={userData.pricing_plan}
+          usage={userData.usage}
         />
         <FloatingActionMenu />
         <Footer />

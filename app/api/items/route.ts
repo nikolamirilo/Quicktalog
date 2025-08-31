@@ -2,7 +2,6 @@ import { createClient } from "@/utils/supabase/server"
 
 export async function POST(request: Request) {
   try {
-
     const supabase = await createClient()
     const {
       name,
@@ -62,7 +61,6 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-
     const supabase = await createClient()
     const {
       name,

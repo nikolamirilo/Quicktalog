@@ -1,8 +1,27 @@
 "use server"
 import { createServerClient } from "@supabase/ssr"
-import { cookies } from "next/headers"
 
-export async function createClient() {
+export async function createClient(isUsingCookies: boolean = true) {
+  if (!isUsingCookies) {
+    // Return a basic Supabase client without cookies for build-time usage
+    return createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return []
+          },
+          setAll() {
+            // No-op when not using cookies
+          },
+        },
+      }
+    )
+  }
+
+  // Original implementation with cookies
+  const { cookies } = await import("next/headers")
   const cookieStore = await cookies()
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

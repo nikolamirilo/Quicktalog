@@ -1,5 +1,6 @@
 "use client"
 import { Button } from "@/components/ui/button"
+import { DashboardProps } from "@/types/components"
 import { useState } from "react"
 import { FiBarChart2, FiCalendar, FiSettings } from "react-icons/fi"
 import { TbFileAnalytics } from "react-icons/tb"
@@ -15,7 +16,13 @@ const TABS = [
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
 ]
 
-export default function Dashboard({ userData, catalogues, overallAnalytics }) {
+export default function Dashboard({
+  user,
+  catalogues,
+  overallAnalytics,
+  usage,
+  pricingPlan,
+}: DashboardProps) {
   const [activeTab, setActiveTab] = useState("overview")
   function getSidebarButtonClass(isActive: boolean) {
     return isActive
@@ -61,7 +68,6 @@ export default function Dashboard({ userData, catalogues, overallAnalytics }) {
     </nav>
   )
 
-  const { pricing_plan, usage, ...user } = userData
   return (
     <div className="w-full min-h-screen px-2 sm:px-4 relative md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
@@ -80,12 +86,12 @@ export default function Dashboard({ userData, catalogues, overallAnalytics }) {
           )}
           {activeTab === "subscription" && (
             <section className="animate-fade-in">
-              <Subscription pricingPlan={userData.pricing_plan} />
+              <Subscription pricingPlan={pricingPlan} />
             </section>
           )}
           {activeTab === "usage" && (
             <section className="animate-fade-in">
-              <MonthlyUsage data={userData.usage} pricingPlan={userData.pricing_plan} />
+              <MonthlyUsage data={usage} pricingPlan={pricingPlan} />
             </section>
           )}
           {activeTab === "settings" && (

@@ -46,6 +46,12 @@ export type ServicesCategory = {
   items: ServicesItem[]
 }
 
+export type OverallAnalytics = {
+  totalPageViews: number
+  totalUniqueVisitors: number
+  totalServiceCatalogues: number
+}
+
 export type ServiceCatalogue = {
   id: string
   name: string

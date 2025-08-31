@@ -31,8 +31,6 @@ const ServicesSection = ({
       return []
     }
 
-    console.log("ServicesSection: Processing servicesData:", servicesData)
-
     try {
       const sections = servicesData
         .map((item) => ({
@@ -77,8 +75,6 @@ const ServicesSection = ({
     )
   }
 
-  console.log("ServicesSection: Rendering with sectionsData:", sectionsData)
-
   if (sectionsData.length === 0) {
     return (
       <main className="max-w-6xl mx-auto px-4 py-4" role="main" aria-label="Services content">
@@ -98,8 +94,6 @@ const ServicesSection = ({
       {sectionsData.map((item) => {
         // The 'layout' variable now comes directly from the context or from the item data
         const currentLayout = type === "playground" ? layout : item.layout
-
-        console.log(`ServicesSection: Rendering section ${item.code} with layout ${currentLayout}`)
 
         // Validate section data
         if (!item.items || !Array.isArray(item.items)) {
