@@ -189,3 +189,9 @@ export type DashboardProps = {
   usage: Usage
   pricingPlan: PricingPlan
 }
+
+export type OverviewProps = {
+  catalogues: ServiceCatalogue[]
+  overallAnalytics: OverallAnalytics
+  user: User
+}

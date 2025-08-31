@@ -3,6 +3,11 @@
 @tailwind utilities;
 @layer theme, base, clerk, components, utilities;
 
+*,
+button:hover {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 html,
 body {
   min-height: 100vh;
@@ -10,7 +15,6 @@ body {
   padding: 0;
   overflow-x: hidden;
   @apply scroll-smooth;
-  -webkit-tap-highlight-color: transparent !important;
 }
 
 .product {
@@ -31,7 +35,11 @@ body {
   --product-hover-shadow: 0 4px 10px rgba(229, 194, 48, 0.15);
 
   /* Gradient backgrounds */
-  --product-gradient-primary: linear-gradient(to bottom right, var(--product-background), var(--hero-product-background));
+  --product-gradient-primary: linear-gradient(
+    to bottom right,
+    var(--product-background),
+    var(--hero-product-background)
+  );
 
   /* Navbar button hover enhancements */
   --navbar-button-hover-bg: #f0f0f0;
@@ -56,7 +64,7 @@ body {
   @apply w-fit h-10 sm:h-12;
 }
 
-.home .benefit-section:last-of-type>div {
+.home .benefit-section:last-of-type > div {
   @apply mb-10;
 }
 
@@ -795,11 +803,11 @@ a.selected:after {
 }
 
 /* Target Clerk's portal container and force positioning */
-body>div[class*="cl-userButtonPopoverCard"],
-body>div[class*="cl-userButtonPopoverCardRoot"],
-body>div[class*="cl-userButtonPopover"],
-body>div[class*="cl-userButtonPopoverCardRoot"]>div,
-body>div[class*="cl-userButtonPopoverCard"]>div {
+body > div[class*="cl-userButtonPopoverCard"],
+body > div[class*="cl-userButtonPopoverCardRoot"],
+body > div[class*="cl-userButtonPopover"],
+body > div[class*="cl-userButtonPopoverCardRoot"] > div,
+body > div[class*="cl-userButtonPopoverCard"] > div {
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
@@ -811,9 +819,9 @@ body>div[class*="cl-userButtonPopoverCard"]>div {
 }
 
 /* Force all Clerk dropdowns in mobile context to be positioned correctly */
-.mobile-menu~div[class*="cl-userButtonPopoverCard"],
-.mobile-menu~div[class*="cl-userButtonPopoverCardRoot"],
-.mobile-menu~div[class*="cl-userButtonPopover"] {
+.mobile-menu ~ div[class*="cl-userButtonPopoverCard"],
+.mobile-menu ~ div[class*="cl-userButtonPopoverCardRoot"],
+.mobile-menu ~ div[class*="cl-userButtonPopover"] {
   position: absolute !important;
   top: 100% !important;
   left: 0 !important;
@@ -826,7 +834,6 @@ body>div[class*="cl-userButtonPopoverCard"]>div {
 
 /* Mobile menu UserButton dropdown positioning - ensure it stays below the button */
 @media (max-width: 768px) {
-
   .mobile-menu .cl-userButtonPopoverCardRoot .cl-userButtonPopoverCard,
   .mobile-menu .cl-userButtonPopoverCard,
   .mobile-menu [class*="cl-userButtonPopoverCard"] {
@@ -841,9 +848,9 @@ body>div[class*="cl-userButtonPopoverCard"]>div {
   }
 
   /* Target any portal-rendered dropdowns */
-  body>div[class*="cl-userButtonPopoverCard"],
-  body>div[class*="cl-userButtonPopoverCardRoot"],
-  body>div[class*="cl-userButtonPopover"] {
+  body > div[class*="cl-userButtonPopoverCard"],
+  body > div[class*="cl-userButtonPopoverCardRoot"],
+  body > div[class*="cl-userButtonPopover"] {
     position: absolute !important;
     top: 100% !important;
     left: 0 !important;

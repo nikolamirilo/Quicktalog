@@ -1,13 +1,44 @@
 "use server"
+import { Status } from "@/types/enums"
 import { createClient } from "@/utils/supabase/server"
 
-export async function deleteServiceCatalogue(id: string): Promise<boolean> {
-  const supabase = await createClient()
-  const { error } = await supabase.from("service_catalogues").delete().eq("id", id)
-  return !error
+export async function deleteItem(id: string): Promise<boolean> {
+  try {
+    const supabase = await createClient()
+
+    const { error } = await supabase.from("service_catalogues").delete().eq("id", id)
+
+    if (error) {
+      console.error("Failed to delete service catalogue:", error.message)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error("Unexpected error while deleting service catalogue:", err)
+    return false
+  }
 }
 
-export async function duplicateServiceCatalogue(id: string) {
+export async function updateItemStatus(id: string, status: Status): Promise<boolean> {
+  try {
+    const supabase = await createClient()
+
+    const { error } = await supabase.from("service_catalogues").update({ status }).eq("id", id)
+
+    if (error) {
+      console.error("Failed to update status:", error.message)
+      return false
+    }
+
+    return true
+  } catch (err) {
+    console.error("Unexpected error while updating status:", err)
+    return false
+  }
+}
+
+export async function duplicateItem(id: string) {
   const supabase = await createClient()
   // Fetch the original record
   const { data, error } = await supabase

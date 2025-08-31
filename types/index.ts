@@ -1,5 +1,6 @@
 import { layouts, themes } from "@/constants"
 import { ILinkItem, ISocials } from "./components"
+import { Status } from "./enums"
 
 export type Record = {
   name: string
@@ -47,15 +48,17 @@ export type ServicesCategory = {
 }
 
 export type OverallAnalytics = {
-  totalPageViews: number
-  totalUniqueVisitors: number
-  totalServiceCatalogues: number
+  totalPageViews: number | "N/A"
+  totalUniqueVisitors: number | "N/A"
+  totalServiceCatalogues: number | "N/A"
+  totalNewsletterSubscriptions: number | "N/A"
 }
 
 export type ServiceCatalogue = {
-  id: string
+  id?: string
   name: string
-  created_by: string
+  status: Status
+  created_by?: string
   theme: ThemeVariant
   logo?: string
   title: string
@@ -66,6 +69,8 @@ export type ServiceCatalogue = {
   partners?: Partner[]
   legal?: Legal
   configuration?: Configuration
+  created_at?: string
+  updated_at?: string
 }
 
 export type ServicesFormData = Omit<ServiceCatalogue, "id" | "created_by" | "">
@@ -78,10 +83,10 @@ export type Service = {
 }
 
 export type Legal = {
-  name: string
-  address: string
-  terms_and_conditions: string
-  privacy_policy: string
+  name?: string
+  address?: string
+  terms_and_conditions?: string
+  privacy_policy?: string
 }
 
 export type Partner = {

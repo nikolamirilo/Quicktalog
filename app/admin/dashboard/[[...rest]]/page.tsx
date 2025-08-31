@@ -4,7 +4,7 @@ import FloatingActionMenu from "@/components/admin/dashboard/FloatingActionMenu"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { Button } from "@/components/ui/button"
-import type { Analytics, ServiceCatalogue, UserData } from "@/types"
+import type { OverallAnalytics, ServiceCatalogue, UserData } from "@/types"
 import { createClient } from "@/utils/supabase/server"
 import Link from "next/link"
 
@@ -13,7 +13,6 @@ export const dynamic = "force-dynamic"
 export default async function page() {
   const supabase = await createClient()
   let catalogues: ServiceCatalogue[] = []
-  let analytics: Analytics[] = []
   const userData: UserData = await getUserData()
   if (userData) {
     const { data, error } = await supabase
@@ -22,20 +21,26 @@ export default async function page() {
       .eq("created_by", userData.id)
     catalogues = error ? [] : data || []
 
-    const { data: analyticsData, error: analyticsError } = await supabase
+    const { data: analyticsData } = await supabase
       .from("analytics")
       .select("date, hour, current_url, pageview_count, unique_visitors")
       .eq("user_id", userData.id)
-    analytics = analyticsError ? [] : analyticsData || []
+    const { count: newsletterCount } = await supabase
+      .from("newsletter")
+      .select("*", { count: "exact", head: true })
+      .eq("owner_id", userData.id)
 
-    const totalPageViews = analytics?.reduce((sum, a) => sum + (a.pageview_count || 0), 0)
-    const totalUniqueVisitors = analytics?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0)
-    const totalServiceCatalogues = catalogues?.length || 0
-
-    const overallAnalytics = {
+    const totalPageViews =
+      analyticsData?.reduce((sum, a) => sum + (a.pageview_count || 0), 0) || "N/A"
+    const totalUniqueVisitors =
+      analyticsData?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0) || "N/A"
+    const totalNewsletterSubscriptions = newsletterCount || "N/A"
+    const totalServiceCatalogues = catalogues?.length || "N/A"
+    const overallAnalytics: OverallAnalytics = {
       totalPageViews,
       totalUniqueVisitors,
       totalServiceCatalogues,
+      totalNewsletterSubscriptions,
     }
     const { pricing_plan, usage, ...user } = userData
 

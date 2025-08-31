@@ -1,4 +1,4 @@
-import { CookiePreferences } from "@/types"
+import { CookiePreferences, ServiceCatalogue } from "@/types"
 import { ILinkItem } from "@/types/components"
 
 export const defaultCookiePreferences: CookiePreferences = {
@@ -69,7 +69,7 @@ export const layouts = [
     label: "Layout 1",
     image: "/layouts/layout_1.jpg",
     description:
-      "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse menus.",
+      "Grid layout: Catalogue items are displayed in a responsive grid (1 column on mobile, 2 on desktop), with images and details shown together. Best for balanced, easy-to-browse catalogues.",
   },
   {
     key: "variant_2",
@@ -83,14 +83,14 @@ export const layouts = [
     label: "Layout 3",
     image: "/layouts/layout_3.jpg",
     description:
-      "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for menus needing a slightly different grid presentation. This layout does not contain image.",
+      "Alternative grid layout: Similar to Layout 1 but with subtle style differences, such as spacing or card appearance. Useful for catalogues needing a slightly different grid presentation. This layout does not contain image.",
   },
   {
     key: "variant_4",
     label: "Layout 4",
     image: "/layouts/layout_4.jpg",
     description:
-      "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich menus.",
+      "Carousel layout: Catalogue items are displayed in a horizontal scrollable carousel, allowing users to swipe or scroll through items. Great for featured items or visually rich catalogues.",
   },
 ]
 
@@ -116,3 +116,20 @@ export const contactTypes = [
   { value: "facebook", label: "Facebook" },
   { value: "twitter", label: "Twitter" },
 ]
+
+export const defaultServiceCatalogueData: ServiceCatalogue = {
+  name: "",
+  status: "draft",
+  theme: "",
+  logo: "",
+  title: "",
+  currency: "",
+  contact: [],
+  subtitle: "",
+  services: [],
+  partners: [],
+  legal: {},
+  configuration: {},
+  id: "",
+  created_by: "",
+}

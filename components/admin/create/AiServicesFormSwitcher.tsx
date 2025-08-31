@@ -19,7 +19,6 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
     theme: "",
     title: "",
     currency: "",
-
     subtitle: "",
   })
   const [prompt, setPrompt] = useState("")

@@ -91,6 +91,7 @@ export async function POST(req: NextRequest) {
       .insert([
         {
           name: baseSlug,
+          status: "active",
           title: formData.title,
           currency: formData.currency,
           theme: formData.theme,

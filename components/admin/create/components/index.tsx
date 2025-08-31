@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { defaultServiceCatalogueData } from "@/constants"
 import { toast } from "@/hooks/use-toast"
 import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
 import { ServicesFormBaseProps } from "@/types/components"
@@ -16,47 +17,7 @@ import Step4Branding from "./Step4Branding"
 
 function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBaseProps) {
   const [formData, setFormData] = useState<ServicesFormData>(
-    initialData || {
-      name: "",
-      theme: "",
-      logo: "",
-      title: "",
-      currency: "",
-      contact: [],
-      subtitle: "",
-      services: [
-        {
-          order: 0,
-          name: "",
-          layout: "",
-          items: [{ name: "", description: "", price: 0, image: "" }],
-        },
-      ],
-      partners: [],
-      legal: {
-        name: "",
-        address: "",
-        terms_and_conditions: "",
-        privacy_policy: "",
-      },
-      configuration: {
-        emailButtonNavbar: false,
-        ctaFooter: {
-          enabled: false,
-          label: "",
-          url: "",
-        },
-        ctaNavbar: {
-          enabled: false,
-          label: "",
-          url: "",
-        },
-        newsletter: {
-          enabled: false,
-          url: "",
-        },
-      },
-    }
+    initialData || defaultServiceCatalogueData
   )
   const [currentStep, setCurrentStep] = useState(1)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -398,6 +359,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
       const submissionData = {
         name: serviceCatalogueSlug,
+        status: "active",
         theme: transformedFormData.theme,
         logo: transformedFormData.logo,
         title: transformedFormData.title,
@@ -429,40 +391,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         setShowSuccessModal(true)
         if (onSuccess) onSuccess(`/service-catalogues/${serviceCatalogueSlug}`)
         if (type === "create") {
-          setFormData({
-            name: "",
-            theme: "",
-            logo: "",
-            title: "",
-            currency: "",
-            contact: [],
-            subtitle: "",
-            services: [],
-            partners: [],
-            legal: {
-              name: "",
-              address: "",
-              terms_and_conditions: "",
-              privacy_policy: "",
-            },
-            configuration: {
-              emailButtonNavbar: false,
-              ctaFooter: {
-                enabled: false,
-                label: "",
-                url: "",
-              },
-              ctaNavbar: {
-                enabled: false,
-                label: "",
-                url: "",
-              },
-              newsletter: {
-                enabled: false,
-                url: "",
-              },
-            },
-          })
+          setFormData(defaultServiceCatalogueData)
           setCurrentStep(1)
         }
       } else {

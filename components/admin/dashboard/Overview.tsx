@@ -1,5 +1,6 @@
 "use client"
-import { deleteServiceCatalogue, duplicateServiceCatalogue } from "@/actions/items"
+import { deleteItem, duplicateItem, updateItemStatus } from "@/actions/items"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import {
@@ -8,7 +9,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { statusOrder } from "@/constants/sort"
 import { revalidateData } from "@/helpers/server"
+import { ServiceCatalogue } from "@/types"
+import { OverviewProps } from "@/types/components"
+import { Status } from "@/types/enums"
 import Link from "next/link"
 import { useState } from "react"
 import { BiScan } from "react-icons/bi"
@@ -16,9 +21,10 @@ import { FiCopy, FiEdit, FiMoreVertical, FiPlus, FiTrash2 } from "react-icons/fi
 import { LuSquareMenu } from "react-icons/lu"
 import { RiSparkling2Line } from "react-icons/ri"
 import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
+import { VscActivateBreakpoints } from "react-icons/vsc"
 import InformModal from "../../modals/InformModal"
 
-const Overview = ({ user, overallAnalytics, catalogues }) => {
+const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [menuToDelete, setMenuToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
@@ -29,20 +35,36 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
 
   async function confirmDelete() {
     if (menuToDelete) {
-      await deleteServiceCatalogue(menuToDelete)
+      await deleteItem(menuToDelete)
       revalidateData()
       setMenuToDelete(null)
       setIsModalOpen(false)
     }
   }
 
-  async function handleDuplicateMenu(id: string) {
+  const statusColors: Record<string, string> = {
+    active: "text-white bg-green-700",
+    inactive: "text-white bg-product-secondary",
+    draft: "text-white bg-product-primary",
+  }
+
+  async function handleDuplicateCatalogue(id: string) {
     setDuplicatingId(id)
     try {
-      await duplicateServiceCatalogue(id)
+      await duplicateItem(id)
       await revalidateData()
     } catch (e) {
-      alert("Failed to duplicate menu.")
+      alert("Failed to duplicate item.")
+    } finally {
+      setDuplicatingId(null)
+    }
+  }
+  async function handleupdateItemStatus(id: string, status: Status) {
+    try {
+      await updateItemStatus(id, status)
+      await revalidateData()
+    } catch (e) {
+      alert("Failed to update status.")
     } finally {
       setDuplicatingId(null)
     }
@@ -65,7 +87,7 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
               height={128}
               className="rounded-full ring-4 ring-product-primary/30 shadow-lg w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 object-cover"
             />
-            <div className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7 bg-green-500 rounded-full border-2 border-product-background"></div>
+            <div className="absolute -bottom-1 -right-1 sm:-bottom-1 sm:-right-0 w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7 bg-green-500 rounded-full border-2 border-product-background"></div>
           </div>
           <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left">
             <div className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold text-product-foreground mb-1 font-heading">
@@ -112,7 +134,7 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
               Newsletter
             </div>
             <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-product-primary">
-              0
+              {overallAnalytics.totalNewsletterSubscriptions}
             </div>
           </Card>
         </div>
@@ -148,82 +170,108 @@ const Overview = ({ user, overallAnalytics, catalogues }) => {
               No catalogues created yet.
             </div>
           )}
-          {catalogues.map((restaurant) => (
-            <Card
-              key={restaurant.id}
-              className="p-3 sm:p-4 md:p-6 lg:p-8 flex flex-col gap-2 sm:gap-3 lg:gap-4 relative bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow hover:scale-[1.02] transition-all duration-200 animate-fade-in">
-              {/* Three dots menu moved to top */}
-              <div className="absolute top-2 right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 z-10">
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 p-0 text-product-foreground hover:text-product-primary hover:bg-product-background/50 transition-colors duration-200">
-                      <FiMoreVertical size={14} className="sm:w-4 sm:h-4 md:w-[18px] md:h-[18px]" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="bg-product-background border border-product-border rounded-xl shadow-lg">
-                    <Link href={`/admin/items/${restaurant.name}/edit`} passHref>
+          {catalogues
+            .sort((a, b) => statusOrder[a.status] - statusOrder[b.status])
+            .map((catalogue: ServiceCatalogue) => (
+              <Card
+                key={catalogue.id}
+                className="p-3 sm:p-4 md:p-6 lg:p-8 flex flex-col gap-2 sm:gap-3 lg:gap-4 relative bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow hover:scale-[1.02] transition-all duration-200 animate-fade-in">
+                {/* Three dots menu moved to top */}
+                <div className="absolute top-2 right-2 sm:top-3 sm:right-3 md:top-4 md:right-4 z-10">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 p-0 text-product-foreground hover:text-product-primary hover:bg-product-background/50 transition-colors duration-200">
+                        <FiMoreVertical
+                          size={14}
+                          className="sm:w-4 sm:h-4 md:w-[18px] md:h-[18px]"
+                        />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      align="end"
+                      className="bg-product-background border border-product-border rounded-xl shadow-lg">
+                      <Link href={`/admin/items/${catalogue.name}/edit`} passHref>
+                        <DropdownMenuItem
+                          asChild
+                          className="text-product-foreground hover:bg-product-hover-background cursor-pointer">
+                          <div className="flex items-center gap-2">
+                            <FiEdit size={18} /> Edit
+                          </div>
+                        </DropdownMenuItem>
+                      </Link>
                       <DropdownMenuItem
-                        asChild
+                        onClick={() =>
+                          handleupdateItemStatus(
+                            catalogue.id,
+                            catalogue.status === "active" ? "inactive" : "active"
+                          )
+                        }
+                        disabled={duplicatingId === catalogue.id}
                         className="text-product-foreground hover:bg-product-hover-background cursor-pointer">
-                        <div className="flex items-center gap-2">
-                          <FiEdit size={18} /> Edit
-                        </div>
+                        <span className="flex items-center gap-2">
+                          <VscActivateBreakpoints size={18} />
+                          {duplicatingId === catalogue.id
+                            ? "Loading..."
+                            : `Set to ${catalogue.status === "active" ? "inactive" : "active"}`}
+                        </span>
                       </DropdownMenuItem>
-                    </Link>
-                    <DropdownMenuItem
-                      onClick={() => handleDuplicateMenu(restaurant.id)}
-                      disabled={duplicatingId === restaurant.id}
-                      className="text-product-foreground hover:bg-product-hover-background cursor-pointer">
-                      <span className="flex items-center gap-2">
-                        <FiCopy size={18} />
-                        {duplicatingId === restaurant.id ? "Loading..." : "Duplicate"}
-                      </span>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => handleDeleteMenu(restaurant.id)}
-                      disabled={isModalOpen}
-                      className="text-red-400 hover:bg-red-50 cursor-pointer">
-                      <span className="flex items-center gap-2">
-                        <FiTrash2 size={18} />
-                        Delete
-                      </span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+                      <DropdownMenuItem
+                        onClick={() => handleDuplicateCatalogue(catalogue.id)}
+                        disabled={duplicatingId === catalogue.id}
+                        className="text-product-foreground hover:bg-product-hover-background cursor-pointer">
+                        <span className="flex items-center gap-2">
+                          <FiCopy size={18} />
+                          {duplicatingId === catalogue.id ? "Loading..." : "Duplicate"}
+                        </span>
+                      </DropdownMenuItem>
 
-              {/* Card content */}
-              <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-product-foreground pr-8 sm:pr-10 md:pr-12 break-words font-heading">
-                {restaurant.name}
-              </div>
-              <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
-                Created: {new Date(restaurant.created_at).toLocaleString()}
-              </div>
-              <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
-                Updated: {new Date(restaurant.updated_at).toLocaleString()}
-              </div>
-              {/* Buttons */}
-              <div className="flex flex-col gap-2 sm:gap-3 mt-auto pt-2 sm:pt-3 md:pt-4">
-                <Link href={`/service-catalogues/${restaurant.name}`} className="w-full">
-                  <Button className="w-full">
-                    <LuSquareMenu size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
-                    <span className="ml-1">View Catalogue</span>
-                  </Button>
-                </Link>
-                <Link href={`/admin/items/${restaurant.name}/analytics`} className="w-full">
-                  <Button variant="outline" className="w-full">
-                    <TbBrandGoogleAnalytics size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
-                    <span className="ml-1">Analytics</span>
-                  </Button>
-                </Link>
-              </div>
-            </Card>
-          ))}
+                      <DropdownMenuItem
+                        onClick={() => handleDeleteMenu(catalogue.id)}
+                        disabled={isModalOpen}
+                        className="text-red-400 hover:bg-red-50 cursor-pointer">
+                        <span className="flex items-center gap-2">
+                          <FiTrash2 size={18} />
+                          Delete
+                        </span>
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                {/* Card content */}
+                <div className="font-bold text-sm sm:text-base md:text-lg lg:text-xl text-product-foreground pr-8 sm:pr-10 md:pr-12 break-words font-heading">
+                  {catalogue.name}
+                </div>
+                <Badge
+                  className={`${statusColors[catalogue.status] || "bg-gray-100 text-gray-700"} w-fit`}>
+                  {catalogue.status.toUpperCase()}
+                </Badge>
+                <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
+                  Created: {new Date(catalogue.created_at).toLocaleString()}
+                </div>
+                {/* <div className="text-product-foreground-accent text-xs sm:text-sm break-words">
+                Updated: {new Date(catalogue.updated_at).toLocaleString()}
+              </div> */}
+                {/* Buttons */}
+                <div className="flex flex-col gap-2 sm:gap-3 mt-auto pt-2 sm:pt-3 md:pt-4">
+                  <Link href={`/service-catalogues/${catalogue.name}`} className="w-full">
+                    <Button className="w-full">
+                      <LuSquareMenu size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
+                      <span className="ml-1">View Catalogue</span>
+                    </Button>
+                  </Link>
+                  <Link href={`/admin/items/${catalogue.name}/analytics`} className="w-full">
+                    <Button variant="outline" className="w-full">
+                      <TbBrandGoogleAnalytics size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
+                      <span className="ml-1">Analytics</span>
+                    </Button>
+                  </Link>
+                </div>
+              </Card>
+            ))}
         </div>
       </section>
       <InformModal

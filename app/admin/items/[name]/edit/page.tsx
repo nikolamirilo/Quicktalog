@@ -31,6 +31,7 @@ export default async function EditServicesPage({ params }: { params: Promise<{ n
   }
   const initialData: ServicesFormData = {
     name: data.name || "",
+    status: data.status || "draft",
     theme: data.theme || "",
     logo: data.logo || "",
     title: data.title || "",

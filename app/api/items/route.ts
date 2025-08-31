@@ -16,6 +16,7 @@ export async function POST(request: Request) {
       partners,
       subtitle,
       configuration,
+      status,
     } = await request.json()
 
     const { data, error } = await supabase
@@ -33,6 +34,7 @@ export async function POST(request: Request) {
           contact,
           partners,
           subtitle,
+          status: status || "active",
           configuration,
         },
       ])
@@ -74,6 +76,7 @@ export async function PATCH(request: Request) {
       contact,
       subtitle,
       configuration,
+      status,
     } = await request.json()
 
     // Update the service catalogue record
@@ -90,6 +93,7 @@ export async function PATCH(request: Request) {
         subtitle,
         partners,
         configuration,
+        status: status || "active",
         updated_at: new Date().toISOString(),
       })
       .eq("name", name)
