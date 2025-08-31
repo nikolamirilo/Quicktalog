@@ -23,7 +23,7 @@ const Settings = () => {
         style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
         <FiSettings className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Settings
       </h2>
-      <div className="flex flex-row gap-5 my-8">
+      <div className="flex flex-col max-w-[300px] mx-auto md:mx-0 md:flex-row gap-5 my-8">
         <Button
           onClick={() => setIsCookieSettingsOpen(true)}
           aria-label="Manage cookie preferences">
