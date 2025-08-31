@@ -30,12 +30,11 @@ export default async function page() {
       .select("*", { count: "exact", head: true })
       .eq("owner_id", userData.id)
 
-    const totalPageViews =
-      analyticsData?.reduce((sum, a) => sum + (a.pageview_count || 0), 0) || "N/A"
+    const totalPageViews = analyticsData?.reduce((sum, a) => sum + (a.pageview_count || 0), 0) || 0
     const totalUniqueVisitors =
-      analyticsData?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0) || "N/A"
-    const totalNewsletterSubscriptions = newsletterCount || "N/A"
-    const totalServiceCatalogues = catalogues?.length || "N/A"
+      analyticsData?.reduce((sum, a) => sum + (a.unique_visitors || 0), 0) || 0
+    const totalNewsletterSubscriptions = newsletterCount || 0
+    const totalServiceCatalogues = catalogues?.length || 0
     const overallAnalytics: OverallAnalytics = {
       totalPageViews,
       totalUniqueVisitors,

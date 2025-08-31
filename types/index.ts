@@ -48,10 +48,10 @@ export type ServicesCategory = {
 }
 
 export type OverallAnalytics = {
-  totalPageViews: number | "N/A"
-  totalUniqueVisitors: number | "N/A"
-  totalServiceCatalogues: number | "N/A"
-  totalNewsletterSubscriptions: number | "N/A"
+  totalPageViews: number
+  totalUniqueVisitors: number
+  totalServiceCatalogues: number
+  totalNewsletterSubscriptions: number
 }
 
 export type ServiceCatalogue = {
