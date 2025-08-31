@@ -139,8 +139,8 @@ export default function PrivacyPolicyPage() {
         </ul>
         <p className="mb-4">
           To exercise any of these rights, please contact us at{" "}
-          <a href="mailto:support@quicktalog.app" className="text-product-primary underline">
-            support@quicktalog.app
+          <a href="mailto:quicktalog@outlook.com" className="text-product-primary underline">
+            quicktalog@outlook.com
           </a>
           .
         </p>
@@ -189,12 +189,10 @@ export default function PrivacyPolicyPage() {
         <ul className="list-disc list-inside space-y-2 mb-4">
           <li>
             By email:{" "}
-            <a href="mailto:support@quicktalog.app" className="underline">
-              support@quicktalog.app
+            <a href="mailto:quicktalog@outlook.com" className="underline">
+              quicktalog@outlook.com
             </a>
           </li>
-          <li>By mail: [Your Company Legal Name], [Your Company Address]</li>
-          <li>By phone: +381 60 123 4567</li> {/* Ensure this is a live, functional number */}
         </ul>
       </div>
       <Footer />

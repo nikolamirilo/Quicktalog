@@ -68,7 +68,6 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
             ...prev.configuration,
             newsletter: {
               enabled: !prev.configuration?.newsletter?.enabled,
-              url: prev.configuration?.newsletter?.url || "",
             },
           },
         }
@@ -320,29 +319,6 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
               disabled={isFreePlan}
             />
           </div>
-          {formData.configuration?.newsletter?.enabled && (
-            <div className="space-y-3">
-              <Input
-                placeholder="Subscribe URL (e.g. https://example.com/subscribe)"
-                value={formData.configuration.newsletter.url || ""}
-                onChange={(e) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    configuration: {
-                      ...prev.configuration,
-                      newsletter: {
-                        ...prev.configuration?.newsletter,
-                        enabled: prev.configuration?.newsletter?.enabled || false,
-                        url: e.target.value,
-                      },
-                    },
-                  }))
-                }}
-                className="border-product-border focus:border-product-primary focus:ring-product-primary/20"
-                disabled={isFreePlan}
-              />
-            </div>
-          )}
         </div>
 
         <div className="space-y-3 md:col-span-2">

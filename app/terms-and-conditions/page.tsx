@@ -3,7 +3,6 @@
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { Metadata } from "next"
-import React from "react"
 
 export const metadata: Metadata = {
   title: "Terms & Conditions",
@@ -43,7 +42,7 @@ export default function TermsAndConditionsPage() {
             <a href="https://quicktalog.app" className="text-product-primary underline">
               quicktalog.app
             </a>
-            ) or via our approved SDKs within integrated applications.
+            ).
           </li>
           <li>
             We <strong>never</strong> send direct product checkout links as a means to collect
@@ -90,8 +89,8 @@ export default function TermsAndConditionsPage() {
           </li>
           <li>
             If you discover an error in your order immediately after purchase, please contact us at{" "}
-            <a href="mailto:support@quicktalog.app" className="underline">
-              support@quicktalog.app
+            <a href="mailto:quicktalog@outlook.com" className="underline">
+              quicktalog@outlook.com
             </a>{" "}
             within 48 hours for assistance with resolution.
           </li>
@@ -100,7 +99,7 @@ export default function TermsAndConditionsPage() {
         <h2 className="text-xl font-bold mt-8 mb-4">4. Refund Policy</h2>
         <ul className="list-disc list-inside space-y-2">
           <li>
-            We offer a <strong>30-day money-back guarantee</strong> for all Quicktalog purchases.
+            We offer a <strong>10-day money-back guarantee</strong> for all Quicktalog purchases.
           </li>
           <li>
             For detailed information on how to request a refund and the conditions that apply,
@@ -117,8 +116,8 @@ export default function TermsAndConditionsPage() {
               paddle.net
             </a>
             , or reach out to us at{" "}
-            <a href="mailto:support@quicktalog.app" className="underline">
-              support@quicktalog.app
+            <a href="mailto:quicktalog@outlook.com" className="underline">
+              quicktalog@outlook.com
             </a>
             .
           </li>
@@ -144,13 +143,10 @@ export default function TermsAndConditionsPage() {
         <ul className="list-disc list-inside space-y-2">
           <li>
             <strong>Support Email:</strong>{" "}
-            <a href="mailto:support@quicktalog.app" className="underline">
-              support@quicktalog.app
+            <a href="mailto:quicktalog@outlook.com" className="underline">
+              quicktalog@outlook.com
             </a>
           </li>
-          <li>
-            <strong>Support Phone:</strong> +381 60 123 4567
-          </li>{" "}
           {/* Ensure this is a live, functional number */}
           <li>We aim to respond to all support inquiries within 1 business day.</li>
         </ul>
@@ -192,8 +188,8 @@ export default function TermsAndConditionsPage() {
         <p>
           If you have any questions regarding these Terms & Conditions, please don't hesitate to
           reach out to us at{" "}
-          <a href="mailto:support@quicktalog.app" className="underline">
-            support@quicktalog.app
+          <a href="mailto:quicktalog@outlook.com" className="underline">
+            quicktalog@outlook.com
           </a>
           .
         </p>

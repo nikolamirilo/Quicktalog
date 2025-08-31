@@ -97,7 +97,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const userData: UserData = {
       ...adjustedUser,
       pricing_plan: {
-        id: pricingPlan?.id || null,
+        id: pricingPlan.id,
         name: pricingPlan?.name || null,
         description: pricingPlan?.description || null,
         priceId: pricingPlan.priceId || null,

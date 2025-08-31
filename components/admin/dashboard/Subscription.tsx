@@ -317,6 +317,7 @@ export default function Subscription({
           </div>
           <Button
             variant="default"
+            disabled={pricingPlan.id === 0}
             className="w-fit min-w-56"
             onClick={() =>
               router.push("https://customer-portal.paddle.com/cpl_01k11h2axbrhg4fzmw2zey50x0")
