@@ -29,10 +29,10 @@ export const footerDetails: {
       text: "Pricing",
       url: "/pricing",
     },
-    {
-      text: "Showcases",
-      url: "/showcases",
-    },
+    // {
+    //   text: "Showcases",
+    //   url: "/showcases",
+    // },
     {
       text: "Terms & Conditions",
       url: "/terms-and-conditions",

@@ -13,14 +13,12 @@ const Settings = () => {
   const [isCookieSettingsOpen, setIsCookieSettingsOpen] = useState(false)
 
   return (
-    <div className="w-full relative">
+    <div className="max-w-5xl space-y-6 relative">
       <CookiePreferencesModal
         isOpen={isCookieSettingsOpen}
         onClose={() => setIsCookieSettingsOpen(false)}
       />
-      <h2
-        className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3"
-        style={{ fontFamily: "var(--font-playfair-display), var(--font-inter), serif" }}>
+      <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3 font-heading">
         <FiSettings className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Settings
       </h2>
       <div className="flex flex-col max-w-[300px] mx-auto md:mx-0 md:flex-row gap-5 my-8">

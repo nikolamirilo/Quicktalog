@@ -24,9 +24,9 @@ export function createGenerationPrompt(
       {
         name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
         layout: isOcrMode ? "variant_3" : "variant_1",
+        order: 1,
         items: [
           {
-            order: 1,
             name: "Item Name",
             description: "Description of Item",
             price: 12,

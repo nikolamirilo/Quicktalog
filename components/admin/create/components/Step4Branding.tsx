@@ -31,6 +31,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   setFormData,
 }) => {
   const isFreePlan = userData?.pricing_plan.id === 0
+  const isProPlan = userData?.pricing_plan.id === 1
 
   const [logoPreview, setLogoPreview] = useState<string | null>(formData.logo || null)
 
@@ -316,7 +317,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
             <Switch
               checked={!!formData.configuration?.newsletter?.enabled}
               onCheckedChange={() => handleToggle("newsletter")}
-              disabled={isFreePlan}
+              disabled={isFreePlan ? isFreePlan : isProPlan ? isProPlan : false}
             />
           </div>
         </div>

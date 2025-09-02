@@ -11,7 +11,7 @@ export default async function page() {
   console.log(userData)
   if (
     userData &&
-    userData.pricing_plan.id !== 0 &&
+    userData.pricing_plan.id > 1 &&
     userData.usage.ocr <= userData.pricing_plan.features.ocr_ai_import
   ) {
     return (

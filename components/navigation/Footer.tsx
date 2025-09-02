@@ -3,7 +3,7 @@ import { getPlatformIconByName } from "@/constants/ui"
 import Image from "next/image"
 import Link from "next/link"
 import React from "react"
-import { FiExternalLink, FiMail, FiPhone } from "react-icons/fi"
+import { FiExternalLink } from "react-icons/fi"
 
 const Footer: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const Footer: React.FC = () => {
             <p className="text-product-foreground-accent leading-relaxed max-w-sm">
               {footerDetails.subheading}
             </p>
-            <div className="flex items-center gap-4 pt-2">
+            {/* <div className="flex items-center gap-4 pt-2">
               <a
                 href={`mailto:${footerDetails.email}`}
                 className="flex items-center gap-2 text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
@@ -41,12 +41,12 @@ const Footer: React.FC = () => {
                 <FiPhone className="w-4 h-4" />
                 <span className="text-sm">Phone</span>
               </a>
-            </div>
+            </div> */}
           </div>
 
-          {/* Quick Links */}
+          {/* Legal */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-product-foreground">Quick Links</h4>
+            <h4 className="text-lg font-semibold text-product-foreground">Legal</h4>
             <ul className="space-y-3">
               {footerDetails.quickLinks.map((link) => (
                 <li key={link.text}>
@@ -70,11 +70,11 @@ const Footer: React.FC = () => {
                 className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
                 {footerDetails.email}
               </a>
-              <a
+              {/* <a
                 href={`tel:${footerDetails.telephone}`}
                 className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
                 {footerDetails.telephone}
-              </a>
+              </a> */}
             </div>
 
             {/* Social Links */}
