@@ -154,18 +154,6 @@ export default function Subscription({
     )
   }
 
-  if (loading) {
-    return (
-      <div className="max-w-5xl space-y-6">
-        <div className="animate-pulse">
-          <div className="h-32 bg-product-hover-background rounded mb-6"></div>
-          <div className="h-64 bg-product-hover-background rounded mb-6"></div>
-          <div className="h-16 bg-product-hover-background rounded"></div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="max-w-5xl space-y-6">
       <h2 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-bold mb-4 sm:mb-6 text-product-foreground flex items-center gap-2 sm:gap-3 font-heading">
@@ -203,12 +191,7 @@ export default function Subscription({
                 <div>
                   <p className="text-sm text-product-foreground-accent">Price</p>
                   <p className="text-2xl font-bold text-product-foreground">
-                    {formatPrice(currentPrice)}
-                    {currentPrice && parseFloat(currentPrice) > 0 && (
-                      <span className="text-base font-normal text-product-foreground-accent ml-1">
-                        /{pricingPlan.billing_period}
-                      </span>
-                    )}
+                    {!loading ? formatPrice(currentPrice) : 0}
                   </p>
                 </div>
               </div>

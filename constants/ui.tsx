@@ -13,10 +13,12 @@ import {
 } from "react-icons/fa6"
 import {
   FiBarChart2,
+  FiCalendar,
   FiCheck,
   FiClock,
   FiEdit3,
   FiPieChart,
+  FiSettings,
   FiShare2,
   FiSmartphone,
   FiTrendingUp,
@@ -26,6 +28,8 @@ import {
 import { RiGamepadLine, RiHeartPulseLine, RiScissorsLine, RiStore2Line } from "react-icons/ri"
 
 import { IStats } from "@/types/components"
+import { IoMdHelpCircleOutline } from "react-icons/io"
+import { TbFileAnalytics } from "react-icons/tb"
 
 export const stats: IStats[] = [
   {
@@ -190,3 +194,15 @@ export const getPlatformIconByName = (platformName: string): JSX.Element | null 
       return null
   }
 }
+
+export const tabs = [
+  { value: "overview", label: "Overview", icon: <TbFileAnalytics className="mr-2" size={20} /> },
+  { value: "subscription", label: "Subscription", icon: <FiCalendar className="mr-2" size={20} /> },
+  { value: "usage", label: "Usage", icon: <FiBarChart2 className="mr-2" size={20} /> },
+  { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
+  {
+    value: "support",
+    label: "Support",
+    icon: <IoMdHelpCircleOutline className="mr-2" size={20} />,
+  },
+]
