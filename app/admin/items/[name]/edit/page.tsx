@@ -7,11 +7,7 @@ export default async function EditServicesPage({ params }: { params: Promise<{ n
   const { name } = await params
 
   const supabase = await createClient()
-  const { data, error } = await supabase
-    .from("service_catalogues")
-    .select("*")
-    .eq("name", name)
-    .single()
+  const { data, error } = await supabase.from("catalogues").select("*").eq("name", name).single()
 
   if (error || !data) {
     return <div className="p-8 text-center text-red-600">Failed to load restaurant data.</div>

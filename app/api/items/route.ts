@@ -20,7 +20,7 @@ export async function POST(request: Request) {
     } = await request.json()
 
     const { data, error } = await supabase
-      .from("service_catalogues")
+      .from("catalogues")
       .insert([
         {
           name,
@@ -81,7 +81,7 @@ export async function PATCH(request: Request) {
 
     // Update the service catalogue record
     const { data, error } = await supabase
-      .from("service_catalogues")
+      .from("catalogues")
       .update({
         services,
         theme,
@@ -115,6 +115,40 @@ export async function PATCH(request: Request) {
     }
 
     return new Response(JSON.stringify({ data }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    })
+  } catch (error: any) {
+    console.error("Request error:", error)
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    })
+  }
+}
+export async function GET(request: Request) {
+  try {
+    const supabase = await createClient()
+
+    // Update the service catalogue record
+    const { data, error } = await supabase.from("catalogues").select("name")
+
+    if (error) {
+      console.error("Error retreiving service catalogues:", error)
+      return new Response(JSON.stringify({ error: error.message }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      })
+    }
+
+    if (!data || data.length === 0) {
+      return new Response(JSON.stringify({ error: "Service Catalogues not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json" },
+      })
+    }
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     })

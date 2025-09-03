@@ -257,7 +257,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
               </div> */}
                 {/* Buttons */}
                 <div className="flex flex-col gap-2 sm:gap-3 mt-auto pt-2 sm:pt-3 md:pt-4">
-                  <Link href={`/service-catalogues/${catalogue.name}`} className="w-full">
+                  <Link href={`/catalogues/${catalogue.name}`} className="w-full">
                     <Button className="w-full">
                       <LuSquareMenu size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
                       <span className="ml-1">View Catalogue</span>

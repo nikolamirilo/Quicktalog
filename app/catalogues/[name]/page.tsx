@@ -11,7 +11,7 @@ export async function generateStaticParams() {
   try {
     const supabase = await createClient()
 
-    const { data, error } = await supabase.from("service_catalogues").select("name")
+    const { data, error } = await supabase.from("catalogues").select("name")
 
     if (error) {
       console.error("Error fetching catalogues:", error)
@@ -37,11 +37,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     const supabase = await createClient()
-    const { data, error } = await supabase
-      .from("service_catalogues")
-      .select()
-      .eq("name", name)
-      .single() // Use single() since we expect only one result
+    const { data, error } = await supabase.from("catalogues").select().eq("name", name).single() // Use single() since we expect only one result
 
     if (error) {
       console.error("Database error:", error)

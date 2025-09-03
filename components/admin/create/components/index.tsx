@@ -24,6 +24,12 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
   const [showSuccessModal, setShowSuccessModal] = useState(false)
   const [serviceCatalogueUrl, setServiceCatalogueUrl] = useState("")
   const [imagePreviews, setImagePreviews] = useState<{ [key: string]: string }>({})
+  const [isUploading, setIsUploading] = useState(false)
+  const [expandedCategory, setExpandedCategory] = useState<number | null>(null)
+  const [expandedItem, setExpandedItem] = useState<{
+    categoryIndex: number
+    itemIndex: number
+  } | null>(null)
   const { user } = useUser()
 
   useEffect(() => {
@@ -64,6 +70,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
     }))
   }
   const handleAddCategory = () => {
+    const newCategoryIndex = formData.services.length
     setFormData((prev) => ({
       ...prev,
       services: [
@@ -71,6 +78,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         { order: prev.services.length, name: "", layout: "", items: [] },
       ],
     }))
+    setExpandedCategory(newCategoryIndex)
   }
 
   const handleRemoveCategory = (categoryIndex: number) => {
@@ -87,22 +95,40 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
         services: reorderedServices,
       }
     })
+    setExpandedCategory(null)
   }
 
   const handleCategoryChange = (index: number, field: "name" | "layout", value: string) => {
     const updatedServices = [...formData.services]
     updatedServices[index][field] = value
+    if (field === "layout" && value === "variant_3") {
+      updatedServices[index].items = updatedServices[index].items.map((item) => ({
+        ...item,
+        image: "",
+      }))
+      // Also clear any image previews for this category
+      setImagePreviews((prev) => {
+        const newPreviews = { ...prev }
+        updatedServices[index].items.forEach((_, itemIndex) => {
+          delete newPreviews[`${index}-${itemIndex}`]
+        })
+        return newPreviews
+      })
+    }
     setFormData((prev) => ({ ...prev, services: updatedServices }))
   }
 
   const handleAddItem = (categoryIndex: number) => {
     const updatedServices = [...formData.services]
+    const newItemIndex = updatedServices[categoryIndex].items.length
     // Add new item at the end instead of beginning to maintain correct numbering
     updatedServices[categoryIndex].items = [
       ...updatedServices[categoryIndex].items,
       { name: "", description: "", price: 0, image: "" },
     ]
     setFormData((prev) => ({ ...prev, services: updatedServices }))
+    setExpandedItem({ categoryIndex, itemIndex: newItemIndex })
+    setExpandedCategory(categoryIndex)
 
     // No need to shift image previews since we're adding at the end
     // The new item will automatically get the correct index
@@ -114,6 +140,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       (_, index) => index !== itemIndex
     )
     setFormData((prev) => ({ ...prev, services: updatedServices }))
+    setExpandedItem(null)
 
     // Clean up image previews for the removed item and shift remaining ones
     setImagePreviews((prev) => {
@@ -387,9 +414,9 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       if (response.ok) {
         const result = await response.json()
         console.log("Success result:", result)
-        setServiceCatalogueUrl(`/service-catalogues/${serviceCatalogueSlug}`)
+        setServiceCatalogueUrl(`/catalogues/${serviceCatalogueSlug}`)
         setShowSuccessModal(true)
-        if (onSuccess) onSuccess(`/service-catalogues/${serviceCatalogueSlug}`)
+        if (onSuccess) onSuccess(`/catalogues/${serviceCatalogueSlug}`)
         if (type === "create") {
           setFormData(defaultServiceCatalogueData)
           setCurrentStep(1)
@@ -435,6 +462,8 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             handleRemoveCategory={handleRemoveCategory}
             handleCategoryChange={handleCategoryChange}
             handleReorderCategories={handleReorderCategories}
+            expandedCategory={expandedCategory}
+            setExpandedCategory={setExpandedCategory}
           />
         )
       case 3:
@@ -446,6 +475,12 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             handleItemChange={handleItemChange}
             imagePreviews={imagePreviews}
             setImagePreviews={setImagePreviews}
+            isUploading={isUploading}
+            setIsUploading={setIsUploading}
+            expandedCategory={expandedCategory}
+            setExpandedCategory={setExpandedCategory}
+            expandedItem={expandedItem}
+            setExpandedItem={setExpandedItem}
           />
         )
       case 4:
@@ -537,8 +572,8 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
                 <Button
                   type="button"
                   onClick={handleNext}
-                  className={`ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
-                  disabled={!isStepValid(currentStep)}>
+                  className={`ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) || isUploading ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
+                  disabled={!isStepValid(currentStep) || isUploading}>
                   Next <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               )}

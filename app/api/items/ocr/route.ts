@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
     // Check if slug already exists and make it unique
     while (true) {
       const { data: existingServiceCatalogue } = await supabase
-        .from("service_catalogues")
+        .from("catalogues")
         .select("name")
         .eq("name", catalogueSlug)
         .single()
@@ -87,7 +87,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { error } = await supabase
-      .from("service_catalogues")
+      .from("catalogues")
       .insert([
         {
           name: baseSlug,
@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
       .select()
 
     if (error) {
-      console.error("Error inserting data into Supabase service-catalogues table:", error)
+      console.error("Error inserting data into Supabase catalogues table:", error)
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: errorPrompt.message }, { status: 500 })
     }
 
-    return NextResponse.json({ restaurantUrl: `/service-catalogues/${catalogueSlug}` })
+    return NextResponse.json({ restaurantUrl: `/catalogues/${catalogueSlug}` })
   } catch (error) {
     console.error("Error generating services:", error)
 

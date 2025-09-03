@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { layouts } from "@/constants"
 import type { Step2ServicesSectionsProps } from "@/types/components"
-import { GripVertical, Plus, Trash2 } from "lucide-react"
+import { ChevronDown, GripVertical, Plus, Trash2 } from "lucide-react"
 import * as React from "react"
 import { TbCategory } from "react-icons/tb"
 
@@ -15,6 +15,8 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
   handleRemoveCategory,
   handleCategoryChange,
   handleReorderCategories,
+  expandedCategory,
+  setExpandedCategory,
 }) => {
   const [draggedItem, setDraggedItem] = React.useState<number | null>(null)
   const [dragOverItem, setDragOverItem] = React.useState<number | null>(null)
@@ -71,6 +73,10 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
     setDragOverItem(null)
   }
 
+  const toggleCategory = (index: number) => {
+    setExpandedCategory(expandedCategory === index ? null : index)
+  }
+
   return (
     <Card
       className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
@@ -103,75 +109,96 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
               : ""
           }`}>
           <Card
-            className={`space-y-6 p-6 sm:p-8 bg-product-background/50 border border-product-border shadow-product-shadow rounded-xl cursor-move ${
+            className={`bg-product-background/50 border border-product-border shadow-product-shadow rounded-xl cursor-move ${
               dragOverItem === categoryIndex && draggedItem !== categoryIndex
                 ? "border-product-primary border-2 bg-product-primary/5"
                 : ""
             }`}
             type="form">
-            <div className="flex justify-between items-center mb-6">
+            <div
+              className="flex justify-between items-center p-6 cursor-pointer"
+              onClick={() => toggleCategory(categoryIndex)}>
               <div className="flex items-center gap-3">
-                <div className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-product-border/50 transition-colors">
+                <div
+                  className="cursor-grab active:cursor-grabbing p-1 rounded hover:bg-product-border/50 transition-colors"
+                  onMouseDown={(e) => e.stopPropagation()}>
                   <GripVertical className="h-5 w-5 text-product-foreground-accent" />
                 </div>
                 <h3 className="text-xl font-bold text-product-foreground font-heading">
-                  Category: {category.name}
+                  Category: {category.name || `Category ${categoryIndex + 1}`}
                 </h3>
               </div>
-              <Button
-                type="button"
-                variant="destructive"
-                size="sm"
-                onClick={() => handleRemoveCategory(categoryIndex)}
-                className="h-10 w-10 hover:bg-red-600 hover:shadow-product-hover-shadow">
-                <Trash2 className="h-4 w-4" />
-              </Button>
-            </div>
-            <div className="space-y-3">
-              <Label
-                htmlFor={`category-name-${categoryIndex}`}
-                className="text-product-foreground font-medium font-body">
-                Category Name
-              </Label>
-              <Input
-                id={`category-name-${categoryIndex}`}
-                type="text"
-                placeholder="e.g., Breakfast, Main Courses"
-                value={category.name}
-                onChange={(e) => handleCategoryChange(categoryIndex, "name", e.target.value)}
-                className="border-product-border focus:border-product-primary focus:ring-product-primary/20"
-                required
-              />
-            </div>
-            {/* Layout Selection for this category */}
-            <div className="space-y-4">
-              <Label
-                htmlFor={`category-layout-${categoryIndex}`}
-                className="text-product-foreground font-medium text-lg font-body">
-                Layout: {layouts.find((l) => l.key === category.layout)?.label || "Not Selected"}
-              </Label>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                {layouts.map((layoutOption) => (
-                  <div
-                    key={layoutOption.key}
-                    className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
-                      category.layout === layoutOption.key
-                        ? "border-product-primary shadow-product-shadow bg-product-primary/5"
-                        : "border-product-border hover:border-product-primary/50"
-                    }`}
-                    onClick={() => handleCategoryChange(categoryIndex, "layout", layoutOption.key)}>
-                    <img
-                      src={layoutOption.image}
-                      alt={layoutOption.label}
-                      className="w-full h-fit object-cover object-top rounded-lg"
-                    />
-                    <p className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
-                      {layoutOption.label}
-                    </p>
-                  </div>
-                ))}
+              <div className="flex items-center gap-4">
+                <Button
+                  type="button"
+                  variant="destructive"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleRemoveCategory(categoryIndex)
+                  }}
+                  className="h-10 w-10 hover:bg-red-600 hover:shadow-product-hover-shadow">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+                <ChevronDown
+                  className={`h-6 w-6 text-product-foreground-accent transition-transform duration-300 ${
+                    expandedCategory === categoryIndex ? "rotate-180" : ""
+                  }`}
+                />
               </div>
             </div>
+            {expandedCategory === categoryIndex && (
+              <div className="p-6 pt-0 space-y-6">
+                <div className="space-y-3">
+                  <Label
+                    htmlFor={`category-name-${categoryIndex}`}
+                    className="text-product-foreground font-medium font-body">
+                    Category Name
+                  </Label>
+                  <Input
+                    id={`category-name-${categoryIndex}`}
+                    type="text"
+                    placeholder="e.g., Breakfast, Main Courses"
+                    value={category.name}
+                    onChange={(e) => handleCategoryChange(categoryIndex, "name", e.target.value)}
+                    className="border-product-border focus:border-product-primary focus:ring-product-primary/20"
+                    required
+                  />
+                </div>
+                {/* Layout Selection for this category */}
+                <div className="space-y-4">
+                  <Label
+                    htmlFor={`category-layout-${categoryIndex}`}
+                    className="text-product-foreground font-medium text-lg font-body">
+                    Layout:{" "}
+                    {layouts.find((l) => l.key === category.layout)?.label || "Not Selected"}
+                  </Label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {layouts.map((layoutOption) => (
+                      <div
+                        key={layoutOption.key}
+                        className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
+                          category.layout === layoutOption.key
+                            ? "border-product-primary shadow-product-shadow bg-product-primary/5"
+                            : "border-product-border hover:border-product-primary/50"
+                        }`}
+                        onClick={() =>
+                          handleCategoryChange(categoryIndex, "layout", layoutOption.key)
+                        }>
+                        <img
+                          src={layoutOption.image}
+                          alt={layoutOption.label}
+                          className="w-full h-fit object-cover object-top rounded-lg"
+                        />
+                        <p className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
+                          {layoutOption.label}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </Card>
         </div>
       ))}

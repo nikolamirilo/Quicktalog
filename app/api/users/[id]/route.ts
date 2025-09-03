@@ -35,7 +35,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
     // Fetch usage data
     const { data: cataloguesUsage, error: cataloguesUsageError } = await supabase
-      .from("service_catalogues")
+      .from("catalogues")
       .select("count")
       .eq("created_by", id)
 
