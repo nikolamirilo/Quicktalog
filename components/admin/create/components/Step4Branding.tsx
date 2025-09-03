@@ -31,6 +31,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   setFormData,
 }) => {
   const isFreePlan = userData?.pricing_plan.id === 0
+  const isProPlan = userData?.pricing_plan.id === 1
 
   const [logoPreview, setLogoPreview] = useState<string | null>(formData.logo || null)
 
@@ -68,7 +69,6 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
             ...prev.configuration,
             newsletter: {
               enabled: !prev.configuration?.newsletter?.enabled,
-              url: prev.configuration?.newsletter?.url || "",
             },
           },
         }
@@ -317,32 +317,9 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
             <Switch
               checked={!!formData.configuration?.newsletter?.enabled}
               onCheckedChange={() => handleToggle("newsletter")}
-              disabled={isFreePlan}
+              disabled={isFreePlan ? isFreePlan : isProPlan ? isProPlan : false}
             />
           </div>
-          {formData.configuration?.newsletter?.enabled && (
-            <div className="space-y-3">
-              <Input
-                placeholder="Subscribe URL (e.g. https://example.com/subscribe)"
-                value={formData.configuration.newsletter.url || ""}
-                onChange={(e) => {
-                  setFormData((prev) => ({
-                    ...prev,
-                    configuration: {
-                      ...prev.configuration,
-                      newsletter: {
-                        ...prev.configuration?.newsletter,
-                        enabled: prev.configuration?.newsletter?.enabled || false,
-                        url: e.target.value,
-                      },
-                    },
-                  }))
-                }}
-                className="border-product-border focus:border-product-primary focus:ring-product-primary/20"
-                disabled={isFreePlan}
-              />
-            </div>
-          )}
         </div>
 
         <div className="space-y-3 md:col-span-2">

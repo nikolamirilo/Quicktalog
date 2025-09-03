@@ -16,7 +16,7 @@ export default async function page() {
   const userData: UserData = await getUserData()
   if (userData) {
     const { data, error } = await supabase
-      .from("service_catalogues")
+      .from("catalogues")
       .select("*")
       .eq("created_by", userData.id)
     catalogues = error ? [] : data || []

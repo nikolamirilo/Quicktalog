@@ -22,7 +22,7 @@ export default async function CreateServicesPage() {
   } else {
     return (
       <LimitsModal
-        type="catalogues"
+        type="catalogue"
         currentPlan={userData.pricing_plan.name}
         requiredPlan={userData.pricing_plan.next_plan}
       />

@@ -3,12 +3,11 @@
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import { Metadata } from "next"
-import React from "react"
 
 export const metadata: Metadata = {
   title: "Refund Policy",
   description:
-    "Read about Quicktalog's 30-day money-back guarantee, eligibility, and how to request a refund for your purchase or subscription.",
+    "Read about Quicktalog's 10-day money-back guarantee, eligibility, and how to request a refund for your purchase or subscription.",
 }
 
 export default function RefundPolicyPage() {
@@ -23,16 +22,16 @@ export default function RefundPolicyPage() {
           straight-forward refund policy to ensure your peace of mind.
         </p>
 
-        <h2 className="text-xl font-bold mt-8 mb-4">Our 30-Day Money-Back Guarantee</h2>
+        <h2 className="text-xl font-bold mt-8 mb-4">Our 10-day Money-Back Guarantee</h2>
         <p className="mb-4">
-          We provide a <strong>30-day money-back guarantee</strong> or all Quicktalog software
+          We provide a <strong>10-day money-back guarantee</strong> or all Quicktalog software
           purchases and subscription plans. If you're not entirely happy with our service within 30
           days of your initial purchase, you are eligible for a full refund.
         </p>
         <p className="mb-4">
           Please note that this guarantee applies to your <strong>first purchase</strong> of any
           Quicktalog product or subscription. It does not apply to subsequent renewals, upgrades, or
-          additional purchases made after the initial 30-day period.
+          additional purchases made after the initial 10-day period.
         </p>
 
         <h2 className="text-xl font-bold mt-8 mb-4">How to Request a Refund</h2>
@@ -50,8 +49,8 @@ export default function RefundPolicyPage() {
           <li>
             <strong>Contact Quicktalog Support:</strong> Alternatively, you can reach out to our
             support team at{" "}
-            <a href="mailto:support@quicktalog.app" className="text-product-primary underline">
-              support@quicktalog.app
+            <a href="mailto:quicktalog@outlook.com" className="text-product-primary underline">
+              quicktalog@outlook.com
             </a>
             . Please include your purchase details (e.g., email used for purchase, date of purchase,
             product name) in your request. We will then assist you in initiating the refund process
@@ -77,7 +76,7 @@ export default function RefundPolicyPage() {
         <h2 className="text-xl font-bold mt-8 mb-4">Non-Refundable Circumstances</h2>
         <ul className="list-disc list-inside space-y-2 mb-4">
           <li>
-            Refunds will not be issued for requests made after the 30-day money-back guarantee
+            Refunds will not be issued for requests made after the 10-day money-back guarantee
             period has expired.
           </li>
           <li>
@@ -90,8 +89,8 @@ export default function RefundPolicyPage() {
         <h2 className="text-xl font-bold mt-8 mb-4">Questions</h2>
         <p className="mb-4">
           If you have any questions about our Refund Policy, please don't hesitate to contact us at{" "}
-          <a href="mailto:support@quicktalog.app" className="text-product-primary underline">
-            support@quicktalog.app
+          <a href="mailto:quicktalog@outlook.com" className="text-product-primary underline">
+            quicktalog@outlook.com
           </a>
           .
         </p>

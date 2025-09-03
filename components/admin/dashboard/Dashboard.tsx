@@ -3,17 +3,24 @@ import { Button } from "@/components/ui/button"
 import { DashboardProps } from "@/types/components"
 import { useState } from "react"
 import { FiBarChart2, FiCalendar, FiSettings } from "react-icons/fi"
+import { IoMdHelpCircleOutline } from "react-icons/io"
 import { TbFileAnalytics } from "react-icons/tb"
 import MonthlyUsage from "./MonthlyUsage"
 import Overview from "./Overview"
 import Settings from "./Settings"
 import Subscription from "./Subscription"
+import Support from "./Support"
 
 const TABS = [
   { value: "overview", label: "Overview", icon: <TbFileAnalytics className="mr-2" size={20} /> },
   { value: "subscription", label: "Subscription", icon: <FiCalendar className="mr-2" size={20} /> },
   { value: "usage", label: "Usage", icon: <FiBarChart2 className="mr-2" size={20} /> },
   { value: "settings", label: "Settings", icon: <FiSettings className="mr-2" size={20} /> },
+  {
+    value: "support",
+    label: "Support",
+    icon: <IoMdHelpCircleOutline className="mr-2" size={20} />,
+  },
 ]
 
 export default function Dashboard({
@@ -79,26 +86,31 @@ export default function Dashboard({
         <section className="flex-1 min-w-0 bg-product-background/95 border border-product-border shadow-md rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8 xl:p-10 relative z-10 text-xs sm:text-sm md:text-base lg:text-lg">
           {/* Mobile tab bar */}
           {MobileTabBar}
-          {activeTab === "overview" && (
+          {activeTab === "overview" ? (
             <section className="animate-fade-in">
               <Overview user={user} overallAnalytics={overallAnalytics} catalogues={catalogues} />
             </section>
-          )}
-          {activeTab === "subscription" && (
+          ) : null}
+          {activeTab === "subscription" ? (
             <section className="animate-fade-in">
               <Subscription pricingPlan={pricingPlan} />
             </section>
-          )}
-          {activeTab === "usage" && (
+          ) : null}
+          {activeTab === "usage" ? (
             <section className="animate-fade-in">
               <MonthlyUsage data={usage} pricingPlan={pricingPlan} />
             </section>
-          )}
-          {activeTab === "settings" && (
+          ) : null}
+          {activeTab === "settings" ? (
             <section className="animate-fade-in">
               <Settings />
             </section>
-          )}
+          ) : null}
+          {activeTab === "support" ? (
+            <section className="animate-fade-in">
+              <Support pricingPlanId={pricingPlan.id} userEmail={user.email} />
+            </section>
+          ) : null}
         </section>
       </div>
     </div>

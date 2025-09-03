@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState } from "react"
 
-const Contact = () => {
+const Contact = ({ type = "regular" }: { type?: string }) => {
   const [name, setName] = useState("")
   const [company, setCompany] = useState("")
-  const [subject, setSubject] = useState("Custom Plan")
+  const [subject, setSubject] = useState(type !== "support" ? "Custom Plan" : "Technical Support")
   const [message, setMessage] = useState("")
   const [email, setEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +23,7 @@ const Contact = () => {
     "Feature Request",
     "Partnership",
     "General Inquiry",
-    "Other"
+    "Other",
   ]
 
   async function handleSubmit(e) {
@@ -52,8 +52,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="min-h-screen font-lora bg-product-background pt-32 md:pt-40 pb-32">
-      {/* Success Modal */}
+      className={`font-lora ${type !== "support" ? "bg-product-background pt-32 md:pt-40 pb-32" : ""}`}>
       {isOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-product-background rounded-2xl p-8 max-w-md mx-4 shadow-2xl border border-product-border">
@@ -72,7 +71,11 @@ const Contact = () => {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-product-foreground mb-2">Thanks-your message is on its way!</h3>
+              <h3 className="text-xl font-semibold text-product-foreground mb-2">
+                {type === "support"
+                  ? "Thank you for submitting your request."
+                  : "Thanks-your message is on its way!"}
+              </h3>
               <p className="text-product-foreground-accent mb-6">
                 We've received your message and will reply via email within 1 business day.
               </p>
@@ -86,12 +89,15 @@ const Contact = () => {
 
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-product-foreground mb-4">Contact Quicktalog</h1>
-          <p className="text-xl text-product-foreground-accent max-w-2xl mx-auto">
-            Have questions about our digital catalog builder? Our sales and support teams are here to help and typically respond within 1 business day.
-          </p>
-        </div>
+        {type !== "support" && (
+          <div className="text-center mb-16">
+            <h1 className="text-5xl font-bold text-product-foreground mb-4">Contact Quicktalog</h1>
+            <p className="text-xl text-product-foreground-accent max-w-2xl mx-auto">
+              Have questions about our digital catalog builder? Our sales and support teams are here
+              to help and typically respond within 1 business day.
+            </p>
+          </div>
+        )}
 
         {/* Contact Form */}
         <div className="bg-product-background rounded-3xl shadow-md p-8 md:p-12 border border-product-border">
@@ -171,7 +177,7 @@ const Contact = () => {
                 <label
                   htmlFor="email"
                   className="block text-sm font-semibold text-product-foreground mb-2">
-                  Work email
+                  Email
                 </label>
                 <div className="relative">
                   <input
@@ -220,8 +226,7 @@ const Contact = () => {
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     className="w-full px-4 py-4 bg-product-background border-2 border-product-border rounded-xl text-product-foreground focus:outline-none focus:border-product-primary focus:bg-product-hover-background transition-all duration-300 shadow-product-shadow hover:shadow-product-hover-shadow appearance-none cursor-pointer"
-                    required
-                  >
+                    required>
                     {subjectOptions.map((option) => (
                       <option key={option} value={option}>
                         {option}
@@ -332,8 +337,8 @@ const Contact = () => {
               </Button>
             </div>
             <p className="text-xs text-product-foreground-accent text-center mt-3">
-              By submitting, you agree to our {" "}
-              <Link href="/privacy-policy" className="underline">
+              By submitting, you agree to our
+              <Link href="/privacy-policy" className="underline ml-2">
                 Privacy Policy
               </Link>
               .
@@ -341,17 +346,20 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Contact Info */}
-        <div className="mt-20">
+        {/* <div className="mt-20">
           <div className="bg-product-background rounded-3xl shadow-md p-8 md:p-12 border border-product-border">
-            {/* Decorative elements */}
+            
             <div className="absolute top-0 right-0 w-64 h-64 bg-product-primary/10 rounded-full -translate-y-32 translate-x-32"></div>
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-product-primary/20 rounded-full translate-y-16 -translate-x-16"></div>
 
             <div className="relative z-10">
               <div className="text-center mb-12">
-                <h2 className="text-3xl font-bold text-product-foreground mb-4">Other ways to reach us</h2>
-                <p className="text-product-foreground-accent text-lg">Choose the channel that works best for you.</p>
+                <h2 className="text-3xl font-bold text-product-foreground mb-4">
+                  Other ways to reach us
+                </h2>
+                <p className="text-product-foreground-accent text-lg">
+                  Choose the channel that works best for you.
+                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -373,8 +381,15 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Email</h3>
-                  <a href="mailto:quicktalog@outlook.com" aria-label="Send an email to quicktalog@outlook.com" className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">quicktalog@outlook.com</a>
-                  <p className="text-product-foreground-accent text-sm mt-1">We typically respond within 1 business day.</p>
+                  <a
+                    href="mailto:quicktalog@outlook.com"
+                    aria-label="Send an email to quicktalog@outlook.com"
+                    className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">
+                    quicktalog@outlook.com
+                  </a>
+                  <p className="text-product-foreground-accent text-sm mt-1">
+                    We typically respond within 1 business day.
+                  </p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
                   </div>
@@ -398,8 +413,15 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Phone</h3>
-                  <a href="tel:+15551234567" aria-label="Call +1 (555) 123-4567" className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">+1 (555) 123-4567</a>
-                  <p className="text-product-foreground-accent text-sm mt-1">Mon–Fri, 9:00am–5:00pm ET</p>
+                  <a
+                    href="tel:+15551234567"
+                    aria-label="Call +1 (555) 123-4567"
+                    className="text-product-foreground-accent text-lg hover:text-product-primary underline-offset-4 hover:underline">
+                    +1 (555) 123-4567
+                  </a>
+                  <p className="text-product-foreground-accent text-sm mt-1">
+                    Mon–Fri, 9:00am–5:00pm ET
+                  </p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-100"></div>
                   </div>
@@ -429,7 +451,9 @@ const Contact = () => {
                     </div>
                   </div>
                   <h3 className="font-bold text-product-foreground mb-2 text-xl">Office</h3>
-                  <p className="text-product-foreground-accent text-lg">New York, NY - Remote‑first team</p>
+                  <p className="text-product-foreground-accent text-lg">
+                    New York, NY - Remote‑first team
+                  </p>
                   <div className="mt-4 h-1 bg-product-primary/20 rounded-full overflow-hidden">
                     <div className="h-full bg-product-primary rounded-full transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 delay-200"></div>
                   </div>
@@ -437,7 +461,7 @@ const Contact = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </section>
   )

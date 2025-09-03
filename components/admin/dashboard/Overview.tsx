@@ -74,7 +74,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
     setIsModalOpen(false)
   }
   return (
-    <>
+    <div className="max-w-5xl space-y-6">
       <section className="mb-8 sm:mb-12 bg-product-background rounded-3xl shadow-product-shadow border border-product-border flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 md:gap-8 items-center relative overflow-hidden animate-fade-in p-4 sm:p-6 md:p-8 lg:p-10 text-sm sm:text-base md:text-lg lg:text-xl">
         <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-product-primary/20 to-product-primary-accent/20 rounded-full blur-2xl"></div>
         <div className="absolute bottom-0 left-0 w-32 h-32 bg-gradient-to-tr from-product-primary/20 to-product-primary-accent/20 rounded-full blur-2xl"></div>
@@ -257,7 +257,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
               </div> */}
                 {/* Buttons */}
                 <div className="flex flex-col gap-2 sm:gap-3 mt-auto pt-2 sm:pt-3 md:pt-4">
-                  <Link href={`/service-catalogues/${catalogue.name}`} className="w-full">
+                  <Link href={`/catalogues/${catalogue.name}`} className="w-full">
                     <Button className="w-full">
                       <LuSquareMenu size={12} className="sm:w-3 sm:h-3 md:w-4 md:h-4" />
                       <span className="ml-1">View Catalogue</span>
@@ -281,7 +281,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
         title="Delete Catalogue"
         message="Are you sure you want to delete this menu? This action cannot be undone."
       />
-    </>
+    </div>
   )
 }
 

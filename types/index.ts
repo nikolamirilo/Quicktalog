@@ -111,7 +111,6 @@ export type Configuration = {
   }
   newsletter?: {
     enabled: boolean
-    url: string
   }
 }
 

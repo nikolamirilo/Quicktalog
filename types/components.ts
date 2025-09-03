@@ -120,6 +120,8 @@ export type Step2ServicesSectionsProps = {
   handleRemoveCategory: (index: number) => void
   handleCategoryChange: (index: number, field: "name" | "layout", value: string) => void
   handleReorderCategories?: (newOrder: ServicesCategory[]) => void
+  expandedCategory: number | null
+  setExpandedCategory: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 export type Step3ServicesProps = {
@@ -136,6 +138,14 @@ export type Step3ServicesProps = {
   ) => void
   imagePreviews: { [key: string]: string }
   setImagePreviews: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>
+  isUploading: boolean
+  setIsUploading: React.Dispatch<React.SetStateAction<boolean>>
+  expandedCategory: number | null
+  setExpandedCategory: React.Dispatch<React.SetStateAction<number | null>>
+  expandedItem: { categoryIndex: number; itemIndex: number } | null
+  setExpandedItem: React.Dispatch<
+    React.SetStateAction<{ categoryIndex: number; itemIndex: number } | null>
+  >
 }
 
 export type Step4BrandingProps = {
