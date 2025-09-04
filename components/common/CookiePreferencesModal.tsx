@@ -1,88 +1,19 @@
+// components/CookiePreferencesModal.tsx
 "use client"
+
 import { Button } from "@/components/ui/button"
-import { CookiePreferences } from "@/types"
+import { CookiePreferencesModalProps } from "@/types/components"
+import {
+  loadPreferences,
+  savePreferences,
+  trackGTMEvent,
+  updateGTMConsent,
+  updateUserConsent,
+} from "@/utils/cookies"
 import { useUser } from "@clerk/nextjs"
 import { Shield, X } from "lucide-react"
 import { useState } from "react"
 import FocusLock from "react-focus-lock"
-
-const COOKIE_KEY = "cookiePreferences"
-
-const defaultPreferences: CookiePreferences = {
-  accepted: false,
-  essential: true,
-  analytics: false,
-  marketing: false,
-  timestamp: "",
-  version: "1.1",
-}
-
-function loadPreferences(): CookiePreferences {
-  if (typeof window === "undefined") return defaultPreferences
-  const raw = localStorage.getItem(COOKIE_KEY)
-  return raw ? { ...defaultPreferences, ...JSON.parse(raw) } : defaultPreferences
-}
-
-function savePreferences(prefs: Partial<CookiePreferences>): CookiePreferences {
-  if (typeof window === "undefined") return defaultPreferences
-  const newPrefs: CookiePreferences = {
-    ...defaultPreferences,
-    ...loadPreferences(),
-    ...prefs,
-    timestamp: new Date().toISOString(),
-  }
-  localStorage.setItem(COOKIE_KEY, JSON.stringify(newPrefs))
-  return newPrefs
-}
-
-function updateGTMConsent(analytics: boolean, marketing: boolean) {
-  // Update GTM consent for existing dataLayer
-  if (typeof window !== "undefined" && window.dataLayer) {
-    window.dataLayer.push({
-      event: "consent_update",
-      consent: {
-        analytics_storage: analytics ? "granted" : "denied",
-        ad_storage: marketing ? "granted" : "denied",
-        ad_user_data: marketing ? "granted" : "denied",
-        ad_personalization: marketing ? "granted" : "denied",
-        functionality_storage: "granted",
-        security_storage: "granted",
-      },
-    })
-  }
-}
-
-function initializeGTMConsent() {
-  // Initialize default consent state for GTM
-  if (typeof window !== "undefined") {
-    window.dataLayer = window.dataLayer || []
-
-    // Set default consent to denied
-    window.dataLayer.push({
-      event: "consent_default",
-      consent: {
-        analytics_storage: "denied",
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
-        functionality_storage: "granted",
-        security_storage: "granted",
-        wait_for_update: 2000,
-      },
-    })
-  }
-}
-
-// Call this on component mount to set default consent
-if (typeof window !== "undefined") {
-  initializeGTMConsent()
-}
-
-interface CookiePreferencesModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onSave?: () => void
-}
 
 const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesModalProps) => {
   const { user, isSignedIn } = useUser()
@@ -95,22 +26,6 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
     setMarketingEnabled(prefs.marketing)
   })
 
-  const updateUserConsent = async (prefs: CookiePreferences) => {
-    if (!isSignedIn || !user) return
-    try {
-      const response = await fetch("/api/update-consent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cookieConsent: prefs }),
-      })
-      if (!response.ok) {
-        throw new Error("Failed to update consent")
-      }
-    } catch (error) {
-      console.error("Error updating user consent:", error)
-    }
-  }
-
   const handleSaveSettings = async () => {
     const prefs = savePreferences({
       accepted: true,
@@ -121,18 +36,15 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
     // Update GTM consent
     updateGTMConsent(analyticsEnabled, marketingEnabled)
 
-    await updateUserConsent(prefs)
+    await updateUserConsent(prefs, isSignedIn, user?.id)
     onClose()
     onSave?.()
 
-    // Optional: Track the consent update event itself
-    if (typeof window !== "undefined" && window.dataLayer) {
-      window.dataLayer.push({
-        event: "cookie_consent_update",
-        consent_analytics: analyticsEnabled,
-        consent_marketing: marketingEnabled,
-      })
-    }
+    // Track save settings event
+    trackGTMEvent("cookie_modal_save_settings", {
+      consent_analytics: analyticsEnabled,
+      consent_marketing: marketingEnabled,
+    })
   }
 
   const handleAcceptAll = async () => {
@@ -148,16 +60,12 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
     // Update GTM consent
     updateGTMConsent(true, true)
 
-    await updateUserConsent(prefs)
+    await updateUserConsent(prefs, isSignedIn, user?.id)
     onClose()
     onSave?.()
 
     // Track accept all event
-    if (typeof window !== "undefined" && window.dataLayer) {
-      window.dataLayer.push({
-        event: "cookie_consent_accept_all",
-      })
-    }
+    trackGTMEvent("cookie_modal_accept_all")
   }
 
   const handleRejectAll = async () => {
@@ -173,16 +81,12 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
     // Update GTM consent
     updateGTMConsent(false, false)
 
-    await updateUserConsent(prefs)
+    await updateUserConsent(prefs, isSignedIn, user?.id)
     onClose()
     onSave?.()
 
     // Track reject all event
-    if (typeof window !== "undefined" && window.dataLayer) {
-      window.dataLayer.push({
-        event: "cookie_consent_reject_all",
-      })
-    }
+    trackGTMEvent("cookie_modal_reject_all")
   }
 
   if (!isOpen) return null
@@ -300,14 +204,6 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
           {/* Action Buttons */}
           <div className="p-6 pt-0">
             <div className="flex flex-col gap-3">
-              <div className="flex gap-3">
-                <Button variant="outline" onClick={handleRejectAll} className="flex-1">
-                  Reject All
-                </Button>
-                <Button variant="cta" onClick={handleAcceptAll} className="flex-1">
-                  Accept All
-                </Button>
-              </div>
               <div className="flex gap-3">
                 <Button variant="outline" onClick={onClose} className="flex-1">
                   Cancel

@@ -10,6 +10,8 @@ export const defaultCookiePreferences: CookiePreferences = {
   version: "1.1",
 }
 
+export const COOKIE_KEY = "cookiePreferences"
+
 export const menuItems: ILinkItem[] = [
   {
     text: "Features",
