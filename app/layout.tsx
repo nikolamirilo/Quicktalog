@@ -1,9 +1,6 @@
-import { PageWrapperClient } from "@/components/wrappers/PageWrapperClient"
-import { ClerkProvider } from "@clerk/nextjs"
-import type { Metadata } from "next"
-
 import ClarityScript from "@/components/analytics/ClarityScript"
 import CookieBanner from "@/components/common/CookieBanner"
+import { PageWrapperClient } from "@/components/wrappers/PageWrapperClient"
 import {
   crimsonText,
   inter,
@@ -13,6 +10,9 @@ import {
   playfairDisplay,
   poppins,
 } from "@/fonts"
+import { ClerkProvider } from "@clerk/nextjs"
+import { GoogleTagManager } from "@next/third-parties/google"
+import type { Metadata } from "next"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -28,6 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${loraRegular.variable} ${loraSemiBold.variable} ${playfairDisplay.variable} ${inter.variable} ${nunito.variable} ${crimsonText.variable} ${poppins.variable} antialiased`}>
       <head>
         <ClarityScript />
+        <GoogleTagManager gtmId="G-RXHJ9X3T5T" />
       </head>
       <ClerkProvider afterSignOutUrl="/">
         <body className="product">

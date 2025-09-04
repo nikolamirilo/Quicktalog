@@ -19,6 +19,12 @@ export type ITestimonial = {
   metric?: string
 }
 
+export type CookiePreferencesModalProps = {
+  isOpen: boolean
+  onClose: () => void
+  onSave?: () => void
+}
+
 export type IStats = {
   title: string
   icon: JSX.Element

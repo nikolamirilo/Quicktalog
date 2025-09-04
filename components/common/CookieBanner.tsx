@@ -1,68 +1,21 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { COOKIE_KEY } from "@/constants"
 import { CookiePreferences } from "@/types"
+import {
+  initializeGTMConsent,
+  loadPreferences,
+  savePreferences,
+  trackGTMEvent,
+  updateGTMConsent,
+  updateUserConsent,
+} from "@/utils/cookies"
 import { useUser } from "@clerk/nextjs"
 import { Cookie, ExternalLink, Settings } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import CookiePreferencesModal from "./CookiePreferencesModal"
-
-declare global {
-  interface Window {
-    dataLayer: any[]
-    gtag: (...args: any[]) => void
-  }
-}
-
-const COOKIE_KEY = "cookiePreferences"
-
-const defaultPreferences: CookiePreferences = {
-  accepted: false,
-  essential: true,
-  analytics: false,
-  marketing: false,
-  timestamp: "",
-  version: "1.1",
-}
-
-function loadPreferences(): CookiePreferences {
-  if (typeof window === "undefined") return defaultPreferences
-  const raw = localStorage.getItem(COOKIE_KEY)
-  return raw ? { ...defaultPreferences, ...JSON.parse(raw) } : defaultPreferences
-}
-
-function savePreferences(prefs: Partial<CookiePreferences>): CookiePreferences {
-  if (typeof window === "undefined") return defaultPreferences
-  const newPrefs: CookiePreferences = {
-    ...defaultPreferences,
-    ...loadPreferences(),
-    ...prefs,
-    timestamp: new Date().toISOString(),
-  }
-  localStorage.setItem(COOKIE_KEY, JSON.stringify(newPrefs))
-  return newPrefs
-}
-
-function initializeAnalytics(enabled: boolean) {
-  if (!enabled) return
-  const existingScript = document.querySelector('script[src*="googletagmanager"]')
-  if (existingScript) return
-  const script = document.createElement("script")
-  script.src = "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-  script.async = true
-  document.head.appendChild(script)
-  window.dataLayer = window.dataLayer || []
-  function gtag(...args: any[]) {
-    window.dataLayer.push(args)
-  }
-  window.gtag = gtag
-  gtag("js", new Date())
-  gtag("config", "GA_MEASUREMENT_ID", {
-    anonymize_ip: true,
-    allow_google_signals: false,
-  })
-}
 
 const CookieBanner = () => {
   const { user, isSignedIn } = useUser()
@@ -76,11 +29,17 @@ const CookieBanner = () => {
       return
     }
 
+    // Initialize GTM consent on component mount
+    initializeGTMConsent()
+
     if (isSignedIn && user) {
       // For logged-in users, check Clerk's publicMetadata.cookieConsent
       const hasClerkPreferences = !!user.publicMetadata.cookieConsent
       if (hasClerkPreferences) {
-        savePreferences(user.publicMetadata.cookieConsent as CookiePreferences)
+        const clerkPrefs = user.publicMetadata.cookieConsent as CookiePreferences
+        savePreferences(clerkPrefs)
+        // Apply existing consent to GTM
+        updateGTMConsent(clerkPrefs.analytics, clerkPrefs.marketing)
         setIsVisible(false)
       } else {
         // Show banner if no Clerk preferences
@@ -89,33 +48,18 @@ const CookieBanner = () => {
     } else {
       // For non-logged-in users, check localStorage
       const hasLocalPreferences = !!localStorage.getItem(COOKIE_KEY)
-      setIsVisible(!hasLocalPreferences)
-    }
-
-    // Initialize analytics if preferences allow
-    const prefs = loadPreferences()
-    if (prefs.analytics) {
-      initializeAnalytics(true)
+      if (hasLocalPreferences) {
+        const localPrefs = loadPreferences()
+        // Apply existing consent to GTM
+        updateGTMConsent(localPrefs.analytics, localPrefs.marketing)
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
     }
 
     setIsLoading(false)
   }, [isSignedIn, user])
-
-  const updateUserConsent = async (prefs: CookiePreferences) => {
-    if (!isSignedIn || !user) return
-    try {
-      const response = await fetch("/api/update-consent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ cookieConsent: prefs }),
-      })
-      if (!response.ok) {
-        throw new Error("Failed to update consent")
-      }
-    } catch (error) {
-      console.error("Error updating user consent:", error)
-    }
-  }
 
   const handleAcceptAll = async () => {
     const prefs = savePreferences({
@@ -123,15 +67,15 @@ const CookieBanner = () => {
       analytics: true,
       marketing: true,
     })
-    initializeAnalytics(true)
-    await updateUserConsent(prefs)
+
+    // Update GTM consent
+    updateGTMConsent(true, true)
+
+    await updateUserConsent(prefs, isSignedIn, user?.id)
     setIsVisible(false)
-    if (window.gtag) {
-      window.gtag("event", "consent_update", {
-        analytics_storage: "granted",
-        ad_storage: "granted",
-      })
-    }
+
+    // Track accept all event
+    trackGTMEvent("cookie_banner_accept_all")
   }
 
   const handleAcceptEssential = async () => {
@@ -140,14 +84,15 @@ const CookieBanner = () => {
       analytics: false,
       marketing: false,
     })
-    await updateUserConsent(prefs)
+
+    // Update GTM consent
+    updateGTMConsent(false, false)
+
+    await updateUserConsent(prefs, isSignedIn, user?.id)
     setIsVisible(false)
-    if (window.gtag) {
-      window.gtag("event", "consent_update", {
-        analytics_storage: "denied",
-        ad_storage: "denied",
-      })
-    }
+
+    // Track essential only event
+    trackGTMEvent("cookie_banner_essential_only")
   }
 
   if (isLoading || !isVisible) return null
