@@ -8,13 +8,6 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import CookiePreferencesModal from "./CookiePreferencesModal"
 
-declare global {
-  interface Window {
-    dataLayer: any[]
-    gtag: (...args: any[]) => void
-  }
-}
-
 const COOKIE_KEY = "cookiePreferences"
 
 const defaultPreferences: CookiePreferences = {

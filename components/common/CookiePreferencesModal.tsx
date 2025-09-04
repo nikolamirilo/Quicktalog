@@ -1,19 +1,10 @@
-// components/CookiePreferencesModal.tsx
 "use client"
-
 import { Button } from "@/components/ui/button"
 import { CookiePreferences } from "@/types"
 import { useUser } from "@clerk/nextjs"
 import { Shield, X } from "lucide-react"
 import { useState } from "react"
 import FocusLock from "react-focus-lock"
-
-declare global {
-  interface Window {
-    dataLayer: any[]
-    gtag: (...args: any[]) => void
-  }
-}
 
 const COOKIE_KEY = "cookiePreferences"
 
@@ -44,24 +35,47 @@ function savePreferences(prefs: Partial<CookiePreferences>): CookiePreferences {
   return newPrefs
 }
 
-function initializeAnalytics(enabled: boolean) {
-  if (!enabled) return
-  const existingScript = document.querySelector('script[src*="googletagmanager"]')
-  if (existingScript) return
-  const script = document.createElement("script")
-  script.src = "https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"
-  script.async = true
-  document.head.appendChild(script)
-  window.dataLayer = window.dataLayer || []
-  function gtag(...args: any[]) {
-    window.dataLayer.push(args)
+function updateGTMConsent(analytics: boolean, marketing: boolean) {
+  // Update GTM consent for existing dataLayer
+  if (typeof window !== "undefined" && window.dataLayer) {
+    window.dataLayer.push({
+      event: "consent_update",
+      consent: {
+        analytics_storage: analytics ? "granted" : "denied",
+        ad_storage: marketing ? "granted" : "denied",
+        ad_user_data: marketing ? "granted" : "denied",
+        ad_personalization: marketing ? "granted" : "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+      },
+    })
   }
-  window.gtag = gtag
-  gtag("js", new Date())
-  gtag("config", "GA_MEASUREMENT_ID", {
-    anonymize_ip: true,
-    allow_google_signals: false,
-  })
+}
+
+function initializeGTMConsent() {
+  // Initialize default consent state for GTM
+  if (typeof window !== "undefined") {
+    window.dataLayer = window.dataLayer || []
+
+    // Set default consent to denied
+    window.dataLayer.push({
+      event: "consent_default",
+      consent: {
+        analytics_storage: "denied",
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 2000,
+      },
+    })
+  }
+}
+
+// Call this on component mount to set default consent
+if (typeof window !== "undefined") {
+  initializeGTMConsent()
 }
 
 interface CookiePreferencesModalProps {
@@ -104,18 +118,69 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
       marketing: marketingEnabled,
     })
 
-    if (analyticsEnabled) {
-      initializeAnalytics(true)
-    }
+    // Update GTM consent
+    updateGTMConsent(analyticsEnabled, marketingEnabled)
 
     await updateUserConsent(prefs)
     onClose()
     onSave?.()
 
-    if (window.gtag) {
-      window.gtag("event", "consent_update", {
-        analytics_storage: analyticsEnabled ? "granted" : "denied",
-        ad_storage: marketingEnabled ? "granted" : "denied",
+    // Optional: Track the consent update event itself
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "cookie_consent_update",
+        consent_analytics: analyticsEnabled,
+        consent_marketing: marketingEnabled,
+      })
+    }
+  }
+
+  const handleAcceptAll = async () => {
+    setAnalyticsEnabled(true)
+    setMarketingEnabled(true)
+
+    const prefs = savePreferences({
+      accepted: true,
+      analytics: true,
+      marketing: true,
+    })
+
+    // Update GTM consent
+    updateGTMConsent(true, true)
+
+    await updateUserConsent(prefs)
+    onClose()
+    onSave?.()
+
+    // Track accept all event
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "cookie_consent_accept_all",
+      })
+    }
+  }
+
+  const handleRejectAll = async () => {
+    setAnalyticsEnabled(false)
+    setMarketingEnabled(false)
+
+    const prefs = savePreferences({
+      accepted: true,
+      analytics: false,
+      marketing: false,
+    })
+
+    // Update GTM consent
+    updateGTMConsent(false, false)
+
+    await updateUserConsent(prefs)
+    onClose()
+    onSave?.()
+
+    // Track reject all event
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "cookie_consent_reject_all",
       })
     }
   }
@@ -191,7 +256,7 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
                   Anonymous data to improve site performance and fix issues.
                 </p>
                 <div className="mt-2 text-xs text-product-foreground-accent">
-                  <strong>Examples:</strong> Google Analytics, page views, clicks, errors
+                  <strong>Examples:</strong> Google Analytics via GTM, page views, clicks, errors
                 </div>
               </div>
               <div className="flex-shrink-0">
@@ -234,13 +299,23 @@ const CookiePreferencesModal = ({ isOpen, onClose, onSave }: CookiePreferencesMo
 
           {/* Action Buttons */}
           <div className="p-6 pt-0">
-            <div className="flex gap-3">
-              <Button variant="outline" onClick={onClose} className="flex-1">
-                Cancel
-              </Button>
-              <Button variant="cta" onClick={handleSaveSettings} className="flex-1">
-                Save
-              </Button>
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={handleRejectAll} className="flex-1">
+                  Reject All
+                </Button>
+                <Button variant="cta" onClick={handleAcceptAll} className="flex-1">
+                  Accept All
+                </Button>
+              </div>
+              <div className="flex gap-3">
+                <Button variant="outline" onClick={onClose} className="flex-1">
+                  Cancel
+                </Button>
+                <Button variant="default" onClick={handleSaveSettings} className="flex-1">
+                  Save Settings
+                </Button>
+              </div>
             </div>
           </div>
         </div>
