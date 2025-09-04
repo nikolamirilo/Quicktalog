@@ -545,7 +545,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             ))}
           </div>
         </CardHeader>
-        <CardContent className="p-6 sm:p-8 pt-0">
+        <CardContent className="p-4 sm:p-4 pt-0">
           <form onSubmit={handleSubmit} className="space-y-8">
             {renderStep()}
             {currentStep === 2 && step2Error && (

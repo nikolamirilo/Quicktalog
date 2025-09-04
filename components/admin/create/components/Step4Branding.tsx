@@ -142,7 +142,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
   const usedContactTypes = formData.contact?.map((c) => c.type) || []
 
   return (
-    <Card className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-md rounded-2xl">
+    <Card className="space-y-8 p-4 sm:p-8 bg-product-background/95 border-0 sm:border border-product-border shadow-md rounded-2xl">
       <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <IoDiamondOutline className="text-product-primary" size={28} />
         Define Branding

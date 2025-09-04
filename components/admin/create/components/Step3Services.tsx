@@ -45,7 +45,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
 
   return (
     <Card
-      className="space-y-8 p-6 sm:p-8 bg-product-background/95 border border-product-border shadow-product-shadow rounded-2xl"
+      className="space-y-8 p-4 sm:p-8 bg-product-background/95 border-0 sm:border border-product-border shadow-product-shadow rounded-2xl"
       type="form">
       <h2 className="text-2xl sm:text-3xl font-bold text-product-foreground flex items-center gap-3 font-heading">
         <MdOutlineLocalOffer className="text-product-primary" size={32} />

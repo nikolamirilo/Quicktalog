@@ -9,12 +9,12 @@ const CardType3 = ({ record, currency }: { record: Record; currency: string }) =
       <div className="flex flex-col flex-1 gap-0.5 sm:gap-1 min-w-0">
         <h3
           id={`item-title-${record.name?.replace(/\s+/g, '-').toLowerCase()}`}
-          className="text-[14px] sm:text-[24px] font-heading tracking-heading text-card-heading leading-tight"
+          className="text-[16px] sm:text-[24px] font-heading tracking-heading text-card-heading leading-tight"
         >
           {record.name}
         </h3>
         <p
-          className="text-[12px] sm:text-[16px] text-card-description font-body tracking-body leading-snug overflow-hidden"
+          className="text-[14px] sm:text-[16px] text-card-description font-body tracking-body leading-snug overflow-hidden"
           aria-describedby={`item-title-${record.name?.replace(/\s+/g, '-').toLowerCase()}`}
         >
           {record.description}
@@ -23,7 +23,7 @@ const CardType3 = ({ record, currency }: { record: Record; currency: string }) =
 
       <div className="pt-1 sm:pt-0 sm:pl-4 flex-shrink-0 text-right">
         <span
-          className="text-[14px] sm:text-[22px] font-thin text-price block font-heading tracking-heading"
+          className="text-[16px] sm:text-[22px] font-thin text-price block font-heading tracking-heading"
           aria-label={`Price: ${record.price} ${currency}`}
         >
           {record.price} {currency}
