@@ -1,9 +1,9 @@
-import React from "react"
 import { ScaleLoader } from "react-spinners"
 
-const Loader = () => {
+const Loader = ({ type }: { type?: string }) => {
   return (
-    <div className="h-screen flex justify-center items-center w-full bg-product-background">
+    <div
+      className={`${type !== "dashboard" ? "bg-product-background h-screen" : "h-[50vh]"} flex justify-center items-center w-full `}>
       <ScaleLoader height={40} width={6} className="!text-product-primary" color="#ffc107" />
     </div>
   )

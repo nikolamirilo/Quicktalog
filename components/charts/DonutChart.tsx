@@ -13,7 +13,7 @@ export default function DonutChart({
   description,
   icon,
 }: DonutChartProps) {
-  const [chartColors, setChartColors] = useState(["#010e58", "#f3f3f5"])
+  const [chartColors, setChartColors] = useState(["#010e58", "#e2e8f0"])
 
   const chartConfig = {
     type: "donut" as const,
@@ -40,10 +40,10 @@ export default function DonutChart({
         },
         dropShadow: {
           enabled: true,
-          opacity: 0.1,
-          blur: 4,
+          opacity: 0.08,
+          blur: 3,
           left: 0,
-          top: 2,
+          top: 1,
         },
       },
       title: {
@@ -73,16 +73,16 @@ export default function DonutChart({
       plotOptions: {
         pie: {
           donut: {
-            size: '70%',
+            size: '72%',
             labels: {
               show: true,
               total: {
                 show: true,
                 showAlways: true,
                 label: "Used",
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#374151',
+                fontSize: '14px',
+                fontWeight: 500,
+                color: '#64748b',
                 formatter: function (w: any) {
                   const total = w.globals.seriesTotals.reduce((a: number, b: number) => {
                     return a + b
@@ -97,7 +97,8 @@ export default function DonutChart({
         },
       },
       stroke: {
-        width: 0,
+        width: 0.3,
+        colors: ['#000000'],
       },
       responsive: [
         {

@@ -15,15 +15,15 @@ const Footer: React.FC = () => {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3 group">
               <Image
-                width={40}
-                height={40}
+                width={140}
+                height={140}
                 src="/logo.svg"
                 alt="Quicktalog Logo"
-                className="w-auto h-8 rounded-full object-cover group-hover:scale-105 transition-transform duration-200"
+                className="w-auto h-12 rounded-full object-cover group-hover:scale-105 transition-transform duration-200"
               />
-              <h3 className="font-lora text-xl font-semibold cursor-pointer group-hover:text-product-primary transition-colors duration-200">
+              {/* <h3 className="font-lora text-xl font-semibold cursor-pointer group-hover:text-product-primary transition-colors duration-200">
                 {siteDetails.siteName}
-              </h3>
+              </h3> */}
             </Link>
             <p className="text-product-foreground-accent leading-relaxed max-w-sm">
               {footerDetails.subheading}
@@ -70,6 +70,9 @@ const Footer: React.FC = () => {
                 className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
                 {footerDetails.email}
               </a>
+              <Link href="/contact" className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
+                Contact Us
+              </Link>
               {/* <a
                 href={`tel:${footerDetails.telephone}`}
                 className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
@@ -118,7 +121,7 @@ const Footer: React.FC = () => {
               <Link
                 href="/terms-and-conditions"
                 className="hover:text-product-primary transition-colors duration-200">
-                Terms of Service
+                Terms & Conditions
               </Link>
             </div>
           </div>

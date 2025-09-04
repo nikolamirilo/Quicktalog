@@ -3,25 +3,30 @@ import { MetadataRoute } from "next"
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!
-  const res = await fetch(`${baseUrl}/api/items`, {
-    method: "GET",
-    cache: "force-cache",
-  })
-  const catalogues = await res.json()
-  const cataloguesUrls = catalogues?.map((catalogue: ServiceCatalogue) => ({
-    url: `${baseUrl}/catalogues/${catalogue.name}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly",
-    priority: 0.9,
-  }))
-  return [
+
+  let catalogues: ServiceCatalogue[] = []
+  try {
+    const res = await fetch(`${baseUrl}/api/items`, {
+      method: "GET",
+      cache: "force-cache",
+    })
+
+    if (res.ok) {
+      catalogues = await res.json()
+    }
+  } catch (err) {
+    console.error("Error fetching catalogues:", err)
+  }
+
+  const hasCatalogues = Array.isArray(catalogues) && catalogues.length > 0
+
+  const staticUrls: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
-    ...cataloguesUrls,
     {
       url: `${baseUrl}/pricing`,
       lastModified: new Date(),
@@ -46,7 +51,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: "monthly",
       priority: 0.7,
     },
-
     {
       url: `${baseUrl}/auth?mode=signup`,
       lastModified: new Date(),
@@ -72,4 +76,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.4,
     },
   ]
+
+  const catalogueUrls: MetadataRoute.Sitemap = hasCatalogues
+    ? catalogues.map((catalogue) => ({
+        url: `${baseUrl}/catalogues/${catalogue.name}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.9,
+      }))
+    : []
+
+  return [...staticUrls, ...catalogueUrls]
 }

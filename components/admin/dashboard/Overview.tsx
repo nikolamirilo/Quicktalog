@@ -17,7 +17,7 @@ import { Status } from "@/types/enums"
 import Link from "next/link"
 import { useState } from "react"
 import { BiScan } from "react-icons/bi"
-import { FiCopy, FiEdit, FiMoreVertical, FiPlus, FiTrash2 } from "react-icons/fi"
+import { FiCopy, FiEdit, FiInfo, FiMoreVertical, FiPlus, FiTrash2 } from "react-icons/fi"
 import { LuSquareMenu } from "react-icons/lu"
 import { RiSparkling2Line } from "react-icons/ri"
 import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
@@ -26,6 +26,8 @@ import InformModal from "../../modals/InformModal"
 
 const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
+  const [currentMetric, setCurrentMetric] = useState("")
   const [menuToDelete, setMenuToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
   async function handleDeleteMenu(id: string) {
@@ -105,7 +107,17 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
           <TbFileAnalytics className="text-product-primary w-6 h-6 sm:w-8 sm:h-8" /> Dashboard
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
+          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setIsInfoModalOpen(true)
+                setCurrentMetric("Total Page Views")
+              }}
+              className="absolute top-2 right-2 p-1 text-product-foreground-accent hover:text-product-primary hover:bg-product-hover-background transition-colors duration-200 z-10">
+              <FiInfo className="w-4 h-4" />
+            </Button>
             <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-product-foreground mb-2 text-center">
               Total Page Views
             </div>
@@ -113,7 +125,17 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
               {overallAnalytics.totalPageViews}
             </div>
           </Card>
-          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
+          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setIsInfoModalOpen(true)
+                setCurrentMetric("Total Visitors")
+              }}
+              className="absolute top-2 right-2 p-1 text-product-foreground-accent hover:text-product-primary hover:bg-product-hover-background transition-colors duration-200 z-10">
+              <FiInfo className="w-4 h-4" />
+            </Button>
             <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-product-foreground mb-2 text-center">
               Total Visitors
             </div>
@@ -121,7 +143,17 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
               {overallAnalytics.totalUniqueVisitors}
             </div>
           </Card>
-          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
+          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setIsInfoModalOpen(true)
+                setCurrentMetric("Total Items")
+              }}
+              className="absolute top-2 right-2 p-1 text-product-foreground-accent hover:text-product-primary hover:bg-product-hover-background transition-colors duration-200 z-10">
+              <FiInfo className="w-4 h-4" />
+            </Button>
             <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-product-foreground mb-2 text-center">
               Total Items
             </div>
@@ -129,7 +161,17 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
               {overallAnalytics.totalServiceCatalogues}
             </div>
           </Card>
-          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in">
+          <Card className="p-3 sm:p-4 md:p-6 flex flex-col items-center justify-between bg-product-background border border-product-border shadow-product-shadow hover:shadow-product-hover-shadow transition-all duration-200 animate-fade-in relative">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                setIsInfoModalOpen(true)
+                setCurrentMetric("Newsletter")
+              }}
+              className="absolute top-2 right-2 p-1 text-product-foreground-accent hover:text-product-primary hover:bg-product-hover-background transition-colors duration-200 z-10">
+              <FiInfo className="w-4 h-4" />
+            </Button>
             <div className="text-xs sm:text-sm md:text-base lg:text-lg font-semibold text-product-foreground mb-2 text-center">
               Newsletter
             </div>
@@ -280,6 +322,26 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
         onCancel={cancelDelete}
         title="Delete Catalogue"
         message="Are you sure you want to delete this menu? This action cannot be undone."
+      />
+      
+      <InformModal
+        isOpen={isInfoModalOpen}
+        onConfirm={() => setIsInfoModalOpen(false)}
+        onCancel={() => setIsInfoModalOpen(false)}
+        title={`${currentMetric} Explained`}
+        message={
+          currentMetric === "Total Page Views" 
+            ? "This shows the total number of times your service catalogues have been viewed by visitors. It includes all page visits across all your catalogues."
+            : currentMetric === "Total Visitors"
+            ? "This represents the number of unique individuals who have visited your service catalogues. Each person is counted only once, regardless of how many times they visit."
+            : currentMetric === "Total Items"
+            ? "This displays the total number of service catalogues you have created. Each catalogue represents a different business or service offering."
+            : currentMetric === "Newsletter"
+            ? "This shows how many people have subscribed to your newsletter service. These are users who have opted in to receive updates from you."
+            : "Select a metric to see its explanation."
+        }
+        confirmText="Got it!"
+        cancelText=""
       />
     </div>
   )

@@ -33,14 +33,14 @@ export const footerDetails: {
     //   text: "Showcases",
     //   url: "/showcases",
     // },
-    {
-      text: "Terms & Conditions",
-      url: "/terms-and-conditions",
-    },
-    {
-      text: "Privacy Policy",
-      url: "/privacy-policy",
-    },
+    // {
+    //   text: "Terms & Conditions",
+    //   url: "/terms-and-conditions",
+    // },
+    // {
+    //   text: "Privacy Policy",
+    //   url: "/privacy-policy",
+    // },
     {
       text: "Refund Policy",
       url: "/refund-policy",
@@ -51,12 +51,12 @@ export const footerDetails: {
   socials: {
     // github: 'https://github.com',
     // x: 'https://twitter.com/x',
-    twitter: "https://twitter.com/Twitter",
-    facebook: "https://facebook.com",
+    // twitter: "https://twitter.com/Twitter",
+    // facebook: "https://facebook.com",
     // youtube: 'https://youtube.com',
     linkedin: "https://www.linkedin.com",
     // threads: 'https://www.threads.net',
-    instagram: "https://www.instagram.com",
+    // instagram: "https://www.instagram.com",
   },
 }
 
