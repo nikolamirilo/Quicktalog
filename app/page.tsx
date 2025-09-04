@@ -1,73 +1,91 @@
-import AIShortcut from "@/components/home/AIShortcut"
-import Benefits from "@/components/home/Benefits/Benefits"
 import Container from "@/components/home/Container"
-import CTA from "@/components/home/CTA"
-import FAQ from "@/components/home/FAQ"
 import Hero from "@/components/home/Hero"
-import HowItWorks from "@/components/home/HowItWorks"
-import Pricing from "@/components/home/Pricing/Pricing"
-import ProblemSection from "@/components/home/ProblemSection"
 import Section from "@/components/home/Section"
-import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { Suspense, lazy } from "react"
 
-const HomePage: React.FC = async () => {
+// Lazy load components that are below the fold
+const Benefits = lazy(() => import("@/components/home/Benefits/Benefits"))
+const ProblemSection = lazy(() => import("@/components/home/ProblemSection"))
+const HowItWorks = lazy(() => import("@/components/home/HowItWorks"))
+const AIShortcut = lazy(() => import("@/components/home/AIShortcut"))
+const Pricing = lazy(() => import("@/components/home/Pricing/Pricing"))
+const CTA = lazy(() => import("@/components/home/CTA"))
+const FAQ = lazy(() => import("@/components/home/FAQ"))
+const Footer = lazy(() => import("@/components/navigation/Footer"))
+
+// Loading fallback component
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center py-8">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+  </div>
+)
+
+// Section-specific loading fallbacks for better UX
+const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
+  <div className={`animate-pulse bg-gray-200 rounded-lg ${height} mb-8`}></div>
+)
+
+const page: React.FC = async () => {
   return (
     <div className="font-lora no-tap-highlight" style={{ WebkitTapHighlightColor: "transparent" }}>
       <Navbar />
       <Hero />
       <Container>
-        <Benefits />
+        <Suspense fallback={<SectionSkeleton height="h-48" />}>
+          <Benefits />
+        </Suspense>
+
         <Section
           id="problems"
           title="Stop Losing Customers to Outdated Catalogs"
           description="Replace printed catalogs with an interactive, mobile-friendly online catalog you can update in real time.">
-          <ProblemSection />
+          <Suspense fallback={<SectionSkeleton height="h-64" />}>
+            <ProblemSection />
+          </Suspense>
         </Section>
-        {/* <Stats /> */}
+
         <Section
           id="how-it-works"
           title="Go Live in Minutes"
           description="Create a professional digital catalog with our free online catalog maker in a few simple steps-or let AI generate it for you. No design or code required.">
-          <HowItWorks />
+          <Suspense fallback={<SectionSkeleton height="h-72" />}>
+            <HowItWorks />
+          </Suspense>
         </Section>
 
-        <div className="lg:mt-0">
-          <div className="text-center mb-6 lg:mb-12">
-            <h1 className="text-2xl lg:text-4xl mb-5 font-bold font-lora text-product-foreground">
-              Or
-            </h1>
-
-            <h3 className="text-2xl lg:text-3xl font-bold font-lora text-product-foreground">
-              Let AI do the work
-            </h3>
-            <p className="text-sm lg:text-base text-product-foreground-accent mt-1">
-              Describe your business and generate a ready-to-edit catalog in seconds.
-            </p>
-          </div>
+        <Suspense fallback={<SectionSkeleton height="h-56" />}>
           <AIShortcut />
-        </div>
+        </Suspense>
 
         <Section
           id="pricing"
           title="Simple, Transparent Pricing"
           description="Start with our free online catalog maker and upgrade as you grow. No hidden fees. Access professional catalog templates, AI generation, OCR import, and analytics on higher tiers.">
-          <Pricing />
+          <Suspense fallback={<SectionSkeleton height="h-96" />}>
+            <Pricing />
+          </Suspense>
         </Section>
 
-        <CTA />
+        <Suspense fallback={<SectionSkeleton height="h-32" />}>
+          <CTA />
+        </Suspense>
+
+        <Section
+          id="faq"
+          title="Got Questions? We've Got Answers"
+          description="Learn how digital catalogs differ from websites, how updates work, and how AI/OCR help you launch faster.">
+          <Suspense fallback={<SectionSkeleton height="h-80" />}>
+            <FAQ />
+          </Suspense>
+        </Section>
       </Container>
 
-      <Section
-        id="faq"
-        title="Got Questions? We've Got Answers"
-        description="Learn how digital catalogs differ from websites, how updates work, and how AI/OCR help you launch faster.">
-        <FAQ />
-      </Section>
-
-      <Footer />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }
 
-export default HomePage
+export default page
