@@ -1,20 +1,17 @@
-import { getUserData } from "@/actions/users"
 import { createClient } from "@/utils/supabase/server"
+import { currentUser } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
 export async function GET() {
   try {
     const supabase = await createClient()
-    const userData = await getUserData()
+    const { id } = await currentUser()
 
-    if (!userData) {
+    if (!id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const { data, error } = await supabase
-      .from("catalogues")
-      .select("*")
-      .eq("created_by", userData.id)
+    const { data, error } = await supabase.from("catalogues").select("*").eq("created_by", id)
 
     if (error) {
       throw error
