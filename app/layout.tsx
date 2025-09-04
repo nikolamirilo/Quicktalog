@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${loraRegular.variable} ${loraSemiBold.variable} ${playfairDisplay.variable} ${inter.variable} ${nunito.variable} ${crimsonText.variable} ${poppins.variable} antialiased`}>
       <head>
         <ClarityScript />
-        <GoogleTagManager gtmId="G-RXHJ9X3T5T" />
+        <GoogleTagManager gtmId={process.env.GTM_ID} />
       </head>
       <ClerkProvider afterSignOutUrl="/">
         <body className="product">
