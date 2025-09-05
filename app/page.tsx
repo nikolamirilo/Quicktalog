@@ -2,7 +2,12 @@ import Container from "@/components/home/Container"
 import Hero from "@/components/home/Hero"
 import Section from "@/components/home/Section"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
+import { Metadata } from "next"
 import { Suspense, lazy } from "react"
+
+export const metadata: Metadata = generatePageMetadata("home")
 
 // Lazy load components that are below the fold
 const Benefits = lazy(() => import("@/components/home/Benefits/Benefits"))
@@ -27,8 +32,14 @@ const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
 )
 
 const page: React.FC = async () => {
+  const homePageSchema = getPageSchema("home")
+  
   return (
     <div className="font-lora no-tap-highlight" style={{ WebkitTapHighlightColor: "transparent" }}>
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }} 
+      />
       <Navbar />
       <Hero />
       <Container>

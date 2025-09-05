@@ -2,17 +2,21 @@
 
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "Learn how Quicktalog collects, uses, and protects your personal information. Read our privacy practices, data rights, and security measures.",
-}
+export const metadata: Metadata = generatePageMetadata("privacy")
 
 export default function PrivacyPolicyPage() {
+  const privacyPageSchema = getPageSchema("privacy")
+  
   return (
     <>
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(privacyPageSchema) }} 
+      />
       <Navbar />
       <div className="max-w-3xl mx-auto px-4 py-36">
         <h1 className="text-3xl font-bold mb-6">Privacy Policy for Quicktalog</h1>

@@ -12,6 +12,43 @@ export const defaultCookiePreferences: CookiePreferences = {
 
 export const COOKIE_KEY = "cookiePreferences"
 
+export const KEYWORDS = [
+  "digital catalog",
+  "online catalog maker",
+  "catalog template",
+  "free online maker",
+  "price list",
+  "interactive catalog",
+  "mobile-friendly catalog",
+  "QR code sharing",
+  "AI-powered creation",
+  "OCR import",
+  "catalog templates",
+  "real-time analytics",
+  "business catalog",
+  "service catalog",
+  "product showcase",
+  "menu catalog",
+  "restaurant menu",
+  "beauty salon services",
+  "fitness gym classes",
+  "café menu",
+  "retail products",
+  "spa services",
+  "electronics catalog",
+  "hospitality",
+  "no code required",
+  "no design skills",
+  "instant updates",
+  "professional templates",
+  "mobile-first design",
+  "easy sharing",
+  "customer insights",
+  "secure platform",
+  "free plan",
+  "5 minutes setup"
+]
+
 export const menuItems: ILinkItem[] = [
   {
     text: "Features",

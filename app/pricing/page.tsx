@@ -2,17 +2,21 @@ import Pricing from "@/components/home/Pricing/Pricing"
 import Section from "@/components/home/Section"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Pricing",
-  description:
-    "Choose right pricing plan for your business. Explore our flexible pricing plans designed to fit your needs.",
-}
+export const metadata: Metadata = generatePageMetadata("pricing")
 
 const page = () => {
+  const pricingPageSchema = getPageSchema("pricing")
+  
   return (
     <div className="font-lora">
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(pricingPageSchema) }} 
+      />
       <Navbar />
       <div className="mx-auto h-fit flex flex-col items-center justify-center py-24 max-w-[1400px]">
         <Section
