@@ -1,16 +1,44 @@
+"use client"
+import { newsletterSignup } from "@/actions/newsletter"
+import { Button } from "@/components/ui/button"
 import { footerDetails, siteDetails } from "@/constants/details"
 import { getPlatformIconByName } from "@/constants/ui"
 import Image from "next/image"
 import Link from "next/link"
-import React from "react"
-import { FiExternalLink } from "react-icons/fi"
+import React, { useState } from "react"
+import { FiExternalLink, FiGlobe, FiMail } from "react-icons/fi"
 
 const Footer: React.FC = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitError, setSubmitError] = useState("")
+  const [submitSuccess, setSubmitSuccess] = useState(false)
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    setIsSubmitting(true)
+    setSubmitError("")
+    setSubmitSuccess(false)
+
+    try {
+      await newsletterSignup(newsletterEmail, null, null)
+      setNewsletterEmail("")
+      setSubmitSuccess(true)
+      setTimeout(() => setSubmitSuccess(false), 3000)
+    } catch (error: any) {
+      const message = error?.message || "Failed to subscribe. Please try again."
+      setSubmitError(message)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <footer className="bg-hero-product-background text-product-foreground py-16 border-t border-product-border">
       <div className="max-w-7xl w-full mx-auto px-6">
         {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-4  gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           {/* Brand section */}
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-3 group">
@@ -58,50 +86,95 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link href="/contact" className="text-product-foreground-accent hover:text-product-primary transition-colors duration-200 flex items-center gap-2 group">
+                  <span>Contact Us</span>
+                  <FiExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Contact & Social */}
+          {/* Social Links */}
           <div className="space-y-4">
             <h4 className="text-lg font-semibold text-product-foreground">Connect With Us</h4>
-            <div className="space-y-3">
+            <div className="flex items-center gap-4">
+              {/* LinkedIn and other social links */}
+              {footerDetails.socials && Object.keys(footerDetails.socials).map((platformName) => {
+                if (platformName && footerDetails.socials[platformName]) {
+                  return (
+                    <Link
+                      href={footerDetails.socials[platformName]}
+                      key={platformName}
+                      aria-label={platformName}
+                      className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 transition-all duration-300 hover:scale-110 hover:rotate-3 group">
+                      <div className="group-hover:text-product-primary transition-colors duration-300">
+                        {getPlatformIconByName(platformName)}
+                      </div>
+                    </Link>
+                  )
+                }
+              })}
+              
+              {/* Mail icon */}
               <a
                 href={`mailto:${footerDetails.email}`}
-                className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
-                {footerDetails.email}
-              </a>
-              <Link href="/contact" className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
-                Contact Us
-              </Link>
-              {/* <a
-                href={`tel:${footerDetails.telephone}`}
-                className="block text-product-foreground-accent hover:text-product-primary transition-colors duration-200">
-                {footerDetails.telephone}
-              </a> */}
-            </div>
-
-            {/* Social Links */}
-            {footerDetails.socials && (
-              <div className="pt-4">
-                <div className="flex items-center gap-4">
-                  {Object.keys(footerDetails.socials).map((platformName) => {
-                    if (platformName && footerDetails.socials[platformName]) {
-                      return (
-                        <Link
-                          href={footerDetails.socials[platformName]}
-                          key={platformName}
-                          aria-label={platformName}
-                          className="p-2 rounded-lg bg-product-background/50 hover:bg-product-primary/10 transition-colors duration-200 group">
-                          <div className="text-product-foreground-accent group-hover:text-product-primary transition-colors duration-200">
-                            {getPlatformIconByName(platformName)}
-                          </div>
-                        </Link>
-                      )
-                    }
-                  })}
+                aria-label="Email us"
+                className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 transition-all duration-300 hover:scale-110 hover:rotate-3 group">
+                <div className="group-hover:text-product-primary transition-colors duration-300">
+                  <FiMail size={24} className="min-w-fit" />
                 </div>
+              </a>
+              
+              {/* Website icon */}
+              <a
+                href="https://quicktalog.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Visit our website"
+                className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 transition-all duration-300 hover:scale-110 hover:rotate-3 group">
+                <div className="group-hover:text-product-primary transition-colors duration-300">
+                  <FiGlobe size={24} className="min-w-fit" />
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {/* Newsletter Subscription */}
+          <div className="space-y-4">
+            <h4 className="text-lg font-semibold text-product-foreground">Stay Updated</h4>
+            <p className="text-sm text-product-foreground-accent">
+              Subscribe to our newsletter for the latest updates and features.
+            </p>
+            <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  className="w-full px-4 py-3 bg-product-background border border-product-border rounded-lg text-product-foreground placeholder-product-foreground-accent focus:outline-none focus:ring-2 focus:ring-product-primary/50 focus:border-product-primary transition-colors duration-200"
+                  required
+                  disabled={isSubmitting}
+                />
+                {submitSuccess && (
+                  <div className="absolute -top-8 left-0 text-xs text-green-500" role="status" aria-live="polite">
+                    Successfully subscribed!
+                  </div>
+                )}
               </div>
-            )}
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-product-primary text-product-foreground hover:bg-product-primary-accent transition-colors duration-200 font-semibold">
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
+              </Button>
+              {submitError && (
+                <p className="text-red-500 text-xs" role="alert" aria-live="polite">
+                  {submitError}
+                </p>
+              )}
+            </form>
           </div>
         </div>
 

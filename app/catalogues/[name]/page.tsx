@@ -3,9 +3,11 @@ import LimitsModal from "@/components/modals/LimitsModal"
 import CatalogueFooter from "@/components/navigation/CatalogueFooter"
 import CatalogueHeader from "@/components/navigation/CatalogueHeader"
 import ServicesSection from "@/components/sections/ServicesSection"
+import { KEYWORDS } from "@/constants"
 import { buildFooterData, buildHeaderData } from "@/helpers/client"
 import { ServiceCatalogue } from "@/types"
 import { createClient } from "@/utils/supabase/client"
+import { Metadata } from "next"
 
 export async function generateStaticParams() {
   try {
@@ -26,6 +28,59 @@ export async function generateStaticParams() {
   } catch (error) {
     console.error("generateStaticParams error:", error)
     return []
+  }
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
+  try {
+    const { name } = await params
+    const supabase = await createClient()
+    const { data } = await supabase.from("catalogues").select("title, subtitle").eq("name", name).single()
+
+    if (!data) {
+      return {
+        title: "Service Catalogue Not Found | Quicktalog",
+        description: "The service catalogue you're looking for doesn't exist or has been removed.",
+      }
+    }
+
+    const title = `${data.title} - Digital Service Catalogue | Quicktalog`
+    const description = data.subtitle || `Explore ${data.title}'s services and offerings in this interactive digital catalogue.`
+
+    return {
+      title,
+      description,
+      generator: "Quicktalog",
+      applicationName: "Quicktalog",
+      keywords: [...KEYWORDS, data.title],
+      authors: [{ name: "Quicktalog" }],
+      creator: "Quicktalog",
+      publisher: "Quicktalog",
+      metadataBase: new URL("https://quicktalog.app"),
+      alternates: {
+        canonical: `https://quicktalog.app/catalogues/${name}`,
+      },
+      openGraph: {
+        title,
+        description,
+        url: `https://quicktalog.app/catalogues/${name}`,
+        type: "website",
+        images: ["/opengraph-image.png"],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: ["/twitter-image.png"],
+        creator: "Quicktalog",
+        site: `https://quicktalog.app/catalogues/${name}`,
+      },
+    }
+  } catch (error) {
+    return {
+      title: "Service Catalogue | Quicktalog",
+      description: "Explore this digital service catalogue created with Quicktalog.",
+    }
   }
 }
 const page = async ({ params }: { params: Promise<{ name: string }> }) => {
@@ -63,11 +118,38 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     const headerData = isFreePlan ? undefined : buildHeaderData(item)
     const footerData = isFreePlan ? undefined : buildFooterData(item)
     if (item.status === "active") {
+      // Generate LD schema for this catalogue
+      const catalogueSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": `${item.title} - Digital Service Catalogue`,
+        "description": item.subtitle || `Explore ${item.title}'s services and offerings in this interactive digital catalogue.`,
+        "url": `https://quicktalog.app/catalogues/${name}`,
+        "mainEntity": {
+          "@type": "Service",
+          "name": item.title,
+          "description": item.subtitle,
+          "provider": {
+            "@type": "Organization",
+            "name": item.title
+          },
+          "serviceType": "Digital Service Catalogue",
+          "offers": {
+            "@type": "Offer",
+            "description": "Interactive digital catalogue services"
+          }
+        }
+      }
+
       return (
         <div
           className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen flex flex-col`}
           role="application"
           aria-label={`${item.title} Service Catalogue`}>
+          <script 
+            type="application/ld+json" 
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogueSchema) }} 
+          />
           {isFreePlan ? (
             <CatalogueHeader type="default" />
           ) : (
