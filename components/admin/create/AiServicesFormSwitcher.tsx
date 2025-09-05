@@ -40,6 +40,7 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
 
   const validate = () => {
     const newErrors: { [key: string]: string } = {}
+    const hasErrors = Object.keys(errors).length > 0
     if (!formData.name.trim()) newErrors.name = "Name is required."
     if (!formData.title.trim()) newErrors.title = "Title is required."
     if (!formData.currency.trim()) newErrors.currency = "Currency is required."
@@ -53,7 +54,7 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
       theme: true,
       prompt: true,
     })
-    return Object.keys(newErrors).length === 0
+    return Object.keys(newErrors).length === 0 && !hasErrors
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -103,7 +104,6 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
       revalidateData()
     }
   }
-
   return (
     <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl my-32">
       <Card
@@ -131,6 +131,8 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
               setFormData={setFormData}
               errors={errors}
               touched={touched}
+              setTouched={setTouched}
+              setErrors={setErrors}
             />
 
             {type === "ai_prompt" ? (

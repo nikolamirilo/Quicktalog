@@ -219,12 +219,14 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
   const isStepValid = (step: number): boolean => {
     if (step === 1) {
-      return (
+      // Check if there are any errors AND all required fields are filled
+      const hasErrors = Object.keys(errors).length > 0
+      const requiredFieldsFilled =
         !!formData.name.trim() &&
         !!formData.title?.trim() &&
         !!formData.currency?.trim() &&
         !!formData.theme?.trim()
-      )
+      return !hasErrors && requiredFieldsFilled
     }
     if (step === 2) {
       if (formData.services.length === 0) return false
@@ -239,7 +241,6 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
     }
     return true
   }
-
   const validateStep = (step: number): boolean => {
     let newErrors: { [key: string]: string } = {}
     let isValid = true
@@ -452,6 +453,8 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             setFormData={setFormData}
             errors={errors}
             touched={touched}
+            setTouched={setTouched}
+            setErrors={setErrors}
           />
         )
       case 2:

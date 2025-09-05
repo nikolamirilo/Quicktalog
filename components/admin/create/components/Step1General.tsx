@@ -1,5 +1,4 @@
 "use client"
-
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,8 +12,8 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 import { currencies, themes } from "@/constants"
 import type { Step1GeneralProps } from "@/types/components"
-import { FileText } from "lucide-react"
-import * as React from "react"
+import { AlertCircle, CheckCircle, FileText } from "lucide-react"
+import React, { useEffect, useMemo, useState } from "react"
 
 const Step1General: React.FC<Step1GeneralProps> = ({
   formData,
@@ -22,7 +21,17 @@ const Step1General: React.FC<Step1GeneralProps> = ({
   setFormData,
   errors = {},
   touched = {},
+  setErrors,
+  setTouched,
 }) => {
+  const [names, setNames] = useState([])
+
+  // Check if current name exists in database
+  const nameExists = useMemo(() => {
+    if (!formData.name || !names.length) return false
+    return names.some((n) => n.name === formData.name.toLowerCase())
+  }, [formData.name, names])
+
   const handleThemeChange = (value: string) => {
     setFormData((prev: any) => ({ ...prev, theme: value }))
   }
@@ -30,6 +39,71 @@ const Step1General: React.FC<Step1GeneralProps> = ({
   const handleCurrencyChange = (value: string) => {
     setFormData((prev: any) => ({ ...prev, currency: value }))
   }
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newName = e.target.value
+
+    // Always call the original handler first
+    handleInputChange(e)
+
+    // Mark the field as touched
+    if (setTouched) {
+      setTouched((prev: any) => ({ ...prev, name: true }))
+    }
+
+    // Check for duplicate name and set appropriate error
+    if (newName.trim() && names.length > 0) {
+      const exists = names.some((n) => n.name === newName.toLowerCase())
+
+      if (exists && setErrors) {
+        // Set duplicate name error
+        setErrors((prev: any) => ({
+          ...prev,
+          name: "This name already exists in the database. Please choose a different name.",
+        }))
+      } else if (!exists && setErrors) {
+        // Clear only the duplicate name error, keep other validation errors
+        setErrors((prev: any) => {
+          const newErrors = { ...prev }
+          if (
+            newErrors.name ===
+            "This name already exists in the database. Please choose a different name."
+          ) {
+            delete newErrors.name
+          }
+          return newErrors
+        })
+      }
+    } else if (!newName.trim() && setErrors) {
+      // If name is empty and field is required, let the parent validation handle it
+      setErrors((prev: any) => {
+        const newErrors = { ...prev }
+        if (
+          newErrors.name ===
+          "This name already exists in the database. Please choose a different name."
+        ) {
+          delete newErrors.name
+        }
+        return newErrors
+      })
+    }
+  }
+
+  useEffect(() => {
+    async function getAllNames() {
+      try {
+        const res = await fetch("/api/items", {
+          method: "GET",
+          cache: "force-cache",
+        })
+        const data = await res.json()
+        setNames(data)
+      } catch (error) {
+        console.error("Failed to fetch names:", error)
+      }
+    }
+    getAllNames()
+  }, [])
 
   return (
     <Card
@@ -44,22 +118,52 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           <Label htmlFor="name" className="text-product-foreground font-medium font-body">
             Name<span className="text-red-500 ml-1">*</span>
           </Label>
-          <Input
-            id="name"
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            placeholder="e.g., Five Guys"
-            className="border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
-            required
-          />
+          <div className="relative">
+            <Input
+              id="name"
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleNameChange}
+              placeholder="e.g., Five Guys"
+              className={`border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base pr-10 ${
+                errors?.name
+                  ? "border-red-500 focus:border-red-500"
+                  : formData.name && !nameExists && touched?.name
+                    ? "border-green-500 focus:border-green-500"
+                    : ""
+              }`}
+              required
+            />
+            {/* Real-time validation icon */}
+            {formData.name && touched?.name && (
+              <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                {errors?.name ? (
+                  <AlertCircle className="h-4 w-4 text-red-500" />
+                ) : (
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Show success message when name is unique and touched */}
+          {formData.name && !errors?.name && touched?.name && (
+            <div className="text-green-600 text-sm mt-2 p-2 bg-green-50 border border-green-200 rounded-lg font-body flex items-center gap-2">
+              <CheckCircle className="h-4 w-4" />
+              Great! This name is available.
+            </div>
+          )}
+
+          {/* Show all validation errors (including duplicate name error) */}
           {touched?.name && errors?.name && (
-            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body">
+            <div className="text-red-500 text-sm mt-2 p-2 bg-red-50 border border-red-200 rounded-lg font-body flex items-center gap-2">
+              <AlertCircle className="h-4 w-4" />
               {errors.name}
             </div>
           )}
         </div>
+
         <div className="space-y-3">
           <Label htmlFor="title" className="text-product-foreground font-medium font-body">
             Title<span className="text-red-500 ml-1">*</span>
@@ -79,6 +183,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             </div>
           )}
         </div>
+
         <div className="space-y-3">
           <Label htmlFor="subtitle" className="text-product-foreground font-medium font-body">
             Subtitle
@@ -92,6 +197,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             className="h-32 border-product-border focus:border-product-primary focus:ring-product-primary/20 text-sm sm:text-base"
           />
         </div>
+
         <div className="space-y-3">
           <Label htmlFor="currency" className="text-product-foreground font-medium font-body">
             Currency (e.g., USD, EUR)<span className="text-red-500 ml-1">*</span>
@@ -114,6 +220,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             </div>
           )}
         </div>
+
         {/* Theme Selection */}
         <div className="space-y-4 col-span-full">
           <Label htmlFor="theme" className="text-product-foreground font-medium text-lg font-body">

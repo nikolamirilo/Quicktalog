@@ -116,6 +116,8 @@ export type Step1GeneralProps = {
   setFormData: React.Dispatch<React.SetStateAction<any>>
   errors?: { [key: string]: string }
   touched?: { [key: string]: boolean }
+  setTouched: any
+  setErrors: any
 }
 
 export type Step2ServicesSectionsProps = {
