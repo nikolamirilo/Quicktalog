@@ -4,11 +4,13 @@ import Toggle from "@/components/common/Toggle"
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
 import ServicesSection from "@/components/sections/ServicesSection"
+import { getPageSchema } from "@/constants/schemas"
 import { useMainContext } from "@/context/MainContext"
 import data from "../../showcase.json"
 
 const page: React.FC = () => {
   const { theme } = useMainContext()
+  const playgroundPageSchema = getPageSchema("playground")
 
   try {
     // Validate showcase data
@@ -36,8 +38,12 @@ const page: React.FC = () => {
 
     return (
       <>
+        <script 
+          type="application/ld+json" 
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(playgroundPageSchema) }} 
+        />
         <Navbar />
-        <div className={`min-h-screen text-text bg-background ${theme ? theme : "theme-luxury"}`}>
+        <div className={`min-h-screen text-text bg-background font-lora ${theme ? theme : "theme-luxury"}`}>
           <main>
             <section className="w-full bg-background pt-36 px-4 text-center flex flex-col items-center">
               <h1 className="text-4xl sm:text-5xl md:text-6xl max-w-[800px] font-lora font-semibold text-foreground tracking-tight mb-4">
@@ -73,7 +79,7 @@ const page: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="min-h-screen text-text bg-background theme-luxury">
+        <div className="min-h-screen text-text bg-background font-lora theme-luxury">
           <main>
             <section className="w-full bg-background pt-36 px-4 text-center flex flex-col items-center">
               <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl">

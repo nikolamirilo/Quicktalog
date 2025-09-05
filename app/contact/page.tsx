@@ -1,16 +1,20 @@
 import Contact from "@/components/contact/Contact"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
 import type { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Contact Quicktalog - Sales & Support",
-  description:
-    "Get in touch with Quicktalog sales or support. Ask about our digital catalog builder, plans, AI generation, OCR import, and more. We respond within 1 business day.",
-}
+export const metadata: Metadata = generatePageMetadata("contact")
 
 const page = () => {
+  const contactPageSchema = getPageSchema("contact")
+  
   return (
     <>
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }} 
+      />
       <Navbar />
       <Contact />
     </>

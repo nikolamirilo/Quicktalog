@@ -1,6 +1,7 @@
 "use client"
 import { newsletterSignup } from "@/actions/newsletter"
 import { Button } from "@/components/ui/button"
+import { footerDetails } from "@/constants/details"
 import { getPlatformIconByName } from "@/constants/ui"
 import { CatalogueFooterProps } from "@/types/components"
 import Image from "next/image"
@@ -10,11 +11,10 @@ import {
   FiExternalLink,
   FiMail,
   FiMapPin,
-  FiPhone,
   FiPlus,
   FiShield,
   FiUsers,
-  FiZap,
+  FiZap
 } from "react-icons/fi"
 import { MdTitle } from "react-icons/md"
 
@@ -65,12 +65,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
   const [submitError, setSubmitError] = useState("")
   const [submitSuccess, setSubmitSuccess] = useState(false)
 
-  const socialLinks = {
-    facebook: "https://facebook.com/quicktalog",
-    twitter: "https://twitter.com/quicktalog",
-    linkedin: "https://linkedin.com/company/quicktalog",
-    instagram: "https://instagram.com/quicktalog",
-  }
+  const socialLinks = footerDetails.socials
 
   const features = [
     {
@@ -244,7 +239,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 </Link>
                 <p className="text-sm leading-relaxed text-card-description">
                   {type === "default"
-                    ? "Create beautiful, shareable digital catalogs in minutes. No tech skills required."
+                    ? footerDetails.subheading
                     : "Professional services delivered with excellence and attention to detail."}
                 </p>
               </div>
@@ -279,39 +274,29 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 {(type === "default" || customEmail) && (
                   <li>
                     <a
-                      href={`mailto:${type === "default" ? "hello@quicktalog.com" : customEmail}`}
+                      href={`mailto:${type === "default" ? footerDetails.email : customEmail}`}
                       className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
-                      aria-label={`Send email to ${type === "default" ? "hello@quicktalog.com" : customEmail || "contact"}`}>
+                      aria-label={`Send email to ${type === "default" ? footerDetails.email : customEmail || "contact"}`}>
                       <FiMail
                         className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
                         aria-hidden="true"
                       />
-                      <span>{type === "default" ? "hello@quicktalog.com" : customEmail}</span>
+                      <span>{type === "default" ? footerDetails.email : customEmail}</span>
                     </a>
                   </li>
                 )}
-                {(type === "default" || customPhone) && (
-                  <li>
-                    <a
-                      href={`tel:${type === "default" ? "+1234567890" : customPhone}`}
-                      className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
-                      aria-label={`Call ${type === "default" ? "+1 (234) 567-890" : customPhone || "contact"}`}>
-                      <FiPhone
-                        className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                        aria-hidden="true"
-                      />
-                      <span>{type === "default" ? "+1 (234) 567-890" : customPhone}</span>
-                    </a>
-                  </li>
-                )}
-                {(type === "default" || legal?.address) && (
-                  <li className="flex items-start space-x-3">
-                    <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
-                    <span className="text-sm text-card-description">
-                      {type === "default" ? "Belgrade, Serbia" : legal?.address}
-                    </span>
-                  </li>
-                )}
+                <li>
+                  <Link
+                    href="/contact"
+                    className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
+                    aria-label="Contact us">
+                    <FiExternalLink
+                      className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+                      aria-hidden="true"
+                    />
+                    <span>Contact Us</span>
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -377,6 +362,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                       <SocialIcon
                         key={index}
                         platform={platform}
+                        className="rounded-lg"
                         href={socialLinks[platform as keyof typeof socialLinks]}
                       />
                     ))}
@@ -387,7 +373,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     asChild
                     variant="secondary"
                     size="default"
-                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button">
+                    className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button">
                     <Link href="/auth?mode=signup" aria-label="Create your own digital catalog">
                       <FiPlus className="w-4 h-4" />
                       Create Your Digital Catalog

@@ -2,17 +2,21 @@
 
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Refund Policy",
-  description:
-    "Read about Quicktalog's 10-day money-back guarantee, eligibility, and how to request a refund for your purchase or subscription.",
-}
+export const metadata: Metadata = generatePageMetadata("refund")
 
 export default function RefundPolicyPage() {
+  const refundPageSchema = getPageSchema("refund")
+  
   return (
     <>
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(refundPageSchema) }} 
+      />
       <Navbar />
       <div className="max-w-3xl mx-auto px-4 py-36">
         <h1 className="text-3xl font-bold mb-6">Refund Policy for Quicktalog</h1>

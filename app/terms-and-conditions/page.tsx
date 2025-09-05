@@ -2,17 +2,21 @@
 
 import Footer from "@/components/navigation/Footer"
 import Navbar from "@/components/navigation/Navbar"
+import { generatePageMetadata } from "@/constants/metadata"
+import { getPageSchema } from "@/constants/schemas"
 import { Metadata } from "next"
 
-export const metadata: Metadata = {
-  title: "Terms & Conditions",
-  description:
-    "Review the Terms & Conditions for using Quicktalog, including user obligations, payment, refunds, and legal compliance.",
-}
+export const metadata: Metadata = generatePageMetadata("terms")
 
 export default function TermsAndConditionsPage() {
+  const termsPageSchema = getPageSchema("terms")
+  
   return (
     <>
+      <script 
+        type="application/ld+json" 
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(termsPageSchema) }} 
+      />
       <Navbar />
       <div className="max-w-3xl mx-auto px-4 py-36">
         <h1 className="text-3xl font-bold mb-6">Terms & Conditions</h1>
