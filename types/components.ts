@@ -212,4 +212,5 @@ export type OverviewProps = {
   catalogues: ServiceCatalogue[]
   overallAnalytics: OverallAnalytics
   user: User
+  refreshAll: any
 }

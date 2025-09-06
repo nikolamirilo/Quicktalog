@@ -109,7 +109,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
               : ""
           }`}>
           <Card
-            className={`bg-product-background/50 border border-product-border shadow-product-shadow rounded-xl cursor-move ${
+            className={`bg-product-background/50 bg-product-background border border-product-border shadow-product-shadow rounded-xl cursor-move ${
               dragOverItem === categoryIndex && draggedItem !== categoryIndex
                 ? "border-product-primary border-2 bg-product-primary/5"
                 : ""
