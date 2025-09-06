@@ -101,7 +101,7 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
       })
     } finally {
       setIsSubmitting(false)
-      revalidateData()
+      await revalidateData()
     }
   }
   return (

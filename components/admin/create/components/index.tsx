@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { defaultServiceCatalogueData } from "@/constants"
+import { revalidatePageData } from "@/helpers/server"
 import { toast } from "@/hooks/use-toast"
 import { ContactInfo, ServicesCategory, ServicesFormData, ServicesItem } from "@/types"
 import { ServicesFormBaseProps } from "@/types/components"
@@ -413,10 +414,11 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       console.log("Response status:", response.status)
 
       if (response.ok) {
-        const { catalogueUrl } = await response.json()
-        setServiceCatalogueUrl(`/catalogues/${catalogueUrl}`)
+        const { catalogueUrl, slug } = await response.json()
+        await revalidatePageData(slug)
+        setServiceCatalogueUrl(`/${catalogueUrl}`)
         setShowSuccessModal(true)
-        if (onSuccess) onSuccess(`/catalogues/${catalogueUrl}`)
+        if (onSuccess) onSuccess(`/${catalogueUrl}`)
         if (type === "create") {
           setFormData(defaultServiceCatalogueData)
           setCurrentStep(1)

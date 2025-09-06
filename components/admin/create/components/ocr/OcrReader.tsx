@@ -188,7 +188,7 @@ const OcrReader = ({ formData, setServiceCatalogueUrl, setShowSuccessModal }) =>
       })
     } finally {
       setIsSubmitting(false)
-      revalidateData()
+      await revalidateData()
     }
   }
 
