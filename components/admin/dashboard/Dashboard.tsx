@@ -34,7 +34,7 @@ export default function Dashboard({ user, usage, pricingPlan }: ImprovedDashboar
   }
 
   return (
-    <div className="w-full min-h-screen px-2 sm:px-4 relative md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
+    <div className="w-full min-h-screen px-4 sm:px-4 relative md:px-6 lg:px-8 pt-32 pb-12 bg-gradient-to-br from-product-background to-hero-product-background animate-fade-in">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-4 md:gap-6 lg:gap-8">
         {/* Sidebar tabs (hidden on mobile) */}
         <Suspense fallback={<div className="w-64 h-96 bg-gray-100 animate-pulse rounded-lg" />}>

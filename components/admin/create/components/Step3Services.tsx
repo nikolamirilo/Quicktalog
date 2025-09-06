@@ -52,7 +52,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
         Add Services
       </h2>
       {formData.services.length === 0 ? (
-        <div className="text-center p-8 bg-product-background/50 rounded-xl border border-product-border">
+        <div className="text-center p-8 bg-product-background/50 bg-product-background rounded-xl border border-product-border">
           <p className="text-product-foreground-accent text-lg font-body">
             Please add categories in Step 2 first.
           </p>
@@ -61,7 +61,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
         formData.services.map((category, categoryIndex) => (
           <Card
             key={categoryIndex}
-            className="shadow-product-shadow bg-product-background/50 border border-product-border rounded-xl"
+            className="shadow-product-shadow bg-product-background/50 bg-product-background border border-product-border rounded-xl"
             type="form">
             <div
               className="flex justify-between items-center p-6 cursor-pointer"
