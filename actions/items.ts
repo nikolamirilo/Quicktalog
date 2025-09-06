@@ -12,7 +12,6 @@ export async function deleteItem(id: string): Promise<boolean> {
       console.error("Failed to delete service catalogue:", error.message)
       return false
     }
-
     return true
   } catch (err) {
     console.error("Unexpected error while deleting service catalogue:", err)

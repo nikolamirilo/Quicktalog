@@ -10,7 +10,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { statusOrder } from "@/constants/sort"
-import { revalidateData } from "@/helpers/server"
 import { ServiceCatalogue } from "@/types"
 import { OverviewProps } from "@/types/components"
 import { Status } from "@/types/enums"
@@ -24,22 +23,22 @@ import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
 import { VscActivateBreakpoints } from "react-icons/vsc"
 import InformModal from "../../modals/InformModal"
 
-const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
+const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [currentMetric, setCurrentMetric] = useState("")
-  const [menuToDelete, setMenuToDelete] = useState<string | null>(null)
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
   async function handleDeleteMenu(id: string) {
-    setMenuToDelete(id)
+    setItemToDelete(id)
     setIsModalOpen(true)
   }
 
   async function confirmDelete() {
-    if (menuToDelete) {
-      await deleteItem(menuToDelete)
-      revalidateData()
-      setMenuToDelete(null)
+    if (itemToDelete) {
+      await deleteItem(itemToDelete)
+      await refreshAll()
+      setItemToDelete(null)
       setIsModalOpen(false)
     }
   }
@@ -54,7 +53,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
     setDuplicatingId(id)
     try {
       await duplicateItem(id)
-      await revalidateData()
+      await refreshAll()
     } catch (e) {
       alert("Failed to duplicate item.")
     } finally {
@@ -64,7 +63,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
   async function handleupdateItemStatus(id: string, status: Status) {
     try {
       await updateItemStatus(id, status)
-      await revalidateData()
+      await refreshAll()
     } catch (e) {
       alert("Failed to update status.")
     } finally {
@@ -72,7 +71,7 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
     }
   }
   function cancelDelete() {
-    setMenuToDelete(null)
+    setItemToDelete(null)
     setIsModalOpen(false)
   }
   return (
@@ -323,22 +322,22 @@ const Overview = ({ user, overallAnalytics, catalogues }: OverviewProps) => {
         title="Delete Catalogue"
         message="Are you sure you want to delete this menu? This action cannot be undone."
       />
-      
+
       <InformModal
         isOpen={isInfoModalOpen}
         onConfirm={() => setIsInfoModalOpen(false)}
         onCancel={() => setIsInfoModalOpen(false)}
         title={`${currentMetric} Explained`}
         message={
-          currentMetric === "Total Page Views" 
+          currentMetric === "Total Page Views"
             ? "This shows the total number of times your service catalogues have been viewed by visitors. It includes all page visits across all your catalogues."
             : currentMetric === "Total Visitors"
-            ? "This represents the number of unique individuals who have visited your service catalogues. Each person is counted only once, regardless of how many times they visit."
-            : currentMetric === "Total Items"
-            ? "This displays the total number of service catalogues you have created. Each catalogue represents a different business or service offering."
-            : currentMetric === "Newsletter"
-            ? "This shows how many people have subscribed to your newsletter service. These are users who have opted in to receive updates from you."
-            : "Select a metric to see its explanation."
+              ? "This represents the number of unique individuals who have visited your service catalogues. Each person is counted only once, regardless of how many times they visit."
+              : currentMetric === "Total Items"
+                ? "This displays the total number of service catalogues you have created. Each catalogue represents a different business or service offering."
+                : currentMetric === "Newsletter"
+                  ? "This shows how many people have subscribed to your newsletter service. These are users who have opted in to receive updates from you."
+                  : "Select a metric to see its explanation."
         }
         confirmText="Got it!"
         cancelText=""

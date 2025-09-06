@@ -87,7 +87,9 @@ const Footer: React.FC = () => {
                 </li>
               ))}
               <li>
-                <Link href="/contact" className="text-product-foreground-accent hover:text-product-primary transition-colors duration-200 flex items-center gap-2 group">
+                <Link
+                  href="/contact"
+                  className="text-product-foreground-accent hover:text-product-primary transition-colors duration-200 flex items-center gap-2 group">
                   <span>Contact Us</span>
                   <FiExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                 </Link>
@@ -100,22 +102,23 @@ const Footer: React.FC = () => {
             <h4 className="text-lg font-semibold text-product-foreground">Connect With Us</h4>
             <div className="flex items-center gap-4">
               {/* LinkedIn and other social links */}
-              {footerDetails.socials && Object.keys(footerDetails.socials).map((platformName) => {
-                if (platformName && footerDetails.socials[platformName]) {
-                  return (
-                    <Link
-                      href={footerDetails.socials[platformName]}
-                      key={platformName}
-                      aria-label={platformName}
-                      className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 transition-all duration-300 hover:scale-110 hover:rotate-3 group">
-                      <div className="group-hover:text-product-primary transition-colors duration-300">
-                        {getPlatformIconByName(platformName)}
-                      </div>
-                    </Link>
-                  )
-                }
-              })}
-              
+              {footerDetails.socials &&
+                Object.keys(footerDetails.socials).map((platformName) => {
+                  if (platformName && footerDetails.socials[platformName]) {
+                    return (
+                      <Link
+                        href={footerDetails.socials[platformName]}
+                        key={platformName}
+                        aria-label={platformName}
+                        className="p-2 rounded-lg bg-white text-gray-600 border border-gray-200 transition-all duration-300 hover:scale-110 hover:rotate-3 group">
+                        <div className="group-hover:text-product-primary transition-colors duration-300">
+                          {getPlatformIconByName(platformName)}
+                        </div>
+                      </Link>
+                    )
+                  }
+                })}
+
               {/* Mail icon */}
               <a
                 href={`mailto:${footerDetails.email}`}
@@ -125,7 +128,7 @@ const Footer: React.FC = () => {
                   <FiMail size={24} className="min-w-fit" />
                 </div>
               </a>
-              
+
               {/* Website icon */}
               <a
                 href="https://quicktalog.app"
@@ -158,7 +161,10 @@ const Footer: React.FC = () => {
                   disabled={isSubmitting}
                 />
                 {submitSuccess && (
-                  <div className="absolute -top-8 left-0 text-xs text-green-500" role="status" aria-live="polite">
+                  <div
+                    className="absolute -top-8 left-0 text-xs text-green-500"
+                    role="status"
+                    aria-live="polite">
                     Successfully subscribed!
                   </div>
                 )}

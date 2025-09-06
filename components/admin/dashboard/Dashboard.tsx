@@ -25,7 +25,7 @@ export default function Dashboard({ user, usage, pricingPlan }: ImprovedDashboar
   const [activeTab, setActiveTab] = useState("overview")
 
   // Fetch data only when needed based on active tab
-  const { analytics, catalogues, loadingStates } = useDashboardData(activeTab)
+  const { analytics, catalogues, loadingStates, refreshAll } = useDashboardData(activeTab)
 
   function getSidebarButtonClass(isActive: boolean) {
     return isActive
@@ -72,6 +72,7 @@ export default function Dashboard({ user, usage, pricingPlan }: ImprovedDashboar
                       totalServiceCatalogues: catalogues?.length || 0,
                     }}
                     catalogues={catalogues || []}
+                    refreshAll={refreshAll}
                   />
                 )}
               </section>

@@ -1,4 +1,5 @@
 import { createClient } from "@/utils/supabase/server"
+import { NextResponse } from "next/server"
 
 export async function POST(request: Request) {
   try {
@@ -114,9 +115,9 @@ export async function PATCH(request: Request) {
       })
     }
 
-    return new Response(JSON.stringify({ data }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    return NextResponse.json({
+      catalogueUrl: `/catalogues/${name}`,
+      slug: name,
     })
   } catch (error: any) {
     console.error("Request error:", error)

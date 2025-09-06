@@ -413,11 +413,10 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       console.log("Response status:", response.status)
 
       if (response.ok) {
-        const result = await response.json()
-        console.log("Success result:", result)
-        setServiceCatalogueUrl(`/catalogues/${serviceCatalogueSlug}`)
+        const { catalogueUrl } = await response.json()
+        setServiceCatalogueUrl(`/catalogues/${catalogueUrl}`)
         setShowSuccessModal(true)
-        if (onSuccess) onSuccess(`/catalogues/${serviceCatalogueSlug}`)
+        if (onSuccess) onSuccess(`/catalogues/${catalogueUrl}`)
         if (type === "create") {
           setFormData(defaultServiceCatalogueData)
           setCurrentStep(1)
