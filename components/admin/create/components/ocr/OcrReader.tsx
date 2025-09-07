@@ -162,7 +162,7 @@ const OcrReader = ({ formData, setServiceCatalogueUrl, setShowSuccessModal }) =>
     console.log({ ocr_text: combinedText, formData: formData })
 
     try {
-      const response = await fetch("/api/items/ai", {
+      const response = await fetch("/api/items/ocr", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ocr_text: combinedText, formData: formData }),
