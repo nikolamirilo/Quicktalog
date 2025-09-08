@@ -52,7 +52,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
                 alt={`${type === "default" ? "Quicktalog" : "Company"} logo`}
                 width={type === "default" ? 120 : 100}
                 height={40}
-                className="w-auto h-[7vh] rounded-full object-cover"
+                className="w-auto h-[7vh] object-cover"
               />
             </Link>
           </div>

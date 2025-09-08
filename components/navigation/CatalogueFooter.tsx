@@ -490,7 +490,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     type="submit"
                     variant="secondary"
                     size="default"
-                    className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button"
+                    className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button flex items-center gap-2"
                     disabled={isSubmitting}
                     aria-label="Subscribe to newsletter">
                     {isSubmitting ? (
@@ -520,7 +520,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 asChild
                 variant="secondary"
                 size="default"
-                className="text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 flex items-center gap-2 bg-card-bg text-card-text border border-primary footer-cta-button">
+                className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button flex items-center gap-2">
                 <Link href={ctaFooter.url} aria-label={ctaFooter.label}>
                   <FiExternalLink className="w-4 h-4" />
                   {ctaFooter.label}

@@ -118,6 +118,7 @@ export type Step1GeneralProps = {
   touched?: { [key: string]: boolean }
   setTouched: any
   setErrors: any
+  type?: string
 }
 
 export type Step2ServicesSectionsProps = {

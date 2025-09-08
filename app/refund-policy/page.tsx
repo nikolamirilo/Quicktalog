@@ -29,8 +29,7 @@ export default function RefundPolicyPage() {
         <h2 className="text-xl font-bold mt-8 mb-4">Our 10-day Money-Back Guarantee</h2>
         <p className="mb-4">
           We provide a <strong>10-day money-back guarantee</strong> or all Quicktalog software
-          purchases and subscription plans. If you're not entirely happy with our service within 30
-          days of your initial purchase, you are eligible for a full refund.
+          purchases and subscription plans.
         </p>
         <p className="mb-4">
           Please note that this guarantee applies to your <strong>first purchase</strong> of any
@@ -62,7 +61,7 @@ export default function RefundPolicyPage() {
           </li>
         </ul>
         <p className="mb-4">
-          Refund requests must be submitted within <strong>30 days</strong> of your original
+          Refund requests must be submitted within <strong>10 days</strong> of your original
           purchase date.
         </p>
 

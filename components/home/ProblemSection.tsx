@@ -154,34 +154,34 @@ const ProblemSection: React.FC = () => {
       metric: "No Code",
       metricLabel: "No design skills required",
       problem:
-        "DIY tools are clunky and hiring a designer is expensive. Most online catalogue makers are complex and updates take too long.",
+        "Creating professional catalogs usually requires hiring designers or learning complex software. Most businesses end up with outdated printed catalogs or basic PDF files.",
       solution:
-        "Our intuitive online catalogue maker lets you build a polished catalog with simple drag and drop. Launch fast without a designer or developer.",
-      ctaText: "Browse Templates",
-      impactMetric: "Designer quality results",
+        "Our intuitive catalog maker lets you create stunning digital catalogs in minutes. Choose from professional templates or let AI generate your catalog automatically.",
+      ctaText: "Start Creating",
+      impactMetric: "Professional results, zero experience needed",
       icon: <FiSmartphone />,
     },
     {
       metric: "< 5 Mins",
       metricLabel: "to update your catalog",
       problem:
-        "Prices change and items go out of stock. Printed catalogs fall out of date.",
+        "Printed catalogs become outdated the moment you print them. Price changes, new products, or sold-out items leave customers with wrong information.",
       solution:
-        "Edit once and your catalog updates everywhere in seconds. Any device, anytime.",
-      ctaText: "See How It Works",
-      impactMetric: "Instant updates, zero cost",
+        "Update your digital catalog instantly from any device. Changes appear immediately across all platforms - no reprinting, no delays, no confusion.",
+      ctaText: "See Live Updates",
+      impactMetric: "Always current, always accurate",
       icon: <FiClock />,
       isReversed: true,
     },
     {
-      metric: "Zero",
-      metricLabel: "printing costs, ever",
+      metric: "Share",
+      metricLabel: "with a simple link or QR code",
       problem:
-        "Reprints eat budget and time, and customers still see old information.",
+        "Distributing printed catalogs is expensive and wasteful. Customers lose them, and you never know who's actually looking at your products.",
       solution:
-        "Share a digital link or QR code. Cut print costs and keep information current.",
-      ctaText: "Calculate Your Savings",
-      impactMetric: "Eco friendly and cost effective",
+        "Share your catalog instantly with a link or QR code. Track views, see what customers browse most, and reach unlimited customers at zero distribution cost.",
+      ctaText: "Try It Now",
+      impactMetric: "Unlimited reach, detailed analytics",
       icon: <FiDollarSign />,
     },
   ]
