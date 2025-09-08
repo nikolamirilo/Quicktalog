@@ -414,11 +414,30 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       console.log("Response status:", response.status)
 
       if (response.ok) {
-        const { catalogueUrl, slug } = await response.json()
-        await revalidatePageData(slug)
-        setServiceCatalogueUrl(`/${catalogueUrl}`)
+        const responseData = await response.json()
+        console.log("Response data:", responseData) // Debug log
+
+        // Use the slug we created locally for consistency
+        const slugToRevalidate = serviceCatalogueSlug
+
+        // Alternative: Use the slug from response if available, fallback to local slug
+        const finalSlug = responseData.slug || slugToRevalidate
+
+        console.log("Revalidating with slug:", finalSlug) // Debug log
+
+        try {
+          await revalidatePageData(finalSlug)
+          console.log("Revalidation completed successfully")
+        } catch (revalidationError) {
+          console.error("Revalidation failed:", revalidationError)
+          // Don't fail the entire operation if revalidation fails
+        }
+
+        const catalogueUrl = responseData.catalogueUrl || `/${slugToRevalidate}`
+        setServiceCatalogueUrl(catalogueUrl)
         setShowSuccessModal(true)
-        if (onSuccess) onSuccess(`/${catalogueUrl}`)
+
+        if (onSuccess) onSuccess(catalogueUrl)
         if (type === "create") {
           setFormData(defaultServiceCatalogueData)
           setCurrentStep(1)
@@ -456,6 +475,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             touched={touched}
             setTouched={setTouched}
             setErrors={setErrors}
+            type={type}
           />
         )
       case 2:

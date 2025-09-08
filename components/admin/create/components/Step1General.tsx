@@ -23,6 +23,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
   touched = {},
   setErrors,
   setTouched,
+  type,
 }) => {
   const [names, setNames] = useState([])
 
@@ -122,6 +123,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
             <Input
               id="name"
               type="text"
+              disabled={type === "edit" ? true : false}
               name="name"
               value={formData.name}
               onChange={handleNameChange}
