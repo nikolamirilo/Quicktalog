@@ -35,11 +35,6 @@ export default function manifest(): MetadataRoute.Manifest {
         type: "image/svg+xml",
       },
       {
-        src: "/logo.webp",
-        sizes: "any",
-        type: "image/webp",
-      },
-      {
         src: "/opengraph-image.png",
         sizes: "1200x630",
         type: "image/png",
