@@ -300,11 +300,11 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
             isValid = false
             break
           }
-          if (!item.description.trim()) {
-            setStep3Error(`All items in category "${category.name}" must have a description.`)
-            isValid = false
-            break
-          }
+          // if (!item.description.trim()) {
+          //   setStep3Error(`All items in category "${category.name}" must have a description.`)
+          //   isValid = false
+          //   break
+          // }
           if (item.price <= 0) {
             setStep3Error(
               `Price for item "${item.name}" in category "${category.name}" must be greater than 0.`
@@ -553,117 +553,114 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
       <div className="flex-1 w-full">
         {/* Mobile Tab Navigation */}
         {type === "edit" && (
-          <EditFormMobileTabs
-            currentStep={currentStep}
-            onStepChange={handleStepChange}
-          />
+          <EditFormMobileTabs currentStep={currentStep} onStepChange={handleStepChange} />
         )}
 
         <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
           <Card
             className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
             type="form">
-        <CardHeader className="p-6 sm:p-8">
-          <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
-            {type === "edit" ? "Edit Service Catalogue" : "Create Service Catalogue"}
-          </CardTitle>
-          <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
-            Step {currentStep} of 4:{" "}
-            {currentStep === 1
-              ? "General Information"
-              : currentStep === 2
-                ? "Service Categories"
-                : currentStep === 3
-                  ? "Service Items"
-                  : "Branding & Contact"}
-          </CardDescription>
-          <div className="flex justify-center space-x-3 mt-6">
-            {[1, 2, 3, 4].map((step) => (
-              <div
-                key={step}
-                className={`w-10 h-2 rounded-full transition-all duration-300 ${currentStep === step ? "bg-product-primary shadow-product-shadow" : "bg-product-border"} cursor-pointer hover:bg-product-primary/80 hover:shadow-product-hover-shadow`}
-                onClick={async () => {
-                  if (step === currentStep) return
-                  if (step < currentStep) {
-                    setCurrentStep(step)
-                  } else {
-                    let valid = true
-                    for (let s = 1; s < step; s++) {
-                      if (!validateStep(s)) {
-                        valid = false
-                        setCurrentStep(s)
-                        break
+            <CardHeader className="p-6 sm:p-8">
+              <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
+                {type === "edit" ? "Edit Service Catalogue" : "Create Service Catalogue"}
+              </CardTitle>
+              <CardDescription className="text-center text-product-foreground-accent text-base sm:text-lg mt-2 font-body">
+                Step {currentStep} of 4:{" "}
+                {currentStep === 1
+                  ? "General Information"
+                  : currentStep === 2
+                    ? "Service Categories"
+                    : currentStep === 3
+                      ? "Service Items"
+                      : "Branding & Contact"}
+              </CardDescription>
+              <div className="flex justify-center space-x-3 mt-6">
+                {[1, 2, 3, 4].map((step) => (
+                  <div
+                    key={step}
+                    className={`w-10 h-2 rounded-full transition-all duration-300 ${currentStep === step ? "bg-product-primary shadow-product-shadow" : "bg-product-border"} cursor-pointer hover:bg-product-primary/80 hover:shadow-product-hover-shadow`}
+                    onClick={async () => {
+                      if (step === currentStep) return
+                      if (step < currentStep) {
+                        setCurrentStep(step)
+                      } else {
+                        let valid = true
+                        for (let s = 1; s < step; s++) {
+                          if (!validateStep(s)) {
+                            valid = false
+                            setCurrentStep(s)
+                            break
+                          }
+                        }
+                        if (valid) setCurrentStep(step)
                       }
-                    }
-                    if (valid) setCurrentStep(step)
-                  }
-                }}
-                title={`Go to step ${step}`}
-              />
-            ))}
-          </div>
-        </CardHeader>
-        <CardContent className="p-4 sm:p-4 pt-0">
-          <form onSubmit={handleSubmit} className="space-y-8">
-            {renderStep()}
-            {currentStep === 2 && step2Error && (
-              <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
-                {step2Error}
+                    }}
+                    title={`Go to step ${step}`}
+                  />
+                ))}
               </div>
-            )}
-            {currentStep === 3 && step3Error && (
-              <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
-                {step3Error}
-              </div>
-            )}
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8 pt-6 border-t border-product-border">
-              {currentStep > 1 && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handlePrevious}
-                  className="px-6 py-3 text-base font-medium">
-                  <ArrowLeft className="mr-2 h-5 w-5" /> Previous
-                </Button>
-              )}
-              {currentStep < 4 && (
-                <Button
-                  type="button"
-                  onClick={handleNext}
-                  className={`sm:ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) || isUploading ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
-                  disabled={!isStepValid(currentStep) || isUploading}>
-                  Next <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              )}
-              {currentStep === 4 && (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="sm:ml-auto flex items-center justify-center px-8 py-3 text-base font-semibold bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
-                  {type === "edit" ? (
-                    <Edit className="h-5 w-5 mr-2" />
-                  ) : (
-                    <Plus className="h-5 w-5 mr-2" />
+            </CardHeader>
+            <CardContent className="p-4 sm:p-4 pt-0">
+              <form onSubmit={handleSubmit} className="space-y-8">
+                {renderStep()}
+                {currentStep === 2 && step2Error && (
+                  <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
+                    {step2Error}
+                  </div>
+                )}
+                {currentStep === 3 && step3Error && (
+                  <div className="text-red-500 text-center mt-4 p-3 bg-red-50 border border-red-200 rounded-lg font-body">
+                    {step3Error}
+                  </div>
+                )}
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8 pt-6 border-t border-product-border">
+                  {currentStep > 1 && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handlePrevious}
+                      className="px-6 py-3 text-base font-medium">
+                      <ArrowLeft className="mr-2 h-5 w-5" /> Previous
+                    </Button>
                   )}
-                  {isSubmitting
-                    ? type === "edit"
-                      ? "Saving..."
-                      : "Creating..."
-                    : type === "edit"
-                      ? "Save Changes"
-                      : "Create Service Catalogue"}
-                </Button>
-              )}
-            </div>
-          </form>
-        </CardContent>
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          catalogueUrl={serviceCatalogueUrl}
-          type={type === "edit" ? "edit" : "regular"}
-        />
-      </Card>
+                  {currentStep < 4 && (
+                    <Button
+                      type="button"
+                      onClick={handleNext}
+                      className={`sm:ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) || isUploading ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
+                      disabled={!isStepValid(currentStep) || isUploading}>
+                      Next <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  )}
+                  {currentStep === 4 && (
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="sm:ml-auto flex items-center justify-center px-8 py-3 text-base font-semibold bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
+                      {type === "edit" ? (
+                        <Edit className="h-5 w-5 mr-2" />
+                      ) : (
+                        <Plus className="h-5 w-5 mr-2" />
+                      )}
+                      {isSubmitting
+                        ? type === "edit"
+                          ? "Saving..."
+                          : "Creating..."
+                        : type === "edit"
+                          ? "Save Changes"
+                          : "Create Service Catalogue"}
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </CardContent>
+            <SuccessModal
+              isOpen={showSuccessModal}
+              onClose={() => setShowSuccessModal(false)}
+              catalogueUrl={serviceCatalogueUrl}
+              type={type === "edit" ? "edit" : "regular"}
+            />
+          </Card>
         </div>
       </div>
     </>
