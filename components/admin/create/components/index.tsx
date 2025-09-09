@@ -11,6 +11,8 @@ import { useUser } from "@clerk/nextjs"
 import { ArrowLeft, ArrowRight, Edit, Plus } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import SuccessModal from "../../../modals/SuccessModal"
+import EditFormMobileTabs from "../EditFormMobileTabs"
+import EditFormSidebar from "../EditFormSidebar"
 import Step1General from "./Step1General"
 import Step2Categories from "./Step2Categories"
 import Step3Services from "./Step3Services"
@@ -32,6 +34,18 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
     itemIndex: number
   } | null>(null)
   const { user } = useUser()
+
+  // Step navigation function
+  const handleStepChange = (step: number) => {
+    setCurrentStep(step)
+  }
+
+  // Sidebar button styling function
+  const getSidebarButtonClass = (isActive: boolean) => {
+    return isActive
+      ? "font-bold !bg-product-hover-background !text-navbar-button-active !border !border-product-primary shadow-sm hover:scale-[1.03] hover:transform"
+      : "font-medium"
+  }
 
   useEffect(() => {
     if (initialData) {
@@ -525,10 +539,30 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
-      <Card
-        className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
-        type="form">
+    <>
+      {/* Sidebar Navigation (Desktop) */}
+      {type === "edit" && (
+        <EditFormSidebar
+          currentStep={currentStep}
+          onStepChange={handleStepChange}
+          getSidebarButtonClass={getSidebarButtonClass}
+        />
+      )}
+
+      {/* Main Content */}
+      <div className="flex-1 w-full">
+        {/* Mobile Tab Navigation */}
+        {type === "edit" && (
+          <EditFormMobileTabs
+            currentStep={currentStep}
+            onStepChange={handleStepChange}
+          />
+        )}
+
+        <div className="w-full max-w-4xl mx-auto bg-product-background/95 border border-product-border shadow-md rounded-3xl">
+          <Card
+            className="w-full h-full bg-transparent border-0 shadow-none rounded-none backdrop-blur-none"
+            type="form">
         <CardHeader className="p-6 sm:p-8">
           <CardTitle className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-product-foreground font-heading">
             {type === "edit" ? "Edit Service Catalogue" : "Create Service Catalogue"}
@@ -582,7 +616,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
                 {step3Error}
               </div>
             )}
-            <div className="flex justify-between mt-8 pt-6 border-t border-product-border">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-4 mt-8 pt-6 border-t border-product-border">
               {currentStep > 1 && (
                 <Button
                   type="button"
@@ -596,7 +630,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
                 <Button
                   type="button"
                   onClick={handleNext}
-                  className={`ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) || isUploading ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
+                  className={`sm:ml-auto px-6 py-3 text-base font-medium ${!isStepValid(currentStep) || isUploading ? "bg-product-border text-product-foreground-accent hover:bg-product-border cursor-not-allowed" : "bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1"}`}
                   disabled={!isStepValid(currentStep) || isUploading}>
                   Next <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -605,7 +639,7 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center justify-center px-8 py-3 text-base font-semibold bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
+                  className="sm:ml-auto flex items-center justify-center px-8 py-3 text-base font-semibold bg-product-primary hover:bg-product-primary-accent hover:shadow-product-hover-shadow hover:scale-[1.02] hover:transform hover:-translate-y-1 transition-all duration-300">
                   {type === "edit" ? (
                     <Edit className="h-5 w-5 mr-2" />
                   ) : (
@@ -627,9 +661,12 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
           isOpen={showSuccessModal}
           onClose={() => setShowSuccessModal(false)}
           catalogueUrl={serviceCatalogueUrl}
+          type={type === "edit" ? "edit" : "regular"}
         />
       </Card>
-    </div>
+        </div>
+      </div>
+    </>
   )
 }
 export default ServicesForm

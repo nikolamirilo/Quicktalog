@@ -265,13 +265,13 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             </div>
 
             {/* Column 2: Contact & Support */}
-            <div className="space-y-6">
-              <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
-                <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
-                <span>Contact & Support</span>
-              </h4>
-              <ul className="space-y-4">
-                {(type === "default" || customEmail) && (
+            {(type === "default" || customEmail) && (
+              <div className="space-y-6">
+                <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
+                  <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
+                  <span>Contact & Support</span>
+                </h4>
+                <ul className="space-y-4">
                   <li>
                     <a
                       href={`mailto:${type === "default" ? footerDetails.email : customEmail}`}
@@ -284,21 +284,23 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                       <span>{type === "default" ? footerDetails.email : customEmail}</span>
                     </a>
                   </li>
-                )}
-                <li>
-                  <Link
-                    href="/contact"
-                    className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
-                    aria-label="Contact us">
-                    <FiExternalLink
-                      className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
-                      aria-hidden="true"
-                    />
-                    <span>Contact Us</span>
-                  </Link>
-                </li>
-              </ul>
-            </div>
+                  {type === "default" && (
+                    <li>
+                      <Link
+                        href="/contact"
+                        className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
+                        aria-label="Contact us">
+                        <FiExternalLink
+                          className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+                          aria-hidden="true"
+                        />
+                        <span>Contact Us</span>
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
 
             {/* Column 3: Platform Features (Default) / Company Info (Custom) */}
             <div className="space-y-6">
@@ -327,28 +329,30 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   </ul>
                 </>
               ) : (
-                <>
-                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
-                    <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
-                    <span>Company Information</span>
-                  </h4>
-                  <ul className="space-y-4">
-                    {legal?.name && (
-                      <li className="flex items-center space-x-3">
-                        <MdTitle className="w-4 h-4 flex-shrink-0 text-card-description" />
-                        <span className="text-sm text-card-description">{legal.name}</span>
-                      </li>
-                    )}
-                    {legal?.address && (
-                      <li className="flex items-start space-x-3">
-                        <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
-                        <div className="text-sm text-card-description">
-                          <div>{legal.address}</div>
-                        </div>
-                      </li>
-                    )}
-                  </ul>
-                </>
+                (legal?.name || legal?.address) ? (
+                  <>
+                    <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
+                      <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
+                      <span>Company Information</span>
+                    </h4>
+                    <ul className="space-y-4">
+                      {legal?.name && (
+                        <li className="flex items-center space-x-3">
+                          <MdTitle className="w-4 h-4 flex-shrink-0 text-card-description" />
+                          <span className="text-sm text-card-description">{legal.name}</span>
+                        </li>
+                      )}
+                      {legal?.address && (
+                        <li className="flex items-start space-x-3">
+                          <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
+                          <div className="text-sm text-card-description">
+                            <div>{legal.address}</div>
+                          </div>
+                        </li>
+                      )}
+                    </ul>
+                  </>
+                ) : null
               )}
             </div>
 
@@ -381,21 +385,21 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   </Button>
                 </>
               ) : (
-                <>
-                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
-                    <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
-                    <span>Trusted Partners</span>
-                  </h4>
-                  <ul className="space-y-3">
-                    {customPartnerBadges &&
-                      customPartnerBadges.length > 0 &&
-                      customPartnerBadges.map((partner, index) => (
+                customPartnerBadges && customPartnerBadges.length > 0 ? (
+                  <>
+                    <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
+                      <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
+                      <span>Trusted Partners</span>
+                    </h4>
+                    <ul className="space-y-3">
+                      {customPartnerBadges.map((partner, index) => (
                         <li key={index}>
                           <PartnerBadge partner={partner} />
                         </li>
                       ))}
-                  </ul>
-                </>
+                    </ul>
+                  </>
+                ) : null
               )}
             </div>
           </div>
@@ -435,7 +439,9 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 <>
                   {legal?.privacy_policy && (
                     <Link
-                      href={legal.privacy_policy}
+                      href={legal.privacy_policy.startsWith('http') ? legal.privacy_policy : `https://${legal.privacy_policy}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:text-primary transition-colors duration-200"
                       aria-label="Privacy Policy">
                       Privacy Policy
@@ -443,7 +449,9 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   )}
                   {legal?.terms_and_conditions && (
                     <Link
-                      href={legal.terms_and_conditions}
+                      href={legal.terms_and_conditions.startsWith('http') ? legal.terms_and_conditions : `https://${legal.terms_and_conditions}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:text-primary transition-colors duration-200"
                       aria-label="Terms of Service">
                       Terms of Service
@@ -521,7 +529,11 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 variant="secondary"
                 size="default"
                 className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button flex items-center gap-2">
-                <Link href={ctaFooter.url} aria-label={ctaFooter.label}>
+                <Link 
+                  href={ctaFooter.url.startsWith('http') ? ctaFooter.url : `https://${ctaFooter.url}`} 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={ctaFooter.label}>
                   <FiExternalLink className="w-4 h-4" />
                   {ctaFooter.label}
                 </Link>

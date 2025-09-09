@@ -1,12 +1,12 @@
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
 interface InformModalProps {
@@ -18,6 +18,7 @@ interface InformModalProps {
   confirmText?: string
   cancelText?: string
   loading?: boolean
+  type?: "default" | "consent"
 }
 
 export default function InformModal({
@@ -29,6 +30,7 @@ export default function InformModal({
   confirmText = "Confirm",
   cancelText = "Cancel",
   loading = false,
+  type = "default",
 }: InformModalProps) {
   return (
     <AlertDialog
