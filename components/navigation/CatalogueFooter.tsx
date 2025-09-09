@@ -7,15 +7,7 @@ import { CatalogueFooterProps } from "@/types/components"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import {
-  FiExternalLink,
-  FiMail,
-  FiMapPin,
-  FiPlus,
-  FiShield,
-  FiUsers,
-  FiZap
-} from "react-icons/fi"
+import { FiExternalLink, FiMail, FiMapPin, FiPlus, FiShield, FiUsers, FiZap } from "react-icons/fi"
 import { MdTitle } from "react-icons/md"
 
 // Custom hook for theme detection
@@ -328,32 +320,30 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     ))}
                   </ul>
                 </>
-              ) : (
-                (legal?.name || legal?.address) ? (
-                  <>
-                    <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
-                      <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
-                      <span>Company Information</span>
-                    </h4>
-                    <ul className="space-y-4">
-                      {legal?.name && (
-                        <li className="flex items-center space-x-3">
-                          <MdTitle className="w-4 h-4 flex-shrink-0 text-card-description" />
-                          <span className="text-sm text-card-description">{legal.name}</span>
-                        </li>
-                      )}
-                      {legal?.address && (
-                        <li className="flex items-start space-x-3">
-                          <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
-                          <div className="text-sm text-card-description">
-                            <div>{legal.address}</div>
-                          </div>
-                        </li>
-                      )}
-                    </ul>
-                  </>
-                ) : null
-              )}
+              ) : legal?.name || legal?.address ? (
+                <>
+                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
+                    <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
+                    <span>Company Information</span>
+                  </h4>
+                  <ul className="space-y-4">
+                    {legal?.name && (
+                      <li className="flex items-center space-x-3">
+                        <MdTitle className="w-4 h-4 flex-shrink-0 text-card-description" />
+                        <span className="text-sm text-card-description">{legal.name}</span>
+                      </li>
+                    )}
+                    {legal?.address && (
+                      <li className="flex items-start space-x-3">
+                        <FiMapPin className="w-4 h-4 mt-1 flex-shrink-0 text-card-description" />
+                        <div className="text-sm text-card-description">
+                          <div>{legal.address}</div>
+                        </div>
+                      </li>
+                    )}
+                  </ul>
+                </>
+              ) : null}
             </div>
 
             {/* Column 4: Social + CTA (Default) / Trusted Partners (Custom) */}
@@ -384,23 +374,21 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                     </Link>
                   </Button>
                 </>
-              ) : (
-                customPartnerBadges && customPartnerBadges.length > 0 ? (
-                  <>
-                    <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
-                      <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
-                      <span>Trusted Partners</span>
-                    </h4>
-                    <ul className="space-y-3">
-                      {customPartnerBadges.map((partner, index) => (
-                        <li key={index}>
-                          <PartnerBadge partner={partner} />
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : null
-              )}
+              ) : customPartnerBadges && customPartnerBadges.length > 0 ? (
+                <>
+                  <h4 className="text-lg font-semibold flex items-center space-x-2 font-heading font-weight-heading tracking-heading text-section-heading">
+                    <div className="w-1 h-5 bg-primary rounded-full" aria-hidden="true"></div>
+                    <span>Trusted Partners</span>
+                  </h4>
+                  <ul className="space-y-3">
+                    {customPartnerBadges.map((partner, index) => (
+                      <li key={index}>
+                        <PartnerBadge partner={partner} />
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              ) : null}
             </div>
           </div>
         </div>
@@ -439,7 +427,11 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                 <>
                   {legal?.privacy_policy && (
                     <Link
-                      href={legal.privacy_policy.startsWith('http') ? legal.privacy_policy : `https://${legal.privacy_policy}`}
+                      href={
+                        legal.privacy_policy.startsWith("http")
+                          ? legal.privacy_policy
+                          : `https://${legal.privacy_policy}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-primary transition-colors duration-200"
@@ -449,7 +441,11 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   )}
                   {legal?.terms_and_conditions && (
                     <Link
-                      href={legal.terms_and_conditions.startsWith('http') ? legal.terms_and_conditions : `https://${legal.terms_and_conditions}`}
+                      href={
+                        legal.terms_and_conditions.startsWith("http")
+                          ? legal.terms_and_conditions
+                          : `https://${legal.terms_and_conditions}`
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-primary transition-colors duration-200"
@@ -462,7 +458,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
             </nav>
 
             {/* Enhanced Newsletter for Custom */}
-            {type === "custom" && newsletter?.enabled && newsletter?.url && (
+            {type === "custom" && newsletter?.enabled ? (
               <div>
                 <form
                   onSubmit={handleNewsletterSubmit}
@@ -522,15 +518,17 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                   Stay updated with our latest news and offers.
                 </p>
               </div>
-            )}
+            ) : null}
             {type === "custom" && ctaFooter?.enabled && ctaFooter?.url && (
               <Button
                 asChild
                 variant="secondary"
                 size="default"
                 className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button flex items-center gap-2">
-                <Link 
-                  href={ctaFooter.url.startsWith('http') ? ctaFooter.url : `https://${ctaFooter.url}`} 
+                <Link
+                  href={
+                    ctaFooter.url.startsWith("http") ? ctaFooter.url : `https://${ctaFooter.url}`
+                  }
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={ctaFooter.label}>

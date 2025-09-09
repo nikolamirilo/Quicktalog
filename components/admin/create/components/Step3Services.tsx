@@ -66,8 +66,8 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
             <div
               className="flex justify-between items-center p-6 cursor-pointer"
               onClick={() => toggleCategory(categoryIndex)}>
-              <h3 className="text-xl font-bold text-product-foreground font-heading">
-                Category: {category.name || "Unnamed Category"}
+              <h3 className="text-xl font-bold text-product-foreground">
+                {category.name || "N/A"}
               </h3>
               <ChevronDown
                 className={`h-6 w-6 text-product-foreground-accent transition-transform duration-300 ${
@@ -89,7 +89,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                       <div
                         className="flex justify-between items-center p-6 cursor-pointer"
                         onClick={() => toggleItem(categoryIndex, itemIndex)}>
-                        <h5 className="text-lg font-bold text-product-foreground font-body">
+                        <h5 className="text-lg text-product-foreground">
                           {item.name || `Item ${itemIndex + 1}`}
                         </h5>
                         <div className="flex items-center gap-4">
