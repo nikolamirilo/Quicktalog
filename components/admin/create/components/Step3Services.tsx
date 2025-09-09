@@ -66,8 +66,8 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
             <div
               className="flex justify-between items-center p-6 cursor-pointer"
               onClick={() => toggleCategory(categoryIndex)}>
-              <h3 className="text-xl font-bold text-product-foreground font-heading">
-                Category: {category.name || "Unnamed Category"}
+              <h3 className="text-xl font-bold text-product-foreground">
+                {category.name || "N/A"}
               </h3>
               <ChevronDown
                 className={`h-6 w-6 text-product-foreground-accent transition-transform duration-300 ${
@@ -89,7 +89,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                       <div
                         className="flex justify-between items-center p-6 cursor-pointer"
                         onClick={() => toggleItem(categoryIndex, itemIndex)}>
-                        <h5 className="text-lg font-bold text-product-foreground font-body">
+                        <h5 className="text-lg text-product-foreground">
                           {item.name || `Item ${itemIndex + 1}`}
                         </h5>
                         <div className="flex items-center gap-4">
@@ -117,7 +117,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                             <Label
                               htmlFor={`item-name-${categoryIndex}-${itemIndex}`}
                               className="text-product-foreground font-medium font-body">
-                              Item Name
+                              Name <span className="text-red-500 ml-1">*</span>
                             </Label>
                             <Input
                               id={`item-name-${categoryIndex}-${itemIndex}`}
@@ -135,7 +135,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                             <Label
                               htmlFor={`item-price-${categoryIndex}-${itemIndex}`}
                               className="text-product-foreground font-medium font-body">
-                              Price
+                              Price <span className="text-red-500 ml-1">*</span>
                             </Label>
                             <Input
                               id={`item-price-${categoryIndex}-${itemIndex}`}
@@ -176,7 +176,6 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                               }
                               rows={3}
                               className="border-product-border focus:border-product-primary focus:ring-product-primary/20"
-                              required
                             />
                           </div>
                           {category.layout !== "variant_3" && (
@@ -184,7 +183,7 @@ const Step3Services: React.FC<Step3ServicesProps> = ({
                               <Label
                                 htmlFor={`item-image-${categoryIndex}-${itemIndex}`}
                                 className="text-product-foreground font-medium font-body">
-                                Image
+                                Image<span className="text-red-500 ml-1">*</span>
                               </Label>
                               {imagePreviews[`${categoryIndex}-${itemIndex}`] || item.image ? (
                                 <div className="relative mt-2 w-48 h-48 rounded-lg border-2 border-product-border overflow-hidden flex items-center justify-center bg-product-background shadow-product-shadow">

@@ -44,7 +44,7 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
           {/* Logo */}
           <div className="flex items-center">
             <Link
-              href="/"
+              href=""
               className="flex items-center space-x-2 group transition-transform duration-200 hover:scale-105"
               aria-label={`Go to ${type === "default" ? "Quicktalog" : "company"} homepage`}>
               <Image
@@ -98,8 +98,16 @@ const CatalogueHeader: React.FC<CatalogueHeaderProps> = ({ type = "default", cus
                 className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button">
                 <Link
                   href={
-                    type === "default" ? "/auth?mode=signup" : customData?.ctaNavbar?.url || "#"
+                    type === "default" 
+                      ? "/auth?mode=signup" 
+                      : customData?.ctaNavbar?.url?.startsWith('http') 
+                        ? customData.ctaNavbar.url 
+                        : customData?.ctaNavbar?.url 
+                          ? `https://${customData.ctaNavbar.url}`
+                          : "#"
                   }
+                  target={type === "custom" && customData?.ctaNavbar?.url ? "_blank" : undefined}
+                  rel={type === "custom" && customData?.ctaNavbar?.url ? "noopener noreferrer" : undefined}
                   aria-label={
                     type === "default"
                       ? "Create your own digital catalog"

@@ -1,5 +1,5 @@
 "use client"
-import { newsletterSignup } from "@/actions/newsletter"
+import { productNewsletterSignup } from "@/actions/newsletter"
 import { Button } from "@/components/ui/button"
 import { footerDetails, siteDetails } from "@/constants/details"
 import { getPlatformIconByName } from "@/constants/ui"
@@ -22,7 +22,7 @@ const Footer: React.FC = () => {
     setSubmitSuccess(false)
 
     try {
-      await newsletterSignup(newsletterEmail, null, null)
+      await productNewsletterSignup(newsletterEmail)
       setNewsletterEmail("")
       setSubmitSuccess(true)
       setTimeout(() => setSubmitSuccess(false), 3000)

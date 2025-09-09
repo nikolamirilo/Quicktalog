@@ -21,7 +21,7 @@ const LimitsModal = ({
         {/* Header */}
         <div className="relative p-4 sm:p-6 text-center bg-hero-product-background">
           <Link
-            href="/"
+            href="/admin/dashboard"
             className="absolute top-4 right-4 text-product-foreground-accent hover:text-product-foreground transition-colors">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

@@ -13,9 +13,10 @@ import { QRCodeSVG } from "qrcode.react"
 import * as React from "react"
 import { useEffect, useRef, useState } from "react"
 import { FaCode } from "react-icons/fa6"
+import { FiCheckCircle, FiHome } from "react-icons/fi"
 import { ImEmbed2 } from "react-icons/im"
 import { IoMdCheckmark, IoMdOpen } from "react-icons/io"
-import { IoClose, IoQrCode, IoShareSocialOutline } from "react-icons/io5"
+import { IoQrCode, IoShareSocialOutline } from "react-icons/io5"
 import { MdContentCopy } from "react-icons/md"
 
 const SuccessModal: React.FC<SuccessModalProps> = ({
@@ -105,11 +106,20 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
         <DialogHeader className="space-y-2 sm:space-y-3">
           <div className="flex items-center justify-center gap-3">
             <DialogTitle className="text-lg sm:text-xl md:text-2xl font-bold text-product-foreground font-heading">
-              🎉 Congratulations!
+              {type === "edit" ? (
+                <div className="flex items-center gap-2">
+                  <FiCheckCircle className="w-6 h-6 text-green-500" />
+                  Changes Saved!
+                </div>
+              ) : (
+                "🎉 Congratulations!"
+              )}
             </DialogTitle>
           </div>
           <DialogDescription className="text-center text-product-foreground-accent text-xs sm:text-sm md:text-base font-body">
-            {type === "ai"
+            {type === "edit"
+              ? "Your catalogue has been successfully updated. All changes are now live and visible to your customers."
+              : type === "ai"
               ? "Your AI-generated Service Catalogue is now live and ready to share with your customers."
               : "Your Service Catalogue is now live and ready to share with your customers."}
           </DialogDescription>
@@ -133,7 +143,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
               className="p-2 sm:p-3 bg-white rounded-xl shadow-sm border border-product-border">
               <QRCodeSVG value={fullURL} size={100} className="w-24 h-24 sm:w-30 sm:h-30 md:w-36 md:h-36" bgColor="white" fgColor="black" />
             </div>
-            <Button onClick={handleDownloadPng} variant="outline" size="sm" className="text-xs">
+            <Button onClick={handleDownloadPng} variant="outline" size="sm" className="bg-product-background text-xs">
               <IoQrCode className="w-3 h-3 sm:w-4 sm:h-4" /> Download QR code
             </Button>
           </div>
@@ -165,20 +175,45 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
                 </button>
               </pre>
             </div>
-            <Button onClick={handleDownloadHTML} variant="outline" size="sm" className="text-xs">
+            <Button onClick={handleDownloadHTML} variant="outline" size="sm" className="bg-product-background text-xs">
               <FaCode className="w-3 h-3 sm:w-4 sm:h-4" /> Download HTML code
             </Button>
           </div>
         </div>
 
         <DialogFooter className="flex gap-2 sm:gap-3 pt-3 sm:pt-4 md:pt-5 border-t border-product-border">
-          <Button onClick={onClose} variant="destructive" className="flex-1 text-xs sm:text-sm">
-            <IoClose className="w-3 h-3 sm:w-4 sm:h-4" />
-            Close
-          </Button>
-          <Button onClick={() => window.open(fullURL, "_blank")} className="flex-1 text-xs sm:text-sm">
-            <IoMdOpen className="w-3 h-3 sm:w-4 sm:h-4" /> Visit
-          </Button>
+          {type === "edit" ? (
+            <>
+              <Button 
+                onClick={() => window.location.href = "/admin/dashboard"} 
+                variant="outline" 
+                className="flex-1 text-xs bg-product-background sm:text-sm"
+              >
+                <FiHome className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                Return to Dashboard
+              </Button>
+              <Button 
+                onClick={() => window.open(fullURL, "_blank")} 
+                className="flex-1 text-xs sm:text-sm"
+              >
+                <IoMdOpen className="w-3 h-3 sm:w-4 sm:h-4" /> Visit Catalog
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button 
+                onClick={() => window.location.href = "/admin/dashboard"} 
+                variant="outline" 
+                className="flex-1 text-xs bg-product-background sm:text-sm"
+              >
+                <FiHome className="w-3 h-3 sm:w-4 sm:h-4 mr-2" />
+                Return to Dashboard
+              </Button>
+              <Button onClick={() => window.open(fullURL, "_blank")} className="flex-1 text-xs sm:text-sm">
+                <IoMdOpen className="w-3 h-3 sm:w-4 sm:h-4" /> Visit
+              </Button>
+            </>
+          )}
         </DialogFooter>
       </DialogContent>
     </Dialog>

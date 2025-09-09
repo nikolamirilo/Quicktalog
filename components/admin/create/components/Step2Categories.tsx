@@ -125,7 +125,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
                   <GripVertical className="h-5 w-5 text-product-foreground-accent" />
                 </div>
                 <h3 className="text-xl font-bold text-product-foreground font-heading">
-                  Category: {category.name || `Category ${categoryIndex + 1}`}
+                  {category.name || `Category ${categoryIndex + 1}`}
                 </h3>
               </div>
               <div className="flex items-center gap-4">
@@ -153,7 +153,7 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
                   <Label
                     htmlFor={`category-name-${categoryIndex}`}
                     className="text-product-foreground font-medium font-body">
-                    Category Name
+                    Name<span className="text-red-500 ml-1">*</span>
                   </Label>
                   <Input
                     id={`category-name-${categoryIndex}`}
@@ -168,10 +168,9 @@ const Step2ServicesSections: React.FC<Step2ServicesSectionsProps> = ({
                 {/* Layout Selection for this category */}
                 <div className="space-y-4">
                   <Label
-                    htmlFor={`category-layout-${categoryIndex}`}
-                    className="text-product-foreground font-medium text-lg font-body">
-                    Layout:{" "}
-                    {layouts.find((l) => l.key === category.layout)?.label || "Not Selected"}
+                    htmlFor={`category-name-${categoryIndex}`}
+                    className="text-product-foreground font-medium font-body">
+                    Layout<span className="text-red-500 ml-1">*</span>
                   </Label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     {layouts.map((layoutOption) => (

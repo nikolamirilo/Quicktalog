@@ -1,11 +1,11 @@
 import {
-  OverallAnalytics,
-  PricingPlan,
-  ServiceCatalogue,
-  ServicesCategory,
-  ServicesItem,
-  Usage,
-  User,
+    OverallAnalytics,
+    PricingPlan,
+    ServiceCatalogue,
+    ServicesCategory,
+    ServicesItem,
+    Usage,
+    User,
 } from "@/types"
 import { JSX } from "react"
 import { ContactInfo, FooterData, ServicesFormData, UserData } from "."
@@ -47,7 +47,7 @@ export type SuccessModalProps = {
   isOpen: boolean
   onClose: () => void
   catalogueUrl: string
-  type?: "regular" | "ai"
+  type?: "regular" | "ai" | "edit"
 }
 
 export type CatalogueHeaderProps = {
