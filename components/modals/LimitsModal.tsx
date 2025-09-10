@@ -16,7 +16,7 @@ const LimitsModal = ({
   const isCatalogue = type === "catalogue"
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4 z-10">
       <div className="bg-product-background rounded-lg shadow-lg max-w-md w-[95vw] sm:w-full mx-auto overflow-hidden">
         {/* Header */}
         <div className="relative p-4 sm:p-6 text-center bg-hero-product-background">

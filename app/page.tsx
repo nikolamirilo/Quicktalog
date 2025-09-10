@@ -33,12 +33,11 @@ const SectionSkeleton = ({ height = "h-64" }: { height?: string }) => (
 
 const page: React.FC = async () => {
   const homePageSchema = getPageSchema("home")
-  
   return (
     <div className="font-lora no-tap-highlight" style={{ WebkitTapHighlightColor: "transparent" }}>
-      <script 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }} 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homePageSchema) }}
       />
       <Navbar />
       <Hero />

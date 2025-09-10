@@ -31,11 +31,19 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ name: string }>
+}): Promise<Metadata> {
   try {
     const { name } = await params
     const supabase = await createClient()
-    const { data } = await supabase.from("catalogues").select("title, subtitle").eq("name", name).single()
+    const { data } = await supabase
+      .from("catalogues")
+      .select("title, subtitle")
+      .eq("name", name)
+      .single()
 
     if (!data) {
       return {
@@ -45,7 +53,9 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
     }
 
     const title = `${data.title} - Digital Service Catalogue | Quicktalog`
-    const description = data.subtitle || `Explore ${data.title}'s services and offerings in this interactive digital catalogue.`
+    const description =
+      data.subtitle ||
+      `Explore ${data.title}'s services and offerings in this interactive digital catalogue.`
 
     return {
       title,
@@ -112,7 +122,12 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
     }
 
     // Check if user is on free plan
-    const isFreePlan = item?.logo == "" || item?.logo == null
+    const isFreePlan =
+      item?.logo == "" &&
+      item?.configuration == {} &&
+      item.legal == {} &&
+      item.partners == [] &&
+      item.contact == []
 
     // Only build header/footer data if not on free plan
     const headerData = isFreePlan ? undefined : buildHeaderData(item)
@@ -122,33 +137,34 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
       const catalogueSchema = {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        "name": `${item.title} - Digital Service Catalogue`,
-        "description": item.subtitle || `Explore ${item.title}'s services and offerings in this interactive digital catalogue.`,
-        "url": `https://quicktalog.app/catalogues/${name}`,
-        "mainEntity": {
+        name: `${item.title} - Digital Service Catalogue`,
+        description:
+          item.subtitle ||
+          `Explore ${item.title}'s services and offerings in this interactive digital catalogue.`,
+        url: `https://quicktalog.app/catalogues/${name}`,
+        mainEntity: {
           "@type": "Service",
-          "name": item.title,
-          "description": item.subtitle,
-          "provider": {
+          name: item.title,
+          description: item.subtitle,
+          provider: {
             "@type": "Organization",
-            "name": item.title
+            name: item.title,
           },
-          "serviceType": "Digital Service Catalogue",
-          "offers": {
+          serviceType: "Digital Service Catalogue",
+          offers: {
             "@type": "Offer",
-            "description": "Interactive digital catalogue services"
-          }
-        }
+            description: "Interactive digital catalogue services",
+          },
+        },
       }
-
       return (
         <div
           className={`${item.theme || "theme-elegant"} bg-background text-foreground min-h-screen flex flex-col`}
           role="application"
           aria-label={`${item.title} Service Catalogue`}>
-          <script 
-            type="application/ld+json" 
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogueSchema) }} 
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(catalogueSchema) }}
           />
           {isFreePlan ? (
             <CatalogueHeader type="default" />
