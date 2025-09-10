@@ -4,6 +4,9 @@ import { revalidatePath, revalidateTag } from "next/cache"
 export async function revalidateData() {
   revalidatePath("/", "layout")
 }
+export async function revalidateAllCatalogues() {
+  revalidatePath("/catalogues/[name]")
+}
 
 export async function revalidatePageData(catalogueName: string) {
   try {
