@@ -274,7 +274,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         {(formData.configuration?.ctaFooter?.enabled || !isFreePlan) && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <Label className="text-product-foreground font-medium font-body">CTA in Footer</Label>
+              <Label className="text-product-foreground font-medium font-body">Button in Footer</Label>
               <Switch
                 checked={!!formData.configuration?.ctaFooter?.enabled}
                 onCheckedChange={() => handleToggle("ctaFooter")}
@@ -305,7 +305,7 @@ const Step4Branding: React.FC<Step4BrandingProps> = ({
         {(formData.configuration?.ctaNavbar?.enabled || !isFreePlan) && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <Label className="text-product-foreground font-medium font-body">CTA in Navbar</Label>
+              <Label className="text-product-foreground font-medium font-body">Button in Navbar</Label>
               <Switch
                 checked={!!formData.configuration?.ctaNavbar?.enabled}
                 onCheckedChange={() => handleToggle("ctaNavbar")}

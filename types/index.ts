@@ -235,6 +235,7 @@ export type FooterData = {
     github?: string
     x?: string
     threads?: string
+    tiktok?: string
   }
   ctaFooter?: {
     enabled: boolean

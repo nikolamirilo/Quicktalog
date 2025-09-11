@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { statusOrder } from "@/constants/sort"
+import { revalidateAllCatalogues } from "@/helpers/server"
 import { ServiceCatalogue } from "@/types"
 import { OverviewProps } from "@/types/components"
 import { Status } from "@/types/enums"
@@ -29,7 +30,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
   const [currentMetric, setCurrentMetric] = useState("")
   const [itemToDelete, setItemToDelete] = useState<string | null>(null)
   const [duplicatingId, setDuplicatingId] = useState<string | null>(null)
-  async function handleDeleteMenu(id: string) {
+  async function handleDeleteItem(id: string) {
     setItemToDelete(id)
     setIsModalOpen(true)
   }
@@ -38,6 +39,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
     if (itemToDelete) {
       await deleteItem(itemToDelete)
       await refreshAll()
+      await revalidateAllCatalogues()
       setItemToDelete(null)
       setIsModalOpen(false)
     }
@@ -54,6 +56,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
     try {
       await duplicateItem(id)
       await refreshAll()
+      await revalidateAllCatalogues()
     } catch (e) {
       alert("Failed to duplicate item.")
     } finally {
@@ -64,6 +67,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
     try {
       await updateItemStatus(id, status)
       await refreshAll()
+      await revalidateAllCatalogues()
     } catch (e) {
       alert("Failed to update status.")
     } finally {
@@ -270,7 +274,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
                       </DropdownMenuItem>
 
                       <DropdownMenuItem
-                        onClick={() => handleDeleteMenu(catalogue.id)}
+                        onClick={() => handleDeleteItem(catalogue.id)}
                         disabled={isModalOpen}
                         className="text-red-400 hover:bg-red-50 cursor-pointer">
                         <span className="flex items-center gap-2">

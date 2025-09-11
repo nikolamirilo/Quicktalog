@@ -7,7 +7,7 @@ import { CatalogueFooterProps } from "@/types/components"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useEffect, useState } from "react"
-import { FiExternalLink, FiMail, FiMapPin, FiPlus, FiShield, FiUsers, FiZap } from "react-icons/fi"
+import { FiCheck, FiExternalLink, FiMail, FiMapPin, FiPhone, FiPlus, FiShield, FiUsers, FiZap } from "react-icons/fi"
 import { MdTitle } from "react-icons/md"
 
 // Custom hook for theme detection
@@ -160,7 +160,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
     return (
       <div
-        className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg cursor-pointer bg-card-bg text-card-description border border-card-border"
+        className="flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 hover:scale-102 hover:shadow-md cursor-pointer bg-card-bg text-card-description border border-card-border"
         onClick={() => partner.url && window.open(partner.url, "_blank")}
         role={partner.url ? "button" : undefined}
         tabIndex={partner.url ? 0 : undefined}
@@ -208,7 +208,7 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
               <div className="space-y-4">
                 <Link
                   href="/"
-                  className="flex flex-col items-start space-y-2 group transition-transform duration-200 hover:scale-105"
+                  className="flex flex-col items-start space-y-2 group transition-transform duration-200 hover:scale-102"
                   aria-label={`Go to ${type === "default" ? "Quicktalog" : customCompanyName || "Custom"} homepage`}>
                   <Image
                     src={logoPath}
@@ -225,14 +225,13 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                       <h3 className="text-xl font-semibold group-hover:text-primary transition-colors duration-200 font-heading font-weight-heading tracking-heading text-section-heading">
                         {customCompanyName}
                       </h3>
-                      <p className="text-sm text-card-description">Professional Services</p>
                     </div>
                   )}
                 </Link>
                 <p className="text-sm leading-relaxed text-card-description">
                   {type === "default"
                     ? footerDetails.subheading
-                    : "Professional services delivered with excellence and attention to detail."}
+                    : ""}
                 </p>
               </div>
 
@@ -276,6 +275,20 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
                       <span>{type === "default" ? footerDetails.email : customEmail}</span>
                     </a>
                   </li>
+                  {customPhone && (
+                    <li>
+                      <a
+                        href={`tel:${customPhone}`}
+                        className="flex items-center space-x-3 text-sm hover:text-primary transition-colors duration-200 group text-card-description"
+                        aria-label={`Call ${customPhone}`}>
+                        <FiPhone
+                          className="w-4 h-4 group-hover:scale-110 transition-transform duration-200"
+                          aria-hidden="true"
+                        />
+                        <span>{customPhone}</span>
+                      </a>
+                    </li>
+                  )}
                   {type === "default" && (
                     <li>
                       <Link
@@ -459,64 +472,63 @@ const CatalogueFooter: React.FC<CatalogueFooterProps> = ({ type = "default", cus
 
             {/* Enhanced Newsletter for Custom */}
             {type === "custom" && newsletter?.enabled ? (
-              <div>
-                <form
-                  onSubmit={handleNewsletterSubmit}
-                  className="flex items-center space-x-2"
-                  role="form"
-                  aria-label="Newsletter subscription">
-                  <div className="relative">
-                    <label htmlFor="newsletter-email" className="sr-only">
-                      Email address
-                    </label>
-                    <input
-                      id="newsletter-email"
-                      type="email"
-                      placeholder="your@email.com"
-                      value={newsletterEmail}
-                      onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-48 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card-bg text-card-text border border-card-border"
-                      required
-                      disabled={isSubmitting}
-                      aria-describedby="newsletter-description"
-                      aria-invalid={submitError ? "true" : "false"}
-                    />
-                    {submitSuccess && (
-                      <div
-                        className="absolute -top-8 left-0 text-xs text-green-500"
-                        role="status"
-                        aria-live="polite">
-                        Successfully subscribed!
-                      </div>
-                    )}
-                  </div>
-                  <Button
-                    type="submit"
-                    variant="secondary"
-                    size="default"
-                    className="font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary footer-cta-button flex items-center gap-2"
-                    disabled={isSubmitting}
-                    aria-label="Subscribe to newsletter">
-                    {isSubmitting ? (
-                      <>
+              <div className="flex flex-col h-full">
+                
+                <div className="flex-1 flex items-center">
+                  <form
+                    onSubmit={handleNewsletterSubmit}
+                    className="flex items-center space-x-2 w-full"
+                    role="form"
+                    aria-label="Newsletter subscription">
+                    <div className="relative">
+                      <label htmlFor="newsletter-email" className="sr-only">
+                        Email address
+                      </label>
+                      <input
+                        id="newsletter-email"
+                        type="email"
+                        placeholder="your@email.com"
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                        className="w-48 text-sm rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/50 bg-card-bg text-card-text border border-card-border"
+                        required
+                        disabled={isSubmitting || submitSuccess}
+                        aria-describedby="newsletter-description"
+                        aria-invalid={submitError ? "true" : "false"}
+                      />
+                    </div>
+                    <Button
+                      type="submit"
+                      variant="secondary"
+                      size="default"
+                      className={`font-heading tracking-heading text-xs sm:text-sm lg:text-sm transition-all duration-200 hover:scale-105 border footer-cta-button flex items-center gap-2 ${
+                        submitSuccess 
+                          ? "bg-green-500 text-white border-green-500 hover:bg-green-600" 
+                          : "hover:bg-primary/10 hover:text-primary bg-card-bg text-foreground border-primary"
+                      }`}
+                      disabled={isSubmitting || submitSuccess}
+                      aria-label="Subscribe to newsletter">
+                      {isSubmitting ? (
                         <span>Subscribing...</span>
-                      </>
-                    ) : (
-                      <span>Subscribe</span>
+                      ) : submitSuccess ? (
+                        <div className="flex items-center gap-2">
+                          <FiCheck className="w-4 h-4" />
+                          <span>Subscribed</span>
+                        </div>
+                      ) : (
+                        <span>Subscribe</span>
+                      )}
+                    </Button>
+                    {submitError && (
+                      <p
+                        className="text-red-500 text-xs absolute -bottom-6 left-0"
+                        role="alert"
+                        aria-live="polite">
+                        {submitError}
+                      </p>
                     )}
-                  </Button>
-                  {submitError && (
-                    <p
-                      className="text-red-500 text-xs absolute -bottom-6 left-0"
-                      role="alert"
-                      aria-live="polite">
-                      {submitError}
-                    </p>
-                  )}
-                </form>
-                <p id="newsletter-description" className="text-xs mt-2 text-card-description">
-                  Stay updated with our latest news and offers.
-                </p>
+                  </form>
+                </div>
               </div>
             ) : null}
             {type === "custom" && ctaFooter?.enabled && ctaFooter?.url && (

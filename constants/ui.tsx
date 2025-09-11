@@ -2,28 +2,29 @@ import { IBenefit } from "@/types/components"
 import { JSX } from "react"
 import { BsGlobe2 } from "react-icons/bs"
 import {
-  FaFacebook,
-  FaGithub,
-  FaInstagram,
-  FaLinkedin,
-  FaThreads,
-  FaTwitter,
-  FaXTwitter,
-  FaYoutube,
+    FaFacebook,
+    FaGithub,
+    FaInstagram,
+    FaLinkedin,
+    FaThreads,
+    FaTiktok,
+    FaTwitter,
+    FaXTwitter,
+    FaYoutube,
 } from "react-icons/fa6"
 import {
-  FiBarChart2,
-  FiCalendar,
-  FiCheck,
-  FiClock,
-  FiEdit3,
-  FiPieChart,
-  FiSettings,
-  FiShare2,
-  FiSmartphone,
-  FiTrendingUp,
-  FiUsers,
-  FiZap,
+    FiBarChart2,
+    FiCalendar,
+    FiCheck,
+    FiClock,
+    FiEdit3,
+    FiPieChart,
+    FiSettings,
+    FiShare2,
+    FiSmartphone,
+    FiTrendingUp,
+    FiUsers,
+    FiZap,
 } from "react-icons/fi"
 import { RiGamepadLine, RiHeartPulseLine, RiScissorsLine, RiStore2Line } from "react-icons/ri"
 
@@ -188,6 +189,9 @@ export const getPlatformIconByName = (platformName: string): JSX.Element | null 
     }
     case "x": {
       return <FaXTwitter size={24} className="min-w-fit" />
+    }
+    case "tiktok": {
+      return <FaTiktok size={24} className="min-w-fit" />
     }
     default:
       console.log("Platform name not supported, no icon is returned:", platformName)
