@@ -6,7 +6,7 @@ import { getPlatformIconByName } from "@/constants/ui"
 import Image from "next/image"
 import Link from "next/link"
 import React, { useState } from "react"
-import { FiExternalLink, FiGlobe, FiMail } from "react-icons/fi"
+import { FiCheck, FiExternalLink, FiGlobe, FiMail } from "react-icons/fi"
 
 const Footer: React.FC = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("")
@@ -158,22 +158,27 @@ const Footer: React.FC = () => {
                   onChange={(e) => setNewsletterEmail(e.target.value)}
                   className="w-full px-4 py-3 bg-product-background border border-product-border rounded-lg text-product-foreground placeholder-product-foreground-accent focus:outline-none focus:ring-2 focus:ring-product-primary/50 focus:border-product-primary transition-colors duration-200"
                   required
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || submitSuccess}
                 />
-                {submitSuccess && (
-                  <div
-                    className="absolute -top-8 left-0 text-xs text-green-500"
-                    role="status"
-                    aria-live="polite">
-                    Successfully subscribed!
-                  </div>
-                )}
               </div>
               <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-product-primary text-product-foreground hover:bg-product-primary-accent transition-colors duration-200 font-semibold">
-                {isSubmitting ? "Subscribing..." : "Subscribe"}
+                disabled={isSubmitting || submitSuccess}
+                className={`w-full transition-colors duration-200 font-semibold ${
+                  submitSuccess 
+                    ? "bg-green-500 text-white hover:bg-green-600" 
+                    : "bg-product-primary text-product-foreground hover:bg-product-primary-accent"
+                }`}>
+                {isSubmitting ? (
+                  "Subscribing..."
+                ) : submitSuccess ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <FiCheck className="w-4 h-4" />
+                    Subscribed
+                  </div>
+                ) : (
+                  "Subscribe"
+                )}
               </Button>
               {submitError && (
                 <p className="text-red-500 text-xs" role="alert" aria-live="polite">

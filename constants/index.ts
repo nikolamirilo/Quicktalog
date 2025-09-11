@@ -68,35 +68,35 @@ export const themes = [
   {
     key: "theme-elegant",
     label: "Elegant",
-    image: "/themes/light_1.jpg",
+    image: "/themes/elegant.png",
     description:
       "A dark, refined theme with a subtle gradient background, light text, and cool blue accents. Ideal for upscale or modern venues seeking a sophisticated, minimal look. Uses serif headings and clean layouts for a premium feel.",
   },
   {
     key: "theme-luxury",
     label: "Luxury",
-    image: "/themes/dark_2.jpg",
+    image: "/themes/luxury.png",
     description:
       "A light, luxurious theme with gold and cream tones, dark elegant text, and premium accents. Designed for high-end restaurants, it features classic serif headings, gold highlights, and a soft, inviting background.",
   },
   {
     key: "theme-modern",
     label: "Modern",
-    image: "/themes/light_2.jpg",
+    image: "/themes/modern.png",
     description:
       "A bold, contemporary theme with deep blue backgrounds, white and pink accents, and modern sans-serif typography. Perfect for trendy or urban venues wanting a striking, energetic appearance.",
   },
   {
     key: "theme-organic",
     label: "Organic",
-    image: "/themes/dark_1.jpg",
+    image: "/themes/organic.png",
     description:
       "A fresh, natural theme with light beige backgrounds, green and brown accents, and soft, rounded typography. Ideal for organic, vegan, or eco-friendly restaurants seeking a wholesome, earthy vibe.",
   },
   {
     key: "theme-creative",
     label: "Creative",
-    image: "/themes/dark_2.jpg",
+    image: "/themes/creative.png",
     description:
       "A vibrant, artistic theme with dark backgrounds, bright accent colors (red, yellow, blue), and playful, bold typography. Great for creative spaces, cafes, or venues wanting a fun, expressive look.",
   },

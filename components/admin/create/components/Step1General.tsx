@@ -60,7 +60,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
         // Set duplicate name error
         setErrors((prev: any) => ({
           ...prev,
-          name: "This name already exists in the database. Please choose a different name.",
+          name: "This name is already in use. Please choose a different name.",
         }))
       } else if (!exists && setErrors) {
         // Clear only the duplicate name error, keep other validation errors
@@ -68,7 +68,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           const newErrors = { ...prev }
           if (
             newErrors.name ===
-            "This name already exists in the database. Please choose a different name."
+            "This name is already in use. Please choose a different name."
           ) {
             delete newErrors.name
           }
@@ -81,7 +81,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
         const newErrors = { ...prev }
         if (
           newErrors.name ===
-          "This name already exists in the database. Please choose a different name."
+          "This name is already in use. Please choose a different name."
         ) {
           delete newErrors.name
         }
@@ -228,22 +228,24 @@ const Step1General: React.FC<Step1GeneralProps> = ({
           <Label htmlFor="theme" className="text-product-foreground font-medium text-lg font-body">
             Theme<span className="text-red-500 ml-1">*</span>
           </Label>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {themes.map((themeOption) => (
               <div
                 key={themeOption.key}
-                className={`relative cursor-pointer rounded-xl border-2 p-2 transition-all duration-200 hover:shadow-product-hover-shadow ${
+                className={`relative cursor-pointer rounded-xl border-2 p-4 transition-all duration-200 hover:shadow-product-hover-shadow ${
                   formData.theme === themeOption.key
                     ? "border-product-primary shadow-product-shadow bg-product-primary/5"
                     : "border-product-border hover:border-product-primary/50"
                 }`}
                 onClick={() => handleThemeChange(themeOption.key)}>
-                <img
-                  src={themeOption.image}
-                  alt={themeOption.label}
-                  className="w-full h-24 object-cover rounded-lg"
-                />
-                <p className="text-center text-sm mt-2 font-medium text-product-foreground font-body">
+                <div className="aspect-[4/3] w-full overflow-hidden rounded-lg bg-gray-100">
+                  <img
+                    src={themeOption.image}
+                    alt={themeOption.label}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+                <p className="text-center text-base mt-3 font-medium text-product-foreground font-body">
                   {themeOption.label}
                 </p>
               </div>
