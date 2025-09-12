@@ -1,10 +1,12 @@
 "use client"
 
+import { sendNewCatalogueEmail } from "@/actions/email"
 import SuccessModal from "@/components/modals/SuccessModal"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { revalidateData } from "@/helpers/server"
 import { toast } from "@/hooks/use-toast"
+import { useUser } from "@clerk/nextjs"
 import Link from "next/link"
 import React, { useState } from "react"
 import { RiSparkling2Line } from "react-icons/ri"
@@ -22,7 +24,7 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
     subtitle: "",
   })
   const [prompt, setPrompt] = useState("")
-
+  const { user } = useUser()
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -70,9 +72,15 @@ export default function AiServicesFormSwithcer({ type }: { type: "ai_prompt" | "
         body: JSON.stringify({ formData: formData, prompt }),
       })
 
+      const contactData = {
+        email: user.emailAddresses[0]?.emailAddress || "",
+        name: user.firstName || "",
+      }
+
       if (response.ok) {
-        const { catalogueUrl } = await response.json()
+        const { catalogueUrl, slug } = await response.json()
         setCatalogueUrl(catalogueUrl)
+        await sendNewCatalogueEmail(contactData, formData.name, slug)
         setShowSuccessModal(true)
         toast({
           title: "Success!",

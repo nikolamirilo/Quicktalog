@@ -66,10 +66,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
         // Clear only the duplicate name error, keep other validation errors
         setErrors((prev: any) => {
           const newErrors = { ...prev }
-          if (
-            newErrors.name ===
-            "This name is already in use. Please choose a different name."
-          ) {
+          if (newErrors.name === "This name is already in use. Please choose a different name.") {
             delete newErrors.name
           }
           return newErrors
@@ -79,10 +76,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
       // If name is empty and field is required, let the parent validation handle it
       setErrors((prev: any) => {
         const newErrors = { ...prev }
-        if (
-          newErrors.name ===
-          "This name is already in use. Please choose a different name."
-        ) {
+        if (newErrors.name === "This name is already in use. Please choose a different name.") {
           delete newErrors.name
         }
         return newErrors
@@ -95,7 +89,7 @@ const Step1General: React.FC<Step1GeneralProps> = ({
       try {
         const res = await fetch("/api/items", {
           method: "GET",
-          cache: "force-cache",
+          cache: "no-store",
         })
         const data = await res.json()
         setNames(data)

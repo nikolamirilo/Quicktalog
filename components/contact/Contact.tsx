@@ -1,5 +1,5 @@
 "use client"
-import { sendEmail } from "@/actions/email"
+import { sendContactEmail } from "@/actions/email"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { useState } from "react"
@@ -30,7 +30,7 @@ const Contact = ({ type = "regular" }: { type?: string }) => {
     e.preventDefault()
     setIsLoading(true)
 
-    const res = await sendEmail({
+    const res = await sendContactEmail({
       message,
       email,
       name,

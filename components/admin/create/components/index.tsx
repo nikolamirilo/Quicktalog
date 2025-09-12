@@ -1,5 +1,6 @@
 "use client"
 
+import { sendNewCatalogueEmail } from "@/actions/email"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { defaultServiceCatalogueData } from "@/constants"
@@ -429,10 +430,13 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
       if (response.ok) {
         const responseData = await response.json()
-        console.log("Response data:", responseData) // Debug log
 
         // Use the slug we created locally for consistency
         const slugToRevalidate = serviceCatalogueSlug
+        const contactData = {
+          email: user.emailAddresses[0]?.emailAddress || "",
+          name: user.firstName || "",
+        }
 
         // Alternative: Use the slug from response if available, fallback to local slug
         const finalSlug = responseData.slug || slugToRevalidate
@@ -441,6 +445,11 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
         try {
           await revalidatePageData(finalSlug)
+          await revalidatePageData("/api/items")
+          if (type === "create") {
+            await sendNewCatalogueEmail(contactData, transformedFormData.name, finalSlug)
+          }
+
           console.log("Revalidation completed successfully")
         } catch (revalidationError) {
           console.error("Revalidation failed:", revalidationError)
