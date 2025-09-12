@@ -62,7 +62,7 @@ const FAQ: React.FC = () => {
 
   return (
     <motion.div
-      className="max-w-4xl px-4 mx-auto"
+      className="max-w-4xl mx-auto"
       variants={containerVariants}
       initial="offscreen"
       whileInView="onscreen"
