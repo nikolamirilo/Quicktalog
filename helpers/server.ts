@@ -15,11 +15,11 @@ export async function revalidatePageData(catalogueName: string) {
     // Revalidate the specific catalogue page
     revalidatePath(`/catalogues/${catalogueName}`, "page")
 
-    // Also revalidate the catalogues listing page if it exists
-    revalidatePath("/catalogues", "page")
+    // // Also revalidate the catalogues listing page if it exists
+    // revalidatePath("/catalogues", "page")
 
-    // Optionally revalidate the layout to ensure navigation updates
-    revalidatePath("/", "layout")
+    // // Optionally revalidate the layout to ensure navigation updates
+    // revalidatePath("/", "layout")
 
     console.log(`Successfully revalidated: /catalogues/${catalogueName}`)
     return { success: true }

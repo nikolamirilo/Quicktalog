@@ -72,9 +72,9 @@ const Footer: React.FC = () => {
             </div> */}
           </div>
 
-          {/* Legal */}
+          {/* Quick Links */}
           <div className="space-y-4">
-            <h4 className="text-lg font-semibold text-product-foreground">Legal</h4>
+            <h4 className="text-lg font-semibold text-product-foreground">Quick Links</h4>
             <ul className="space-y-3">
               {footerDetails.quickLinks.map((link) => (
                 <li key={link.text}>
@@ -86,14 +86,6 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link
-                  href="/contact"
-                  className="text-product-foreground-accent hover:text-product-primary transition-colors duration-200 flex items-center gap-2 group">
-                  <span>Contact Us</span>
-                  <FiExternalLink className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -165,8 +157,8 @@ const Footer: React.FC = () => {
                 type="submit"
                 disabled={isSubmitting || submitSuccess}
                 className={`w-full transition-colors duration-200 font-semibold ${
-                  submitSuccess 
-                    ? "bg-green-500 text-white hover:bg-green-600" 
+                  submitSuccess
+                    ? "bg-green-500 text-white hover:bg-green-600"
                     : "bg-product-primary text-product-foreground hover:bg-product-primary-accent"
                 }`}>
                 {isSubmitting ? (
@@ -196,17 +188,14 @@ const Footer: React.FC = () => {
               Copyright &copy; {new Date().getFullYear()} {siteDetails.siteName}. All rights
               reserved.
             </p>
-            <div className="flex items-center gap-6 text-sm text-product-foreground-accent">
-              <Link
-                href="/privacy-policy"
-                className="hover:text-product-primary transition-colors duration-200">
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms-and-conditions"
-                className="hover:text-product-primary transition-colors duration-200">
-                Terms & Conditions
-              </Link>
+            <div className="flex flex-row items-center gap-2 md:gap-6 text-sm text-product-foreground-accent">
+              {footerDetails.legalLinks.map((link) => (
+                <Link
+                  href={link.url}
+                  className="hover:text-product-primary transition-colors duration-200">
+                  {link.text}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

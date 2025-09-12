@@ -47,23 +47,7 @@ export const extractJSONFromResponse = (response: string): GeneratedData => {
 
 export const generateUniqueSlug = async (supabase: any, baseName: string): Promise<string> => {
   const baseSlug = baseName.toLowerCase().replace(/\s+/g, "-")
-  let catalogueSlug = baseSlug
-  let counter = 1
-
-  while (true) {
-    const { data: existing } = await supabase
-      .from("catalogues")
-      .select("name")
-      .eq("name", catalogueSlug)
-      .single()
-
-    if (!existing) break
-
-    catalogueSlug = `${baseSlug}-${counter}`
-    counter++
-  }
-
-  return catalogueSlug
+  return baseSlug
 }
 
 export const processImagesForServices = async (services: ServicesCategory[]): Promise<void> => {
@@ -76,7 +60,6 @@ export const processImagesForServices = async (services: ServicesCategory[]): Pr
           item.image = await fetchImageFromUnsplash(item.name)
         } catch (error) {
           console.warn(`Failed to fetch image for ${item.name}:`, error)
-          // Set a default or leave empty instead of failing the entire request
           item.image = ""
         }
       })

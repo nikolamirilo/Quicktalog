@@ -19,6 +19,7 @@ import { ILinkItem, ISocials } from "@/types/components"
 export const footerDetails: {
   subheading: string
   quickLinks: ILinkItem[]
+  legalLinks: ILinkItem[]
   email: string
   telephone: string
   socials: ISocials
@@ -33,14 +34,24 @@ export const footerDetails: {
     //   text: "Showcases",
     //   url: "/showcases",
     // },
-    // {
-    //   text: "Terms & Conditions",
-    //   url: "/terms-and-conditions",
-    // },
-    // {
-    //   text: "Privacy Policy",
-    //   url: "/privacy-policy",
-    // },
+    {
+      text: "Help Center",
+      url: "/help",
+    },
+    {
+      text: "Contact Us",
+      url: "/contact",
+    },
+  ],
+  legalLinks: [
+    {
+      text: "Terms & Conditions",
+      url: "/terms-and-conditions",
+    },
+    {
+      text: "Privacy Policy",
+      url: "/privacy-policy",
+    },
     {
       text: "Refund Policy",
       url: "/refund-policy",
