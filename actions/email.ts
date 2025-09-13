@@ -56,8 +56,7 @@ export async function sendNewCatalogueEmail(
 }
 export async function sendWelcomeEmail(
   contactData: Omit<ContactData, "message" | "subject">,
-  catalogueName: string,
-  catalogueSlug: string
+  feedbackFormUrl: string
 ) {
   const { email, name } = contactData
   try {
