@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
             email,
             image: image_url,
             name: full_name,
-            cookie_preferences: public_metadata || defaultCookiePreferences,
+            cookie_preferences: public_metadata.cookieConsent || defaultCookiePreferences,
           }
         }
 
