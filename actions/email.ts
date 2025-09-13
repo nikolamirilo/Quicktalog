@@ -1,7 +1,6 @@
 //@ts-nocheck
 "use server"
-import { NewCatalogueEmail } from "@/components/emails"
-import InformationEmail from "@/components/emails/InformationEmail"
+import { InformationEmail, NewCatalogueEmail, WelcomeEmail } from "@/components/emails"
 import { resend } from "@/constants/server"
 import { ContactData } from "@/types"
 
@@ -41,9 +40,33 @@ export async function sendNewCatalogueEmail(
       to: email,
       subject: `[Quicktalog] Your Catalogue ${catalogueName} is Live! 🚀`,
       react: NewCatalogueEmail({
-        name,
-        catalogueName,
-        catalogueSlug,
+        name: name,
+        catalogueName: catalogueName,
+        catalogueSlug: catalogueSlug,
+      }) as React.ReactElement,
+    })
+    console.log(res)
+    if (res.error == null) {
+      return true
+    }
+  } catch (error: any) {
+    console.log(error)
+    return false
+  }
+}
+export async function sendWelcomeEmail(
+  contactData: Omit<ContactData, "message" | "subject">,
+  feedbackFormUrl: string
+) {
+  const { email, name } = contactData
+  try {
+    const res = await resend.emails.send({
+      from: "Quicktalog<office@quicktalog.app>",
+      to: email,
+      subject: `[Quicktalog] Welcome to Quicktalog! 🎉`,
+      react: WelcomeEmail({
+        name: name,
+        feedbackFormUrl: "",
       }) as React.ReactElement,
     })
     console.log(res)

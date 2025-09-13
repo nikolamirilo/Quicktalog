@@ -99,6 +99,34 @@ function ServicesForm({ type, initialData, onSuccess, userData }: ServicesFormBa
 
   const handleRemoveCategory = (categoryIndex: number) => {
     setFormData((prev) => {
+      // Clear image previews for the deleted category and shift subsequent ones
+      setImagePreviews((prevPreviews) => {
+        const newPreviews = { ...prevPreviews }
+        const deletedCategory = prev.services[categoryIndex]
+
+        // Remove previews for the deleted category
+        if (deletedCategory) {
+          deletedCategory.items.forEach((_, itemIndex) => {
+            delete newPreviews[`${categoryIndex}-${itemIndex}`]
+          })
+        }
+
+        // Shift previews for subsequent categories
+        for (let i = categoryIndex + 1; i < prev.services.length; i++) {
+          const currentCategory = prev.services[i]
+          currentCategory.items.forEach((_, itemIndex) => {
+            const oldKey = `${i}-${itemIndex}`
+            const newKey = `${i - 1}-${itemIndex}`
+            if (newPreviews[oldKey]) {
+              newPreviews[newKey] = newPreviews[oldKey]
+              delete newPreviews[oldKey]
+            }
+          })
+        }
+
+        return newPreviews
+      })
+
       const newServices = prev.services.filter((_, index) => index !== categoryIndex)
       // Update order values for remaining categories
       const reorderedServices = newServices.map((category, index) => ({

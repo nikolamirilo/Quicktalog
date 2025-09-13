@@ -10,19 +10,19 @@ import {
   Preview,
   Row,
   Section,
-  Text
-} from '@react-email/components';
+  Text,
+} from "@react-email/components"
 
 interface WelcomeEmailProps {
-  userName: string;
-  feedbackFormUrl?: string;
+  name: string
+  feedbackFormUrl?: string
 }
 
-export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) => (
+export const WelcomeEmail = ({ name, feedbackFormUrl }: WelcomeEmailProps) => (
   <Html>
     <Head>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com"  />
+      <link rel="preconnect" href="https://fonts.gstatic.com" />
       <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet"
@@ -37,7 +37,7 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
           <Row>
             <Column align="center">
               <Img
-                src="https://quicktalog.app/logo.svg"
+                src="https://www.quicktalog.app/images/logo.png"
                 width="120"
                 height="40"
                 alt="Quicktalog Logo"
@@ -49,9 +49,10 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
 
         {/* Welcome Message */}
         <Section style={welcomeSection}>
-          <Text style={welcomeTitle}>Welcome to Quicktalog, {userName}! 🎉</Text>
+          <Text style={welcomeTitle}>Welcome to Quicktalog, {name}! 🎉</Text>
           <Text style={welcomeText}>
-            Thank you for joining Quicktalog! We're excited to help you create stunning digital catalogs that will transform how you showcase your business.
+            Thank you for joining Quicktalog! We're excited to help you create stunning digital
+            catalogs that will transform how you showcase your business.
           </Text>
         </Section>
 
@@ -61,14 +62,15 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
           <Text style={contentText}>
             Here's how to make the most of your Quicktalog experience:
           </Text>
-          
+
           <div style={instructionList}>
             <div style={instructionItem}>
               <Text style={instructionNumber}>1</Text>
               <div style={instructionContent}>
                 <Text style={instructionTitle}>Create Your First Catalog</Text>
                 <Text style={instructionDescription}>
-                  Start by creating your first digital catalog. Our intuitive interface makes it easy to add your products and services.
+                  Start by creating your first digital catalog. Our intuitive interface makes it
+                  easy to add your products and services.
                 </Text>
               </div>
             </div>
@@ -78,7 +80,8 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
               <div style={instructionContent}>
                 <Text style={instructionTitle}>Customize Your Design</Text>
                 <Text style={instructionDescription}>
-                  Choose from our beautiful themes and customize colors, fonts, and layouts to match your brand.
+                  Choose from our beautiful themes and customize colors, fonts, and layouts to match
+                  your brand.
                 </Text>
               </div>
             </div>
@@ -88,7 +91,8 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
               <div style={instructionContent}>
                 <Text style={instructionTitle}>Share with Your Customers</Text>
                 <Text style={instructionDescription}>
-                  Generate QR codes and shareable links to make your catalog accessible to customers anywhere, anytime.
+                  Generate QR codes and shareable links to make your catalog accessible to customers
+                  anywhere, anytime.
                 </Text>
               </div>
             </div>
@@ -97,7 +101,7 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
 
         {/* CTA Button */}
         <Section style={ctaSection}>
-          <Link href="https://quicktalog.app/admin/create" style={ctaButton}>
+          <Link href="https://www.quicktalog.app/admin/create" style={ctaButton}>
             Create Your First Catalog
           </Link>
         </Section>
@@ -108,7 +112,7 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
           <Text style={contentText}>
             Our support team is here to help you succeed. Here's how to reach us:
           </Text>
-          
+
           <div style={contactInfo}>
             <div style={contactItem}>
               <Text style={contactLabel}>Email Support</Text>
@@ -116,10 +120,10 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
                 support@quicktalog.app
               </Link>
             </div>
-            
+
             <div style={contactItem}>
               <Text style={contactLabel}>Help Center</Text>
-              <Link href="https://quicktalog.app/help" style={contactLink}>
+              <Link href="https://www.quicktalog.app/help" style={contactLink}>
                 Visit our Help Center
               </Link>
             </div>
@@ -131,9 +135,10 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
           <Section style={feedbackSection}>
             <Text style={sectionTitle}>Share Your Feedback</Text>
             <Text style={contentText}>
-              We'd love to hear about your experience! Help us improve Quicktalog by sharing your thoughts.
+              We'd love to hear about your experience! Help us improve Quicktalog by sharing your
+              thoughts.
             </Text>
-            
+
             <div style={feedbackForm}>
               <Text style={feedbackLabel}>How would you rate your experience so far?</Text>
               <div style={ratingContainer}>
@@ -141,15 +146,12 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
                   <Link
                     key={rating}
                     href={`${feedbackFormUrl}?rating=${rating}`}
-                    style={getRatingButtonStyle(rating)}
-                  >
+                    style={getRatingButtonStyle(rating)}>
                     {rating}
                   </Link>
                 ))}
               </div>
-              <Text style={feedbackNote}>
-                Click on a number to share your rating
-              </Text>
+              <Text style={feedbackNote}>Click on a number to share your rating</Text>
             </div>
           </Section>
         )}
@@ -162,18 +164,25 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
             Thank you for choosing Quicktalog. We're here to help you succeed!
           </Text>
           <Text style={footerText}>
-            Best regards,<br />
+            Best regards,
+            <br />
             The Quicktalog Team
           </Text>
-          
+
           <div style={footerLinks}>
-            <Link href="https://quicktalog.app" style={footerLink}>Website</Link>
+            <Link href="https://www.quicktalog.app" style={footerLink}>
+              Website
+            </Link>
             <span style={footerSeparator}>•</span>
-            <Link href="https://quicktalog.app/privacy-policy" style={footerLink}>Privacy Policy</Link>
+            <Link href="https://www.quicktalog.app/privacy-policy" style={footerLink}>
+              Privacy Policy
+            </Link>
             <span style={footerSeparator}>•</span>
-            <Link href="https://quicktalog.app/terms-and-conditions" style={footerLink}>Terms of Service</Link>
+            <Link href="https://www.quicktalog.app/terms-and-conditions" style={footerLink}>
+              Terms of Service
+            </Link>
           </div>
-          
+
           <Text style={footerCopyright}>
             © {new Date().getFullYear()} Quicktalog. All rights reserved.
           </Text>
@@ -181,291 +190,291 @@ export const WelcomeEmail = ({ userName, feedbackFormUrl }: WelcomeEmailProps) =
       </Container>
     </Body>
   </Html>
-);
+)
 
 // Helper function to get rating button styles with product colors
 const getRatingButtonStyle = (rating: number) => {
   const baseStyle = {
-    backgroundColor: '#ffffff',
-    color: '#ffc107', // product-primary
-    border: '2px solid #ffc107', // product-primary
-    borderRadius: '6px',
-    width: '40px',
-    height: '40px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textDecoration: 'none',
-    fontSize: '16px',
-    fontWeight: '600',
-    transition: 'all 0.2s ease',
-    margin: '0 4px'
-  };
+    backgroundColor: "#ffffff",
+    color: "#ffc107", // product-primary
+    border: "2px solid #ffc107", // product-primary
+    borderRadius: "6px",
+    width: "40px",
+    height: "40px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    textDecoration: "none",
+    fontSize: "16px",
+    fontWeight: "600",
+    transition: "all 0.2s ease",
+    margin: "0 4px",
+  }
 
   // Highlight higher ratings with different colors
   if (rating >= 8) {
     return {
       ...baseStyle,
-      backgroundColor: '#10b981',
-      color: '#ffffff',
-      border: '2px solid #10b981'
-    };
+      backgroundColor: "#10b981",
+      color: "#ffffff",
+      border: "2px solid #10b981",
+    }
   } else if (rating >= 6) {
     return {
       ...baseStyle,
-      backgroundColor: '#f59e0b',
-      color: '#ffffff',
-      border: '2px solid #f59e0b'
-    };
+      backgroundColor: "#f59e0b",
+      color: "#ffffff",
+      border: "2px solid #f59e0b",
+    }
   } else if (rating >= 4) {
     return {
       ...baseStyle,
-      backgroundColor: '#f97316',
-      color: '#ffffff',
-      border: '2px solid #f97316'
-    };
+      backgroundColor: "#f97316",
+      color: "#ffffff",
+      border: "2px solid #f97316",
+    }
   } else {
     return {
       ...baseStyle,
-      backgroundColor: '#ef4444',
-      color: '#ffffff',
-      border: '2px solid #ef4444'
-    };
+      backgroundColor: "#ef4444",
+      color: "#ffffff",
+      border: "2px solid #ef4444",
+    }
   }
-};
+}
 
 // Styles using your product color system
 const main = {
   fontFamily: '"Inter", "Segoe UI", "Roboto", sans-serif',
-  backgroundColor: '#f3f3f5', // hero-product-background
-  margin: '0',
-  padding: '0'
-};
+  backgroundColor: "#f3f3f5", // hero-product-background
+  margin: "0",
+  padding: "0",
+}
 
 const container = {
-  margin: '0 auto',
-  padding: '20px',
-  maxWidth: '600px',
-  backgroundColor: '#ffffff', // product-background
-  borderRadius: '12px',
-  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.06)' // product-shadow
-};
+  margin: "0 auto",
+  padding: "20px",
+  maxWidth: "600px",
+  backgroundColor: "#ffffff", // product-background
+  borderRadius: "12px",
+  boxShadow: "0 2px 6px rgba(0, 0, 0, 0.06)", // product-shadow
+}
 
 const header = {
-  padding: '40px 0 30px',
-  textAlign: 'center' as const,
-  borderBottom: '1px solid #eaeaea' // product-border
-};
+  padding: "40px 0 30px",
+  textAlign: "center" as const,
+  borderBottom: "1px solid #eaeaea", // product-border
+}
 
 const logo = {
-  margin: '0 auto'
-};
+  margin: "0 auto",
+}
 
 const welcomeSection = {
-  padding: '30px 0',
-  textAlign: 'center' as const
-};
+  padding: "30px 0",
+  textAlign: "center" as const,
+}
 
 const welcomeTitle = {
-  fontSize: '28px',
-  fontWeight: '700',
-  color: '#171717', // product-foreground
-  margin: '0 0 16px 0',
-  lineHeight: '1.3'
-};
+  fontSize: "28px",
+  fontWeight: "700",
+  color: "#171717", // product-foreground
+  margin: "0 0 16px 0",
+  lineHeight: "1.3",
+}
 
 const welcomeText = {
-  fontSize: '16px',
-  color: '#454545', // product-foreground-accent
-  margin: '0',
-  lineHeight: '1.6'
-};
+  fontSize: "16px",
+  color: "#454545", // product-foreground-accent
+  margin: "0",
+  lineHeight: "1.6",
+}
 
 const contentSection = {
-  padding: '30px 0'
-};
+  padding: "30px 0",
+}
 
 const sectionTitle = {
-  fontSize: '20px',
-  fontWeight: '600',
-  color: '#171717', // product-foreground
-  margin: '0 0 16px 0'
-};
+  fontSize: "20px",
+  fontWeight: "600",
+  color: "#171717", // product-foreground
+  margin: "0 0 16px 0",
+}
 
 const contentText = {
-  fontSize: '16px',
-  color: '#454545', // product-foreground-accent
-  margin: '0 0 20px 0',
-  lineHeight: '1.6'
-};
+  fontSize: "16px",
+  color: "#454545", // product-foreground-accent
+  margin: "0 0 20px 0",
+  lineHeight: "1.6",
+}
 
 const instructionList = {
-  margin: '20px 0'
-};
+  margin: "20px 0",
+}
 
 const instructionItem = {
-  display: 'flex',
-  alignItems: 'flex-start',
-  marginBottom: '20px',
-  padding: '20px',
-  backgroundColor: '#fff9e5', // product-hover-background
-  borderRadius: '8px',
-  border: '1px solid #eaeaea' // product-border
-};
+  display: "flex",
+  alignItems: "flex-start",
+  marginBottom: "20px",
+  padding: "20px",
+  backgroundColor: "#fff9e5", // product-hover-background
+  borderRadius: "8px",
+  border: "1px solid #eaeaea", // product-border
+}
 
 const instructionNumber = {
-  fontSize: '18px',
-  fontWeight: '700',
-  color: '#171717', // product-foreground
-  backgroundColor: '#ffc107', // product-primary
-  borderRadius: '50%',
-  width: '32px',
-  height: '32px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  margin: '0 16px 0 0',
-  flexShrink: 0
-};
+  fontSize: "18px",
+  fontWeight: "700",
+  color: "#171717", // product-foreground
+  backgroundColor: "#ffc107", // product-primary
+  borderRadius: "50%",
+  width: "32px",
+  height: "32px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  margin: "0 16px 0 0",
+  flexShrink: 0,
+}
 
 const instructionContent = {
-  flex: 1
-};
+  flex: 1,
+}
 
 const instructionTitle = {
-  fontSize: '16px',
-  fontWeight: '600',
-  color: '#171717', // product-foreground
-  margin: '0 0 8px 0'
-};
+  fontSize: "16px",
+  fontWeight: "600",
+  color: "#171717", // product-foreground
+  margin: "0 0 8px 0",
+}
 
 const instructionDescription = {
-  fontSize: '14px',
-  color: '#454545', // product-foreground-accent
-  margin: '0',
-  lineHeight: '1.5'
-};
+  fontSize: "14px",
+  color: "#454545", // product-foreground-accent
+  margin: "0",
+  lineHeight: "1.5",
+}
 
 const ctaSection = {
-  padding: '30px 0',
-  textAlign: 'center' as const
-};
+  padding: "30px 0",
+  textAlign: "center" as const,
+}
 
 const ctaButton = {
-  backgroundColor: '#ffc107', // product-primary
-  color: '#171717', // product-foreground
-  padding: '16px 32px',
-  borderRadius: '8px',
-  textDecoration: 'none',
-  fontSize: '16px',
-  fontWeight: '600',
-  display: 'inline-block',
-  boxShadow: '0 4px 10px rgba(229, 194, 48, 0.15)' // product-hover-shadow
-};
+  backgroundColor: "#ffc107", // product-primary
+  color: "#171717", // product-foreground
+  padding: "16px 32px",
+  borderRadius: "8px",
+  textDecoration: "none",
+  fontSize: "16px",
+  fontWeight: "600",
+  display: "inline-block",
+  boxShadow: "0 4px 10px rgba(229, 194, 48, 0.15)", // product-hover-shadow
+}
 
 const supportSection = {
-  padding: '30px 0'
-};
+  padding: "30px 0",
+}
 
 const contactInfo = {
-  margin: '20px 0'
-};
+  margin: "20px 0",
+}
 
 const contactItem = {
-  marginBottom: '16px',
-  padding: '16px',
-  backgroundColor: '#fff9e5', // product-hover-background
-  borderRadius: '8px',
-  border: '1px solid #eaeaea' // product-border
-};
+  marginBottom: "16px",
+  padding: "16px",
+  backgroundColor: "#fff9e5", // product-hover-background
+  borderRadius: "8px",
+  border: "1px solid #eaeaea", // product-border
+}
 
 const contactLabel = {
-  fontSize: '14px',
-  fontWeight: '600',
-  color: '#171717', // product-foreground
-  margin: '0 0 8px 0'
-};
+  fontSize: "14px",
+  fontWeight: "600",
+  color: "#171717", // product-foreground
+  margin: "0 0 8px 0",
+}
 
 const contactLink = {
-  fontSize: '16px',
-  color: '#ffc107', // product-primary
-  textDecoration: 'none',
-  fontWeight: '500'
-};
+  fontSize: "16px",
+  color: "#ffc107", // product-primary
+  textDecoration: "none",
+  fontWeight: "500",
+}
 
 const feedbackSection = {
-  padding: '30px 0',
-  backgroundColor: '#fff9e5', // product-hover-background
-  borderRadius: '8px',
-  margin: '20px 0'
-};
+  padding: "30px 0",
+  backgroundColor: "#fff9e5", // product-hover-background
+  borderRadius: "8px",
+  margin: "20px 0",
+}
 
 const feedbackForm = {
-  textAlign: 'center' as const,
-  margin: '20px 0'
-};
+  textAlign: "center" as const,
+  margin: "20px 0",
+}
 
 const feedbackLabel = {
-  fontSize: '16px',
-  fontWeight: '600',
-  color: '#171717', // product-foreground
-  margin: '0 0 20px 0'
-};
+  fontSize: "16px",
+  fontWeight: "600",
+  color: "#171717", // product-foreground
+  margin: "0 0 20px 0",
+}
 
 const ratingContainer = {
-  display: 'flex',
-  justifyContent: 'center',
-  gap: '8px',
-  margin: '0 0 12px 0',
-  flexWrap: 'wrap' as const
-};
+  display: "flex",
+  justifyContent: "center",
+  gap: "8px",
+  margin: "0 0 12px 0",
+  flexWrap: "wrap" as const,
+}
 
 const feedbackNote = {
-  fontSize: '12px',
-  color: '#454545', // product-foreground-accent
-  margin: '0',
-  fontStyle: 'italic'
-};
+  fontSize: "12px",
+  color: "#454545", // product-foreground-accent
+  margin: "0",
+  fontStyle: "italic",
+}
 
 const divider = {
-  border: 'none',
-  borderTop: '1px solid #eaeaea', // product-border
-  margin: '40px 0'
-};
+  border: "none",
+  borderTop: "1px solid #eaeaea", // product-border
+  margin: "40px 0",
+}
 
 const footer = {
-  padding: '30px 0 20px',
-  textAlign: 'center' as const
-};
+  padding: "30px 0 20px",
+  textAlign: "center" as const,
+}
 
 const footerText = {
-  fontSize: '14px',
-  color: '#454545', // product-foreground-accent
-  margin: '0 0 16px 0',
-  lineHeight: '1.5'
-};
+  fontSize: "14px",
+  color: "#454545", // product-foreground-accent
+  margin: "0 0 16px 0",
+  lineHeight: "1.5",
+}
 
 const footerLinks = {
-  margin: '20px 0'
-};
+  margin: "20px 0",
+}
 
 const footerLink = {
-  fontSize: '14px',
-  color: '#ffc107', // product-primary
-  textDecoration: 'none',
-  margin: '0 8px'
-};
+  fontSize: "14px",
+  color: "#ffc107", // product-primary
+  textDecoration: "none",
+  margin: "0 8px",
+}
 
 const footerSeparator = {
-  fontSize: '14px',
-  color: '#454545', // product-foreground-accent
-  margin: '0 4px'
-};
+  fontSize: "14px",
+  color: "#454545", // product-foreground-accent
+  margin: "0 4px",
+}
 
 const footerCopyright = {
-  fontSize: '12px',
-  color: '#454545', // product-foreground-accent
-  margin: '20px 0 0 0'
-};
+  fontSize: "12px",
+  color: "#454545", // product-foreground-accent
+  margin: "20px 0 0 0",
+}
 
-export default WelcomeEmail;
+export default WelcomeEmail

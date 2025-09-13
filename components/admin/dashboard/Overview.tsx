@@ -15,6 +15,7 @@ import { ServiceCatalogue } from "@/types"
 import { OverviewProps } from "@/types/components"
 import { Status } from "@/types/enums"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { BiScan } from "react-icons/bi"
 import { FiCopy, FiEdit, FiInfo, FiMoreVertical, FiPlus, FiTrash2 } from "react-icons/fi"
@@ -24,7 +25,7 @@ import { TbBrandGoogleAnalytics, TbFileAnalytics } from "react-icons/tb"
 import { VscActivateBreakpoints } from "react-icons/vsc"
 import InformModal from "../../modals/InformModal"
 
-const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewProps) => {
+const Overview = ({ user, overallAnalytics, catalogues, refreshAll, planId }: OverviewProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false)
   const [currentMetric, setCurrentMetric] = useState("")
@@ -78,6 +79,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
     setItemToDelete(null)
     setIsModalOpen(false)
   }
+  const router = useRouter()
   return (
     <div className="max-w-5xl space-y-6">
       <section className="mb-8 sm:mb-12 bg-product-background rounded-3xl shadow-product-shadow border border-product-border flex flex-col md:flex-row md:items-center gap-4 sm:gap-6 md:gap-8 items-center relative overflow-hidden animate-fade-in p-4 sm:p-6 md:p-8 lg:p-10 text-sm sm:text-base md:text-lg lg:text-xl">
@@ -196,18 +198,24 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll }: OverviewPr
               <FiPlus size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" /> Create Catalogue
             </Button>
           </Link>
-          <Link href="/admin/create/ai">
-            <Button variant="outline">
-              <RiSparkling2Line size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" /> Generate
-              Catalogue with AI
-            </Button>
-          </Link>
-          <Link href="/admin/create/ocr">
-            <Button variant="outline">
-              <BiScan size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
-              Scan & Import Catalogue
-            </Button>
-          </Link>
+          <Button
+            variant="outline"
+            className={`${planId < 1 && "animate-pulse"}`}
+            disabled={planId > 0 ? false : true}
+            onClick={() => {
+              router.push("/admin/create/ai")
+            }}>
+            <RiSparkling2Line size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" /> Generate with AI
+          </Button>
+          <Button
+            variant="outline"
+            disabled={planId > 1 ? false : true}
+            onClick={() => {
+              router.push("/admin/create/ocr")
+            }}>
+            <BiScan size={18} className="sm:w-5 sm:h-5 md:w-6 md:h-6" />
+            Scan & Import Catalogue
+          </Button>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
           {catalogues.length === 0 && (

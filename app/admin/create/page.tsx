@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic"
 export default async function CreateServicesPage() {
   const userData: UserData = await getUserData()
   console.log(userData)
-  if (userData && userData.usage.catalogues <= userData.pricing_plan.features.catalogues) {
+  if (userData && userData.usage.catalogues < userData.pricing_plan.features.catalogues) {
     return (
       <div className="product font-lora min-h-screen">
         <Navbar />

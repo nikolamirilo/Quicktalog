@@ -34,7 +34,7 @@ export default async function page() {
     <div className="product font-lora min-h-screen">
       <Navbar />
       <Dashboard user={user} pricingPlan={pricing_plan} usage={usage} />
-      <FloatingActionMenu />
+      <FloatingActionMenu planId={pricing_plan.id} />
       <Footer />
     </div>
   )
