@@ -14,7 +14,7 @@ import {
 } from "@react-email/components"
 
 interface NewCatalogueEmailProps {
-  fullName: string
+  name: string
   catalogueName: string
   catalogueSlug: string
 }
@@ -27,12 +27,12 @@ const generateQRCodeUrl = (url: string): string => {
 }
 
 export const NewCatalogueEmail = ({
-  fullName,
+  name,
   catalogueName,
   catalogueSlug,
 }: NewCatalogueEmailProps) => {
   // Generate QR code URL automatically
-  const catalogueUrl = `${process.env.NEXT_PUBLIC_BASE_URL!}/catalogue/${catalogueSlug}`
+  const catalogueUrl = `${process.env.NEXT_PUBLIC_BASE_URL!}/catalogues/${catalogueSlug}`
   const analyticsUrl = `${process.env.NEXT_PUBLIC_BASE_URL!}/admin/items/${catalogueSlug}/analytics`
   const qrCodeUrl = generateQRCodeUrl(catalogueUrl)
 
@@ -67,9 +67,7 @@ export const NewCatalogueEmail = ({
 
           {/* Success Message */}
           <Section style={successSection}>
-            <Text style={successTitle}>
-              🎉 Congratulations{fullName === "" ? null : `, ${fullName}`}!
-            </Text>
+            <Text style={successTitle}>🎉 Congratulations{name === "" ? null : `, ${name}`}!</Text>
             <Text style={successText}>
               Your digital catalog <strong>"{catalogueName}"</strong> is now live and ready to share
               with your customers!
