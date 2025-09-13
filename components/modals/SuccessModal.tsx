@@ -227,7 +227,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
               <Button
                 onClick={() => window.open(fullURL, "_blank")}
                 className="flex-1 text-xs sm:text-sm">
-                <IoMdOpen className="w-3 h-3 sm:w-4 sm:h-4" /> Visit
+                <IoMdOpen className="w-3 h-3 sm:w-4 sm:h-4" /> View Catalogue
               </Button>
             </>
           )}
