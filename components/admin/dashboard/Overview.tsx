@@ -224,7 +224,13 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll, planId }: Ov
             </div>
           )}
           {catalogues
-            .sort((a, b) => statusOrder[a.status] - statusOrder[b.status])
+            .sort((a, b) => {
+              const statusDiff = statusOrder[a.status] - statusOrder[b.status]
+              if (statusDiff !== 0) return statusDiff
+
+              // if statuses are the same, sort by created_at (newest first)
+              return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+            })
             .map((catalogue: ServiceCatalogue) => (
               <Card
                 key={catalogue.id}
