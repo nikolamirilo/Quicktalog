@@ -189,8 +189,9 @@ const Footer: React.FC = () => {
               reserved.
             </p>
             <div className="flex flex-row items-center gap-2 md:gap-6 text-sm text-product-foreground-accent">
-              {footerDetails.legalLinks.map((link) => (
+              {footerDetails.legalLinks.map((link, index) => (
                 <Link
+                  key={index}
                   href={link.url}
                   className="hover:text-product-primary transition-colors duration-200">
                   {link.text}

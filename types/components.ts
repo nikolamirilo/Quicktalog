@@ -1,11 +1,11 @@
 import {
-    OverallAnalytics,
-    PricingPlan,
-    ServiceCatalogue,
-    ServicesCategory,
-    ServicesItem,
-    Usage,
-    User,
+  OverallAnalytics,
+  PricingPlan,
+  ServiceCatalogue,
+  ServicesCategory,
+  ServicesItem,
+  Usage,
+  User,
 } from "@/types"
 import { JSX } from "react"
 import { ContactInfo, FooterData, ServicesFormData, UserData } from "."
@@ -215,4 +215,5 @@ export type OverviewProps = {
   overallAnalytics: OverallAnalytics
   user: User
   refreshAll: any
+  planId: number
 }

@@ -1,3 +1,4 @@
+import { fetchImageFromUnsplash } from "@/helpers/client"
 import {
   createErrorResponse,
   extractJSONFromResponse,
@@ -5,7 +6,6 @@ import {
   generateUniqueSlug,
   GenerationRequest,
   insertCatalogueData,
-  processImagesForServices,
 } from "@/utils/ai_prompt"
 import { chatCompletion, generatePromptForAI } from "@/utils/deepseek"
 import { createClient } from "@/utils/supabase/server"
@@ -47,8 +47,13 @@ export async function POST(req: NextRequest) {
       return createErrorResponse("Invalid AI response format", 500)
     }
 
-    // Process images concurrently (non-blocking for better performance)
-    await processImagesForServices(generatedData.services)
+    for (const category of generatedData.services) {
+      if (category.layout != "variant_3") {
+        for (const item of category.items) {
+          item.image = await fetchImageFromUnsplash(item.name)
+        }
+      }
+    }
 
     // Generate unique slug
     const catalogueSlug = await generateUniqueSlug(supabase, formData.name)

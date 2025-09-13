@@ -1,12 +1,13 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Plus, Scan, Sparkles, X } from "lucide-react"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 
-const FloatingActionMenu = () => {
+const FloatingActionMenu = ({ planId }: { planId: number }) => {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef(null)
+  const router = useRouter()
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -21,9 +22,7 @@ const FloatingActionMenu = () => {
   }, [])
 
   const handleOptionClick = (option) => {
-    console.log(`Navigating to: ${option}`)
-    // In real app, you would use your router here
-    // For Next.js: router.push(option)
+    router.push(option)
     setIsOpen(false)
   }
 
@@ -33,18 +32,21 @@ const FloatingActionMenu = () => {
       href: "/admin/create",
       icon: Plus,
       variant: "primary",
+      requiredPlanId: 0,
     },
     {
       label: "Generate with AI",
       href: "/admin/create/ai",
       icon: Sparkles,
       variant: "secondary",
+      requiredPlanId: 1,
     },
     {
       label: "Scan & Import",
       href: "/admin/create/ocr",
       icon: Scan,
       variant: "secondary",
+      requiredPlanId: 2,
     },
   ]
 
@@ -64,15 +66,15 @@ const FloatingActionMenu = () => {
           isOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
         }`}>
         {menuOptions.map((option, index) => (
-          <Link
+          <div
             key={option.href}
-            href={option.href}
             className={`transform transition-all duration-300 ${
               isOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: isOpen ? `${index * 50}ms` : "0ms" }}>
             <Button
               onClick={() => handleOptionClick(option.href)}
+              disabled={planId >= option.requiredPlanId ? false : true}
               variant={option.variant === "primary" ? "default" : "outline"}
               className={`flex items-center gap-3 px-4 py-3 rounded-full shadow-lg z-10 hover:shadow-xl transform hover:scale-105 transition-all duration-200 whitespace-nowrap text-sm font-medium ${
                 option.variant === "primary"
@@ -82,7 +84,7 @@ const FloatingActionMenu = () => {
               <option.icon size={18} />
               <span className="hidden sm:inline">{option.label}</span>
             </Button>
-          </Link>
+          </div>
         ))}
       </div>
 

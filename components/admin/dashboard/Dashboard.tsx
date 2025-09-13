@@ -73,6 +73,7 @@ export default function Dashboard({ user, usage, pricingPlan }: ImprovedDashboar
                     }}
                     catalogues={catalogues || []}
                     refreshAll={refreshAll}
+                    planId={pricingPlan.id}
                   />
                 )}
               </section>
