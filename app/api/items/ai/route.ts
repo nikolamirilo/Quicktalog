@@ -3,11 +3,12 @@ import {
   createErrorResponse,
   extractJSONFromResponse,
   GeneratedData,
+  generatePromptForAI,
   generateUniqueSlug,
   GenerationRequest,
   insertCatalogueData,
 } from "@/utils/ai_prompt"
-import { chatCompletion, generatePromptForAI } from "@/utils/deepseek"
+import { chatCompletion } from "@/utils/deepseek"
 import { createClient } from "@/utils/supabase/server"
 import { currentUser } from "@clerk/nextjs/server"
 import { NextRequest, NextResponse } from "next/server"

@@ -1,4 +1,3 @@
-import { layouts } from "@/constants"
 import OpenAI from "openai"
 
 const openai = new OpenAI({
@@ -16,7 +15,7 @@ export async function chatCompletion(prompt: string) {
 
 const baseCategorySchema = {
   name: "Name of category (e.g. lunch, breakfast, welness, etc.)",
-  layout: "variant_3",
+  layout: "variant",
   order: 1,
   items: [
     {
@@ -108,38 +107,6 @@ export function generatePromptForCategoryProcessing(
       ]
     }
   `
-}
-
-export function generatePromptForAI(inputText: string, formData: any) {
-  const layoutData = layouts.map((l) => ({
-    key: l.key,
-    description: l.description,
-  }))
-
-  return `
-    Role: You are an expert in creating service offers (restaurant services, beauty center service offer, etc.).
-    Based on the following prompt, generate a complete service offer configuration in JSON format.
-    The JSON object should strictly follow the type definition from the project.
-    
-    Prompt: ${inputText}
-    
-    Schema: ${JSON.stringify(baseSchema)}
-
-    Layouts keys and description of each variant: ${JSON.stringify(layoutData)}. According to it use different variants for different purpose. For drinks for example use without image.
-
-    General information about service catalogue: ${JSON.stringify(formData)}
-    
-    IMPORTANT REQUIREMENTS:
-    1. Return ONLY the JSON object, no additional text, explanations, or formatting
-    2. Start your response directly with { and end with }
-    3. Service offer should be created in the language and alphabet of the prompt.
-    4. The services field should be an ARRAY of categories, NOT an object
-    5. Add at least 3 categories with at least 5 items each
-    6. Name all items in full name of the dish e.g. "Spaghetti Carbonara", "Caesar Salad", "Pizza Margarita" etc.
-    7. Ensure the JSON is valid and well-formed
-    8. Set order for each category starting from 1. Order items in logical way. They will be displayed in this ascending order.
-    9. Wherecver you have string it should be valid string. It should not contain any special character like /,-,",' etc."
-    `
 }
 
 export function generatePromptForOCR(inputText: string, formData: any): string {
