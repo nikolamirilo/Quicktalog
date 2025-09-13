@@ -200,6 +200,7 @@ const Overview = ({ user, overallAnalytics, catalogues, refreshAll, planId }: Ov
           </Link>
           <Button
             variant="outline"
+            className={`${planId < 1 && "animate-pulse"}`}
             disabled={planId > 0 ? false : true}
             onClick={() => {
               router.push("/admin/create/ai")

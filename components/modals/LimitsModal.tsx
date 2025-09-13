@@ -13,7 +13,7 @@ const LimitsModal = ({
   currentPlan?: string
   requiredPlan?: string
 }) => {
-  const isCatalogue = type === "catalogue"
+  const isTraffic = type === "traffic"
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
@@ -35,7 +35,7 @@ const LimitsModal = ({
 
           <div className="flex justify-center mb-4">
             <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center bg-product-primary">
-              {isCatalogue ? (
+              {isTraffic ? (
                 <IoSearch className="w-6 h-6 sm:w-8 sm:h-8 text-product-secondary" />
               ) : (
                 <Lock className="w-6 h-6 sm:w-8 sm:h-8 text-product-secondary" />
@@ -44,18 +44,18 @@ const LimitsModal = ({
           </div>
 
           <h2 className="text-lg sm:text-xl font-semibold mb-2 text-product-foreground">
-            {isCatalogue ? "Catalogue Not Found" : "Upgrade Required"}
+            {isTraffic ? "Catalogue Not Found" : "Upgrade Required"}
           </h2>
           <p className="text-sm text-product-foreground-accent">
-            {isCatalogue
+            {isTraffic
               ? "The selected catalogue is inactive or doesn't exist."
-              : `You've used all available ${type === "ai" ? "AI prompts" : "OCR imports"} for your plan.`}
+              : `You've used all available ${type === "ai" ? "AI prompts" : type === "catalogue" ? "Catalogues" : type === "ocr" ? "OCR imports" : "features"} in your plan.`}
           </p>
         </div>
 
         {/* Content */}
         <div className="p-4 sm:p-6">
-          {isCatalogue ? (
+          {isTraffic ? (
             <>
               {/* Quicktalog Promotional Content */}
               <div className="p-3 sm:p-4 rounded-lg bg-product-hover-background mb-4 sm:mb-6">
@@ -94,7 +94,7 @@ const LimitsModal = ({
 
               <div className="flex justify-center">
                 <Link
-                  href="/pricing-plans"
+                  href="/pricing"
                   className="w-full sm:w-fit py-2 sm:py-3 px-4 sm:px-6 rounded-lg font-medium text-sm transition-all duration-200 transform hover:scale-105 hover:-translate-y-0.5 focus:outline-none focus:ring-3 focus:ring-opacity-20 bg-product-primary text-product-secondary hover:bg-product-primary-accent shadow-sm hover:shadow-md">
                   Upgrade to {requiredPlan}
                 </Link>
@@ -104,9 +104,9 @@ const LimitsModal = ({
 
           {/* Small print */}
           <p className="text-xs text-center mt-3 sm:mt-4 px-2 text-product-foreground-accent">
-            {isCatalogue
+            {isTraffic
               ? "Join thousands of businesses already using Quicktalog to showcase their offerings digitally."
-              : `Upgrade to get more ${type === "ai" ? "AI prompts" : "OCR imports"} and unlock additional premium features.`}
+              : `Upgrade to get more ${type === "ai" ? "AI prompts" : type === "catalogue" ? "catalogues" : type === "ocr" ? "OCR imports" : "features"} and unlock additional premium features.`}
           </p>
         </div>
       </div>

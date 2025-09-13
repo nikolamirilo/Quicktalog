@@ -212,7 +212,7 @@ const page = async ({ params }: { params: Promise<{ name: string }> }) => {
         </div>
       )
     } else {
-      return <LimitsModal type="catalogue" />
+      return <LimitsModal type="traffic" />
     }
   } catch (error) {
     console.error("Service catalogue page error:", error)
